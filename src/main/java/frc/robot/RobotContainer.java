@@ -4,17 +4,26 @@
 
 package frc.robot;
 
+import CSP_Lib.inputs.CSP_Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.subsystems.shooter.Flywheel;
 
 public class RobotContainer {
+  CSP_Controller pilot = new CSP_Controller(0);
+  Flywheel flywheel = Flywheel.getInstance();
+  
   public RobotContainer() {
     configureBindings();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    flywheel.setDefaultCommand(new RunCommand(() -> flywheel.set(1.0)));
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
   }
 }
+// im raymond and im trash
