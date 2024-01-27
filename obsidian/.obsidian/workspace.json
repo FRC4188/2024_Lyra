@@ -18,22 +18,18 @@
                 "source": false
               }
             }
-          }
-        ]
-      },
-      {
-        "id": "5a40ed1a8fd98aa3",
-        "type": "tabs",
-        "children": [
+          },
           {
-            "id": "0e8b3d8fcbf7735a",
+            "id": "3db7907ac91ab1f3",
             "type": "leaf",
             "state": {
               "type": "graph",
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 1,
+        "stacked": true
       }
     ],
     "direction": "vertical"
@@ -99,6 +95,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Subsystems/Drivetrain/SwerveModule.java.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,6 +112,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Subsystems/Drivetrain/SwerveModule.java.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -136,7 +134,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "Subsystems/Drivetrain/SwerveModule.java.md"
+              }
             }
           }
         ],
@@ -157,10 +157,11 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "0e8b3d8fcbf7735a",
+  "active": "3db7907ac91ab1f3",
   "lastOpenFiles": [
-    "Constants.java.md",
     "Subsystems/Drivetrain/SwerveModule.java.md",
+    "RobotContainer.java.md",
+    "Constants.java.md",
     "Subsystems/Drivetrain/Swerve.java.md",
     "CSPLib/CSP_Controller.java.md",
     "CSPLib/Motors/CSP_Spark.java.md",
@@ -172,7 +173,6 @@
     "CSPLib/Motors/CSP_TalonFX.java.md",
     "CSPLib",
     "Robot.java.md",
-    "RobotContainer.java.md",
     "Subsystems/Sensors.java.md",
     "Subsystems/Drivetrain"
   ]
