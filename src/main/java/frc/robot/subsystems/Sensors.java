@@ -7,6 +7,18 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Sensors extends SubsystemBase {
+
+
+  private static Sensors instance = null;
+  /**
+   * Singleton Constructor for {@link Swerve}
+   * @return Single instance of {@link Swerve} common to all contexts.
+   */
+  public static synchronized Sensors getInstance() {
+    if (instance == null) instance = new Sensors();
+    return instance;
+  }
+
   /** Creates a new Sensors. */
   public Sensors() {}
 
