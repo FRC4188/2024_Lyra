@@ -1,0 +1,179 @@
+{
+  "main": {
+    "id": "315bf6edb0473c2e",
+    "type": "split",
+    "children": [
+      {
+        "id": "bb9736724a4c1630",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ef613076dcfd5ec3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Subsystems/Drivetrain/SwerveModule.java.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "3db7907ac91ab1f3",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 1,
+        "stacked": true
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "4e111455a1ef38c4",
+    "type": "split",
+    "children": [
+      {
+        "id": "57c272f1e70ba49e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4f8a6bcb8c1ca5dd",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "e461ef05ecca9ec2",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "217ef5cb9326a7c1",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "241c3b2aa3341df8",
+    "type": "split",
+    "children": [
+      {
+        "id": "169086dc39c120a4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d9c711304ec660f3",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Subsystems/Drivetrain/SwerveModule.java.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "5b2ef402ad753118",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Subsystems/Drivetrain/SwerveModule.java.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "09b3b410020163b8",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "64351f861c3b8253",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Subsystems/Drivetrain/SwerveModule.java.md"
+              }
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "3db7907ac91ab1f3",
+  "lastOpenFiles": [
+    "Subsystems/Drivetrain/SwerveModule.java.md",
+    "RobotContainer.java.md",
+    "Constants.java.md",
+    "Subsystems/Drivetrain/Swerve.java.md",
+    "CSPLib/CSP_Controller.java.md",
+    "CSPLib/Motors/CSP_Spark.java.md",
+    "CSPLib/Motors/CSP_Motor.java.md",
+    "CSPLib/Motors/CSP_Kraken.md",
+    "Subsystems",
+    "CSPLib/Motors",
+    "CSPLib/Motors/CSP_TalonSRX.java.md",
+    "CSPLib/Motors/CSP_TalonFX.java.md",
+    "CSPLib",
+    "Robot.java.md",
+    "Subsystems/Sensors.java.md",
+    "Subsystems/Drivetrain"
+  ]
+}
