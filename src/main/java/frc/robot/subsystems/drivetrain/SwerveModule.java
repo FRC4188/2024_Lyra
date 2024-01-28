@@ -65,7 +65,8 @@ public class SwerveModule {
   public void setModuleState(SwerveModuleState desired) {
     SwerveModuleState optimized =
         SwerveModuleState.optimize(desired, Rotation2d.fromDegrees(getAngleDegrees()));
-    speed.setVoltage(speedPID.calculate(getVelocity(), optimized.speedMetersPerSecond));
+    // pseudocode : setVolts(PID + FF)
+    speed.setVoltage(speedPID.calculate(getVelocity(), optimized.speedMetersPerSecond) + speedFF.calculate(optimized.speedMetersPerSecond));
     angle.setVoltage(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees()));
   }
 
