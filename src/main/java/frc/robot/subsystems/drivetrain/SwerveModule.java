@@ -2,13 +2,9 @@ package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.controller.PIDController;
-
-import com.pathplanner.lib.util.PIDConstants;
 
 import CSP_Lib.motors.CSP_CANcoder;
 import CSP_Lib.motors.CSP_Falcon;
-import CSP_Lib.motors.CSP_Motor;
 import CSP_Lib.utils.Conversions;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
