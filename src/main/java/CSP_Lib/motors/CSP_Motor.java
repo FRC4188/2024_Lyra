@@ -13,9 +13,7 @@ public interface CSP_Motor {
   public void set(double percent);
 
   public void setVoltage(double volts);
-
-  public void setEncoder(double position);
-
+  
   public double getRPM(); 
 
   public double getPositionRads(); 

@@ -35,7 +35,7 @@ public class Swerve extends SubsystemBase {
 
   private static Translation2d[] getLocations(SwerveModule... modules) {
     Translation2d[] positions = new Translation2d[modules.length];
-    for(int i = 0; i < 4; i++) {
+    for (int i = 0; i < modules.length; i++) {
       positions[i] = modules[i].getLocation();
     }
     return positions;
@@ -43,7 +43,7 @@ public class Swerve extends SubsystemBase {
 
   private static SwerveModulePosition[] getSwerveModulePositions(SwerveModule... modules) {
     SwerveModulePosition[] modulePositions = new SwerveModulePosition[modules.length];
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < modules.length; i++) {
       modulePositions[i] = modules[i].getModulePosition();
     }
     return modulePositions;
@@ -90,7 +90,7 @@ public class Swerve extends SubsystemBase {
 
   private Sensors sensors = Sensors.getInstance();
 
-  private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(getLocations());
+  private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(getLocations(moduleList));
 
   private Notifier notifier = new Notifier(() -> {
     updateDashboard();
@@ -111,6 +111,13 @@ public class Swerve extends SubsystemBase {
   /** Creates a new Swerve. */
   private Swerve() {
     notifier.startPeriodic(0.2);
+    SmartDashboard.putNumber("Angle kP", 0.0);
+    SmartDashboard.putNumber("Angle kI", 0.0);
+    SmartDashboard.putNumber("Angle kD", 0.0);
+    SmartDashboard.putNumber("Speed kP", 0.0);
+    SmartDashboard.putNumber("Speed kI", 0.0);
+    SmartDashboard.putNumber("Speed kD", 0.0);
+    
 
   }
 
@@ -122,6 +129,12 @@ public class Swerve extends SubsystemBase {
 
   public void setChassisSpeeds(ChassisSpeeds speeds) {
     setModuleStates(kinematics.toSwerveModuleStates(speeds));
+  }
+
+  public void disable() {
+    for (SwerveModule module : moduleList) {
+      module.zeroPower();
+    }
   }
 
   public void setModuleStates(SwerveModuleState... moduleStates) {
@@ -173,8 +186,21 @@ public class Swerve extends SubsystemBase {
   public void updateDashboard() {
     for (SwerveModule module : moduleList) {
       SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());
+
+      module.setAnglePIDConstants(
+        SmartDashboard.getNumber("Angle kP", 0.0), 
+        SmartDashboard.getNumber("Angle kI", 0.0), 
+        SmartDashboard.getNumber("Angle kD", 0.0));
+      module.setSpeedPIDConstants(
+        SmartDashboard.getNumber("Speed kP", 0.0), 
+        SmartDashboard.getNumber("Speed kI", 0.0), 
+        SmartDashboard.getNumber("Speed kD", 0.0));
+      
     }
 
     SmartDashboard.putString("Position", getPose2d().toString());
+
+    
+
   }
 }

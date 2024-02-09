@@ -11,24 +11,11 @@
             "id": "ef613076dcfd5ec3",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Subsystems/Drivetrain/SwerveModule.java.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "3db7907ac91ab1f3",
-            "type": "leaf",
-            "state": {
               "type": "graph",
               "state": {}
             }
           }
         ],
-        "currentTab": 1,
         "stacked": true
       }
     ],
@@ -95,7 +82,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Subsystems/Drivetrain/SwerveModule.java.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -112,7 +98,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Subsystems/Drivetrain/SwerveModule.java.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,9 +119,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "Subsystems/Drivetrain/SwerveModule.java.md"
-              }
+              "state": {}
             }
           }
         ],
@@ -157,9 +140,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "3db7907ac91ab1f3",
+  "active": "ef613076dcfd5ec3",
   "lastOpenFiles": [
     "Subsystems/Drivetrain/SwerveModule.java.md",
+    "Subsystems/Sensors.java.md",
     "RobotContainer.java.md",
     "Constants.java.md",
     "Subsystems/Drivetrain/Swerve.java.md",
@@ -173,7 +157,6 @@
     "CSPLib/Motors/CSP_TalonFX.java.md",
     "CSPLib",
     "Robot.java.md",
-    "Subsystems/Sensors.java.md",
     "Subsystems/Drivetrain"
   ]
 }
