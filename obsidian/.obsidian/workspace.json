@@ -4,14 +4,14 @@
     "type": "split",
     "children": [
       {
-        "id": "bb9736724a4c1630",
+        "id": "e19eabf70fe0b8f3",
         "type": "tabs",
         "children": [
           {
-            "id": "ef613076dcfd5ec3",
+            "id": "4d2106b45a33920f",
             "type": "leaf",
             "state": {
-              "type": "graph",
+              "type": "empty",
               "state": {}
             }
           }
@@ -127,8 +127,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -140,8 +139,9 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ef613076dcfd5ec3",
+  "active": "4d2106b45a33920f",
   "lastOpenFiles": [
+    "Untitled.canvas",
     "Subsystems/Drivetrain/SwerveModule.java.md",
     "Subsystems/Sensors.java.md",
     "RobotContainer.java.md",

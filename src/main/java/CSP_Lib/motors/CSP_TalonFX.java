@@ -6,7 +6,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-public class CSP_Falcon extends TalonFX implements CSP_Motor {
+public class CSP_TalonFX extends TalonFX implements CSP_Motor {
 
   /**
    * Creates a CSP_Falcon object
@@ -14,7 +14,7 @@ public class CSP_Falcon extends TalonFX implements CSP_Motor {
    * @param id CAN ID of the Falcon 500
    * @param canBus name of the CAN Bus the Falcon is on
    */
-  public CSP_Falcon(int id, String canBus) {
+  public CSP_TalonFX(int id, String canBus) {
     super(id, canBus);
     init();
   }
@@ -24,7 +24,7 @@ public class CSP_Falcon extends TalonFX implements CSP_Motor {
    *
    * @param id CAN ID of the Falcon 500
    */
-  public CSP_Falcon(int id) {
+  public CSP_TalonFX(int id) {
     super(id, "rio");
     init();
   }

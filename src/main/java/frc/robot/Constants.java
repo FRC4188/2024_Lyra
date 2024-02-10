@@ -45,8 +45,8 @@ public final class Constants {
   }
 
   public static final class robot {
-    public static final double A_LENGTH = Units.inchesToMeters(27.5);
-    public static final double A_WIDTH = Units.inchesToMeters(33);
+    public static final double A_LENGTH = Units.inchesToMeters(30.0);
+    public static final double A_WIDTH = Units.inchesToMeters(24.0);
     public static final double A_CROSSLENGTH = Math.hypot(A_LENGTH, A_WIDTH);
 
     public static final double FALCON_ENCODER_TICKS = 2048.0;
@@ -75,6 +75,15 @@ public final class Constants {
     public static final int PIGEON = 15;
 
     public static final int INTAKE = 16;
+
+    public static final int SHOULDER_LEADER = 17;
+    public static final int SHOULDER_FOLLOWER = 18;
+
+    public static final int LEFT_SHOOTER = 19;
+    public static final int RIGHT_SHOOTER = 20;
+
+    public static final int CLIMBER_LEADER = 21;
+    public static final int CLIMBER_FOLLOWER = 22;
   }
 
   public static class drivetrain {

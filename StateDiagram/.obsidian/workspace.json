@@ -6,7 +6,6 @@
       {
         "id": "3f65c792e9b8d93e",
         "type": "tabs",
-        "dimension": 99.99999999999999,
         "children": [
           {
             "id": "19937f389c8bb0af",
@@ -36,8 +35,12 @@
             "id": "494114fbe0724fe9",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "Shooting.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ],
@@ -107,6 +110,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Shooting.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -123,6 +127,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Shooting.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -144,7 +149,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "Shooting.md"
+              }
             }
           }
         ]
@@ -166,10 +173,10 @@
   },
   "active": "494114fbe0724fe9",
   "lastOpenFiles": [
-    "LowerClimber.md",
     "Intaking.md",
-    "RaiseClimber.md",
     "Shooting.md",
+    "RaiseClimber.md",
+    "LowerClimber.md",
     "TeleDrive.md",
     "Intake.md"
   ]

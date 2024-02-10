@@ -8,7 +8,7 @@ import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import CSP_Lib.motors.CSP_CANcoder;
-import CSP_Lib.motors.CSP_Falcon;
+import CSP_Lib.motors.CSP_TalonFX;
 import CSP_Lib.utils.Conversions;
 import CSP_Lib.utils.TempManager;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -29,8 +29,8 @@ public class SwerveModule {
   private final int ENCODER_ID;
   private final double ZERO;
 
-  private final CSP_Falcon speed;
-  private final CSP_Falcon angle;
+  private final CSP_TalonFX speed;
+  private final CSP_TalonFX angle;
   private final CSP_CANcoder encoder;
 
   private final PIDController anglePID;
@@ -52,8 +52,8 @@ public class SwerveModule {
     this.speedPID = new PIDController(Constants.drivetrain.SPEED_PID.kP, Constants.drivetrain.SPEED_PID.kI, Constants.drivetrain.SPEED_PID.kD);
     this.speedFF = new SimpleMotorFeedforward(Constants.drivetrain.SPEED_FF.ks, Constants.drivetrain.SPEED_FF.kv);
 
-    this.speed = new CSP_Falcon(SPEED_ID, "canivore");
-    this.angle = new CSP_Falcon(ANGLE_ID, "canivore");
+    this.speed = new CSP_TalonFX(SPEED_ID, "canivore");
+    this.angle = new CSP_TalonFX(ANGLE_ID, "canivore");
     this.encoder = new CSP_CANcoder(ENCODER_ID, "canivore");
 
     TempManager.addMotor(this.speed);

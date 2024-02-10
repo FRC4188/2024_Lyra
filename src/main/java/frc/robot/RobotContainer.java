@@ -5,6 +5,7 @@
 package frc.robot;
 
 import CSP_Lib.inputs.CSP_Controller;
+import CSP_Lib.inputs.CSP_Controller.Scale;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -36,14 +37,14 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    pilot
-        .getLeftTButton()
-        .whileTrue(new RunCommand(() -> intake.intake(), intake))
-        .onFalse(new InstantCommand(() -> intake.disable(), intake));
-    pilot
-        .getRightTButton()
-        .whileTrue(new RunCommand(() -> intake.outtake(), intake))
-        .onFalse(new InstantCommand(() -> intake.disable(), intake));
+    // pilot
+    //     .getLeftTButton()
+    //     .whileTrue(new RunCommand(() -> intake.intake(), intake))
+    //     .onFalse(new InstantCommand(() -> intake.disable(), intake));
+    // pilot
+    //     .getRightTButton()
+    //     .whileTrue(new RunCommand(() -> intake.outtake(), intake))
+    //     .onFalse(new InstantCommand(() -> intake.disable(), intake));
         
   }
 

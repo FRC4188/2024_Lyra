@@ -1,6 +1,6 @@
 package frc.robot.subsystems.intake;
 
-import CSP_Lib.motors.CSP_Falcon;
+import CSP_Lib.motors.CSP_TalonFX;
 import CSP_Lib.motors.CSP_Motor;
 import CSP_Lib.motors.CSP_SparkMax;
 import CSP_Lib.utils.TempManager;
@@ -41,14 +41,14 @@ public class Intake extends SubsystemBase{
      * @param voltage the number of volts
      */
     public void setVoltage(double voltage) {
-        motor.setVoltage(voltage / RobotController.getBatteryVoltage());
+        motor.setVoltage(voltage);
     }
 
     /**
-     * Returns the velocity of the Intake, in Meters Per Second
+     * Returns the velocity of the Intake, in Rotations Per Minute
      */
     public double getVelocity() {
-      return motor.getRPM(); // TODO: CONVERT TO METERS PER SECOND
+      return motor.getRPM(); 
     }
 
     public void disable() {
