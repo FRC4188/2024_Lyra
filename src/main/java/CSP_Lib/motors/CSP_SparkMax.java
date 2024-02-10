@@ -12,6 +12,12 @@ public class CSP_SparkMax extends CANSparkMax implements CSP_Motor {
     init();
   }
 
+  public CSP_SparkMax(int id, String canbus) {
+    super(id, MotorType.kBrushless);
+    encoder = getEncoder();
+    init();
+  }
+
   public void init() {
     super.restoreFactoryDefaults();
     super.clearFaults();

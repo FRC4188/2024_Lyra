@@ -3,14 +3,20 @@ package frc.robot.subsystems.drivetrain;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 
+import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
+
 import CSP_Lib.motors.CSP_CANcoder;
 import CSP_Lib.motors.CSP_Falcon;
 import CSP_Lib.utils.Conversions;
+import CSP_Lib.utils.TempManager;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class SwerveModule {
@@ -28,6 +34,7 @@ public class SwerveModule {
   private final CSP_CANcoder encoder;
 
   private final PIDController anglePID;
+  private final SimpleMotorFeedforward angleFF;
   private final PIDController speedPID;
   private final SimpleMotorFeedforward speedFF;
 
@@ -41,25 +48,38 @@ public class SwerveModule {
     this.ZERO = zero;
 
     this.anglePID = new PIDController(Constants.drivetrain.ANGLE_PID.kP, Constants.drivetrain.ANGLE_PID.kI, Constants.drivetrain.ANGLE_PID.kD);
+    this.angleFF = new SimpleMotorFeedforward(Constants.drivetrain.ANGLE_FF.ks, Constants.drivetrain.ANGLE_FF.kv);
     this.speedPID = new PIDController(Constants.drivetrain.SPEED_PID.kP, Constants.drivetrain.SPEED_PID.kI, Constants.drivetrain.SPEED_PID.kD);
-    this.speedFF = new SimpleMotorFeedforward(Constants.drivetrain.SPEED_kS, Constants.drivetrain.SPEED_kV);
+    this.speedFF = new SimpleMotorFeedforward(Constants.drivetrain.SPEED_FF.ks, Constants.drivetrain.SPEED_FF.kv);
 
-    this.speed = new CSP_Falcon(SPEED_ID);
-    this.angle = new CSP_Falcon(ANGLE_ID);
-    this.encoder = new CSP_CANcoder(ENCODER_ID);
+    this.speed = new CSP_Falcon(SPEED_ID, "canivore");
+    this.angle = new CSP_Falcon(ANGLE_ID, "canivore");
+    this.encoder = new CSP_CANcoder(ENCODER_ID, "canivore");
+
+    TempManager.addMotor(this.speed);
+    TempManager.addMotor(this.angle);
 
     init();
   }
 
   public void init() {
+
     speed.setBrake(true);
     speed.setRampRate(Constants.drivetrain.RAMP_RATE);
 
     angle.setBrake(false);
-    angle.setEncoder(Conversions.degreesSignedToUnsigned(getAngleDegrees()));
+    angle.setInverted(false);
+
+    MagnetSensorConfigs sensorConfigs = new MagnetSensorConfigs();
+    sensorConfigs.MagnetOffset = -Conversions.degreesUnsignedToSigned(ZERO / 360);
+    sensorConfigs.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+    sensorConfigs.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
+    encoder.getConfigurator().apply(sensorConfigs);
 
     anglePID.enableContinuousInput(-180, 180);
-    anglePID.setTolerance(5);    
+    anglePID.setTolerance(8);    
+    angle.setEncoderDegrees(getAngleDegrees());
+
   }
 
   public void setModuleState(SwerveModuleState desired) {
@@ -67,7 +87,7 @@ public class SwerveModule {
         SwerveModuleState.optimize(desired, Rotation2d.fromDegrees(getAngleDegrees()));
     // pseudocode : setVolts(PID + FF)
     speed.setVoltage(speedPID.calculate(getVelocity(), optimized.speedMetersPerSecond) + speedFF.calculate(optimized.speedMetersPerSecond));
-    angle.setVoltage(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees()));
+    angle.setVoltage(angleFF.calculate(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees())));
   }
 
   /** Sets the speed and angle motors to zero power */
@@ -105,6 +125,7 @@ public class SwerveModule {
    */
   public double getAngleDegrees() {
     return Units.radiansToDegrees(encoder.getPositionRads());
+    // return encoder.getPositionDegrees();
   }
 
   private double getPositionMeters() {
@@ -117,5 +138,13 @@ public class SwerveModule {
 
   public Translation2d getLocation() {
     return this.LOCATION;
+  }
+
+  public void setAnglePIDConstants(double kP, double kI, double kD) {
+    anglePID.setPID(kP, kI, kD);
+  }
+
+  public void setSpeedPIDConstants(double kP, double kI,double kD) {
+    speedPID.setPID(kP, kI, kD);
   }
 }

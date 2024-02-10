@@ -33,7 +33,7 @@ public class CSP_Falcon extends TalonFX implements CSP_Motor {
   public void init() {
     super.getConfigurator().apply(new TalonFXConfiguration());
     super.clearStickyFaults();
-    setEncoder(0.0);
+    setEncoderDegrees(0.0);
   }
 
   /**
@@ -92,8 +92,8 @@ public class CSP_Falcon extends TalonFX implements CSP_Motor {
    *
    * @param position desired position to set encoder to
    */
-  public void setEncoder(double position) {
-    super.getConfigurator().setPosition(position / (2.0 * Math.PI));
+  public void setEncoderDegrees(double position) {
+    super.getConfigurator().setPosition(position / (180));
   }
 
   /**

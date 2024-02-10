@@ -8,6 +8,7 @@ import com.pathplanner.lib.util.PIDConstants;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -34,19 +35,6 @@ public final class Constants {
 
   public static final class field {
     public static Translation2d IMPORTANT_GOAL = new Translation2d(Units.inchesToMeters(40.45), Units.inchesToMeters(42.19));
-
-
-    public static double GRID_TOP_X = 0.4;
-    public static double GRID_TOP_Z = Units.inchesToMeters(46.0);
-
-    public static double GRID_MID_X = 0.8;
-    public static double GRID_MID_Z = Units.inchesToMeters(34.0);
-
-    public static double GRID_BOTTOM_X = 1.2;
-    public static double GRID_BOTTOM_Z = Units.inchesToMeters(5.0);
-
-    public static double DOUBLE_Z = 0.0;
-    public static double SINGLE_Z = 0.0;
 
     public static double FIELD_WIDTH = Units.feetToMeters(26.2916);
 
@@ -85,6 +73,8 @@ public final class Constants {
     public static final int FR_ENCODER = 14;
 
     public static final int PIGEON = 15;
+
+    public static final int INTAKE = 16;
   }
 
   public static class drivetrain {
@@ -119,22 +109,22 @@ public final class Constants {
     public static final Translation2d BR_LOCATION =
         new Translation2d(-(Constants.robot.A_LENGTH / 2), -(Constants.robot.A_WIDTH / 2));
 
-    public static final double FL_ZERO = -57.568359375;
-    public static final double BL_ZERO = -147.041015625;
-    public static final double BR_ZERO = 43.505859375 - 180;
-    public static final double FR_ZERO = -75.498046875;
+    public static final double FL_ZERO = -78.486328125;
+    public static final double BL_ZERO = -3.339843749999995;
+    public static final double BR_ZERO = 95.53710937500003;
+    public static final double FR_ZERO = 76.11328125000001;
 
-    public static final PIDConstants ANGLE_PID = new PIDConstants(0.008, 0.0, 0.0);
+    public static final PIDConstants ANGLE_PID = new PIDConstants(0.0, 0.0, 0.0);
+    public static final SimpleMotorFeedforward ANGLE_FF = new SimpleMotorFeedforward(1.0, 0.1);
 
-    public static final PIDConstants SPEED_PID = new PIDConstants(0.1, 0.0, 0.02);
-    public static final double SPEED_kS = 0.00;
-    public static final double SPEED_kV = 0.00;
+    public static final PIDConstants SPEED_PID = new PIDConstants(0.0, 0.0, 0.0);
+    public static final SimpleMotorFeedforward SPEED_FF = new SimpleMotorFeedforward(0, 0);
 
-    public static final PIDConstants XY_PID = new PIDConstants(3.0, 0.0, 0.0);
+    // public static final PIDConstants XY_PID = new PIDConstants(3.0, 0.0, 0.0);
 
-    public static final PIDConstants ROT_PID = new PIDConstants(0.0, 0.0, 0.0);
+    // public static final PIDConstants ROT_PID = new PIDConstants(0.0, 0.0, 0.0);
 
-    public static final PIDConstants CORRECTION_PID = new PIDConstants(-0.1, 0.0, -0.006);
+    // public static final PIDConstants CORRECTION_PID = new PIDConstants(-0.1, 0.0, -0.006);
   }
   public static final class sensors {
     public static final String LEFT_NAME = "limelight-left";

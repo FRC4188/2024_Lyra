@@ -24,12 +24,6 @@ public class CSP_CANcoder extends CANcoder {
     public void init() {
         super.getConfigurator().apply(new CANcoderConfiguration());
         super.clearStickyFaults();
-
-        MagnetSensorConfigs sensorConfigs = new MagnetSensorConfigs();
-        sensorConfigs.MagnetOffset = 0.0;
-        sensorConfigs.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
-        sensorConfigs.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
-        super.getConfigurator().apply(sensorConfigs);
     }
 
     public void setPositionRads(double position) {
@@ -50,6 +44,10 @@ public class CSP_CANcoder extends CANcoder {
         } else {
             return (-super.getAbsolutePosition().getValueAsDouble() * 2.0 * Math.PI - zero + Math.PI) % (2.0 * Math.PI) - Math.PI;
         }
+    }
+
+    public double getPositionDegrees() {
+        return super.getAbsolutePosition().getValueAsDouble() * 360;
     }
 
     public void setInverted(boolean inverted) {
