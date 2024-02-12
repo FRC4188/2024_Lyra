@@ -13,38 +13,27 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "LowerClimber.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "2b2344ca30220449",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Intaking.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "494114fbe0724fe9",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Intaking.md",
+                "file": "Shooting.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 2
+        ]
+      },
+      {
+        "id": "4a1756755bd9c424",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "494114fbe0724fe9",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {}
+            }
+          }
+        ]
       }
     ],
     "direction": "vertical"
@@ -94,7 +83,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 237.5
   },
   "right": {
     "id": "8bebf8a3a8a29c74",
@@ -110,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Intaking.md",
+                "file": "Shooting.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,7 +116,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Intaking.md",
+                "file": "Shooting.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -150,7 +139,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Intaking.md"
+                "file": "Shooting.md"
               }
             }
           }
@@ -171,12 +160,12 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "494114fbe0724fe9",
+  "active": "19937f389c8bb0af",
   "lastOpenFiles": [
-    "LowerClimber.md",
     "RaiseClimber.md",
-    "Shooting.md",
+    "LowerClimber.md",
     "Intaking.md",
+    "Shooting.md",
     "TeleDrive.md",
     "Intake.md"
   ]

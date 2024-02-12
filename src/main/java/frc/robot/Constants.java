@@ -15,7 +15,9 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.controller.ArmFeedforward;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -79,11 +81,13 @@ public final class Constants {
     public static final int SHOULDER_LEADER = 17;
     public static final int SHOULDER_FOLLOWER = 18;
 
+    public static final int SHOULDER_ENCODER = 23;
+
     public static final int LEFT_SHOOTER = 19;
     public static final int RIGHT_SHOOTER = 20;
 
-    public static final int CLIMBER_LEADER = 21;
-    public static final int CLIMBER_FOLLOWER = 22;
+    public static final int LEFT_CLIMBER = 21;
+    public static final int RIGHT_CLIMBER = 22;
   }
 
   public static class drivetrain {
@@ -124,7 +128,7 @@ public final class Constants {
     public static final double FR_ZERO = 76.11328125000001;
 
     public static final PIDConstants ANGLE_PID = new PIDConstants(0.0, 0.0, 0.0);
-    public static final SimpleMotorFeedforward ANGLE_FF = new SimpleMotorFeedforward(1.0, 0.1);
+    public static final SimpleMotorFeedforward ANGLE_FF = new SimpleMotorFeedforward(0.1, 1);
 
     public static final PIDConstants SPEED_PID = new PIDConstants(0.0, 0.0, 0.0);
     public static final SimpleMotorFeedforward SPEED_FF = new SimpleMotorFeedforward(0, 0);
@@ -135,6 +139,21 @@ public final class Constants {
 
     // public static final PIDConstants CORRECTION_PID = new PIDConstants(-0.1, 0.0, -0.006);
   }
+
+  public static final class shoulder {
+
+    public static final double MAX_VEL = 0.0;
+    public static final double MAX_ACCEL = 0.0;
+
+    public static final PIDConstants SHOULDER_PID = new PIDConstants(0, 0, 0);
+    public static final Constraints CONSTRAINTS = new Constraints(MAX_VEL, MAX_ACCEL);
+    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0, 0, 0);
+
+    public static final double ZERO = 0;
+    public static final double ALLOWED_ERROR = 0;
+  }
+
+
   public static final class sensors {
     public static final String LEFT_NAME = "limelight-left";
     public static final String RIGHT_NAME = "limelight-right";

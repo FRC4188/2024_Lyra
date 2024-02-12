@@ -1,6 +1,6 @@
 Commands:
 * Spin Intake
-	1. Spin Int ake
+	1. Spin Intake
 	2. Tilt Shooter
 	3. Feed Shooter
 	4. Level out

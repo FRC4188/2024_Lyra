@@ -56,7 +56,7 @@ public class Sensors extends SubsystemBase {
       return limelightRight.getPose3d();
     } else if (limelightLeft.getTV()) {
       return limelightLeft.getPose3d();
-    } else return new Pose3d();
+    } else return new Pose3d(); 
   }
 
   public Pose2d getPose2d() {

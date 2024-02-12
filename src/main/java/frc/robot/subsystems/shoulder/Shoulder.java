@@ -1,6 +1,18 @@
 package frc.robot.subsystems.shoulder;
 
+import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+import com.ctre.phoenix6.controls.StrictFollower;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
+
+import CSP_Lib.motors.CSP_CANcoder;
+import CSP_Lib.motors.CSP_TalonFX;
+import CSP_Lib.utils.TempManager;
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Shoulder extends SubsystemBase {
 
@@ -15,7 +27,73 @@ public class Shoulder extends SubsystemBase {
     return instance;
   }
 
-  public Shoulder() {
+  private CSP_TalonFX leader = new CSP_TalonFX(Constants.ids.SHOULDER_LEADER);
+  private CSP_TalonFX follower = new CSP_TalonFX(Constants.ids.SHOULDER_FOLLOWER);
+  private CSP_CANcoder encoder = new CSP_CANcoder(Constants.ids.SHOULDER_ENCODER);
+
+  private ProfiledPIDController pid =
+    new ProfiledPIDController(
+      Constants.shoulder.SHOULDER_PID.kP, 
+      Constants.shoulder.SHOULDER_PID.kI, 
+      Constants.shoulder.SHOULDER_PID.kD, 
+      Constants.shoulder.CONSTRAINTS);
     
+  private ArmFeedforward ff = Constants.shoulder.ARM_FEEDFORWARD;
+
+  public Shoulder() {
+    init();
+    TempManager.addMotor(leader, follower);
+  }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Shoulder Angle", getAngle());
+
+  }
+
+  public void init() {
+    MagnetSensorConfigs sensorConfigs = new MagnetSensorConfigs();
+    sensorConfigs.MagnetOffset = -(Constants.shoulder.ZERO / 360.0);
+    sensorConfigs.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+    sensorConfigs.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+    encoder.getConfigurator().apply(sensorConfigs);
+
+    leader.setInverted(false);
+    leader.setBrake(true);
+    
+    follower.setControl(new StrictFollower(leader.getDeviceID()));
+    follower.setInverted(false);
+    follower.setBrake(true);
+
+    pid.reset(getAngle());
+    pid.enableContinuousInput(-180, 180);
+    pid.setTolerance(Constants.shoulder.ALLOWED_ERROR);
+  }
+
+  public void disable() {
+    leader.disable();
+  }
+
+  public void set(double percent) {
+    leader.set(percent);
+  }
+
+  public void setPID(double kP, double kI, double kD) {
+    pid.setPID(kP, kI, kD);
+  }
+
+  public void setAngle(double angle) {
+    set(
+      pid.calculate(
+        getAngle(), angle));
+  }
+
+  public double getAngle() {
+    return encoder.getPositionDegrees();
+  }
+
+  public boolean atGoal(double angle) {
+    return Math.abs(angle - getAngle()) < Constants.shoulder.ALLOWED_ERROR;
   }
 }

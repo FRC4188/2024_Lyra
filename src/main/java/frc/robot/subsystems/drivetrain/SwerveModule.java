@@ -71,7 +71,7 @@ public class SwerveModule {
     angle.setInverted(false);
 
     MagnetSensorConfigs sensorConfigs = new MagnetSensorConfigs();
-    sensorConfigs.MagnetOffset = -Conversions.degreesUnsignedToSigned(ZERO / 360);
+    sensorConfigs.MagnetOffset = -(ZERO / 360.0);
     sensorConfigs.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
     sensorConfigs.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
     encoder.getConfigurator().apply(sensorConfigs);
@@ -115,7 +115,7 @@ public class SwerveModule {
   }
 
   private double getVelocity() {
-    return (speed.getRPM() *  60.0 * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / Constants.drivetrain.DRIVE_GEARING;
+    return (speed.getRPM() * 60.0 * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / Constants.drivetrain.DRIVE_GEARING;
   }
 
   /**

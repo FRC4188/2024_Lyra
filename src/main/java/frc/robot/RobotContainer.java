@@ -32,20 +32,21 @@ public class RobotContainer {
 
   private void setDefaultCommands() {
     drive.setDefaultCommand(
-      new TeleDrive(() -> pilot.getLeftX(), () -> pilot.getLeftY(), () -> pilot.getRightX())
+      pilot.rightBumper().getAsBoolean()
+      ? new TeleDrive(() -> pilot.getLeftX() * 0.5, () -> pilot.getLeftY() * 0.5, () -> pilot.getRightX() * 0.1) 
+      : new TeleDrive(() -> pilot.getLeftX(), () -> pilot.getLeftY(), () -> pilot.getRightX()) //slow
     );
   }
 
   private void configureBindings() {
-    // pilot
-    //     .getLeftTButton()
-    //     .whileTrue(new RunCommand(() -> intake.intake(), intake))
-    //     .onFalse(new InstantCommand(() -> intake.disable(), intake));
-    // pilot
-    //     .getRightTButton()
-    //     .whileTrue(new RunCommand(() -> intake.outtake(), intake))
-    //     .onFalse(new InstantCommand(() -> intake.disable(), intake));
-        
+    pilot
+        .getLeftTButton()
+        .whileTrue(new RunCommand(() -> intake.intake(), intake))
+        .onFalse(new InstantCommand(() -> intake.disable(), intake));
+    pilot
+        .getRightTButton()
+        .whileTrue(new RunCommand(() -> intake.outtake(), intake))
+        .onFalse(new InstantCommand(() -> intake.disable(), intake));
   }
 
   public Command getAutonomousCommand() {

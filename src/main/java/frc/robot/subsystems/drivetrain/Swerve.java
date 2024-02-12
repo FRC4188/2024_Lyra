@@ -4,6 +4,11 @@
 
 package frc.robot.subsystems.drivetrain;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -12,7 +17,12 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -34,11 +44,11 @@ public class Swerve extends SubsystemBase {
   }
 
   private static Translation2d[] getLocations(SwerveModule... modules) {
-    Translation2d[] positions = new Translation2d[modules.length];
+    Translation2d[] locations = new Translation2d[modules.length];
     for (int i = 0; i < modules.length; i++) {
-      positions[i] = modules[i].getLocation();
+      locations[i] = modules[i].getLocation();
     }
-    return positions;
+    return locations;
   }
 
   private static SwerveModulePosition[] getSwerveModulePositions(SwerveModule... modules) {
@@ -92,6 +102,8 @@ public class Swerve extends SubsystemBase {
 
   private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(getLocations(moduleList));
 
+  private Field2d m_field = new Field2d();
+
   private Notifier notifier = new Notifier(() -> {
     updateDashboard();
   });
@@ -117,8 +129,8 @@ public class Swerve extends SubsystemBase {
     SmartDashboard.putNumber("Speed kP", 0.0);
     SmartDashboard.putNumber("Speed kI", 0.0);
     SmartDashboard.putNumber("Speed kD", 0.0);
-    
 
+    SmartDashboard.putData("Field", m_field);
   }
 
   @Override
@@ -138,6 +150,9 @@ public class Swerve extends SubsystemBase {
   }
 
   public void setModuleStates(SwerveModuleState... moduleStates) {
+
+    SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, Constants.drivetrain.MAX_VELOCITY);
+
     if (moduleStates.length == moduleList.length) {
       for (int i = 0; i < moduleList.length; i++) {
           moduleList[i].setModuleState(moduleStates[i]);
@@ -183,7 +198,18 @@ public class Swerve extends SubsystemBase {
         getSwerveModulePositions(moduleList));
   }
 
+  public void resetOdometry(Pose2d initPose) {
+    odometry.resetPosition(
+        sensors.getRotation2d(),
+        getSwerveModulePositions(moduleList),
+        initPose);
+  }
+
   public void updateDashboard() {
+
+    m_field.setRobotPose(getPose2d());
+
+
     for (SwerveModule module : moduleList) {
       SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());
 
@@ -199,8 +225,32 @@ public class Swerve extends SubsystemBase {
     }
 
     SmartDashboard.putString("Position", getPose2d().toString());
+  }
 
-    
-
+  public void configurePathPlanner() {
+    AutoBuilder.configureHolonomic(
+            this::getPose2d, // Robot pose supplier
+            this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+            this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+            new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+                    new PIDConstants(0,0,0),// Translation PID constants
+                    new PIDConstants(0,0,0), // Rotation PID constants
+                    Constants.drivetrain.MAX_VELOCITY, // Max module speed, in m/s
+                    Constants.robot.A_CROSSLENGTH / 2, // Drive base radius in meters. Distance from robot center to furthest module.
+                    new ReplanningConfig() // Default path replanning config. See the API for the options here
+            ),
+            () -> {
+              // Boolean supplier that controls when the path will be mirrored for the red alliance
+              // This will flip the path being followed to the red side of the field.
+              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+              }
+              return false;
+            },
+            this // Reference to this subsystem to set requirements
+    );
   }
 }
