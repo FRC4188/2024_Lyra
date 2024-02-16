@@ -93,7 +93,7 @@ public class CSP_TalonFX extends TalonFX implements CSP_Motor {
    * @param position desired position to set encoder to
    */
   public void setEncoderDegrees(double position) {
-    super.getConfigurator().setPosition(position / (180));
+    super.getConfigurator().setPosition(position / (360.0));
   }
 
   /**
@@ -111,7 +111,7 @@ public class CSP_TalonFX extends TalonFX implements CSP_Motor {
    * @return velocity of the motor
    */
   public double getRPM() {
-    return ((super.getVelocity().getValueAsDouble() / 60.0));
+    return ((super.getVelocity().getValueAsDouble() * 60.0));
   }
 
   /**

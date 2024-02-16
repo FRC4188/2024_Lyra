@@ -36,11 +36,11 @@ public class Sensors extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Pigeon Angle", getRotation2d().getDegrees());
-    SmartDashboard.putString("Limelight Pose3d", getPose3d().toString());
-    SmartDashboard.putString("Limelight Pose2d", getPose2d().toString());
-    SmartDashboard.putString("Left Pose", limelightLeft.getPose3d().toString());
-    SmartDashboard.putString("Right Pose", limelightRight.getPose3d().toPose2d().toString());
+    // SmartDashboard.putNumber("Pigeon Angle", getRotation2d().getDegrees());
+    // SmartDashboard.putString("Limelight Pose3d", getPose3d().toString());
+    // SmartDashboard.putString("Limelight Pose2d", getPose2d().toString());
+    // SmartDashboard.putString("Left Pose", limelightLeft.getPose3d().toString());
+    // SmartDashboard.putString("Right Pose", limelightRight.getPose3d().toPose2d().toString());
   }
 
   public Pose3d getPose3d() {

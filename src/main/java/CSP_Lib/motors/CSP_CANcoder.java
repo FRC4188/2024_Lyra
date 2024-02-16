@@ -39,11 +39,12 @@ public class CSP_CANcoder extends CANcoder {
      * @return Position of encoder from [-pi to pi].
      */
     public double getPositionRads() {
-        if(!inverted) {
-            return (super.getAbsolutePosition().getValueAsDouble() * 2.0 * Math.PI - zero + Math.PI) % (2.0 * Math.PI) - Math.PI;
-        } else {
-            return (-super.getAbsolutePosition().getValueAsDouble() * 2.0 * Math.PI - zero + Math.PI) % (2.0 * Math.PI) - Math.PI;
-        }
+        // if(!inverted) {
+        //     return (super.getAbsolutePosition().getValueAsDouble() * 2.0 * Math.PI - zero + Math.PI) % (2.0 * Math.PI) - Math.PI;
+        // } else {
+        //     return (-super.getAbsolutePosition().getValueAsDouble() * 2.0 * Math.PI - zero + Math.PI) % (2.0 * Math.PI) - Math.PI;
+        // }
+        return super.getAbsolutePosition().getValueAsDouble() * 2.0 * Math.PI;
     }
 
     public double getPositionDegrees() {

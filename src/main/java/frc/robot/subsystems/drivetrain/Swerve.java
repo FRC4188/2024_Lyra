@@ -51,16 +51,48 @@ public class Swerve extends SubsystemBase {
     return locations;
   }
 
-  private static SwerveModulePosition[] getSwerveModulePositions(SwerveModule... modules) {
-    SwerveModulePosition[] modulePositions = new SwerveModulePosition[modules.length];
-    for (int i = 0; i < modules.length; i++) {
-      modulePositions[i] = modules[i].getModulePosition();
-    }
-    return modulePositions;
-  }
+  
 
-  private SwerveModule[] moduleList = {
-    new SwerveModule(
+  // private SwerveModule[] moduleList = {
+  //   new SwerveModule(
+  //     "Front Left",
+  //     Constants.drivetrain.FL_LOCATION,
+  //     Constants.drivetrain.DRIVE_GEARING,
+  //     Constants.ids.FL_SPEED,
+  //     Constants.ids.FL_ANGLE,
+  //     Constants.ids.FL_ENCODER,
+  //     Constants.drivetrain.FL_ZERO
+  //   ),
+  //   new SwerveModule(
+  //     "Front Right",
+  //     Constants.drivetrain.FR_LOCATION,
+  //     Constants.drivetrain.DRIVE_GEARING,
+  //     Constants.ids.FR_SPEED,
+  //     Constants.ids.FR_ANGLE,
+  //     Constants.ids.FR_ENCODER,
+  //     Constants.drivetrain.FR_ZERO
+  //   ),
+  //   new SwerveModule(
+  //     "Back Left",
+  //     Constants.drivetrain.BL_LOCATION,
+  //     Constants.drivetrain.DRIVE_GEARING,
+  //     Constants.ids.BL_SPEED,
+  //     Constants.ids.BL_ANGLE,
+  //     Constants.ids.BL_ENCODER,
+  //     Constants.drivetrain.BL_ZERO
+  //   ),
+  //   new SwerveModule(
+  //     "Back Right",
+  //     Constants.drivetrain.BR_LOCATION,
+  //     Constants.drivetrain.DRIVE_GEARING,
+  //     Constants.ids.BR_SPEED,
+  //     Constants.ids.BR_ANGLE,
+  //     Constants.ids.BR_ENCODER,
+  //     Constants.drivetrain.BR_ZERO
+  //   )
+  // };
+
+  SwerveModule frontLeft = new SwerveModule(
       "Front Left",
       Constants.drivetrain.FL_LOCATION,
       Constants.drivetrain.DRIVE_GEARING,
@@ -68,8 +100,8 @@ public class Swerve extends SubsystemBase {
       Constants.ids.FL_ANGLE,
       Constants.ids.FL_ENCODER,
       Constants.drivetrain.FL_ZERO
-    ),
-    new SwerveModule(
+    );
+  SwerveModule frontRight = new SwerveModule(
       "Front Right",
       Constants.drivetrain.FR_LOCATION,
       Constants.drivetrain.DRIVE_GEARING,
@@ -77,8 +109,8 @@ public class Swerve extends SubsystemBase {
       Constants.ids.FR_ANGLE,
       Constants.ids.FR_ENCODER,
       Constants.drivetrain.FR_ZERO
-    ),
-    new SwerveModule(
+    );
+    SwerveModule backLeft = new SwerveModule(
       "Back Left",
       Constants.drivetrain.BL_LOCATION,
       Constants.drivetrain.DRIVE_GEARING,
@@ -86,8 +118,8 @@ public class Swerve extends SubsystemBase {
       Constants.ids.BL_ANGLE,
       Constants.ids.BL_ENCODER,
       Constants.drivetrain.BL_ZERO
-    ),
-    new SwerveModule(
+    );
+    SwerveModule backRight = new SwerveModule(
       "Back Right",
       Constants.drivetrain.BR_LOCATION,
       Constants.drivetrain.DRIVE_GEARING,
@@ -95,12 +127,25 @@ public class Swerve extends SubsystemBase {
       Constants.ids.BR_ANGLE,
       Constants.ids.BR_ENCODER,
       Constants.drivetrain.BR_ZERO
-    )
-  };
+    );
+
+    private SwerveModulePosition[] getSwerveModulePositions() {
+    SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
+    // for (int i = 0; i < modules.length; i++) {
+    //   modulePositions[i] = modules[i].getModulePosition();
+    // }
+
+    modulePositions[0] = frontLeft.getModulePosition();
+    modulePositions[1] = frontRight.getModulePosition();
+    modulePositions[2] = backLeft.getModulePosition();
+    modulePositions[3] = backRight.getModulePosition();
+
+    return modulePositions;
+  }
 
   private Sensors sensors = Sensors.getInstance();
 
-  private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(getLocations(moduleList));
+  private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(frontLeft.getLocation(), frontRight.getLocation(), backLeft.getLocation(), backRight.getLocation());
 
   private Field2d m_field = new Field2d();
 
@@ -114,7 +159,7 @@ public class Swerve extends SubsystemBase {
           kinematics,
           // sensors.getRotation2d(),
           new Rotation2d(),
-          getSwerveModulePositions(moduleList),
+          new SwerveModulePosition[] {frontLeft.getModulePosition(), frontRight.getModulePosition(), backLeft.getModulePosition(), backRight.getModulePosition()},
           new Pose2d(),
           Constants.drivetrain.STATE_STD_DEVS, 
           Constants.drivetrain.VISION_STD_DEVS);
@@ -144,20 +189,30 @@ public class Swerve extends SubsystemBase {
   }
 
   public void disable() {
-    for (SwerveModule module : moduleList) {
-      module.zeroPower();
-    }
+    // for (SwerveModule module : moduleList) {
+    //   module.zeroPower();
+    // }
+    frontLeft.zeroPower();
+    frontRight.zeroPower();
+    backLeft.zeroPower();
+    backRight.zeroPower();
   }
 
   public void setModuleStates(SwerveModuleState... moduleStates) {
 
     SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, Constants.drivetrain.MAX_VELOCITY);
 
-    if (moduleStates.length == moduleList.length) {
-      for (int i = 0; i < moduleList.length; i++) {
-          moduleList[i].setModuleState(moduleStates[i]);
-      }
-    }
+    // if (moduleStates.length == moduleList.length) {
+    //   for (int i = 0; i < moduleList.length; i++) {
+    //       moduleList[i].setModuleState(moduleStates[i]);
+    //   }
+    // }
+
+      frontLeft.setModuleState(moduleStates[0]);
+      frontRight.setModuleState(moduleStates[1]);
+      backLeft.setModuleState(moduleStates[2]);
+      backRight.setModuleState(moduleStates[3]);
+
   }
 
   public ChassisSpeeds getChassisSpeeds() {
@@ -166,9 +221,14 @@ public class Swerve extends SubsystemBase {
 
   public SwerveModuleState[] getSwerveModuleStates() {
     SwerveModuleState[] moduleStates = new SwerveModuleState[4];
-    for (int i = 0; i < 4; i++) {
-      moduleStates[i] = moduleList[i].getModuleState();
-    }
+    // for (int i = 0; i < 4; i++) {
+    //   moduleStates[i] = moduleList[i].getModuleState();
+    // }
+    moduleStates[0] = frontLeft.getModuleState();
+    moduleStates[1] = frontRight.getModuleState();
+    moduleStates[2] = backLeft.getModuleState();
+    moduleStates[3] = backRight.getModuleState();
+
     return moduleStates;
   }
 
@@ -187,44 +247,48 @@ public class Swerve extends SubsystemBase {
   }
 
   public void updateOdometry() {
-    Pose2d pose = sensors.getPose2d();
+    //Pose2d pose = sensors.getPose2d();
 
-    if (!pose.equals(new Pose2d())) {
-      odometry.addVisionMeasurement(pose, sensors.getLatency());
-    }
+    // if (!pose.equals(new Pose2d())) {
+    //   odometry.addVisionMeasurement(pose, sensors.getLatency());
+    // }
 
     odometry.update(
         sensors.getRotation2d(),
-        getSwerveModulePositions(moduleList));
+        getSwerveModulePositions());
   }
 
   public void resetOdometry(Pose2d initPose) {
     odometry.resetPosition(
         sensors.getRotation2d(),
-        getSwerveModulePositions(moduleList),
+        getSwerveModulePositions(),
         initPose);
   }
 
   public void updateDashboard() {
 
-    m_field.setRobotPose(getPose2d());
+    // m_field.setRobotPose(getPose2d());
 
 
-    for (SwerveModule module : moduleList) {
-      SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());
+    // for (SwerveModule module : moduleList) {
+    //   SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());
 
-      module.setAnglePIDConstants(
-        SmartDashboard.getNumber("Angle kP", 0.0), 
-        SmartDashboard.getNumber("Angle kI", 0.0), 
-        SmartDashboard.getNumber("Angle kD", 0.0));
-      module.setSpeedPIDConstants(
-        SmartDashboard.getNumber("Speed kP", 0.0), 
-        SmartDashboard.getNumber("Speed kI", 0.0), 
-        SmartDashboard.getNumber("Speed kD", 0.0));
+    //   module.setAnglePIDConstants(
+    //     SmartDashboard.getNumber("Angle kP", 0.0), 
+    //     SmartDashboard.getNumber("Angle kI", 0.0), 
+    //     SmartDashboard.getNumber("Angle kD", 0.0));
+    //   module.setSpeedPIDConstants(
+    //     SmartDashboard.getNumber("Speed kP", 0.0), 
+    //     SmartDashboard.getNumber("Speed kI", 0.0), 
+    //     SmartDashboard.getNumber("Speed kD", 0.0));
       
-    }
+    // }
+      SmartDashboard.putNumber("FL Angle", frontLeft.getAngleDegrees());
+      SmartDashboard.putNumber("FR Angle", frontRight.getAngleDegrees());
+      SmartDashboard.putNumber("BL Angle", backLeft.getAngleDegrees());
+      SmartDashboard.putNumber("BR Angle", backRight.getAngleDegrees());
 
-    SmartDashboard.putString("Position", getPose2d().toString());
+    // SmartDashboard.putString("Position", getPose2d().toString());
   }
 
   public void configurePathPlanner() {

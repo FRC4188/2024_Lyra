@@ -47,9 +47,9 @@ public class SwerveModule {
     this.ENCODER_ID = encoderID;
     this.ZERO = zero;
 
-    this.anglePID = new PIDController(Constants.drivetrain.ANGLE_PID.kP, Constants.drivetrain.ANGLE_PID.kI, Constants.drivetrain.ANGLE_PID.kD);
-    this.angleFF = new SimpleMotorFeedforward(Constants.drivetrain.ANGLE_FF.ks, Constants.drivetrain.ANGLE_FF.kv);
-    this.speedPID = new PIDController(Constants.drivetrain.SPEED_PID.kP, Constants.drivetrain.SPEED_PID.kI, Constants.drivetrain.SPEED_PID.kD);
+    this.anglePID = Constants.drivetrain.ANGLE_PID;
+    this.angleFF = Constants.drivetrain.ANGLE_FF;
+    this.speedPID = Constants.drivetrain.SPEED_PID;
     this.speedFF = new SimpleMotorFeedforward(Constants.drivetrain.SPEED_FF.ks, Constants.drivetrain.SPEED_FF.kv);
 
     this.speed = new CSP_TalonFX(SPEED_ID, "canivore");
@@ -77,7 +77,7 @@ public class SwerveModule {
     encoder.getConfigurator().apply(sensorConfigs);
 
     anglePID.enableContinuousInput(-180, 180);
-    anglePID.setTolerance(8);    
+    anglePID.setTolerance(0);    
     angle.setEncoderDegrees(getAngleDegrees());
 
   }
@@ -87,7 +87,8 @@ public class SwerveModule {
         SwerveModuleState.optimize(desired, Rotation2d.fromDegrees(getAngleDegrees()));
     // pseudocode : setVolts(PID + FF)
     speed.setVoltage(speedPID.calculate(getVelocity(), optimized.speedMetersPerSecond) + speedFF.calculate(optimized.speedMetersPerSecond));
-    angle.setVoltage(angleFF.calculate(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees())));
+    // angle.setVoltage(angleFF.calculate(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees())));
+    angle.setVoltage(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees()));
   }
 
   /** Sets the speed and angle motors to zero power */
@@ -115,7 +116,7 @@ public class SwerveModule {
   }
 
   private double getVelocity() {
-    return (speed.getRPM() * 60.0 * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / Constants.drivetrain.DRIVE_GEARING;
+    return ((speed.getRPM() / 60.0) * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / Constants.drivetrain.DRIVE_GEARING;
   }
 
   /**

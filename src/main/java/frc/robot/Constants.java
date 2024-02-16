@@ -18,6 +18,7 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.PIDController;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -122,15 +123,15 @@ public final class Constants {
     public static final Translation2d BR_LOCATION =
         new Translation2d(-(Constants.robot.A_LENGTH / 2), -(Constants.robot.A_WIDTH / 2));
 
-    public static final double FL_ZERO = -78.486328125;
-    public static final double BL_ZERO = -3.339843749999995;
-    public static final double BR_ZERO = 95.53710937500003;
-    public static final double FR_ZERO = 76.11328125000001;
+    public static final double FL_ZERO = 98.87695312500001;
+    public static final double BL_ZERO = 172.705078125;
+    public static final double BR_ZERO = -88.59375;
+    public static final double FR_ZERO = 84.02343749999999;
 
-    public static final PIDConstants ANGLE_PID = new PIDConstants(0.0, 0.0, 0.0);
-    public static final SimpleMotorFeedforward ANGLE_FF = new SimpleMotorFeedforward(0.1, 1);
+  public static final PIDController ANGLE_PID = new PIDController(0.008, 0.0, 0.0);
+    public static final SimpleMotorFeedforward ANGLE_FF = new SimpleMotorFeedforward(0.0, 1);
 
-    public static final PIDConstants SPEED_PID = new PIDConstants(0.0, 0.0, 0.0);
+    public static final PIDController SPEED_PID = new PIDController(0.0, 0.0, 0.0);
     public static final SimpleMotorFeedforward SPEED_FF = new SimpleMotorFeedforward(0, 0);
 
     // public static final PIDConstants XY_PID = new PIDConstants(3.0, 0.0, 0.0);
