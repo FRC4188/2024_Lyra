@@ -67,9 +67,10 @@ public class SwerveModule {
     speed.setBrake(true);
     speed.setRampRate(Constants.drivetrain.RAMP_RATE);
 
-    angle.setBrake(false);
-    angle.setInverted(false);
+    angle.setBrake(true);
+    angle.setInverted(true);
 
+    encoder.clearStickyFaults();
     MagnetSensorConfigs sensorConfigs = new MagnetSensorConfigs();
     sensorConfigs.MagnetOffset = -(ZERO / 360.0);
     sensorConfigs.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
@@ -85,10 +86,12 @@ public class SwerveModule {
   public void setModuleState(SwerveModuleState desired) {
     SwerveModuleState optimized =
         SwerveModuleState.optimize(desired, Rotation2d.fromDegrees(getAngleDegrees()));
+
+    double velocity = optimized.speedMetersPerSecond / Constants.drivetrain.DRIVE_METERS_PER_TICK;
     // pseudocode : setVolts(PID + FF)
-    speed.setVoltage(speedPID.calculate(getVelocity(), optimized.speedMetersPerSecond) + speedFF.calculate(optimized.speedMetersPerSecond));
+    speed.setVoltage(speedPID.calculate(getVelocity(), velocity) + speedFF.calculate(velocity));
     // angle.setVoltage(angleFF.calculate(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees())));
-    angle.setVoltage(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees()));
+    angle.set(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees()));
   }
 
   /** Sets the speed and angle motors to zero power */
@@ -115,7 +118,7 @@ public class SwerveModule {
     return new SwerveModulePosition(getPositionMeters(), Rotation2d.fromDegrees(getAngleDegrees()));
   }
 
-  private double getVelocity() {
+  private double getVelocity() { // RPM to MPS
     return ((speed.getRPM() / 60.0) * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / Constants.drivetrain.DRIVE_GEARING;
   }
 

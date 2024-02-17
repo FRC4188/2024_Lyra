@@ -48,32 +48,34 @@ public final class Constants {
   }
 
   public static final class robot {
-    public static final double A_LENGTH = Units.inchesToMeters(30.0);
-    public static final double A_WIDTH = Units.inchesToMeters(24.0);
+    public static final double A_LENGTH = Units.inchesToMeters(24.0); // Axel length (Meters).
+    public static final double A_WIDTH = Units.inchesToMeters(24.0); // Axel width (Meters).
     public static final double A_CROSSLENGTH = Math.hypot(A_LENGTH, A_WIDTH);
 
-    public static final double FALCON_ENCODER_TICKS = 2048.0;
-    public static final double NEO_ENCODER_TICKS = 42.0;
+    public static final double FALCON_ENCODER_TICKS =
+        2048.0; // Counts per revolution of the Falcon 500 motor.
+    public static final double FALCON_MAX_VEL = 6380.0;
 
     public static final double MAX_TEMP = 50.0;
   }
 
   public static final class ids {
-    public static final int FL_SPEED = 1;
-    public static final int FL_ANGLE = 2;
-    public static final int FL_ENCODER = 11;
+    
+    public static final int FR_SPEED = 1;
+    public static final int FR_ANGLE = 2;
+    public static final int FR_ENCODER = 11;
 
-    public static final int BL_SPEED = 3;
-    public static final int BL_ANGLE = 4;
-    public static final int BL_ENCODER = 12;
+    public static final int FL_SPEED = 3;
+    public static final int FL_ANGLE = 4;
+    public static final int FL_ENCODER = 12;
 
-    public static final int BR_SPEED = 5;
-    public static final int BR_ANGLE = 6;
-    public static final int BR_ENCODER = 13;
+    public static final int BL_SPEED = 5;
+    public static final int BL_ANGLE = 6;
+    public static final int BL_ENCODER = 13;
 
-    public static final int FR_SPEED = 7;
-    public static final int FR_ANGLE = 8;
-    public static final int FR_ENCODER = 14;
+    public static final int BR_SPEED = 7;
+    public static final int BR_ANGLE = 8;
+    public static final int BR_ENCODER = 14;
 
     public static final int PIGEON = 15;
 
@@ -92,11 +94,16 @@ public final class Constants {
   }
 
   public static class drivetrain {
-    public static final double DRIVE_GEARING = 5.50; // 5.50 : 1
+    public static final double DRIVE_GEARING = 5.14; // 6.55 : 1
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
+    public static final double DRIVE_TICKS_PER_ROTATION =
+        robot.FALCON_ENCODER_TICKS * DRIVE_GEARING;
     public static final double WHEEL_CIRCUMFRENCE = Math.PI * WHEEL_DIAMETER;
+    public static final double DRIVE_TICKS_PER_METER =
+        DRIVE_GEARING / WHEEL_CIRCUMFRENCE;
+    public static final double DRIVE_METERS_PER_TICK = 1 / DRIVE_TICKS_PER_METER;
 
-    public static final double ANGLE_GEARING = 10.29; // 10.29 : 1
+    public static final double ANGLE_GEARING = 11.3142; // 10.29 : 1
     public static final double ANGLE_TICKS_PER_ROTATION =
         robot.FALCON_ENCODER_TICKS * ANGLE_GEARING;
     public static final double ANGLE_TICKS_PER_DEGREE = ANGLE_TICKS_PER_ROTATION / 360.0;
@@ -123,15 +130,15 @@ public final class Constants {
     public static final Translation2d BR_LOCATION =
         new Translation2d(-(Constants.robot.A_LENGTH / 2), -(Constants.robot.A_WIDTH / 2));
 
-    public static final double FL_ZERO = 98.87695312500001;
-    public static final double BL_ZERO = 172.705078125;
-    public static final double BR_ZERO = -88.59375;
-    public static final double FR_ZERO = 84.02343749999999;
+    public static final double FL_ZERO = 145.54687500000003;
+    public static final double BL_ZERO = 117.59765625;
+    public static final double BR_ZERO = -146.42578125;
+    public static final double FR_ZERO = 88.330078125;
 
   public static final PIDController ANGLE_PID = new PIDController(0.008, 0.0, 0.0);
     public static final SimpleMotorFeedforward ANGLE_FF = new SimpleMotorFeedforward(0.0, 1);
 
-    public static final PIDController SPEED_PID = new PIDController(0.0, 0.0, 0.0);
+    public static final PIDController SPEED_PID = new PIDController(0.1, 0.0, 0.0);
     public static final SimpleMotorFeedforward SPEED_FF = new SimpleMotorFeedforward(0, 0);
 
     // public static final PIDConstants XY_PID = new PIDConstants(3.0, 0.0, 0.0);

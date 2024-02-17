@@ -6,6 +6,7 @@ package frc.robot;
 
 import CSP_Lib.inputs.CSP_Controller;
 import CSP_Lib.inputs.CSP_Controller.Scale;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -14,11 +15,13 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.drivetrain.TeleDrive;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.sensors.Sensors;
 
 public class RobotContainer {
 
   Swerve drive = Swerve.getInstance();
   Intake intake = Intake.getInstance();
+  Sensors sensors = Sensors.getInstance();
 
   private CSP_Controller pilot = new CSP_Controller(Constants.controller.PILOT_PORT);
   private CSP_Controller copilot = new CSP_Controller(Constants.controller.COPILOT_PORT);
@@ -33,12 +36,18 @@ public class RobotContainer {
   private void setDefaultCommands() {
     drive.setDefaultCommand(
       pilot.rightBumper().getAsBoolean()
-      ? new TeleDrive(() -> pilot.getLeftX() * 0.5, () -> pilot.getLeftY() * 0.5, () -> pilot.getRightX() * 0.1) 
-      : new TeleDrive(() -> pilot.getLeftX(), () -> pilot.getLeftY(), () -> pilot.getRightX()) //slow
+      ? new TeleDrive(() -> pilot.getLeftX(Scale.LINEAR) * 0.1, () -> pilot.getLeftY(Scale.LINEAR) * 0.1, () -> pilot.getRightX(Scale.SQUARED) * 0.05) 
+      : new TeleDrive(() -> pilot.getLeftX(Scale.LINEAR) * 0.5, () -> pilot.getLeftY(Scale.LINEAR) * 0.5, () -> pilot.getRightX(Scale.SQUARED) * 0.1) //slow
     );
   }
 
   private void configureBindings() {
+    pilot
+        .getAButton()
+        .onTrue(
+            new InstantCommand(
+                () -> Sensors.getInstance().setPigeonAngle(new Rotation2d()),
+                sensors));
     pilot
         .getLeftTButton()
         .whileTrue(new RunCommand(() -> intake.intake(), intake))
