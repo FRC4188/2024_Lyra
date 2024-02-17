@@ -14,7 +14,7 @@ import frc.robot.Constants;
 public class Intake extends SubsystemBase{
     private static Intake instance = null;
 
-    private CSP_SparkMax motor = new CSP_SparkMax(Constants.ids.INTAKE);
+    private CSP_TalonFX motor = new CSP_TalonFX(Constants.ids.INTAKE, "rio");
 
     public static synchronized Intake getInstance() {
       if (instance == null) instance = new Intake();
@@ -53,14 +53,6 @@ public class Intake extends SubsystemBase{
 
     public void disable() {
       motor.stopMotor();
-    }
-  
-    public void intake() {
-      motor.set(1.0);
-    }
-
-    public void outtake() {
-      motor.set(-0.5);
     }
 
 }

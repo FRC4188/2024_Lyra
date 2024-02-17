@@ -6,16 +6,18 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.math.geometry.Rotation2d;
 
 public class Pigeon extends Pigeon2 {
-  public Pigeon(int canID) {
+  double offsetDegrees;
+
+  public Pigeon(int canID, double offsetDegrees) {
     super(canID, "canivore");
     super.getConfigurator().apply(new Pigeon2Configuration());
     super.clearStickyFaults();
-
+    this.offsetDegrees = offsetDegrees;
     reset();
   }
 
   public void reset() {
-    super.setYaw(180.0);
+    super.setYaw(offsetDegrees);
   }
 
   public Rotation2d getRotation2d() {

@@ -46,7 +46,7 @@ public class TeleDrive extends Command {
       drive.setChassisSpeeds(
         ChassisSpeeds.fromFieldRelativeSpeeds(new ChassisSpeeds(
           xInput.getAsDouble() * Constants.drivetrain.MAX_VELOCITY,
-          -yInput.getAsDouble() * Constants.drivetrain.MAX_VELOCITY, 
+          yInput.getAsDouble() * Constants.drivetrain.MAX_VELOCITY, 
           -thetaInput.getAsDouble() * Constants.drivetrain.MAX_RADIANS), 
           sensors.getRotation2d()));
     }

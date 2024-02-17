@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import javax.management.relation.RoleInfo;
+
 import CSP_Lib.inputs.CSP_Controller;
 import CSP_Lib.inputs.CSP_Controller.Scale;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -13,6 +15,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.drivetrain.TeleDrive;
+import frc.robot.commands.intake.Exhale;
+import frc.robot.commands.intake.Inhale;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.sensors.Sensors;
@@ -36,8 +40,8 @@ public class RobotContainer {
   private void setDefaultCommands() {
     drive.setDefaultCommand(
       pilot.rightBumper().getAsBoolean()
-      ? new TeleDrive(() -> pilot.getLeftX(Scale.LINEAR) * 0.1, () -> pilot.getLeftY(Scale.LINEAR) * 0.1, () -> pilot.getRightX(Scale.SQUARED) * 0.05) 
-      : new TeleDrive(() -> pilot.getLeftX(Scale.LINEAR) * 0.5, () -> pilot.getLeftY(Scale.LINEAR) * 0.5, () -> pilot.getRightX(Scale.SQUARED) * 0.1) //slow
+      ? new TeleDrive(() -> pilot.getLeftY(Scale.LINEAR) * 0.1, () -> pilot.getLeftX(Scale.LINEAR) * 0.1, () -> pilot.getRightX(Scale.SQUARED) * 0.05) 
+      : new TeleDrive(() -> pilot.getLeftY(Scale.LINEAR) * 0.5, () -> pilot.getLeftX(Scale.LINEAR) * 0.5, () -> pilot.getRightX(Scale.SQUARED) * 0.1) //slow
     );
   }
 
@@ -46,15 +50,15 @@ public class RobotContainer {
         .getAButton()
         .onTrue(
             new InstantCommand(
-                () -> Sensors.getInstance().setPigeonAngle(new Rotation2d()),
+                () -> Sensors.getInstance().resetPigeon(),
                 sensors));
     pilot
-        .getLeftTButton()
-        .whileTrue(new RunCommand(() -> intake.intake(), intake))
+        .getRightTButton()
+        .whileTrue(new Inhale())
         .onFalse(new InstantCommand(() -> intake.disable(), intake));
     pilot
-        .getRightTButton()
-        .whileTrue(new RunCommand(() -> intake.outtake(), intake))
+        .getLeftTButton()
+        .whileTrue(new Exhale())
         .onFalse(new InstantCommand(() -> intake.disable(), intake));
   }
 

@@ -16,7 +16,8 @@ public class Sensors extends SubsystemBase {
     return instance;
   }
 
-  private Pigeon pigeon = new Pigeon(Constants.ids.PIGEON);
+  //Offset is 180 because the pigeon is oriented backwards
+  private Pigeon pigeon = new Pigeon(Constants.ids.PIGEON, Constants.sensors.pigeon.PIGEON_OFFSET_DEGREES);
 
   private Limelight limelightLeft =
       new Limelight(
@@ -83,11 +84,7 @@ public class Sensors extends SubsystemBase {
   }
 
   public void resetPigeon() {
-    setPigeonAngle(new Rotation2d());
+    pigeon.reset();
   }
 
-  public void setPigeonAngle(Rotation2d angle) {
-    pigeon.setYaw(angle.getDegrees());
-    // Swerve.getInstance().setRotSetpoint(angle.getDegrees());
-  }
 }
