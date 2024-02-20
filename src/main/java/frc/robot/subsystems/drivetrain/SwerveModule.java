@@ -118,6 +118,11 @@ public class SwerveModule {
     return new SwerveModulePosition(getPositionMeters(), Rotation2d.fromDegrees(getAngleDegrees()));
   }
 
+  /**
+   * Gives the velocity of the angle
+   * 
+   * @return double with velocity in Meters Per Second
+   */
   private double getVelocity() { // RPM to MPS
     return ((speed.getRPM() / 60.0) * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / Constants.drivetrain.DRIVE_GEARING;
   }
@@ -129,11 +134,10 @@ public class SwerveModule {
    */
   public double getAngleDegrees() {
     return Units.radiansToDegrees(encoder.getPositionRads());
-    // return encoder.getPositionDegrees();
   }
 
   private double getPositionMeters() {
-    return (speed.getPositionRads() * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / (2 * Math.PI);
+    return (speed.getPositionRads() * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / (2 * Math.PI * Constants.drivetrain.DRIVE_GEARING);
   }
 
   public String getName() {

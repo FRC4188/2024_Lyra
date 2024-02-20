@@ -109,13 +109,16 @@ public class Swerve extends SubsystemBase {
           kinematics,
           sensors.getRotation2d(),
           getSwerveModulePositions(moduleList),
-          new Pose2d(),
-          Constants.drivetrain.STATE_STD_DEVS, 
-          Constants.drivetrain.VISION_STD_DEVS);
+          new Pose2d()
+          // ,Constants.drivetrain.STATE_STD_DEVS, 
+          // Constants.drivetrain.VISION_STD_DEVS
+          );
 
 
   /** Creates a new Swerve. */
   private Swerve() {
+    configurePathPlanner();
+
     notifier.startPeriodic(0.2);
     SmartDashboard.putNumber("Angle kP", 0.0);
     SmartDashboard.putNumber("Angle kI", 0.0);
@@ -152,12 +155,6 @@ public class Swerve extends SubsystemBase {
           moduleList[i].setModuleState(moduleStates[i]);
       }
     }
-
-      // frontLeft.setModuleState(moduleStates[0]);
-      // frontRight.setModuleState(moduleStates[1]);
-      // backLeft.setModuleState(moduleStates[2]);
-      // backRight.setModuleState(moduleStates[3]);
-
   }
 
   public ChassisSpeeds getChassisSpeeds() {
@@ -169,11 +166,7 @@ public class Swerve extends SubsystemBase {
     for (int i = 0; i < 4; i++) {
       moduleStates[i] = moduleList[i].getModuleState();
     }
-    // moduleStates[0] = frontLeft.getModuleState();
-    // moduleStates[1] = frontRight.getModuleState();
-    // moduleStates[2] = backLeft.getModuleState();
-    // moduleStates[3] = backRight.getModuleState();
-
+    
     return moduleStates;
   }
 
@@ -230,7 +223,7 @@ public class Swerve extends SubsystemBase {
       
     }
 
-    // SmartDashboard.putString("Position", getPose2d().toString());
+    SmartDashboard.putString("Position", getPose2d().toString());
   }
 
   public void configurePathPlanner() {
@@ -240,8 +233,8 @@ public class Swerve extends SubsystemBase {
             this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                    new PIDConstants(0,0,0),// Translation PID constants
-                    new PIDConstants(0,0,0), // Rotation PID constants
+                    new PIDConstants(0.1,0,0),// Translation PID constants
+                    new PIDConstants(2.5,0,0), // Rotation PID constants
                     Constants.drivetrain.MAX_VELOCITY, // Max module speed, in m/s
                     Constants.robot.A_CROSSLENGTH / 2, // Drive base radius in meters. Distance from robot center to furthest module.
                     new ReplanningConfig() // Default path replanning config. See the API for the options here

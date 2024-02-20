@@ -6,35 +6,57 @@ package frc.robot;
 
 import javax.management.relation.RoleInfo;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import CSP_Lib.inputs.CSP_Controller;
 import CSP_Lib.inputs.CSP_Controller.Scale;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.AutoConfigs;
 import frc.robot.commands.drivetrain.TeleDrive;
 import frc.robot.commands.intake.Exhale;
 import frc.robot.commands.intake.Inhale;
+import frc.robot.commands.intake.Suck;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.sensors.Sensors;
 
 public class RobotContainer {
 
+  private CSP_Controller pilot = new CSP_Controller(Constants.controller.PILOT_PORT);
+  private CSP_Controller copilot = new CSP_Controller(Constants.controller.COPILOT_PORT);
+
   Swerve drive = Swerve.getInstance();
   Intake intake = Intake.getInstance();
   Sensors sensors = Sensors.getInstance();
 
-  private CSP_Controller pilot = new CSP_Controller(Constants.controller.PILOT_PORT);
-  private CSP_Controller copilot = new CSP_Controller(Constants.controller.COPILOT_PORT);
+  private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+
 
   public RobotContainer() {
     // Set the default commands
     setDefaultCommands();
 
     configureBindings();
+
+    smartdashboardButtons();
+
+    // Add commands from AutoConfigs to PathPlanner
+    NamedCommands.registerCommands(AutoConfigs.EVENTS);
+    NamedCommands.registerCommand("Inhale", new Inhale());
+    NamedCommands.registerCommand("Suck", new Suck());
+
+
+    // Add auto chooser to SmartDashboard
+    addChooser();
   }
 
   private void setDefaultCommands() {
@@ -62,7 +84,19 @@ public class RobotContainer {
         .onFalse(new InstantCommand(() -> intake.disable(), intake));
   }
 
+  public void smartdashboardButtons() {}
+
+  public void addChooser() {
+    autoChooser = AutoBuilder.buildAutoChooser();
+
+    autoChooser.setDefaultOption("Do Nothing", new SequentialCommandGroup());
+    
+    autoChooser.addOption("Three Deep Breaths", new PathPlannerAuto("Three Deep Breaths"));
+
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+  }
+
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return autoChooser.getSelected();
   }
 }
