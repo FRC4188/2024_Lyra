@@ -51,6 +51,7 @@ public class RobotContainer {
 
     // Add commands from AutoConfigs to PathPlanner
     NamedCommands.registerCommands(AutoConfigs.EVENTS);
+    // Bro what are these names -Aiden
     NamedCommands.registerCommand("Inhale", new Inhale());
     NamedCommands.registerCommand("Suck", new Suck());
 
