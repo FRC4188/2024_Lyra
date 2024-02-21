@@ -93,6 +93,8 @@ public class RobotContainer {
     
     autoChooser.addOption("Three Deep Breaths", new PathPlannerAuto("Three Deep Breaths"));
 
+    //autoChooser.addOption("First Note", new PathPlannerAuto("First Note"));
+
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
