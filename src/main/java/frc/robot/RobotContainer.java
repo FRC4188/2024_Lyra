@@ -51,6 +51,7 @@ public class RobotContainer {
 
     // Add commands from AutoConfigs to PathPlanner
     NamedCommands.registerCommands(AutoConfigs.EVENTS);
+    // Bro what are these names -Aiden
     NamedCommands.registerCommand("Inhale", new Inhale());
     NamedCommands.registerCommand("Suck", new Suck());
 
@@ -82,6 +83,7 @@ public class RobotContainer {
         .getLeftTButton()
         .whileTrue(new Exhale())
         .onFalse(new InstantCommand(() -> intake.disable(), intake));
+    // Seriously why is it "Inhale" and "Exhale" lmao. I like it though -Aiden
   }
 
   public void smartdashboardButtons() {}
