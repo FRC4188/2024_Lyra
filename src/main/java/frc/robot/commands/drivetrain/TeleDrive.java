@@ -19,11 +19,9 @@ public class TeleDrive extends Command {
   DoubleSupplier xInput, yInput, thetaInput;
   boolean noInput;
 
-  private PIDController rotPID =
+  public PIDController rotPID =
       new PIDController(
           Constants.drivetrain.correctionPID.kP, 0.0, Constants.drivetrain.correctionPID.kD);
-
-
 
   /** Creates a new TeleDrive. */
   public TeleDrive(DoubleSupplier xInput, DoubleSupplier yInput, DoubleSupplier thetaInput) {
@@ -53,7 +51,7 @@ public class TeleDrive extends Command {
       rotPID.setSetpoint(sensors.getRotation2d().getDegrees());
     } else if (ySpeed != 0 || xSpeed != 0) {
       double correction = rotPID.calculate(sensors.getRotation2d().getDegrees());
-      rotSpeed = rotPID.atSetpoint() ? 0.0 : correction;
+      rotSpeed = rotPID.atSetpoint() ? 0.0 : correction;  
     }
 
     noInput = xInput.getAsDouble() == 0 && yInput.getAsDouble() == 0 && thetaInput.getAsDouble() == 0;

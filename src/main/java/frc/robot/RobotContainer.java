@@ -63,7 +63,7 @@ public class RobotContainer {
     drive.setDefaultCommand(
       pilot.rightBumper().getAsBoolean()
       ? new TeleDrive(() -> pilot.getLeftY(Scale.LINEAR) * 0.1, () -> pilot.getLeftX(Scale.LINEAR) * 0.1, () -> pilot.getRightX(Scale.SQUARED) * 0.05) 
-      : new TeleDrive(() -> pilot.getLeftY(Scale.LINEAR) * 0.5, () -> pilot.getLeftX(Scale.LINEAR) * 0.5, () -> pilot.getRightX(Scale.SQUARED) * 0.1) //slow
+      : new TeleDrive(() -> pilot.getLeftY(Scale.LINEAR) * 0.7, () -> pilot.getLeftX(Scale.LINEAR) * 0.7, () -> pilot.getRightX(Scale.SQUARED) * 0.5) //slow
     );
   }
 

@@ -42,6 +42,7 @@ public class Sensors extends SubsystemBase {
     // SmartDashboard.putString("Limelight Pose2d", getPose2d().toString());
     // SmartDashboard.putString("Left Pose", limelightLeft.getPose3d().toString());
     // SmartDashboard.putString("Right Pose", limelightRight.getPose3d().toPose2d().toString());
+    SmartDashboard.putNumber("Rotation", getRotation2d().getDegrees());
   }
 
   public Pose3d getPose3d() {
@@ -85,6 +86,7 @@ public class Sensors extends SubsystemBase {
 
   public void resetPigeon() {
     pigeon.reset();
+    
   }
 
 }
