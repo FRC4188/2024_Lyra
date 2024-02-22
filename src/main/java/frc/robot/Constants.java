@@ -147,11 +147,7 @@ public final class Constants {
 
     // public static final PIDConstants CORRECTION_PID = new PIDConstants(-0.1, 0.0, -0.006);
 
-    public static final class correctionPID {
-      public static final double kP = 0.1;
-      public static final double kI = 0.0;
-      public static final double kD = 0.006;
-    }
+    public static final PIDController ROT_PID = new PIDController(0.1, 0.0, 0.006);
 
   }
 

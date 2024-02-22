@@ -50,6 +50,7 @@ public class SwerveModule {
     this.anglePID = Constants.drivetrain.ANGLE_PID;
     this.angleFF = Constants.drivetrain.ANGLE_FF;
     this.speedPID = Constants.drivetrain.SPEED_PID;
+    
     this.speedFF = new SimpleMotorFeedforward(Constants.drivetrain.SPEED_FF.ks, Constants.drivetrain.SPEED_FF.kv);
 
     this.speed = new CSP_TalonFX(SPEED_ID, "canivore");

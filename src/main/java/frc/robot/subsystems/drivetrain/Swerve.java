@@ -9,6 +9,8 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -114,18 +116,17 @@ public class Swerve extends SubsystemBase {
           // Constants.drivetrain.VISION_STD_DEVS
           );
 
+  public PIDController rotPID = Constants.drivetrain.ROT_PID;
+
 
   /** Creates a new Swerve. */
   private Swerve() {
     configurePathPlanner();
 
+    rotPID.enableContinuousInput(-180, 180);
+    rotPID.setTolerance(0.5);
+
     notifier.startPeriodic(0.2);
-    SmartDashboard.putNumber("Angle kP", 0.0);
-    SmartDashboard.putNumber("Angle kI", 0.0);
-    SmartDashboard.putNumber("Angle kD", 0.0);
-    SmartDashboard.putNumber("Speed kP", 0.0);
-    SmartDashboard.putNumber("Speed kI", 0.0);
-    SmartDashboard.putNumber("Speed kD", 0.0);
 
     SmartDashboard.putData("Field", m_field);
   }
@@ -137,7 +138,16 @@ public class Swerve extends SubsystemBase {
   }
 
   public void setChassisSpeeds(ChassisSpeeds speeds) {
-    setModuleStates(kinematics.toSwerveModuleStates(speeds));
+    ChassisSpeeds correctedSpeeds = speeds;
+
+    if (speeds.omegaRadiansPerSecond != 0.0) {
+      rotPID.setSetpoint(sensors.getRotation2d().getDegrees());
+    } else if (speeds.vxMetersPerSecond != 0 || speeds.vyMetersPerSecond != 0) {
+      double correction = rotPID.calculate(sensors.getRotation2d().getDegrees());
+      correctedSpeeds.omegaRadiansPerSecond = rotPID.atSetpoint() ? 0.0 : correction;  
+    }
+
+    setModuleStates(kinematics.toSwerveModuleStates(correctedSpeeds));
   }
 
   public void disable() {

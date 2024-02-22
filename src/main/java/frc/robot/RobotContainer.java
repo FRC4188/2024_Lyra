@@ -74,7 +74,11 @@ public class RobotContainer {
         .onTrue(
             new InstantCommand(
                 () -> Sensors.getInstance().resetPigeon(),
-                sensors));
+                sensors)
+        .andThen(
+            new InstantCommand(
+                () -> drive.rotPID.setSetpoint(sensors.getRotation2d().getDegrees()), 
+                drive)));
     pilot
         .getRightTButton()
         .whileTrue(new Inhale())
