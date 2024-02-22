@@ -3,6 +3,8 @@ package CSP_Lib.motors;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
+import CSP_Lib.utils.TempManager;
+
 public class CSP_SparkMax extends CANSparkMax implements CSP_Motor {
   private RelativeEncoder encoder;
 
@@ -16,6 +18,8 @@ public class CSP_SparkMax extends CANSparkMax implements CSP_Motor {
     super(id, MotorType.kBrushless);
     encoder = getEncoder();
     init();
+    
+    TempManager.addMotor(this);
   }
 
   public void init() {

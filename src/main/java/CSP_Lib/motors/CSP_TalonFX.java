@@ -6,6 +6,8 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import CSP_Lib.utils.TempManager;
+
 public class CSP_TalonFX extends TalonFX implements CSP_Motor {
 
   /**
@@ -34,6 +36,8 @@ public class CSP_TalonFX extends TalonFX implements CSP_Motor {
     super.getConfigurator().apply(new TalonFXConfiguration());
     super.clearStickyFaults();
     setEncoderDegrees(0.0);
+
+    TempManager.addMotor(this);
   }
 
   /**

@@ -56,8 +56,8 @@ public class SwerveModule {
     this.angle = new CSP_TalonFX(ANGLE_ID, "canivore");
     this.encoder = new CSP_CANcoder(ENCODER_ID, "canivore");
 
-    TempManager.addMotor(this.speed);
-    TempManager.addMotor(this.angle);
+    // TempManager.addMotor(this.speed);
+    // TempManager.addMotor(this.angle);
 
     init();
   }
@@ -124,7 +124,7 @@ public class SwerveModule {
    * @return double with velocity in Meters Per Second
    */
   private double getVelocity() { // RPM to MPS
-    return ((speed.getRPM() / 60.0) * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / Constants.drivetrain.DRIVE_GEARING;
+    return ((speed.getRPM() / 60.0) * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / GEAR_RATIO;
   }
 
   /**
@@ -137,7 +137,7 @@ public class SwerveModule {
   }
 
   private double getPositionMeters() {
-    return (speed.getPositionRads() * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / (2 * Math.PI * Constants.drivetrain.DRIVE_GEARING);
+    return (speed.getPositionRads() * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / (2 * Math.PI * GEAR_RATIO);
   }
 
   public String getName() {
