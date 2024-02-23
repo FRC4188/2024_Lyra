@@ -55,7 +55,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("Inhale", new Inhale());
     NamedCommands.registerCommand("Suck", new Suck());
 
-
     // Add auto chooser to SmartDashboard
     addChooser();
   }
@@ -88,6 +87,7 @@ public class RobotContainer {
         .whileTrue(new Exhale())
         .onFalse(new InstantCommand(() -> intake.disable(), intake));
     // Seriously why is it "Inhale" and "Exhale" lmao. I like it though -Aiden
+    // Freak you Aiden
   }
 
   public void smartdashboardButtons() {}
