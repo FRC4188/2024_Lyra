@@ -1,16 +1,16 @@
 package frc.robot.commands.shooter;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.Flywheel;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class SetShooterRPM extends Command {
-  private Shooter shooter = Shooter.getInstance();
+  private Flywheel flywheel = Flywheel.getInstance();
 
   /** Creates a new SetShooterRPM. */
   public SetShooterRPM() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
+    addRequirements(flywheel);
   }
 
   // Called when the command is initially scheduled.

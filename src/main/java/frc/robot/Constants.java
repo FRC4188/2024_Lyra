@@ -164,6 +164,11 @@ public final class Constants {
     public static final double ALLOWED_ERROR = 0;
   }
 
+  public static final class shooter {
+    public static final double SHOOTER_DIAMETER_INCHES = 4.0;
+    public static final double SHOOTER_DIAMETER_METERS = (SHOOTER_DIAMETER_INCHES) * 0.0254;
+    public static final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER_METERS * Math.PI;
+  }
 
   public static final class sensors {
     public static final class pigeon {
