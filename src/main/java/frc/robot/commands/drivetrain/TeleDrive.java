@@ -19,10 +19,6 @@ public class TeleDrive extends Command {
   DoubleSupplier xInput, yInput, thetaInput;
   boolean noInput;
 
-  // public PIDController rotPID =
-  //     new PIDController(
-  //         Constants.drivetrain.correctionPID.kP, 0.0, Constants.drivetrain.correctionPID.kD);
-
   /** Creates a new TeleDrive. */
   public TeleDrive(DoubleSupplier xInput, DoubleSupplier yInput, DoubleSupplier thetaInput) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -45,7 +41,7 @@ public class TeleDrive extends Command {
     double ySpeed = totalSpeed * Math.sin(angle) * Constants.drivetrain.MAX_VELOCITY;
     double rotSpeed = -thetaInput.getAsDouble() * Constants.drivetrain.MAX_RADIANS;
 
-    boolean noInput = xSpeed == 0 && ySpeed == 0 && rotSpeed == 0;
+    noInput = xSpeed == 0 && ySpeed == 0 && rotSpeed == 0;
 
     if (noInput) {
       drive.setModuleStates(

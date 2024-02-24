@@ -9,7 +9,6 @@ public class Shoulder extends SubsystemBase {
     private static Shoulder instance = null;
     public double angle;
     private CSP_TalonFX leader, follower;
-    private MotorController shoulder; 
 
   /**
    * Singleton Constructor for {@link Shooter}
