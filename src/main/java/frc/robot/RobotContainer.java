@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import javax.management.relation.RoleInfo;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -52,8 +50,6 @@ public class RobotContainer {
     // Add commands from AutoConfigs to PathPlanner
     NamedCommands.registerCommands(AutoConfigs.EVENTS);
     // Bro what are these names -Aiden
-    NamedCommands.registerCommand("Inhale", new Inhale());
-    NamedCommands.registerCommand("Suck", new Suck());
 
     // Add auto chooser to SmartDashboard
     addChooser();
@@ -61,9 +57,10 @@ public class RobotContainer {
 
   private void setDefaultCommands() {
     drive.setDefaultCommand(
-      pilot.rightBumper().getAsBoolean()
-      ? new TeleDrive(() -> pilot.getLeftY(Scale.LINEAR) * 0.1, () -> pilot.getLeftX(Scale.LINEAR) * 0.1, () -> pilot.getRightX(Scale.SQUARED) * 0.05) 
-      : new TeleDrive(() -> pilot.getLeftY(Scale.LINEAR) * 0.7, () -> pilot.getLeftX(Scale.LINEAR) * 0.7, () -> pilot.getRightX(Scale.SQUARED) * 0.5) //slow
+      new TeleDrive(
+        () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.6 : 0.7), 
+        () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.6 : 0.7), 
+        () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.15 : 0.5))
     );
   }
 
@@ -72,12 +69,10 @@ public class RobotContainer {
         .getAButton()
         .onTrue(
             new InstantCommand(
-                () -> Sensors.getInstance().resetPigeon(),
-                sensors)
-        .andThen(
-            new InstantCommand(
-                () -> drive.rotPID.setSetpoint(sensors.getRotation2d().getDegrees()), 
-                drive)));
+                () -> {
+                  sensors.resetPigeon();
+                  drive.rotPID.setSetpoint(0.0);
+                }, sensors));
     pilot
         .getRightTButton()
         .whileTrue(new Inhale())

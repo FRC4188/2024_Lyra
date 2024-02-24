@@ -216,7 +216,7 @@ public class Swerve extends SubsystemBase {
 
   public void updateDashboard() {
 
-    // m_field.setRobotPose(getPose2d());
+    m_field.setRobotPose(getPose2d());
 
 
     for (SwerveModule module : moduleList) {
@@ -234,6 +234,7 @@ public class Swerve extends SubsystemBase {
     }
 
     SmartDashboard.putString("Position", getPose2d().toString());
+    SmartDashboard.putNumber("rotPID setpoint", rotPID.getSetpoint());
   }
 
   public void configurePathPlanner() {
@@ -253,10 +254,10 @@ public class Swerve extends SubsystemBase {
               // Boolean supplier that controls when the path will be mirrored for the red alliance
               // This will flip the path being followed to the red side of the field.
               // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-              var alliance = DriverStation.getAlliance();
-              if (alliance.isPresent()) {
-                return alliance.get() == DriverStation.Alliance.Red;
-              }
+              // var alliance = DriverStation.getAlliance();
+              // if (alliance.isPresent()) {
+              //   return alliance.get() == DriverStation.Alliance.Red;
+              // }
               return false;
             },
             this // Reference to this subsystem to set requirements

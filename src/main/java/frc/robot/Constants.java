@@ -171,13 +171,14 @@ public final class Constants {
     }
 
     public static final class limelight {
-      public static final String LEFT_NAME = "limelight-left";
+      public static final String LEFT_NAME = "limelight-front";
       public static final String RIGHT_NAME = "limelight-right";
+
       
       public static final Translation3d LEFT_POSITION = new Translation3d(0, 0, 0);
       public static final Translation3d RIGHT_POSITION = new Translation3d(0, 0, 0);
 
-      public static final Rotation3d LEFT_ROTATION = new Rotation3d(0, 0, 0);
+      public static final Rotation3d LEFT_ROTATION = new Rotation3d(0, 0, 180);
       public static final Rotation3d RIGHT_ROTATION = new Rotation3d(0, 0, 0);
     }
     

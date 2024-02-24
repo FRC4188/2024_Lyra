@@ -20,7 +20,7 @@ public class AutoConfigs {
           Map.ofEntries(
             // Map.entry("Name of Command", new Command()),
             // Map.entry("Name of Command", new Command().withTimeout(TIME_SECONDS))
-            Map.entry("Inhale", new Inhale()),
-            Map.entry("Suck", new Suck())
+            Map.entry("Inhale", new Inhale().withTimeout(1.0)),
+            Map.entry("Suck", new Suck().withTimeout(1.0))
       ));
 }

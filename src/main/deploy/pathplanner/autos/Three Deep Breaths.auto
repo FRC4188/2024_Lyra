@@ -29,6 +29,12 @@
               }
             ]
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "First Note"
+          }
         }
       ]
     }

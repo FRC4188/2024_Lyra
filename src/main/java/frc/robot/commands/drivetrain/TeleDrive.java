@@ -45,6 +45,8 @@ public class TeleDrive extends Command {
     double ySpeed = totalSpeed * Math.sin(angle) * Constants.drivetrain.MAX_VELOCITY;
     double rotSpeed = -thetaInput.getAsDouble() * Constants.drivetrain.MAX_RADIANS;
 
+    boolean noInput = xSpeed == 0 && ySpeed == 0 && rotSpeed == 0;
+
     if (noInput) {
       drive.setModuleStates(
         new SwerveModuleState[] {
