@@ -57,8 +57,8 @@ public class CSP_SparkMax extends CANSparkMax implements CSP_Motor {
     return encoder.getVelocity();
   }
 
-  public double getPositionRads() {
-    return encoder.getPosition() * 2 * Math.PI;
+  public double getPositionDegrees() {
+    return encoder.getPosition() * 360;
   }
 
   public double getTemperature() {

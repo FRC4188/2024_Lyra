@@ -26,7 +26,7 @@ public class CSP_CANcoder extends CANcoder {
         super.clearStickyFaults();
     }
 
-    public void setPositionRads(double position) {
+    public void setPositionDegrees(double position) {
         super.setPosition(position / (2.0 * Math.PI));
     }
 
@@ -38,16 +38,12 @@ public class CSP_CANcoder extends CANcoder {
      * 
      * @return Position of encoder from [-pi to pi].
      */
-    public double getPositionRads() {
-        if(!inverted) {
-            return super.getAbsolutePosition().getValueAsDouble() * 2.0 * Math.PI;
-        } else {
-            return -super.getAbsolutePosition().getValueAsDouble() * 2.0 * Math.PI;
-        }
-    }
-
     public double getPositionDegrees() {
-        return super.getAbsolutePosition().getValueAsDouble() * 360;
+        if(!inverted) {
+            return super.getAbsolutePosition().getValueAsDouble() * 360.0;
+        } else {
+            return -super.getAbsolutePosition().getValueAsDouble() * 360.0;
+        }
     }
 
     public void setInverted(boolean inverted) {

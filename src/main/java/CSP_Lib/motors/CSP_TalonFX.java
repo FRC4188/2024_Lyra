@@ -105,8 +105,8 @@ public class CSP_TalonFX extends TalonFX implements CSP_Motor {
    *
    * @return position of the motor
    */
-  public double getPositionRads() {
-    return super.getRotorPosition().getValueAsDouble() * 2.0 * Math.PI;
+  public double getPositionDegrees() {
+    return super.getRotorPosition().getValueAsDouble() * 360.0;
   }
 
   /**

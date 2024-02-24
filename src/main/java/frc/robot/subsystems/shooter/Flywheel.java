@@ -1,6 +1,5 @@
 package frc.robot.subsystems.shooter;
 
-import CSP_Lib.motors.CSP_Motor;
 import CSP_Lib.motors.CSP_TalonFX;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -102,6 +101,10 @@ public class Flywheel extends SubsystemBase{
         motor.setVoltage(voltage / RobotController.getBatteryVoltage());
     }
 
+    public void disable() {
+      motor.disable();
+    }
+
     /**
      * Returns the velocity of the flywheel, in Meters Per Second
      */
@@ -117,7 +120,7 @@ public class Flywheel extends SubsystemBase{
      * Returns the position of the flywheel, in meters 
      */
     public double getPosition() {
-      return motor.getPositionRads() / (2 * Math.PI) * Constants.shooter.SHOOTER_DIAMETER_METERS * Math.PI;
+      return motor.getPositionDegrees() / (360.0) * Constants.shooter.SHOOTER_DIAMETER_METERS * Math.PI;
     }
 
     public double getTemperature() {

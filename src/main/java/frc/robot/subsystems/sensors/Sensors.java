@@ -3,9 +3,12 @@ package frc.robot.subsystems.sensors;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.drivetrain;
+import frc.robot.subsystems.drivetrain.Swerve;
 
 public class Sensors extends SubsystemBase {
 
@@ -29,6 +32,8 @@ public class Sensors extends SubsystemBase {
           Constants.sensors.limelight.RIGHT_NAME,
           Constants.sensors.limelight.RIGHT_POSITION,
           Constants.sensors.limelight.RIGHT_ROTATION);
+
+  Swerve drive = Swerve.getInstance();
 
   /** Creates a new Sensors. */
   private Sensors() {}
@@ -87,6 +92,22 @@ public class Sensors extends SubsystemBase {
   public void resetPigeon() {
     pigeon.reset();
     
+  }
+
+  public double getDistance(Translation2d goal) {
+    return goal.getDistance(drive.getPose2d().getTranslation());
+  }
+
+  public double getFormulaShooterRPM() {
+    return 0;
+  }
+
+  public double getFormulaShoulderAngle() {
+    return 0;
+  }
+
+  public double getFormulaDriveAngle() {
+    return 0;
   }
 
 }

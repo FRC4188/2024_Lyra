@@ -16,7 +16,7 @@ public interface CSP_Motor {
   
   public double getRPM(); 
 
-  public double getPositionRads(); 
+  public double getPositionDegrees(); 
 
   public double getTemperature();
 

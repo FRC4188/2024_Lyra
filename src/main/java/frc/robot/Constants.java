@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.util.PIDConstants;
-
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -19,6 +17,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -37,14 +36,14 @@ public final class Constants {
   }
 
   public static final class field {
-    public static Translation2d IMPORTANT_GOAL = new Translation2d(Units.inchesToMeters(40.45), Units.inchesToMeters(42.19));
+    public static double FIELD_WIDTH = Units.feetToMeters(26.9375);
+    public static double FIELD_LENGTH = Units.feetToMeters(54.2708);
 
-    public static double FIELD_WIDTH = Units.feetToMeters(26.2916);
+    public static Translation3d BLUE_SPEAKER_LOCATION = new Translation3d(0.10, 5.54, 2.04);
+    public static Translation3d BLUE_AMP_LOCATION = new Translation3d(1.82, 8.15, 0.89);
 
-    public static Transform3d RED_RIGHT_WALL =
-        new Transform3d(
-            new Translation3d(FIELD_WIDTH, new Rotation3d(0, 0, Math.PI)),
-            new Rotation3d(0, 0, Math.PI));
+    public static Translation3d RED_SPEAKER_LOCATION = new Translation3d(16.44, 5.54, 2.04);
+    public static Translation3d RED_AMP_LOCATION = new Translation3d(14.70, 8.15, 0.89);
   }
 
   public static final class robot {
@@ -91,6 +90,8 @@ public final class Constants {
 
     public static final int LEFT_CLIMBER = 21;
     public static final int RIGHT_CLIMBER = 22;
+
+    public static final int FEEDER = 23;
   }
 
   public static class drivetrain {
@@ -153,18 +154,24 @@ public final class Constants {
 
   public static final class shoulder {
 
+    // GEAR RATIO: 62.6:1 motor:mechanism
+    public static final double GEAR_RATIO = 62.6;
+
     public static final double MAX_VEL = 0.0;
     public static final double MAX_ACCEL = 0.0;
-
-    public static final PIDConstants SHOULDER_PID = new PIDConstants(0, 0, 0);
     public static final Constraints CONSTRAINTS = new Constraints(MAX_VEL, MAX_ACCEL);
+
+    public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0, 0, 0, CONSTRAINTS);
+    
     public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0, 0, 0);
 
     public static final double ZERO = 0;
-    public static final double ALLOWED_ERROR = 0;
+    public static final double ALLOWED_ERROR = 0.5;
   }
 
   public static final class shooter {
+
+
     public static final double SHOOTER_DIAMETER_INCHES = 4.0;
     public static final double SHOOTER_DIAMETER_METERS = (SHOOTER_DIAMETER_INCHES) * 0.0254;
     public static final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER_METERS * Math.PI;
@@ -175,17 +182,17 @@ public final class Constants {
       public static final double PIGEON_OFFSET_DEGREES = 0.0;
     }
 
-    public static final class limelight {
-      public static final String LEFT_NAME = "limelight-front";
-      public static final String RIGHT_NAME = "limelight-right";
+  public static final class limelight {
+    public static final String LEFT_NAME = "limelight-front";
+    public static final String RIGHT_NAME = "limelight-right";
 
-      
-      public static final Translation3d LEFT_POSITION = new Translation3d(0, 0, 0);
-      public static final Translation3d RIGHT_POSITION = new Translation3d(0, 0, 0);
+    
+    public static final Translation3d LEFT_POSITION = new Translation3d(0, 0, 0);
+    public static final Translation3d RIGHT_POSITION = new Translation3d(0, 0, 0);
 
-      public static final Rotation3d LEFT_ROTATION = new Rotation3d(0, 0, 180);
-      public static final Rotation3d RIGHT_ROTATION = new Rotation3d(0, 0, 0);
-    }
+    public static final Rotation3d LEFT_ROTATION = new Rotation3d(0, 0, 180);
+    public static final Rotation3d RIGHT_ROTATION = new Rotation3d(0, 0, 0);
+  }
     
 
 

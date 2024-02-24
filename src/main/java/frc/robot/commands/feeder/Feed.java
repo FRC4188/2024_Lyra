@@ -22,7 +22,7 @@ public class Feed extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    feeder.set(0.8);
   }
 
   // Called once the command ends or is interrupted.

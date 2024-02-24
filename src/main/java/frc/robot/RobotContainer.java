@@ -11,6 +11,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import CSP_Lib.inputs.CSP_Controller;
 import CSP_Lib.inputs.CSP_Controller.Scale;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,9 +23,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.AutoConfigs;
 import frc.robot.commands.drivetrain.TeleDrive;
+import frc.robot.commands.groups.ShootOnReady;
 import frc.robot.commands.intake.Exhale;
 import frc.robot.commands.intake.Inhale;
-import frc.robot.commands.intake.Suck;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.sensors.Sensors;
@@ -81,6 +82,21 @@ public class RobotContainer {
     // pilot.x().whileTrue(flywheel.sysIdDynamic(SysIdRoutine.Direction.kForward));
     // pilot.y().whileTrue(flywheel.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
+    pilot 
+        .getStartButton()
+        .whileFalse(
+          new TeleDrive(
+            () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
+            () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
+            () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.15 : 0.5))
+        ).whileTrue(
+          new ShootOnReady(
+            () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
+            () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7),
+            DriverStation.getAlliance().get() == DriverStation.Alliance.Blue ? Constants.field.BLUE_SPEAKER_LOCATION : Constants.field.RED_SPEAKER_LOCATION
+          )
+        );
+
     pilot
         .getAButton()
         .onTrue(
@@ -92,11 +108,13 @@ public class RobotContainer {
     pilot
         .getRightTButton()
         .whileTrue(new Inhale())
-        .onFalse(new InstantCommand(() -> intake.disable(), intake));
+        .whileFalse(new InstantCommand(() -> intake.disable(), intake));
     pilot
         .getLeftTButton()
         .whileTrue(new Exhale())
         .onFalse(new InstantCommand(() -> intake.disable(), intake));
+
+    
     // Seriously why is it "Inhale" and "Exhale" lmao. I like it though -Aiden
     // Freak you Aiden
   }

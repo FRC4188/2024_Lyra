@@ -1,12 +1,6 @@
 package frc.robot.subsystems.intake;
 
 import CSP_Lib.motors.CSP_TalonFX;
-import CSP_Lib.motors.CSP_Motor;
-import CSP_Lib.motors.CSP_SparkMax;
-import CSP_Lib.utils.TempManager;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -24,7 +18,6 @@ public class Intake extends SubsystemBase{
     public Intake() {
       motor.setBrake(true);
       motor.setInverted(false);
-      TempManager.addMotor(motor);
     }
 
     @Override

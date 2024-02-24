@@ -9,14 +9,10 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import CSP_Lib.motors.CSP_CANcoder;
 import CSP_Lib.motors.CSP_TalonFX;
-import CSP_Lib.utils.Conversions;
-import CSP_Lib.utils.TempManager;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class SwerveModule {
@@ -134,11 +130,11 @@ public class SwerveModule {
    * @return the angle with range [-180 to 180]
    */
   public double getAngleDegrees() {
-    return Units.radiansToDegrees(encoder.getPositionRads());
+    return encoder.getPositionDegrees();
   }
 
   private double getPositionMeters() {
-    return (speed.getPositionRads() * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / (2 * Math.PI * GEAR_RATIO);
+    return (speed.getPositionDegrees() * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / (360.0 * GEAR_RATIO);
   }
 
   public String getName() {
