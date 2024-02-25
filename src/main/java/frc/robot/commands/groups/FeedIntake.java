@@ -24,10 +24,10 @@ public class FeedIntake extends ParallelCommandGroup {
     public FeedIntake() {
         addCommands(
             new SequentialCommandGroup(
-                new SetShoulderAngle(() -> 30.0)
-                    .until(() -> shoulder.atGoal(30.0)),
+                new SetShoulderAngle(() -> 60.0)
+                    .until(() -> shoulder.atGoal(60.0)),
                 new ParallelCommandGroup(
-                    new SetShoulderAngle(() -> 30.0),
+                    new SetShoulderAngle(() -> 60.0),
                     new Inhale()
                 )
             )

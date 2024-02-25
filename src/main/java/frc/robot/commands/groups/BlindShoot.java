@@ -18,8 +18,8 @@ public class BlindShoot extends ParallelCommandGroup {
             new SequentialCommandGroup(
                 new ParallelCommandGroup(
                     new SetShooterRPM(() -> 0.0),
-                    new SetShoulderAngle(() -> 70.0)
-                ).until(() -> shoulder.atGoal(70.0) && shooter.atRPM(0.0)),
+                    new SetShoulderAngle(() -> 20.0)
+                ).until(() -> shoulder.atGoal(20.0) && shooter.atRPM(0.0)),
                 new Feed()
             )
         );

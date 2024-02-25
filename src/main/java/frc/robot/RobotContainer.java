@@ -45,8 +45,6 @@ public class RobotContainer {
 
   private Notifier shuffleUpdater = new Notifier(() -> updateShuffle());
 
-
-
   public RobotContainer() {
     // Set the default commands
     setDefaultCommands();
@@ -82,20 +80,21 @@ public class RobotContainer {
     // pilot.x().whileTrue(flywheel.sysIdDynamic(SysIdRoutine.Direction.kForward));
     // pilot.y().whileTrue(flywheel.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
-    pilot 
-        .getStartButton()
-        .whileFalse(
-          new TeleDrive(
-            () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
-            () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
-            () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.15 : 0.5))
-        ).whileTrue(
-          new ShootOnReady(
-            () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
-            () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7),
-            DriverStation.getAlliance().get() == DriverStation.Alliance.Blue ? Constants.field.BLUE_SPEAKER_LOCATION : Constants.field.RED_SPEAKER_LOCATION
-          )
-        );
+    //BRING THIS BACK ONCE WE CAN TRACK AND DRIVE
+    // pilot 
+    //     .getStartButton()
+    //     .whileFalse(
+    //       new TeleDrive(
+    //         () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
+    //         () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
+    //         () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.15 : 0.5))
+    //     ).whileTrue(
+    //       new ShootOnReady(
+    //         () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
+    //         () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7),
+    //         DriverStation.getAlliance().get() == DriverStation.Alliance.Blue ? Constants.field.BLUE_SPEAKER_LOCATION : Constants.field.RED_SPEAKER_LOCATION
+    //       )
+    //     );
 
     pilot
         .getAButton()
@@ -114,7 +113,6 @@ public class RobotContainer {
         .whileTrue(new Exhale())
         .onFalse(new InstantCommand(() -> intake.disable(), intake));
 
-    
     // Seriously why is it "Inhale" and "Exhale" lmao. I like it though -Aiden
     // Freak you Aiden
   }

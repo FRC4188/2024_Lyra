@@ -167,6 +167,9 @@ public final class Constants {
 
     public static final double ZERO = 0;
     public static final double ALLOWED_ERROR = 0.5;
+
+    public static final double UPPER_LIMIT = 60.0;
+    public static final double LOWER_LIMIT = -60.0;
   }
 
   public static final class shooter {
