@@ -59,11 +59,11 @@ public class Sensors extends SubsystemBase {
       return new Pose3d(
           poseLeft.getTranslation().plus(poseRight.getTranslation()).div(2),
           poseLeft.getRotation().plus(poseRight.getRotation()).div(2));
-    } else if (limelightRight.getTV()) {
-      return limelightRight.getPose3d();
-    } else if (limelightLeft.getTV()) {
-      return limelightLeft.getPose3d();
-    } else return new Pose3d(); 
+    } else if (limelightRight.getTV()) 
+        return limelightRight.getPose3d();
+     else if (limelightLeft.getTV()) 
+        return limelightLeft.getPose3d();
+     else return new Pose3d(); 
   }
 
   public Pose2d getPose2d() {

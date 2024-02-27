@@ -1,6 +1,7 @@
 package frc.robot.subsystems.feeder;
 
 import CSP_Lib.motors.CSP_TalonFX;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -19,6 +20,7 @@ public class Feeder extends SubsystemBase {
   }
 
   private CSP_TalonFX motor = new CSP_TalonFX(Constants.ids.FEEDER, "rio");
+  private DigitalInput breaker = new DigitalInput(Constants.ids.FEEDER_BEAM_BREAKER);
 
   public Feeder() {
     motor.setBrake(true);
@@ -30,6 +32,10 @@ public class Feeder extends SubsystemBase {
     SmartDashboard.putNumber("Feeder AMPS", motor.getCurrent());
   }
 
+  /**
+   * Sets the power of the motor
+   * @param percent the percent of power applied
+   */
   public void set(double percent) {
       motor.set(percent);
   }
@@ -49,7 +55,17 @@ public class Feeder extends SubsystemBase {
     return motor.getRPM(); 
   }
 
+  /**
+   * Disables the motor lol
+   */
   public void disable() {
     motor.stopMotor();
+  }
+
+  /**
+   * @return true if the beam breaker is broken, false if not
+   */
+  public boolean isBroken() {
+    return !breaker.get();
   }
 }

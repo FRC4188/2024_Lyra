@@ -2,7 +2,7 @@ package frc.robot.commands.groups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.feeder.Feed;
+import frc.robot.commands.feeder.FeedIntoShooter;
 import frc.robot.commands.shooter.SetShooterRPM;
 import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.shooter.Shooter;
@@ -13,14 +13,13 @@ public class BlindShoot extends ParallelCommandGroup {
     Shooter shooter = Shooter.getInstance();
 
     public BlindShoot() {
-
         addCommands(
             new SequentialCommandGroup(
                 new ParallelCommandGroup(
                     new SetShooterRPM(() -> 0.0),
                     new SetShoulderAngle(() -> 20.0)
                 ).until(() -> shoulder.atGoal(20.0) && shooter.atRPM(0.0)),
-                new Feed()
+                new FeedIntoShooter()
             )
         );
     }

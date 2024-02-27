@@ -92,6 +92,8 @@ public final class Constants {
     public static final int RIGHT_CLIMBER = 22;
 
     public static final int FEEDER = 23;
+    
+    public static final int FEEDER_BEAM_BREAKER = 0;
   }
 
   public static class drivetrain {

@@ -4,11 +4,11 @@ import frc.robot.Constants;
 import frc.robot.subsystems.feeder.Feeder;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class Feed extends Command {
+public class FeedIntoFeeder extends Command {
   private Feeder feeder = Feeder.getInstance();
 
   /** Creates a new Feed. */
-  public Feed() {
+  public FeedIntoFeeder() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(feeder);
   }
@@ -22,18 +22,18 @@ public class Feed extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    feeder.set(0.8);
+    feeder.set(1.0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    feeder.set(0.0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return feeder.isBroken();
   }
 }
