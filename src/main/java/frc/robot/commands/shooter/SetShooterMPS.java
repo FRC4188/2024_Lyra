@@ -7,13 +7,13 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class SetShooterRPM extends Command {
+public class SetShooterMPS extends Command {
   private Flywheel flywheel = Flywheel.getInstance();
 
   private double velocity;
 
   /** Creates a new SetShooterRPM. */
-  public SetShooterRPM(DoubleSupplier velocity) {
+  public SetShooterMPS(DoubleSupplier velocity) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(flywheel);
     this.velocity = velocity.getAsDouble();
