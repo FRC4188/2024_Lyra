@@ -4,11 +4,11 @@ import frc.robot.Constants;
 import frc.robot.subsystems.climber.Climber;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class RaiseClimber extends Command {
+public class LowerClimber extends Command {
   private Climber climber = Climber.getInstance();
 
   /** Creates a new SetClimberHeight. */
-  public RaiseClimber() {
+  public LowerClimber() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climber);
   }
@@ -22,17 +22,7 @@ public class RaiseClimber extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (climber.leftLimit.get()) {
-      climber.setLeft(0.0);
-    } else {
-      climber.setLeft(0.2);
-    }
-
-    if (climber.rightLimit.get()) {
-      climber.setRight(0.0);
-    } else {
-      climber.setRight(0.2);
-    }
+    climber.setPosition(0);
   }
 
   // Called once the command ends or is interrupted.
