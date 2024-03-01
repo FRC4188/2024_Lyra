@@ -2,7 +2,6 @@ package frc.robot.subsystems.climber;
 
 import CSP_Lib.motors.CSP_TalonFX;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -133,10 +132,20 @@ public class Climber extends SubsystemBase {
 
   /**
    * Sets the position of both climber motors to a given position using PID and Feedforward
-   * @param position a set position that the motor can go to
+   * @param position a set position that the motor can go to (in meters)
    */
 
   public void setPosition(double position) {
+    setLeft(leftPID.calculate(getPositionLeft(), position / Constants.climber.METERS_PER_ROT_LEFT) + leftFF.calculate(getPositionLeft(), position / Constants.climber.METERS_PER_ROT_LEFT));
+    setRight(rightPID.calculate(getPositionRight(), position / Constants.climber.METERS_PER_ROT_RIGHT) + rightFF.calculate(getPositionRight(), position / Constants.climber.METERS_PER_ROT_RIGHT));
+  }
+
+  /**
+   * Sets the position of both climber motors to a given position using PID and Feedforward
+   * @param position a set position that the motor can go to (in rotations)
+   */
+
+  public void setPositionRotations(double position) {
     setLeft(leftPID.calculate(getPositionLeft(), position) + leftFF.calculate(getPositionLeft(), position));
     setRight(rightPID.calculate(getPositionRight(), position) + rightFF.calculate(getPositionRight(), position));
   }

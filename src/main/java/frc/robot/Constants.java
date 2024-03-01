@@ -153,6 +153,8 @@ public final class Constants {
     public static final double METERS_PER_ROT_LEFT = 0.14283563 / 40.0; //Forty rotations of the motor equals to this many meters
     public static final double METERS_PER_ROT_RIGHT = 0.14283563 / 40.0;
 
+    public static final double DIST = 0.2032; //This value is in meters (8 inches)
+
     public static final double LEFT_kP = 0.0;
     public static final double LEFT_kI = 0.0;
     public static final double LEFT_kD = 0.0;
@@ -161,8 +163,8 @@ public final class Constants {
     public static final double RIGHT_kI = 0.0;
     public static final double RIGHT_kD = 0.0;
 
-    public static final double MAX_VELOCITY = 0.0;
-    public static final double MAX_ACCEL = 0.0;
+    public static final double MAX_VELOCITY = 0.1;
+    public static final double MAX_ACCEL = 0.1;
 
     public static final double LEFT_kS = 0.0;
     public static final double LEFT_kG = 0.0;
