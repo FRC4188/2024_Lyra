@@ -214,6 +214,10 @@ public class Swerve extends SubsystemBase {
         initPose);
   }
 
+  public boolean atGoalAngle(double angleDegrees) {
+    return (Math.abs(getPose2d().getRotation().getDegrees() - angleDegrees) < 3.0);
+  }
+
   public void updateDashboard() {
 
     m_field.setRobotPose(getPose2d());

@@ -56,6 +56,11 @@ public final class Constants {
     public static final double FALCON_MAX_VEL = 6380.0;
 
     public static final double MAX_TEMP = 50.0;
+
+    public static final Translation3d SHOULDER_PIVOT_POINT = 
+      new Translation3d(A_LENGTH / 2, A_WIDTH / 2, 0.324);
+
+    public static final double SHOULDER_PIVOT_HEIGHT = SHOULDER_PIVOT_POINT.getZ();
   }
 
   public static final class ids {
@@ -187,21 +192,22 @@ public final class Constants {
       public static final double PIGEON_OFFSET_DEGREES = 0.0;
     }
 
-  public static final class limelight {
-    public static final String LEFT_NAME = "limelight-front";
-    public static final String RIGHT_NAME = "limelight-right";
+    public static final class limelight {
+      public static final String FRONT_NAME = "limelight-front";
+      public static final Translation3d FRONT_POSITION = new Translation3d(0, 0, 0); // translation/rotation in robot space from robot to limelight
+      public static final Rotation3d FRONT_ROTATION = 
+        new Rotation3d(
+          Units.degreesToRadians(0),
+          Units.degreesToRadians(0),
+          Units.degreesToRadians(0));
 
-    
-    public static final Translation3d LEFT_POSITION = new Translation3d(0, 0, 0);
-    public static final Translation3d RIGHT_POSITION = new Translation3d(0, 0, 0);
-
-    public static final Rotation3d LEFT_ROTATION = new Rotation3d(0, 0, 180);
-    public static final Rotation3d RIGHT_ROTATION = new Rotation3d(0, 0, 0);
-  }
-    
-
-
-
-
+      public static final String BACK_NAME = "limelight-back";
+      public static final Translation3d BACK_POSITION = new Translation3d(-11.748, 0, 5.394); 
+      public static final Rotation3d BACK_ROTATION = 
+        new Rotation3d(
+          Units.degreesToRadians(180.0),
+          Units.degreesToRadians(0),
+          Units.degreesToRadians(180.0));
+    }
   }
 }

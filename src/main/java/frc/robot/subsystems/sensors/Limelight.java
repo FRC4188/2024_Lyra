@@ -8,6 +8,7 @@ import CSP_Lib.utils.LimelightHelpers;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 
 /** Add your docs here. */
@@ -31,9 +32,9 @@ public class Limelight {
         position.getX(),
         position.getY(),
         position.getZ(),
-        rotation.getX(),
-        rotation.getY(),
-        rotation.getZ());
+        Units.radiansToDegrees(rotation.getX()),
+        Units.radiansToDegrees(rotation.getY()),
+        Units.radiansToDegrees(rotation.getZ()));
   }
 
   public Pose3d getPose3d() {

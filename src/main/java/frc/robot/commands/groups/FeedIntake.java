@@ -1,10 +1,9 @@
 package frc.robot.commands.groups;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
 import frc.robot.commands.feeder.FeedIntoFeeder;
-import frc.robot.commands.feeder.FeedIntoShooter;
 import frc.robot.commands.intake.Inhale;
 import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.drivetrain.Swerve;
@@ -35,6 +34,4 @@ public class FeedIntake extends ParallelCommandGroup {
             )
         );
     }
-
-
 }
