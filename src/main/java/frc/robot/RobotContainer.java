@@ -125,6 +125,8 @@ public class RobotContainer {
   }
 
   public void smartdashboardButtons() {
+    SmartDashboard.putString("Current Goal", Constants.field.BLUE_SPEAKER_LOCATION.toString());
+
     SmartDashboard.putNumber("Shoulder Setpoint", 0.0);
     SmartDashboard.putData("Set Shoulder Angle", new SetShoulderAngle(() -> SmartDashboard.getNumber("Shoulder Setpoint", 0.0)));
 

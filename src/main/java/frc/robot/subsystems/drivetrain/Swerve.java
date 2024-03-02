@@ -14,7 +14,9 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -169,6 +171,11 @@ public class Swerve extends SubsystemBase {
 
   public ChassisSpeeds getChassisSpeeds() {
     return kinematics.toChassisSpeeds(getSwerveModuleStates());
+  }
+
+  public Translation2d getFOSpeeds() {
+    ChassisSpeeds speeds = getChassisSpeeds();
+    return new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond).rotateBy(getPose2d().getRotation());
   }
 
   public SwerveModuleState[] getSwerveModuleStates() {

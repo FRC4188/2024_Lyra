@@ -6,7 +6,9 @@ import frc.robot.subsystems.sensors.Sensors;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -36,12 +38,20 @@ public class TrackingDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     
+    double goalAngle = sensors.getMovingDriveAngle(goal).getRadians();
+    Pose2d pose = drive.getPose2d();
+    Translation2d currentSpeed = drive.getFOSpeeds();
+    double dx = goal.getX() - pose.getX();
+    double dy = goal.getY() - pose.getY();
+
     double totalSpeed = Math.pow(Math.hypot(xInput.getAsDouble(), yInput.getAsDouble()), 3.0);
     double angle = Math.atan2(yInput.getAsDouble(), xInput.getAsDouble());
     double xSpeed = totalSpeed * Math.cos(angle) * Constants.drivetrain.MAX_VELOCITY;
     double ySpeed = totalSpeed * Math.sin(angle) * Constants.drivetrain.MAX_VELOCITY;
-    double rotSpeed = -drive.rotPID.calculate(sensors.getRotation2d().getDegrees());
+    double rotSpeed = 0.0;
+
+    rotSpeed += -drive.rotPID.calculate(sensors.getRotation2d().getRadians(), goalAngle);
+    rotSpeed += currentSpeed.getX() * -dy / (dx * dx + dy * dy) + currentSpeed.getY() * dx / (dx * dx + dy * dy); 
 
     noInput = xSpeed == 0 && ySpeed == 0 && rotSpeed == 0;
 
