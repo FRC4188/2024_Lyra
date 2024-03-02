@@ -85,6 +85,7 @@ public final class Constants {
 
     public static final int CLIMBER_LEFT = 21;
     public static final int CLIMBER_RIGHT = 22;
+
     public static final int CLIMBER_LEFT_LIMIT = 0;
     public static final int CLIMBER_RIGHT_LIMIT = 1;
   }
@@ -150,10 +151,10 @@ public final class Constants {
   }
 
   public static final class climber {
-    public static final double METERS_PER_ROT_LEFT = 0.14283563 / 40.0; //Forty rotations of the motor equals to this many meters
+    public static final double METERS_PER_ROT_LEFT = 0.14283563 / 40.0; // 40 : 1 | 1 : 0.1428
     public static final double METERS_PER_ROT_RIGHT = 0.14283563 / 40.0;
 
-    public static final double DIST = 0.2032; //This value is in meters (8 inches)
+    public static final double DIST = 0.2032; // 8 in
 
     public static final double LEFT_kP = 0.0;
     public static final double LEFT_kI = 0.0;

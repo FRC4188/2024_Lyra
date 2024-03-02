@@ -98,6 +98,9 @@ public class Climber extends SubsystemBase {
     leftClimber.setInverted(false);
     rightClimber.setInverted(true);
 
+    leftClimber.setBrake(true);
+    rightClimber.setBrake(true);
+
     notifier.startPeriodic(0.2);
   }
 
