@@ -1,6 +1,5 @@
 package frc.robot.commands.feeder;
 
-import frc.robot.Constants;
 import frc.robot.subsystems.feeder.Feeder;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -31,7 +30,7 @@ public class FeedIntoShooter extends Command {
     feeder.set(0.0);
   }
 
-  // Returns true when the command should end.
+  // Command ends when beam breaker is not broken (when note shot out)
   @Override
   public boolean isFinished() {
     return !feeder.isBroken();

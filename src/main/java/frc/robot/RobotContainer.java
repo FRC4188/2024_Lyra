@@ -98,6 +98,8 @@ public class RobotContainer {
     //       )
     //     );
 
+
+    //reset pigeon
     pilot
         .getAButton()
         .onTrue(
@@ -106,10 +108,14 @@ public class RobotContainer {
                   sensors.resetPigeon();
                   drive.rotPID.setSetpoint(0.0);
                 }, sensors));
+
+    //intake
     pilot
         .getRightTButton()
         .whileTrue(new Inhale())
         .whileFalse(new InstantCommand(() -> intake.disable(), intake));
+
+    //outake
     pilot
         .getLeftTButton()
         .whileTrue(new Exhale())
