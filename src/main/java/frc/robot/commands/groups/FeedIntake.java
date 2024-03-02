@@ -9,14 +9,14 @@ import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.feeder.Feeder;
 import frc.robot.subsystems.sensors.Sensors;
-import frc.robot.subsystems.shooter.Flywheel;
+import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shoulder.Shoulder;
 
 public class FeedIntake extends ParallelCommandGroup {
     
     private Swerve drive = Swerve.getInstance();
     private Shoulder shoulder = Shoulder.getInstance();
-    private Flywheel shooter = Flywheel.getInstance();
+    private Shooter shooter = Shooter.getInstance();
     private Feeder feeder = Feeder.getInstance();
     private Sensors sensors = Sensors.getInstance();
 

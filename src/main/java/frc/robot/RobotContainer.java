@@ -26,10 +26,11 @@ import frc.robot.commands.drivetrain.TeleDrive;
 import frc.robot.commands.groups.ShootOnReady;
 import frc.robot.commands.intake.Exhale;
 import frc.robot.commands.intake.Inhale;
+import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.sensors.Sensors;
-import frc.robot.subsystems.shooter.Flywheel;
+import frc.robot.subsystems.shoulder.Shoulder;
 
 public class RobotContainer {
 
@@ -39,6 +40,7 @@ public class RobotContainer {
   Swerve drive = Swerve.getInstance();
   Intake intake = Intake.getInstance();
   Sensors sensors = Sensors.getInstance();
+  Shoulder shoulder = Shoulder.getInstance();
   // Flywheel flywheel = Flywheel.getInstance();
 
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
@@ -122,7 +124,13 @@ public class RobotContainer {
     // flywheel.updateDashboard();
   }
 
-  public void smartdashboardButtons() {}
+  public void smartdashboardButtons() {
+    SmartDashboard.putNumber("Shoulder Setpoint", 0.0);
+    SmartDashboard.putData("Set Shoulder Angle", new SetShoulderAngle(() -> SmartDashboard.getNumber("Shoulder Setpoint", 0.0)));
+
+    SmartDashboard.putNumber("Shoulder kP", 0.0);
+    SmartDashboard.putData("Set Shoulder PID", new InstantCommand(() -> shoulder.setPID(SmartDashboard.getNumber("Shoulder kP", 0.0), 0, 0)));
+  }
 
   public void addChooser() {
     autoChooser = AutoBuilder.buildAutoChooser();
