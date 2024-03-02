@@ -113,6 +113,11 @@ public class Shooter extends SubsystemBase{
         right.set(rightVoltage / RobotController.getBatteryVoltage());
     }
 
+    public void setBoth(double percent){
+      left.set(percent);
+      right.set(percent);
+    }
+
     /**
      * Disables the two motors lol (just like Mukil)
      */
@@ -185,8 +190,14 @@ public class Shooter extends SubsystemBase{
       return right.getTemperature();
     }
 
+    /**
+     * Check if shooter at desired rpm
+     * @param RPM
+     * @return whether or not shooter reach inputted RPM 
+     */
     public boolean atRPM(double RPM) {
-      return false;
+      
+      return (left.getRPM() == RPM && right.getRPM() == RPM);
     }
 
 
