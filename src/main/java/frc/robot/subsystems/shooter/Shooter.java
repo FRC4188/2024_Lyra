@@ -20,8 +20,6 @@ import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
-import com.ctre.phoenix6.controls.StrictFollower;
-
 public class Shooter extends SubsystemBase{
     private static Shooter instance = null;
     public static synchronized Shooter getInstance() {

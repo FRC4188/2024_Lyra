@@ -3,14 +3,12 @@ package frc.robot.subsystems.sensors;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.drivetrain;
 import frc.robot.subsystems.drivetrain.Swerve;
 
 public class Sensors extends SubsystemBase {
@@ -111,8 +109,8 @@ public class Sensors extends SubsystemBase {
    * @param goal
    * @return angle in double
    */
-  public double getFormulaShoulderAngle(Translation3d goal) {
-    return Math.atan2((goal.getZ() - Constants.robot.SHOULDER_PIVOT_HEIGHT), getXYDistance(goal));
+  public Rotation2d getFormulaShoulderAngle(Translation3d goal) {
+    return Rotation2d.fromRadians(Math.atan2((goal.getZ() - Constants.robot.SHOULDER_PIVOT_HEIGHT), getXYDistance(goal)));
   }
 
   /**
@@ -120,9 +118,9 @@ public class Sensors extends SubsystemBase {
    * @param goal
    * @return angle in double
    */
-  public double getFormulaDriveAngle(Translation3d goal) {
+  public Rotation2d getFormulaDriveAngle(Translation3d goal) {
     Translation2d translation = drive.getPose2d().getTranslation().minus(goal.toTranslation2d());
-    return Math.atan2(translation.getY(), translation.getX());
+    return Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX()));
   }
 
   /**
@@ -132,18 +130,13 @@ public class Sensors extends SubsystemBase {
    */
   public Translation3d getShotVector(Translation3d goal) {
     double velocity = getFormulaShooterRPM(goal);
-    double shoulderAngle = getFormulaShoulderAngle(goal);
-    double driveAngle = getFormulaDriveAngle(goal);
+    double shoulderAngle = getFormulaShoulderAngle(goal).getRadians();
+    double driveAngle = getFormulaDriveAngle(goal).getRadians();
 
-    // get horizontal translation using current hypothenuse (velocity) and theta (shoulderAngle)
-    double xy = velocity * Math.cos(shoulderAngle);
-    //get x component from xy for swerve rotation
-    double x = xy * Math.cos(Units.degreesToRadians(driveAngle)); 
-    // get y component from xy for swerve rotation
-    double y = xy * Math.sin(Units.degreesToRadians(driveAngle)); 
-    // get z or vertical component of shoulder
-    double z = velocity * Math.sin(Units.degreesToRadians(shoulderAngle)); 
-
+    double xy = velocity * Math.cos(shoulderAngle); // xy vector of shoulder/swerve 
+    double x = xy * Math.cos(driveAngle); // x vector of swerve
+    double y = xy * Math.sin(driveAngle); // y vector of swerve
+    double z = velocity * Math.sin(shoulderAngle); // z vector/angle of shoulder 
     return new Translation3d(x, y, z);
   }
 

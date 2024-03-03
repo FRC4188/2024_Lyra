@@ -1,6 +1,5 @@
 package frc.robot.commands.shoulder;
 
-import frc.robot.Constants;
 import frc.robot.subsystems.shoulder.Shoulder;
 
 import java.util.function.DoubleSupplier;
