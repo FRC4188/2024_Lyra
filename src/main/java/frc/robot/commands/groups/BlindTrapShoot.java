@@ -19,8 +19,7 @@ public class BlindTrapShoot extends ParallelCommandGroup {
                     new SetShooterMPS(() -> 40.0),
                     new SetShoulderAngle(() -> 40.0)
                 ).until(() -> shoulder.atGoal(40.0) && shooter.atRPM(40.0)),
-                new FeedIntoShooter(), 
-                new SetShooterMPS(() -> 0) // make sure shooter stops after note is shot out to save battery 
+                new FeedIntoShooter()
             )
         );
     }

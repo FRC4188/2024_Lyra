@@ -10,20 +10,14 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import CSP_Lib.inputs.CSP_Controller;
 import CSP_Lib.inputs.CSP_Controller.Scale;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.AutoConfigs;
 import frc.robot.commands.drivetrain.TeleDrive;
-import frc.robot.commands.groups.ShootOnReady;
 import frc.robot.commands.intake.Exhale;
 import frc.robot.commands.intake.Inhale;
 import frc.robot.commands.shoulder.SetShoulderAngle;
@@ -97,6 +91,8 @@ public class RobotContainer {
     //         DriverStation.getAlliance().get() == DriverStation.Alliance.Blue ? Constants.field.BLUE_SPEAKER_LOCATION : Constants.field.RED_SPEAKER_LOCATION
     //       )
     //     );
+    
+    //     new FeedIntake().andThen(new Stow().until(() -> sensors.areHappy()))
 
 
     //reset pigeon

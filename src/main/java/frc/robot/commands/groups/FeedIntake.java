@@ -1,6 +1,7 @@
 package frc.robot.commands.groups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.feeder.FeedIntoFeeder;
@@ -18,10 +19,10 @@ public class FeedIntake extends ParallelCommandGroup {
             new SequentialCommandGroup(
                 new SetShoulderAngle(() -> 60.0)
                     .until(() -> shoulder.atGoal(60.0)),
-                new ParallelCommandGroup(
-                    new SetShoulderAngle(() -> 60.0), //why do we need this..??? 
-                    new Inhale(),
-                    new FeedIntoFeeder()
+                new ParallelDeadlineGroup(
+                    new FeedIntoFeeder(),
+                    new SetShoulderAngle(() -> 60.0), 
+                    new Inhale()
                 )
             )
         );

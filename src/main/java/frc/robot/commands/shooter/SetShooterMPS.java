@@ -1,6 +1,5 @@
 package frc.robot.commands.shooter;
 
-import frc.robot.Constants;
 import frc.robot.subsystems.shooter.Shooter;
 
 import java.util.function.DoubleSupplier;
