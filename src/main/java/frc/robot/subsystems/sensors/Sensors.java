@@ -135,10 +135,15 @@ public class Sensors extends SubsystemBase {
     double shoulderAngle = getFormulaShoulderAngle(goal);
     double driveAngle = getFormulaDriveAngle(goal);
 
-    double xy = velocity * Math.cos(shoulderAngle); // xy vector of shoulder/serve 
-    double x = xy * Math.cos(Units.degreesToRadians(driveAngle)); //x vector of swerve
-    double y = xy * Math.sin(Units.degreesToRadians(driveAngle)); //y vector of swerve
-    double z = velocity * Math.sin(Units.degreesToRadians(shoulderAngle)); //z vector/angle of shoulder 
+    // get horizontal translation using current hypothenuse (velocity) and theta (shoulderAngle)
+    double xy = velocity * Math.cos(shoulderAngle);
+    //get x component from xy for swerve rotation
+    double x = xy * Math.cos(Units.degreesToRadians(driveAngle)); 
+    // get y component from xy for swerve rotation
+    double y = xy * Math.sin(Units.degreesToRadians(driveAngle)); 
+    // get z or vertical component of shoulder
+    double z = velocity * Math.sin(Units.degreesToRadians(shoulderAngle)); 
+
     return new Translation3d(x, y, z);
   }
 
@@ -149,7 +154,7 @@ public class Sensors extends SubsystemBase {
    */
   public Translation3d getMovingShotVector(Translation3d goal) {
     Translation2d speed = drive.getFOSpeeds();
-    double xSpeed = speed.getX();
+    double xSpeed = speed.getX(); 
     double ySpeed = speed.getY();
 
     Translation3d stillShotVector = getShotVector(goal);
@@ -158,19 +163,39 @@ public class Sensors extends SubsystemBase {
     return new Translation3d(stillShotVector.getX() - xSpeed, stillShotVector.getY() - ySpeed, stillShotVector.getZ());
   }
 
+  /**
+   * Get horizontal angle that serve should turn to while aiming and moving 
+   * @param goal 
+   * @return swerve rotation needed for aiming while moving
+   */
   public Rotation2d getMovingDriveAngle(Translation3d goal) {
     Translation3d movingShotVector = getMovingShotVector(goal);
+
+    //get the radians of the arctan of the slope of y and x of moving vector in radian
     return Rotation2d.fromRadians(Math.atan2(movingShotVector.getY(), movingShotVector.getX()));
   }
 
+  /**
+   * Get vertical angle that shoulder should turn to while aiming and moving
+   * @param goal
+   * @return shoulder rotation
+   */
   public Rotation2d getMovingShoulderAngle(Translation3d goal) {
     Translation3d movingShotVector = getMovingShotVector(goal);
+
     double xy = Math.atan2(movingShotVector.getY(), movingShotVector.getX());
+    //get the radians of the arctan of the slope of vertical and horizontal component
     return Rotation2d.fromRadians(Math.atan2(movingShotVector.getZ(), xy));
   }
 
+
+  /**
+   * get the rpm that the shooter should shoot at based on robot's translation position
+   * @param goal
+   * @return rpm in double 
+   */
   public double getMovingShooterRPM(Translation3d goal) {
     Translation3d movingShotVector = getMovingShotVector(goal);
-    return movingShotVector.getNorm();
+    return movingShotVector.getNorm(); 
   }
 }
