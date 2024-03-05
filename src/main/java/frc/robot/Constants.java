@@ -87,8 +87,6 @@ public final class Constants {
     public static final int SHOULDER_LEADER = 17;
     public static final int SHOULDER_FOLLOWER = 18;
 
-    public static final int SHOULDER_ENCODER = 23;
-
     public static final int LEFT_SHOOTER = 19;
     public static final int RIGHT_SHOOTER = 20;
 
@@ -96,7 +94,9 @@ public final class Constants {
     public static final int RIGHT_CLIMBER = 22;
 
     public static final int FEEDER = 23;
-    
+
+    public static final int SHOULDER_ENCODER = 24;
+
     public static final int FEEDER_BEAM_BREAKER = 0;
   }
 
@@ -162,6 +162,10 @@ public final class Constants {
 
     // GEAR RATIO: 62.6:1 motor:mechanism
     public static final double GEAR_RATIO = 62.6;
+    /**
+     * CANCoder lies on a 40T gear, the shoulder pivots on a 48T gear
+     */
+    public static final double CANCODER_GEAR_RATIO = 1.2;
 
     public static final double MAX_VEL = 0.0;
     public static final double MAX_ACCEL = 0.0;

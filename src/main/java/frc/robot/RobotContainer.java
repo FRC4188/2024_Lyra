@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoConfigs;
 import frc.robot.commands.drivetrain.TeleDrive;
@@ -22,8 +23,10 @@ import frc.robot.commands.intake.Exhale;
 import frc.robot.commands.intake.Inhale;
 import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.drivetrain.Swerve;
+import frc.robot.subsystems.feeder.Feeder;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.sensors.Sensors;
+import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shoulder.Shoulder;
 
 public class RobotContainer {
@@ -35,6 +38,8 @@ public class RobotContainer {
   Intake intake = Intake.getInstance();
   Sensors sensors = Sensors.getInstance();
   Shoulder shoulder = Shoulder.getInstance();
+  Shooter shooter = Shooter.getInstance();
+  Feeder feeder = Feeder.getInstance();
   // Flywheel flywheel = Flywheel.getInstance();
 
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
@@ -106,17 +111,36 @@ public class RobotContainer {
                 }, sensors));
 
     //intake
-    pilot
+    copilot
         .getRightTButton()
         .whileTrue(new Inhale())
         .whileFalse(new InstantCommand(() -> intake.disable(), intake));
 
     //outake
-    pilot
+    copilot
         .getLeftTButton()
         .whileTrue(new Exhale())
         .onFalse(new InstantCommand(() -> intake.disable(), intake));
+
+    copilot
+        .getUpButton()
+        .whileTrue(new RunCommand(() -> shoulder.set(0.2), shoulder))
+        .onFalse(new InstantCommand(() -> shoulder.disable()));
+        
+    copilot
+        .getDownButton()
+        .whileTrue(new RunCommand(() -> shoulder.set(-0.2), shoulder))
+        .onFalse(new InstantCommand(() -> shoulder.disable()));
   
+    copilot
+        .getAButton()
+        .whileTrue(new RunCommand(() -> shooter.set(0.5, 0.5), shooter))
+        .onFalse(new InstantCommand(() -> shooter.disable()));
+
+    copilot
+        .getBButton()
+        .whileTrue(new RunCommand(() -> feeder.set(0.5), feeder))
+        .onFalse(new InstantCommand(() -> feeder.disable()));
 
     // Seriously why is it "Inhale" and "Exhale" lmao. I like it though -Aiden
     // Freak you Aiden

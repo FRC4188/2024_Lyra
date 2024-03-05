@@ -83,8 +83,7 @@ public class Shoulder extends SubsystemBase {
   }
 
   public double getAngle() {
-    return encoder.getPositionDegrees();
-    // return leader.getPosition();
+    return encoder.getPositionDegrees() * Constants.shoulder.CANCODER_GEAR_RATIO;
   }
 
   public boolean atGoal(double angle) {
