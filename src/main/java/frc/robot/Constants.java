@@ -7,9 +7,12 @@ package frc.robot;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
@@ -23,7 +26,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
  * constants. This class should not be used for any other purpose. All constants should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
@@ -43,6 +46,52 @@ public final class Constants {
 
     public static Translation3d RED_SPEAKER_LOCATION = new Translation3d(16.44, 5.54, 2.04);
     public static Translation3d RED_AMP_LOCATION = new Translation3d(14.70, 8.15, 0.89);
+
+    public static Translation3d RED_LEFT_TRAP = new Translation3d(11.90, 3.72, 1.42);
+    public static Translation3d RED_CENTER_TRAP = new Translation3d(11.24, 4.06, 1.42);
+    public static Translation3d RED_RIGHT_TRAP = new Translation3d(11.85, 4.54, 1.42);
+
+    public class DataPoints{
+      public final double distance;
+      public final double value;
+
+      public DataPoints(double distance, double value){
+        this.distance = distance;
+        this.value = value;
+      }
+    }
+
+    // private static InterpolatingDoubleTreeMap V_TRAP;
+    // private static InterpolatingDoubleTreeMap ANGLE_TRAP;
+
+    private static InterpolatingDoubleTreeMap V_SPEAKER;
+    private static InterpolatingDoubleTreeMap ANGLE_SPEAKER;
+
+    // private static InterpolatingDoubleTreeMap V_AMP;
+    // private static InterpolatingDoubleTreeMap ANGLE_AMP;
+
+    //actual constants values
+    static {
+
+    }
+
+    public enum Goal {
+      // TRAP_C(ANGLE_TRAP, V_TRAP, ),
+      // TRAP_L,
+      // TRAP_R, 
+      SPEAKER(ANGLE_SPEAKER, V_SPEAKER,
+      new Pose2d(RED_SPEAKER_LOCATION.getX(), RED_SPEAKER_LOCATION.getY(), Rotation2d.fromRadians(Math.PI) ),
+      10, //TODO: happy zone tuning
+      Units.inchesToMeters(3.0 *12.0 + 5.0 + (3.0 /8.0)));
+      // AMP;
+
+      public final InterpolatingDoubleTreeMap ITM_A, ITM_V;
+
+      private Goal(InterpolatingDoubleTreeMap ITM_A, InterpolatingDoubleTreeMap ITM_V, Pose2d position, double happyZone, double goalWidth){
+
+      }
+
+    }
   }
 
   public static final class robot {
@@ -188,6 +237,19 @@ public final class Constants {
     public static final double SHOOTER_DIAMETER_INCHES = 4.0;
     public static final double SHOOTER_DIAMETER_METERS = (SHOOTER_DIAMETER_INCHES) * 0.0254;
     public static final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER_METERS * Math.PI;
+
+    public class DataPoints{
+      public final double distance;
+      public final double value;
+
+      public DataPoints(double distance, double value){
+        this.distance = distance;
+        this.value = value;
+      }
+    }
+
+    public static final DataPoints[] VELOCITY_DATA_POINTS = {};
+    public static final DataPoints[] ANGLE_DATA_POINTS = {};
   }
 
   public static final class sensors {

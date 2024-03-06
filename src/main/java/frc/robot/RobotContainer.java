@@ -124,12 +124,12 @@ public class RobotContainer {
 
     copilot
         .getUpButton()
-        .whileTrue(new RunCommand(() -> shoulder.set(0.2), shoulder))
+        .whileTrue(new RunCommand(() -> shoulder.setVoltage(0.2), shoulder))
         .onFalse(new InstantCommand(() -> shoulder.disable()));
         
     copilot
         .getDownButton()
-        .whileTrue(new RunCommand(() -> shoulder.set(-0.2), shoulder))
+        .whileTrue(new RunCommand(() -> shoulder.setVoltage(-0.2), shoulder))
         .onFalse(new InstantCommand(() -> shoulder.disable()));
   
     copilot

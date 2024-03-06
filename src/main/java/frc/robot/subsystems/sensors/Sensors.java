@@ -5,10 +5,12 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.shooter.DataPoints;
 import frc.robot.subsystems.drivetrain.Swerve;
 
 public class Sensors extends SubsystemBase {
@@ -36,8 +38,23 @@ public class Sensors extends SubsystemBase {
 
   Swerve drive = Swerve.getInstance();
 
+  
+  private InterpolatingDoubleTreeMap velocityMap = new InterpolatingDoubleTreeMap();
+  private InterpolatingDoubleTreeMap angleMap = new InterpolatingDoubleTreeMap();
+
+
+
+
   /** Creates a new Sensors. */
-  private Sensors() {}
+  private Sensors() {
+    for(DataPoints point: Constants.shooter.VELOCITY_DATA_POINTS){
+      velocityMap.put(point.distance, point.value);
+    }
+
+    for(DataPoints point: Constants.shooter.ANGLE_DATA_POINTS){
+      angleMap.put(point.distance, point.value);
+    }
+  }
 
   private void init() {}
 
@@ -105,7 +122,7 @@ public class Sensors extends SubsystemBase {
   }
 
   /**
-   * Get angle the shoulder should be at 
+   * Get angle the shoulder should be at while aiming + standing still 
    * @param goal
    * @return angle in double
    */
@@ -114,7 +131,7 @@ public class Sensors extends SubsystemBase {
   }
 
   /**
-   * Get angle the robot / drivetrain should be at
+   * Get angle the robot / drivetrain should be at while standing still during aimmode
    * @param goal
    * @return angle in double
    */
@@ -191,4 +208,6 @@ public class Sensors extends SubsystemBase {
     Translation3d movingShotVector = getMovingShotVector(goal);
     return movingShotVector.getNorm(); 
   }
+
+
 }
