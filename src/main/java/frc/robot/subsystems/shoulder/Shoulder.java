@@ -13,6 +13,8 @@ import CSP_Lib.motors.CSP_CANcoder;
 import CSP_Lib.motors.CSP_TalonFX;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -41,7 +43,7 @@ public class Shoulder extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Shoulder Encoder Angle", getAngle());
+    SmartDashboard.putNumber("Shoulder Encoder Angle", getAngle().getRadians());
     SmartDashboard.putNumber("Shoulder Setpoint", pid.getSetpoint().position);
   }
 
@@ -59,7 +61,7 @@ public class Shoulder extends SubsystemBase {
     follower.setBrake(true);
     follower.setInverted(true);
 
-    pid.reset(getAngle());
+    pid.reset(getAngle().getRadians());
     pid.enableContinuousInput(-180, 180);
     pid.setTolerance(Constants.shoulder.ALLOWED_ERROR);
   }
@@ -68,25 +70,27 @@ public class Shoulder extends SubsystemBase {
     leader.disable();
   }
 
-  public void set(double percent) {
-    if (getAngle() > Constants.shoulder.UPPER_LIMIT && percent > 0.0) percent = 0.0;
-      else if (getAngle() < Constants.shoulder.LOWER_LIMIT && percent < 0.0) percent = 0.0;
-    leader.set(percent);
+  public void setVoltage(double percent) {
+    if (getAngle().getRadians() > Constants.shoulder.UPPER_LIMIT && percent > 0.0) percent = 0.0;
+      else if (getAngle().getRadians() < Constants.shoulder.LOWER_LIMIT && percent < 0.0) percent = 0.0;
+    leader.setVoltage(percent);
   }
 
   public void setPID(double kP, double kI, double kD) {
     pid.setPID(kP, kI, kD);
   }
 
-  public void setAngle(double angle) {
-    set(pid.calculate(getAngle(), angle));
+  public void setAngle(Rotation2d angle) {
+    pid.setGoal(angle.getRadians());
+    State setpoint = pid.getSetpoint();
+    setVoltage(pid.calculate(getAngle().getRadians()) + ff.calculate(setpoint.position, setpoint.velocity));
   }
 
-  public double getAngle() {
-    return encoder.getPositionDegrees() * Constants.shoulder.CANCODER_GEAR_RATIO;
+  public Rotation2d getAngle() {
+    return Rotation2d.fromDegrees(encoder.getPositionDegrees() * Constants.shoulder.CANCODER_GEAR_RATIO);
   }
 
   public boolean atGoal(double angle) {
-    return Math.abs(angle - getAngle()) < Constants.shoulder.ALLOWED_ERROR;
+    return Math.abs(angle - getAngle().getRadians()) < Constants.shoulder.ALLOWED_ERROR;
   }
 }
