@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase{
     }
 
     private enum ControlMode {
-      VELOCITY, STOP;
+      VELOCITY, STOP, DASH_VOLTAGE;
     }
 
     private ControlMode controlMode = ControlMode.STOP;
@@ -80,6 +80,7 @@ public class Shooter extends SubsystemBase{
 
     public Shooter() {
       SmartDashboard.putNumber("Flywheel Velocity Set", 0);
+      SmartDashboard.putNumber("Flywheel voltage set", 0.0);
       SmartDashboard.putNumber("Shooter kP", 0);
       SmartDashboard.putNumber("Shooter kS", 0);
       SmartDashboard.putNumber("Shooter kV", 0);
@@ -109,6 +110,9 @@ public class Shooter extends SubsystemBase{
               pid.calculate(getLeftVelocity(), leftVelocity) + ff.calculate(leftVelocity),
               pid.calculate(getRightVelocity(), rightVelocity) + ff.calculate(rightVelocity)
             );
+            break;
+          case DASH_VOLTAGE:
+            setVoltage(0.0, SmartDashboard.getNumber("Flywheel voltage set", 0.0));
         }
 
         updateDashboard();
