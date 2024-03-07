@@ -72,7 +72,7 @@ public class Shoulder extends SubsystemBase {
 
   public void setVoltage(double percent) {
     if (getAngle().getRadians() > Constants.shoulder.UPPER_LIMIT && percent > 0.0) percent = 0.0;
-      else if (getAngle().getRadians() < Constants.shoulder.LOWER_LIMIT && percent < 0.0) percent = 0.0;
+    else if (getAngle().getRadians() < Constants.shoulder.LOWER_LIMIT && percent < 0.0) percent = 0.0;
     leader.setVoltage(percent);
   }
 

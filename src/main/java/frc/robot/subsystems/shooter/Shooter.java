@@ -1,6 +1,7 @@
 package frc.robot.subsystems.shooter;
 
 import CSP_Lib.motors.CSP_TalonFX;
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.units.Distance;
@@ -27,11 +28,17 @@ public class Shooter extends SubsystemBase{
       return instance;
     }
 
+    private enum ControlMode {
+      VELOCITY, STOP;
+    }
+
+    private ControlMode controlMode = ControlMode.STOP;
+
     private CSP_TalonFX left = new CSP_TalonFX(Constants.ids.LEFT_SHOOTER);
     private CSP_TalonFX right = new CSP_TalonFX(Constants.ids.RIGHT_SHOOTER);
 
-    private SimpleMotorFeedforward ff = new SimpleMotorFeedforward(-1.7846, 0.45975, 1.2793);
-    private PIDController pid = new PIDController(0.39011, 0, 0);
+    private SimpleMotorFeedforward ff = new SimpleMotorFeedforward(0.0, 0.0);
+    private PIDController pid = new PIDController(0.0, 0, 0);
 
     private double leftVelocity = 0.0;
     private double rightVelocity = 0.0;
@@ -82,14 +89,26 @@ public class Shooter extends SubsystemBase{
       SmartDashboard.putNumber("Left Shooter Velocity", getLeftVelocity());
       SmartDashboard.putNumber("Left Shooter Voltage", getLeftVoltage());
       SmartDashboard.putNumber("Left Shooter Temperature", getLeftTemperature());
+
+      pid.setP(SmartDashboard.getNumber("Shooter kP", 0.0));
+      ff = new SimpleMotorFeedforward(SmartDashboard.getNumber("Shooter kS", 0.0), SmartDashboard.getNumber("Shooter kV", 0.0), 0.0);
     }
 
     @Override
     public void periodic() {
-        setVoltage(
-            pid.calculate(getLeftVelocity(), leftVelocity) + ff.calculate(leftVelocity),
-            pid.calculate(getRightVelocity(), rightVelocity) + ff.calculate(rightVelocity)
+
+        switch (controlMode) {
+          case STOP: 
+            setVoltage(0.0, 0.0);
+            break;
+          case VELOCITY:
+            setVoltage(
+              pid.calculate(getLeftVelocity(), leftVelocity) + ff.calculate(leftVelocity),
+              pid.calculate(getRightVelocity(), rightVelocity) + ff.calculate(rightVelocity)
             );
+        }
+        
+        updateDashboard();
       }
 
     public void set(double leftPercentage, double rightPercentage) {

@@ -51,6 +51,8 @@ public final class Constants {
     public static Translation3d RED_CENTER_TRAP = new Translation3d(11.24, 4.06, 1.42);
     public static Translation3d RED_RIGHT_TRAP = new Translation3d(11.85, 4.54, 1.42);
 
+    public static double NOTE_RADIUS = Units.inchesToMeters(7.0);  
+
     public class DataPoints{
       public final double distance;
       public final double value;
@@ -79,16 +81,25 @@ public final class Constants {
       // TRAP_C(ANGLE_TRAP, V_TRAP, ),
       // TRAP_L,
       // TRAP_R, 
-      SPEAKER(ANGLE_SPEAKER, V_SPEAKER,
-      new Pose2d(RED_SPEAKER_LOCATION.getX(), RED_SPEAKER_LOCATION.getY(), Rotation2d.fromRadians(Math.PI) ),
-      10, //TODO: happy zone tuning
-      Units.inchesToMeters(3.0 *12.0 + 5.0 + (3.0 /8.0)));
-      // AMP;
+      // AMP
+      SPEAKER(
+        ANGLE_SPEAKER, V_SPEAKER,
+        new Pose2d(RED_SPEAKER_LOCATION.getX(), RED_SPEAKER_LOCATION.getY(), Rotation2d.fromRadians(Math.PI)),
+        10, //TODO: happy zone tuning
+        Units.inchesToMeters(3.0 * 12.0 + 5.0 + (3.0 / 8.0)));
+  
 
       public final InterpolatingDoubleTreeMap ITM_A, ITM_V;
+      public final Pose2d position;
+      public final double happyZone;
+      public final double goalWidth;
 
       private Goal(InterpolatingDoubleTreeMap ITM_A, InterpolatingDoubleTreeMap ITM_V, Pose2d position, double happyZone, double goalWidth){
-
+        this.ITM_A = ITM_A;
+        this.ITM_V = ITM_V;
+        this.position = position;
+        this.happyZone = happyZone;
+        this.goalWidth = goalWidth;
       }
 
     }
@@ -147,6 +158,10 @@ public final class Constants {
     public static final int SHOULDER_ENCODER = 24;
 
     public static final int FEEDER_BEAM_BREAKER = 0;
+    public static final int INTAKE_BEAM_BREAKER = 2;
+
+    public static final int CLIMBER_LEFT_LIMIT = 3;
+    public static final int CLIMBER_RIGHT_LIMIT = 4;
   }
 
   public static class drivetrain {
@@ -250,6 +265,32 @@ public final class Constants {
 
     public static final DataPoints[] VELOCITY_DATA_POINTS = {};
     public static final DataPoints[] ANGLE_DATA_POINTS = {};
+  }
+
+  public static final class climber {
+    public static final double METERS_PER_ROT_LEFT = 0.14283563 / 40.0; // 40 : 1 | 1 : 0.1428
+    public static final double METERS_PER_ROT_RIGHT = 0.14283563 / 40.0;
+
+    public static final double DIST = 0.2032; // 8 in
+
+    public static final double LEFT_kP = 0.0;
+    public static final double LEFT_kI = 0.0;
+    public static final double LEFT_kD = 0.0;
+
+    public static final double RIGHT_kP = 0.0;
+    public static final double RIGHT_kI = 0.0;
+    public static final double RIGHT_kD = 0.0;
+
+    public static final double MAX_VELOCITY = 0.1;
+    public static final double MAX_ACCEL = 0.1;
+
+    public static final double LEFT_kS = 0.0;
+    public static final double LEFT_kG = 0.0;
+    public static final double LEFT_kV = 0.0;
+
+    public static final double RIGHT_kS = 0.0;
+    public static final double RIGHT_kG = 0.0;
+    public static final double RIGHT_kV = 0.0;
   }
 
   public static final class sensors {

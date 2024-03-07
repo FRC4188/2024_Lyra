@@ -21,6 +21,7 @@ import frc.robot.commands.AutoConfigs;
 import frc.robot.commands.drivetrain.TeleDrive;
 import frc.robot.commands.intake.Exhale;
 import frc.robot.commands.intake.Inhale;
+import frc.robot.commands.shooter.SetShooterMPS;
 import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.feeder.Feeder;
@@ -151,13 +152,11 @@ public class RobotContainer {
   }
 
   public void smartdashboardButtons() {
-    SmartDashboard.putString("Current Goal", Constants.field.BLUE_SPEAKER_LOCATION.toString());
-
     SmartDashboard.putNumber("Shoulder Setpoint", 0.0);
     SmartDashboard.putData("Set Shoulder Angle", new SetShoulderAngle(() -> SmartDashboard.getNumber("Shoulder Setpoint", 0.0)));
 
-    SmartDashboard.putNumber("Shoulder kP", 0.0);
-    SmartDashboard.putData("Set Shoulder PID", new InstantCommand(() -> shoulder.setPID(SmartDashboard.getNumber("Shoulder kP", 0.0), 0, 0)));
+    SmartDashboard.putNumber("Shooter Voltage Setpoint", 0.0);
+    SmartDashboard.putData("Set Shooter Velocity", new SetShooterMPS(() -> SmartDashboard.getNumber("Shooter Velocity Setpoint", 0.0)));
   }
 
   public void addChooser() {

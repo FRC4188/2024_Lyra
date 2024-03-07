@@ -23,12 +23,11 @@ public class TrackingDrive extends Command {
   boolean noInput;
 
   /** Creates a new TrackingDrive. */
-  public TrackingDrive(DoubleSupplier xInput, DoubleSupplier yInput, Translation3d goal) {
+  public TrackingDrive(DoubleSupplier xInput, DoubleSupplier yInput) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
     this.xInput = xInput;
     this.yInput = yInput;
-    this.goal = goal;
   }
 
   // Called when the command is initially scheduled.
@@ -38,7 +37,7 @@ public class TrackingDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double goalAngle = sensors.getMovingDriveAngle(goal).getRadians();
+    double goalAngle = sensors.getMovingDriveAngle().getRadians();
     Pose2d pose = drive.getPose2d();
     Translation2d currentSpeed = drive.getFOSpeeds();
 

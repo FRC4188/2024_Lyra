@@ -10,6 +10,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.field.Goal;
 import frc.robot.Constants.shooter.DataPoints;
 import frc.robot.subsystems.drivetrain.Swerve;
 
@@ -38,22 +39,11 @@ public class Sensors extends SubsystemBase {
 
   Swerve drive = Swerve.getInstance();
 
-  
-  private InterpolatingDoubleTreeMap velocityMap = new InterpolatingDoubleTreeMap();
-  private InterpolatingDoubleTreeMap angleMap = new InterpolatingDoubleTreeMap();
-
-
-
+  private Goal currentGoal = Goal.SPEAKER;
 
   /** Creates a new Sensors. */
   private Sensors() {
-    for(DataPoints point: Constants.shooter.VELOCITY_DATA_POINTS){
-      velocityMap.put(point.distance, point.value);
-    }
-
-    for(DataPoints point: Constants.shooter.ANGLE_DATA_POINTS){
-      angleMap.put(point.distance, point.value);
-    }
+    
   }
 
   private void init() {}
@@ -108,8 +98,27 @@ public class Sensors extends SubsystemBase {
     pigeon.reset();
   }
 
-  public double getXYDistance(Translation3d goal) {
-    return goal.toTranslation2d().getDistance(drive.getPose2d().getTranslation());
+  public boolean isHappy() {
+    Pose2d pose = drive.getPose2d();
+    Pose2d goalPos = currentGoal.position;
+    Translation2d goal = goalPos.getTranslation();
+    double goalAngle = goalPos.getRotation().getRadians() - Math.PI;
+
+    double angle1 = Math.atan2(
+      goal.getX() + Math.cos(goalAngle - Math.PI / 2.0) * (currentGoal.goalWidth - Constants.field.NOTE_RADIUS) - pose.getX(),
+      goal.getY() + Math.sin(goalAngle - Math.PI / 2.0) * (currentGoal.goalWidth - Constants.field.NOTE_RADIUS) - pose.getY());
+    
+    double angle2 = Math.atan2(
+      goal.getX() - Math.cos(goalAngle - Math.PI / 2.0) * (currentGoal.goalWidth - Constants.field.NOTE_RADIUS) - pose.getX(),
+      goal.getY() - Math.sin(goalAngle - Math.PI / 2.0) * (currentGoal.goalWidth - Constants.field.NOTE_RADIUS) - pose.getY());
+
+    double d1 = (angle1 - angle2 + 2 * (Math.PI / 2.0) % 4 * (Math.PI / 2.0)) - 2 * (Math.PI / 2.0);
+
+    return d1 > currentGoal.happyZone;
+  }
+
+  public double getXYDistance() {
+    return currentGoal.position.getTranslation().getDistance(drive.getPose2d().getTranslation());
   }
 
   /**
@@ -117,8 +126,8 @@ public class Sensors extends SubsystemBase {
    * @param goal
    * @return 
    */
-  public double getFormulaShooterRPM(Translation3d goal) {
-    return 0;
+  public double getFormulaShooterRPM() {
+    return currentGoal.ITM_V.get(getXYDistance());
   }
 
   /**
@@ -126,8 +135,8 @@ public class Sensors extends SubsystemBase {
    * @param goal
    * @return angle in double
    */
-  public Rotation2d getFormulaShoulderAngle(Translation3d goal) {
-    return Rotation2d.fromRadians(Math.atan2((goal.getZ() - Constants.robot.SHOULDER_PIVOT_HEIGHT), getXYDistance(goal)));
+  public Rotation2d getFormulaShoulderAngle() {
+    return Rotation2d.fromDegrees(currentGoal.ITM_A.get(getXYDistance()));
   }
 
   /**
@@ -135,8 +144,8 @@ public class Sensors extends SubsystemBase {
    * @param goal
    * @return angle in double
    */
-  public Rotation2d getFormulaDriveAngle(Translation3d goal) {
-    Translation2d translation = drive.getPose2d().getTranslation().minus(goal.toTranslation2d());
+  public Rotation2d getFormulaDriveAngle() {
+    Translation2d translation = drive.getPose2d().getTranslation().minus(currentGoal.position.getTranslation());
     return Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX()));
   }
 
@@ -145,10 +154,10 @@ public class Sensors extends SubsystemBase {
    * @param goal
    * @return vector x, y, z in Translation3d needed for aiming while standing still
    */
-  public Translation3d getShotVector(Translation3d goal) {
-    double velocity = getFormulaShooterRPM(goal);
-    double shoulderAngle = getFormulaShoulderAngle(goal).getRadians();
-    double driveAngle = getFormulaDriveAngle(goal).getRadians();
+  public Translation3d getShotVector() {
+    double velocity = getFormulaShooterRPM();
+    double shoulderAngle = getFormulaShoulderAngle().getRadians();
+    double driveAngle = getFormulaDriveAngle().getRadians();
 
     double xy = velocity * Math.cos(shoulderAngle); // xy vector of shoulder/swerve 
     double x = xy * Math.cos(driveAngle); // x vector of swerve
@@ -162,12 +171,12 @@ public class Sensors extends SubsystemBase {
    * @param goal
    * @return vector x, y, z in Translation3d needed for aiming while moving
    */
-  public Translation3d getMovingShotVector(Translation3d goal) {
+  public Translation3d getMovingShotVector() {
     Translation2d speed = drive.getFOSpeeds();
     double xSpeed = speed.getX(); 
     double ySpeed = speed.getY();
 
-    Translation3d stillShotVector = getShotVector(goal);
+    Translation3d stillShotVector = getShotVector();
 
     //new moving vectors need to get xy speed instead of just angles 
     return new Translation3d(stillShotVector.getX() - xSpeed, stillShotVector.getY() - ySpeed, stillShotVector.getZ());
@@ -178,8 +187,8 @@ public class Sensors extends SubsystemBase {
    * @param goal 
    * @return swerve rotation needed for aiming while moving
    */
-  public Rotation2d getMovingDriveAngle(Translation3d goal) {
-    Translation3d movingShotVector = getMovingShotVector(goal);
+  public Rotation2d getMovingDriveAngle() {
+    Translation3d movingShotVector = getMovingShotVector();
 
     //get the radians of the arctan of the slope of y and x of moving vector in radian
     return Rotation2d.fromRadians(Math.atan2(movingShotVector.getY(), movingShotVector.getX()));
@@ -190,8 +199,8 @@ public class Sensors extends SubsystemBase {
    * @param goal
    * @return shoulder rotation
    */
-  public Rotation2d getMovingShoulderAngle(Translation3d goal) {
-    Translation3d movingShotVector = getMovingShotVector(goal);
+  public Rotation2d getMovingShoulderAngle() {
+    Translation3d movingShotVector = getMovingShotVector();
 
     double xy = Math.atan2(movingShotVector.getY(), movingShotVector.getX());
     //get the radians of the arctan of the slope of vertical and horizontal component
@@ -204,10 +213,8 @@ public class Sensors extends SubsystemBase {
    * @param goal
    * @return rpm in double 
    */
-  public double getMovingShooterRPM(Translation3d goal) {
-    Translation3d movingShotVector = getMovingShotVector(goal);
+  public double getMovingShooterRPM() {
+    Translation3d movingShotVector = getMovingShotVector();
     return movingShotVector.getNorm(); 
   }
-
-
 }
