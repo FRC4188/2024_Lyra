@@ -76,8 +76,8 @@ public class Shoulder extends SubsystemBase {
   }
 
   public void setVoltage(double percent) {
-    if (getAngle().getRadians() > Constants.shoulder.UPPER_LIMIT && percent > 0.0) percent = 0.0;
-    else if (getAngle().getRadians() < Constants.shoulder.LOWER_LIMIT && percent < 0.0) percent = 0.0;
+    // if (getAngle().getRadians() > Constants.shoulder.UPPER_LIMIT && percent > 0.0) percent = 0.0;
+    // else if (getAngle().getRadians() < Constants.shoulder.LOWER_LIMIT && percent < 0.0) percent = 0.0;
     leader.setVoltage(percent);
   }
 
@@ -85,7 +85,15 @@ public class Shoulder extends SubsystemBase {
     pid.setPID(kP, kI, kD);
   }
 
+  public static <T extends Comparable<T>> T clamp(T val, T min, T max) {
+      if (val.compareTo(min) < 0) return min;
+      else if (val.compareTo(max) > 0) return max;
+      else return val;
+  }
+
   public void setAngle(Rotation2d angle) {
+    angle = Rotation2d.fromDegrees(clamp(angle.getDegrees(),
+      Constants.shoulder.LOWER_LIMIT, Constants.shoulder.UPPER_LIMIT));
     pid.setGoal(angle.getRadians());
     State setpoint = pid.getSetpoint();
     setVoltage(pid.calculate(getAngle().getRadians()) + ff.calculate(setpoint.position, setpoint.velocity));
