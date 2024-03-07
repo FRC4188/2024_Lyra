@@ -38,6 +38,8 @@ public class Shoulder extends SubsystemBase {
   /** Creates a new Shoulder. */
   public Shoulder() {
     init();
+    SmartDashboard.putNumber("Shoulder kP", 0);
+    SmartDashboard.putNumber("Shoulder kS", 0);
   }
 
   @Override
@@ -45,6 +47,9 @@ public class Shoulder extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shoulder Encoder Angle", getAngle().getRadians());
     SmartDashboard.putNumber("Shoulder Setpoint", pid.getSetpoint().position);
+
+    pid.setP(SmartDashboard.getNumber("Shoulder kP", 0.0));
+    ff = new ArmFeedforward(SmartDashboard.getNumber("Shoulder kS", 0.0), 0, 0);
   }
 
   public void init() {
@@ -90,7 +95,7 @@ public class Shoulder extends SubsystemBase {
     return Rotation2d.fromDegrees(encoder.getPositionDegrees() * Constants.shoulder.CANCODER_GEAR_RATIO);
   }
 
-  public boolean atGoal(double angle) {
-    return Math.abs(angle - getAngle().getRadians()) < Constants.shoulder.ALLOWED_ERROR;
+  public boolean atGoal(double angleDegrees) {
+    return Math.abs(angleDegrees - getAngle().getDegrees()) < Constants.shoulder.ALLOWED_ERROR;
   }
 }
