@@ -15,6 +15,9 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -26,6 +29,11 @@ public class Shoulder extends SubsystemBase {
     if (instance == null) instance = new Shoulder();
     return instance;
   }
+
+  DataLog log = DataLogManager.getLog();
+
+  DoubleLogEntry positionLog = new DoubleLogEntry(log, "shoulder/position");
+  DoubleLogEntry voltageLog = new DoubleLogEntry(log, "shoulder/voltage");
 
   private CSP_TalonFX leader = new CSP_TalonFX(Constants.ids.SHOULDER_LEADER);
   private CSP_TalonFX follower = new CSP_TalonFX(Constants.ids.SHOULDER_FOLLOWER);
@@ -44,6 +52,9 @@ public class Shoulder extends SubsystemBase {
 
   @Override
   public void periodic() {
+    positionLog.append(getAngle().getDegrees());
+    voltageLog.append(getVoltage());
+
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shoulder Encoder Angle", getAngle().getRadians());
     SmartDashboard.putNumber("Shoulder Setpoint", pid.getSetpoint().position);
@@ -73,6 +84,10 @@ public class Shoulder extends SubsystemBase {
 
   public void disable() {
     leader.disable();
+  }
+
+  public double getVoltage() {
+    return leader.getMotorVoltage().getValueAsDouble();
   }
 
   public void setVoltage(double percent) {

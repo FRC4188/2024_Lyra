@@ -5,6 +5,7 @@
 package frc.robot;
 
 import CSP_Lib.utils.TempManager;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -18,6 +19,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_robotContainer = new RobotContainer();
     addPeriodic(() -> TempManager.monitor(), 2.0);
+
+    DataLogManager.start();
   }
 
   @Override

@@ -9,6 +9,9 @@ import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.MutableMeasure;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -27,6 +30,10 @@ public class Shooter extends SubsystemBase{
       if (instance == null) instance = new Shooter();
       return instance;
     }
+
+    DataLog log = DataLogManager.getLog();
+    DoubleLogEntry velocityLog = new DoubleLogEntry(log, "shooter/velocity");
+    DoubleLogEntry voltageLog = new DoubleLogEntry(log, "shooter/voltage");
 
     private enum ControlMode {
       VELOCITY, STOP, DASH_VOLTAGE;
@@ -100,6 +107,8 @@ public class Shooter extends SubsystemBase{
 
     @Override
     public void periodic() {
+        velocityLog.append(getLeftVelocity());
+        voltageLog.append(getLeftVoltage());
 
         switch (controlMode) {
           case STOP: 
