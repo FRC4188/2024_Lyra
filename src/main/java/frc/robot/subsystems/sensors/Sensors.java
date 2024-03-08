@@ -37,8 +37,6 @@ public class Sensors extends SubsystemBase {
           Constants.sensors.limelight.BACK_POSITION,
           Constants.sensors.limelight.BACK_ROTATION);
 
-  Swerve drive = Swerve.getInstance();
-
   private Goal currentGoal = Goal.SPEAKER;
 
   /** Creates a new Sensors. */
@@ -99,7 +97,7 @@ public class Sensors extends SubsystemBase {
   }
 
   public boolean isHappy() {
-    Pose2d pose = drive.getPose2d();
+    Pose2d pose = Swerve.getInstance().getPose2d();
     Pose2d goalPos = currentGoal.position;
     Translation2d goal = goalPos.getTranslation();
     double goalAngle = goalPos.getRotation().getRadians() - Math.PI;
@@ -118,7 +116,7 @@ public class Sensors extends SubsystemBase {
   }
 
   public double getXYDistance() {
-    return currentGoal.position.getTranslation().getDistance(drive.getPose2d().getTranslation());
+    return currentGoal.position.getTranslation().getDistance(Swerve.getInstance().getPose2d().getTranslation());
   }
 
   /**
@@ -145,7 +143,7 @@ public class Sensors extends SubsystemBase {
    * @return angle in double
    */
   public Rotation2d getFormulaDriveAngle() {
-    Translation2d translation = drive.getPose2d().getTranslation().minus(currentGoal.position.getTranslation());
+    Translation2d translation = Swerve.getInstance().getPose2d().getTranslation().minus(currentGoal.position.getTranslation());
     return Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX()));
   }
 
@@ -172,7 +170,7 @@ public class Sensors extends SubsystemBase {
    * @return vector x, y, z in Translation3d needed for aiming while moving
    */
   public Translation3d getMovingShotVector() {
-    Translation2d speed = drive.getFOSpeeds();
+    Translation2d speed = Swerve.getInstance().getFOSpeeds();
     double xSpeed = speed.getX(); 
     double ySpeed = speed.getY();
 
