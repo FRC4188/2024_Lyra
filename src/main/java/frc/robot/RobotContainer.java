@@ -10,6 +10,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import CSP_Lib.inputs.CSP_Controller;
 import CSP_Lib.inputs.CSP_Controller.Scale;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,6 +32,12 @@ import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shoulder.Shoulder;
 
 public class RobotContainer {
+
+  // take out later
+  DigitalInput dio0 = new DigitalInput(0);
+  DigitalInput dio1 = new DigitalInput(1);
+  DigitalInput dio2 = new DigitalInput(2);
+  DigitalInput dio3 = new DigitalInput(3);
 
   private CSP_Controller pilot = new CSP_Controller(Constants.controller.PILOT_PORT);
   private CSP_Controller copilot = new CSP_Controller(Constants.controller.COPILOT_PORT);
@@ -149,6 +156,10 @@ public class RobotContainer {
 
   public void updateShuffle() {
     // flywheel.updateDashboard();
+    SmartDashboard.putBoolean("dio 0", dio0.get());
+    SmartDashboard.putBoolean("dio 1", dio1.get());
+    SmartDashboard.putBoolean("dio 2", dio2.get());
+    SmartDashboard.putBoolean("dio 3", dio3.get());
   }
 
   public void smartdashboardButtons() {

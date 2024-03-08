@@ -19,7 +19,7 @@ public class Feeder extends SubsystemBase {
     return instance;
   }
 
-  private CSP_TalonFX motor = new CSP_TalonFX(Constants.ids.FEEDER, "rio");
+  private CSP_TalonFX motor = new CSP_TalonFX(Constants.ids.FEEDER, "canivore");
   private DigitalInput breaker = new DigitalInput(Constants.ids.FEEDER_BEAM_BREAKER);
 
   public Feeder() {

@@ -157,8 +157,10 @@ public final class Constants {
 
     public static final int SHOULDER_ENCODER = 24;
 
-    public static final int FEEDER_BEAM_BREAKER = 0;
-    public static final int INTAKE_BEAM_BREAKER = 2;
+    public static final int FEEDER_BEAM_BREAKER = 1;
+    
+    public static final int INTAKE_BEAM_BREAKER_1 = 2;
+    public static final int INTAKE_BEAM_BREAKER_2 = 3;
 
     public static final int CLIMBER_LEFT_LIMIT = 3;
     public static final int CLIMBER_RIGHT_LIMIT = 4;

@@ -35,9 +35,9 @@ public class Shoulder extends SubsystemBase {
   DoubleLogEntry positionLog = new DoubleLogEntry(log, "shoulder/position");
   DoubleLogEntry voltageLog = new DoubleLogEntry(log, "shoulder/voltage");
 
-  private CSP_TalonFX leader = new CSP_TalonFX(Constants.ids.SHOULDER_LEADER);
-  private CSP_TalonFX follower = new CSP_TalonFX(Constants.ids.SHOULDER_FOLLOWER);
-  private CSP_CANcoder encoder = new CSP_CANcoder(Constants.ids.SHOULDER_ENCODER);
+  private CSP_TalonFX leader = new CSP_TalonFX(Constants.ids.SHOULDER_LEADER, "canivore");
+  private CSP_TalonFX follower = new CSP_TalonFX(Constants.ids.SHOULDER_FOLLOWER, "canivore");
+  private CSP_CANcoder encoder = new CSP_CANcoder(Constants.ids.SHOULDER_ENCODER, "canivore");
 
   private ProfiledPIDController pid = Constants.shoulder.SHOULDER_PID;
 

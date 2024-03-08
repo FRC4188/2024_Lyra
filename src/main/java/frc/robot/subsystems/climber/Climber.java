@@ -40,8 +40,8 @@ public class Climber extends SubsystemBase {
 
   
 
-  public CSP_TalonFX leftClimber = new CSP_TalonFX(Constants.ids.LEFT_CLIMBER);
-  public CSP_TalonFX rightClimber = new CSP_TalonFX(Constants.ids.RIGHT_CLIMBER);
+  public CSP_TalonFX leftClimber = new CSP_TalonFX(Constants.ids.LEFT_CLIMBER, "canivore");
+  public CSP_TalonFX rightClimber = new CSP_TalonFX(Constants.ids.RIGHT_CLIMBER, "canivore");
 
   public DigitalInput leftLimit = new DigitalInput(Constants.ids.CLIMBER_LEFT_LIMIT);
   public DigitalInput rightLimit = new DigitalInput(Constants.ids.CLIMBER_RIGHT_LIMIT);

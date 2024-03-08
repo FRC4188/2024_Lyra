@@ -9,9 +9,10 @@ import frc.robot.Constants;
 public class Intake extends SubsystemBase{
     private static Intake instance = null;
 
-    private CSP_TalonFX motor = new CSP_TalonFX(Constants.ids.INTAKE, "rio");
+    private CSP_TalonFX motor = new CSP_TalonFX(Constants.ids.INTAKE, "canivore");
 
-    private DigitalInput breaker = new DigitalInput(Constants.ids.INTAKE_BEAM_BREAKER);
+    private DigitalInput breakerOne = new DigitalInput(Constants.ids.INTAKE_BEAM_BREAKER_1);
+    private DigitalInput breakerTwo = new DigitalInput(Constants.ids.INTAKE_BEAM_BREAKER_2);
 
 
     public static synchronized Intake getInstance() {
@@ -53,6 +54,6 @@ public class Intake extends SubsystemBase{
     }
 
     public boolean isBroken() {
-      return !breaker.get();
+      return !breakerOne.get();
     }
 }

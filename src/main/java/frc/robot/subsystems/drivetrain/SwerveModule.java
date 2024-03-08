@@ -49,9 +49,9 @@ public class SwerveModule {
     
     this.speedFF = new SimpleMotorFeedforward(Constants.drivetrain.SPEED_FF.ks, Constants.drivetrain.SPEED_FF.kv);
 
-    this.speed = new CSP_TalonFX(SPEED_ID, "canivore");
-    this.angle = new CSP_TalonFX(ANGLE_ID, "canivore");
-    this.encoder = new CSP_CANcoder(ENCODER_ID, "canivore");
+    this.speed = new CSP_TalonFX(SPEED_ID, "rio");
+    this.angle = new CSP_TalonFX(ANGLE_ID, "rio");
+    this.encoder = new CSP_CANcoder(ENCODER_ID, "rio");
 
     // TempManager.addMotor(this.speed);
     // TempManager.addMotor(this.angle);
