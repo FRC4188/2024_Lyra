@@ -11,8 +11,8 @@ public class Intake extends SubsystemBase{
 
     private CSP_TalonFX motor = new CSP_TalonFX(Constants.ids.INTAKE, "canivore");
 
-    private DigitalInput breakerOne = new DigitalInput(Constants.ids.INTAKE_BEAM_BREAKER_1);
-    private DigitalInput breakerTwo = new DigitalInput(Constants.ids.INTAKE_BEAM_BREAKER_2);
+    // private DigitalInput breakerOne = new DigitalInput(Constants.ids.INTAKE_BEAM_BREAKER_1);
+    // private DigitalInput breakerTwo = new DigitalInput(Constants.ids.INTAKE_BEAM_BREAKER_2);
 
 
     public static synchronized Intake getInstance() {
@@ -54,6 +54,7 @@ public class Intake extends SubsystemBase{
     }
 
     public boolean isBroken() {
-      return !breakerOne.get();
+      // return !breakerOne.get();
+      return false;
     }
 }

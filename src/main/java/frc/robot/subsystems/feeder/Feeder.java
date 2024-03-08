@@ -20,7 +20,7 @@ public class Feeder extends SubsystemBase {
   }
 
   private CSP_TalonFX motor = new CSP_TalonFX(Constants.ids.FEEDER, "canivore");
-  private DigitalInput breaker = new DigitalInput(Constants.ids.FEEDER_BEAM_BREAKER);
+  // private DigitalInput breaker = new DigitalInput(Constants.ids.FEEDER_BEAM_BREAKER);
 
   public Feeder() {
     motor.setBrake(true);
@@ -66,6 +66,7 @@ public class Feeder extends SubsystemBase {
    * @return true if the beam breaker is broken, false if not
    */
   public boolean isBroken() {
-    return !breaker.get();
+    // return !breaker.get();
+    return false;
   }
 }
