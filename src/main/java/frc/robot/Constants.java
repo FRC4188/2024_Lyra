@@ -239,13 +239,14 @@ public final class Constants {
 
     public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0, 0, 0, CONSTRAINTS);
     
-    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0, 0, 0);
+    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0, 0 , 0);
 
-    public static final double ZERO = 0;
+    public static final double ZERO = 12.4453125;
     public static final double ALLOWED_ERROR = 0.5;
 
     public static final double UPPER_LIMIT = 60.0;
     public static final double LOWER_LIMIT = -60.0;
+    // 10 14
   }
 
   public static final class shooter {

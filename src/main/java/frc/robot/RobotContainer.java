@@ -20,9 +20,11 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoConfigs;
 import frc.robot.commands.drivetrain.TeleDrive;
+import frc.robot.commands.feeder.FeedIntoShooter;
+import frc.robot.commands.groups.BlindIntake;
 import frc.robot.commands.intake.Exhale;
 import frc.robot.commands.intake.Inhale;
-import frc.robot.commands.shooter.SetShooterMPS;
+import frc.robot.commands.shooter.SetShooterRPM;
 import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.feeder.Feeder;
@@ -34,10 +36,10 @@ import frc.robot.subsystems.shoulder.Shoulder;
 public class RobotContainer {
 
   // take out later
-  // DigitalInput dio0 = new DigitalInput(0);
-  // DigitalInput dio1 = new DigitalInput(1);
-  // DigitalInput dio2 = new DigitalInput(2);
-  // DigitalInput dio3 = new DigitalInput(3);
+  DigitalInput dio0 = new DigitalInput(0);
+
+  DigitalInput dio2 = new DigitalInput(2);
+  DigitalInput dio3 = new DigitalInput(3);
 
   private CSP_Controller pilot = new CSP_Controller(Constants.controller.PILOT_PORT);
   private CSP_Controller copilot = new CSP_Controller(Constants.controller.COPILOT_PORT);
@@ -73,12 +75,12 @@ public class RobotContainer {
   }
 
   private void setDefaultCommands() {
-    drive.setDefaultCommand(
-      new TeleDrive(
-        () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
-        () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
-        () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.15 : 0.5))
-    );
+    // drive.setDefaultCommand(
+    //   new TeleDrive(
+    //     () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
+    //     () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
+    //     () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.15 : 0.5))
+    // );
   }
 
   private void configureBindings() {
@@ -118,6 +120,18 @@ public class RobotContainer {
                   drive.rotPID.setSetpoint(0.0);
                 }, sensors));
 
+    pilot
+        .getBButton()
+        .onTrue(
+          new BlindIntake()
+        );
+
+    pilot
+        .getYButton()
+        .onTrue(
+          new FeedIntoShooter()
+        );
+
     //intake
     copilot
         .getRightTButton()
@@ -132,19 +146,25 @@ public class RobotContainer {
 
     copilot
         .getUpButton()
-        .whileTrue(new RunCommand(() -> shoulder.setVoltage(0.2), shoulder))
+        .whileTrue(new RunCommand(() -> shoulder.setVoltage(2.5), shoulder))
         .onFalse(new InstantCommand(() -> shoulder.disable()));
         
     copilot
         .getDownButton()
-        .whileTrue(new RunCommand(() -> shoulder.setVoltage(-0.2), shoulder))
+        .whileTrue(new RunCommand(() -> shoulder.setVoltage(-2.5), shoulder))
+        .onFalse(new InstantCommand(() -> shoulder.disable()));
+
+    copilot
+        .getLeftButton()
+        .whileTrue(new RunCommand(() -> shoulder.setVoltage(SmartDashboard.getNumber("Shoulder Voltage Setpoint", 0.0)), shoulder))
         .onFalse(new InstantCommand(() -> shoulder.disable()));
   
     copilot
         .getAButton()
-        .whileTrue(new RunCommand(() -> shooter.set(0.5, 0.5), shooter))
+        .whileTrue(new RunCommand(() -> shooter.set(
+          0.5, 0.5), shooter))
         .onFalse(new InstantCommand(() -> shooter.disable()));
-
+ 
     copilot
         .getBButton()
         .whileTrue(new RunCommand(() -> feeder.set(0.5), feeder))
@@ -156,18 +176,19 @@ public class RobotContainer {
 
   public void updateShuffle() {
     // flywheel.updateDashboard();
-    // SmartDashboard.putBoolean("dio 0", dio0.get());
-    // SmartDashboard.putBoolean("dio 1", dio1.get());
-    // SmartDashboard.putBoolean("dio 2", dio2.get());
-    // SmartDashboard.putBoolean("dio 3", dio3.get());
+    SmartDashboard.putBoolean("dio 0", dio0.get());
+    
+    SmartDashboard.putBoolean("dio 2", dio2.get());
+    SmartDashboard.putBoolean("dio 3", dio3.get());
   }
 
   public void smartdashboardButtons() {
     SmartDashboard.putNumber("Shoulder Setpoint", 0.0);
     SmartDashboard.putData("Set Shoulder Angle", new SetShoulderAngle(() -> SmartDashboard.getNumber("Shoulder Setpoint", 0.0)));
+    SmartDashboard.putNumber("Shoulder Voltage Setpoint", 0.0);
 
     SmartDashboard.putNumber("Shooter Voltage Setpoint", 0.0);
-    SmartDashboard.putData("Set Shooter Velocity", new SetShooterMPS(() -> SmartDashboard.getNumber("Shooter Velocity Setpoint", 0.0)));
+    SmartDashboard.putData("Set Shooter Velocity", new SetShooterRPM(() -> SmartDashboard.getNumber("Shooter Velocity Setpoint", 0.0)));
   }
 
   public void addChooser() {

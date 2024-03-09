@@ -53,7 +53,7 @@ public class Climber extends SubsystemBase {
   public ElevatorFeedforward rightFF = new ElevatorFeedforward(0.0, 0.0, 0.0);
 
   private Notifier notifier = new Notifier(() -> {
-    updateDashboard();
+    updateDashboard(); 
   });
 
   // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.

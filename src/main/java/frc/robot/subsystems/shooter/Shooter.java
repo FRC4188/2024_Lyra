@@ -35,8 +35,8 @@ public class Shooter extends SubsystemBase{
     DoubleLogEntry velocityLog = new DoubleLogEntry(log, "shooter/velocity");
     DoubleLogEntry voltageLog = new DoubleLogEntry(log, "shooter/voltage");
 
-    private enum ControlMode {
-      VELOCITY, STOP, DASH_VOLTAGE;
+    public enum ControlMode {
+      VELOCITY, STOP, DASH_VOLTAGE, TEST;
     }
 
     private ControlMode controlMode = ControlMode.STOP;
@@ -101,6 +101,8 @@ public class Shooter extends SubsystemBase{
       SmartDashboard.putNumber("Left Shooter Voltage", getLeftVoltage());
       SmartDashboard.putNumber("Left Shooter Temperature", getLeftTemperature());
 
+      SmartDashboard.putNumber("Left RPM", left.getRPM());
+      SmartDashboard.putNumber("Right RPM", right.getRPM());
       pid.setP(SmartDashboard.getNumber("Shooter kP", 0.0));
       ff = new SimpleMotorFeedforward(SmartDashboard.getNumber("Shooter kS", 0.0), SmartDashboard.getNumber("Shooter kV", 0.0), 0.0);
     }
@@ -122,6 +124,9 @@ public class Shooter extends SubsystemBase{
             break;
           case DASH_VOLTAGE:
             setVoltage(0.0, SmartDashboard.getNumber("Flywheel voltage set", 0.0));
+            break;
+          case TEST: // do nothing while testing
+            break;
         }
 
         updateDashboard();
@@ -164,7 +169,8 @@ public class Shooter extends SubsystemBase{
      * @return velocity as a double
      */
     public double getLeftVelocity() {
-        return (left.getRPM() / 60.0) * Constants.shooter.SHOOTER_DIAMETER_METERS * Math.PI;
+        // return (left.getRPM() / 60.0) * Constants.shooter.SHOOTER_DIAMETER_METERS * Math.PI;
+        return left.getRPM();
     }
     
     /**
@@ -172,7 +178,9 @@ public class Shooter extends SubsystemBase{
      * @return velocity as a double
      */
     public double getRightVelocity() {
-        return (right.getRPM() / 60.0) * Constants.shooter.SHOOTER_DIAMETER_METERS * Math.PI;
+        // return (right.getRPM() / 60.0) * Constants.shooter.SHOOTER_DIAMETER_METERS * Math.PI;
+        return right.getRPM();
+        
     }
 
     /**
@@ -231,6 +239,10 @@ public class Shooter extends SubsystemBase{
     public boolean atRPM(double RPM) {
       
       return (left.getRPM() == RPM && right.getRPM() == RPM);
+    }
+
+    public void setControlMode(ControlMode mode) {
+      this.controlMode = mode;
     }
 
 

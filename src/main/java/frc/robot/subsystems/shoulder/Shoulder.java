@@ -56,8 +56,8 @@ public class Shoulder extends SubsystemBase {
     voltageLog.append(getVoltage());
 
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Shoulder Encoder Angle", getAngle().getRadians());
-    SmartDashboard.putNumber("Shoulder Setpoint", pid.getSetpoint().position);
+    SmartDashboard.putNumber("Shoulder Angle", getAngle().getDegrees());
+    SmartDashboard.putNumber("Shoulder Setpoint", pid.getSetpoint().position); 
 
     pid.setP(SmartDashboard.getNumber("Shoulder kP", 0.0));
     ff = new ArmFeedforward(SmartDashboard.getNumber("Shoulder kS", 0.0), 0, 0);
@@ -90,10 +90,14 @@ public class Shoulder extends SubsystemBase {
     return leader.getMotorVoltage().getValueAsDouble();
   }
 
-  public void setVoltage(double percent) {
+  public void setVoltage(double voltage) {
     // if (getAngle().getRadians() > Constants.shoulder.UPPER_LIMIT && percent > 0.0) percent = 0.0;
     // else if (getAngle().getRadians() < Constants.shoulder.LOWER_LIMIT && percent < 0.0) percent = 0.0;
-    leader.setVoltage(percent);
+    leader.setVoltage(voltage);
+  }
+
+  public void set(double percent) {
+    leader.set(percent);
   }
 
   public void setPID(double kP, double kI, double kD) {

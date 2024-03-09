@@ -2,7 +2,7 @@ package frc.robot.commands.groups;
 
 import frc.robot.commands.drivetrain.TrackingDrive;
 import frc.robot.commands.feeder.FeedIntoShooter;
-import frc.robot.commands.shooter.SetShooterMPS;
+import frc.robot.commands.shooter.SetShooterRPM;
 import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.sensors.Sensors;
@@ -34,7 +34,7 @@ public class ShootOnReady extends ParallelCommandGroup {
                         shoulder.atGoal(sensors.getMovingShoulderAngle().getDegrees()) && 
                         drive.atGoalAngle(sensors.getMovingDriveAngle().getDegrees())).andThen(
                     new FeedIntoShooter().andThen(Commands.waitSeconds(0.25))),
-                    new SetShooterMPS(() -> sensors.getMovingShooterRPM()),
+                    new SetShooterRPM(() -> sensors.getMovingShooterRPM()),
                     new SetShoulderAngle(() -> sensors.getMovingShoulderAngle().getDegrees()),
                     new TrackingDrive(xInput, yInput)
                 )
