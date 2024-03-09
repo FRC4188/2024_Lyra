@@ -117,7 +117,8 @@ public class Shooter extends SubsystemBase{
           case VELOCITY:
             setVoltage(
               pid.calculate(getLeftVelocity(), leftVelocity) + ff.calculate(leftVelocity),
-              pid.calculate(getRightVelocity(), rightVelocity) + ff.calculate(rightVelocity)
+              // pid.calculate(getRightVelocity(), rightVelocity) + ff.calculate(rightVelocity)
+              rightVelocity
             );
             break;
           case DASH_VOLTAGE:

@@ -30,6 +30,7 @@ public class Feeder extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Feeder AMPS", motor.getCurrent());
+    SmartDashboard.putBoolean("feeder breaker", isBroken());
   }
 
   /**

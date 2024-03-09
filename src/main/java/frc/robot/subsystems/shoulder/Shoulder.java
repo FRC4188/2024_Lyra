@@ -64,6 +64,7 @@ public class Shoulder extends SubsystemBase {
   }
 
   public void init() {
+
     MagnetSensorConfigs sensorConfigs = new MagnetSensorConfigs();
     sensorConfigs.MagnetOffset = -(Constants.shoulder.ZERO / 360.0);
     sensorConfigs.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;

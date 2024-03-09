@@ -60,9 +60,9 @@ public class RobotContainer {
     // Set the default commands
     setDefaultCommands();
 
-    configureBindings();
-
     smartdashboardButtons();
+
+    configureBindings();
 
     shuffleUpdater.startPeriodic(0.02);
 
@@ -144,31 +144,37 @@ public class RobotContainer {
         .whileTrue(new Exhale())
         .onFalse(new InstantCommand(() -> intake.disable(), intake));
 
-    copilot
+    pilot
         .getUpButton()
         .whileTrue(new RunCommand(() -> shoulder.setVoltage(2.5), shoulder))
         .onFalse(new InstantCommand(() -> shoulder.disable()));
         
-    copilot
+    pilot
         .getDownButton()
         .whileTrue(new RunCommand(() -> shoulder.setVoltage(-2.5), shoulder))
         .onFalse(new InstantCommand(() -> shoulder.disable()));
   
-    copilot
-        .getAButton()
-        .whileTrue(new RunCommand(() -> shooter.set(
-          0.5, 0.5), shooter))
+    pilot
+        .getXButton()
+        .whileTrue(new RunCommand(() -> shooter.setVoltage(
+          8, 8
+          ), shooter))
         .onFalse(new InstantCommand(() -> shooter.disable()));
  
     copilot
         .getBButton()
         .whileTrue(new RunCommand(() -> feeder.set(0.5), feeder))
         .onFalse(new InstantCommand(() -> feeder.disable()));
+
+    pilot
+        .getStartButton()
+        .whileTrue(new RunCommand(() -> feeder.set(-0.5), feeder))
+        .onFalse(new InstantCommand(() -> feeder.disable()));
     
     // buttons for testing SetShooterRPM and SetShoulderAngle :D
     copilot
         .getLeftButton()
-        .whileTrue(new SetShooterRPM(() -> SmartDashboard.getNumber("Shooter RPM Setpoint", 0.0)));
+        .whileTrue(new SetShooterRPM(() -> SmartDashboard.getNumber("rpm", 0.0)));
 
     copilot
         .getRightButton()
@@ -189,7 +195,7 @@ public class RobotContainer {
   public void smartdashboardButtons() {
     SmartDashboard.putNumber("Shoulder Setpoint", 0.0);
 
-    SmartDashboard.putNumber("Shooter RPM Setpoint", 0.0);
+    SmartDashboard.putNumber("rpm", 4.0);
   }
 
   public void addChooser() {

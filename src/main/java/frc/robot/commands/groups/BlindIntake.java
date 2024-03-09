@@ -19,11 +19,11 @@ public class BlindIntake extends ParallelCommandGroup {
     public BlindIntake() {
         addCommands(
             new SequentialCommandGroup(
-                new SetShoulderAngle(() -> 60.0)
-                    .until(() -> shoulder.atGoal(60.0)),
+                // new SetShoulderAngle(() -> 60.0)
+                //     .until(() -> shoulder.atGoal(60.0)),
                 new ParallelDeadlineGroup(
                     new FeedIntoFeeder(),
-                    new SetShoulderAngle(() -> 60.0),
+                    // new SetShoulderAngle(() -> 60.0),
                     new Inhale()
                 )
             )
