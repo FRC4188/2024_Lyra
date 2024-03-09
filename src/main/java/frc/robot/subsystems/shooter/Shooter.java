@@ -86,8 +86,6 @@ public class Shooter extends SubsystemBase{
               this));
 
     public Shooter() {
-      SmartDashboard.putNumber("Flywheel Velocity Set", 0);
-      SmartDashboard.putNumber("Flywheel voltage set", 0.0);
       SmartDashboard.putNumber("Shooter kP", 0);
       SmartDashboard.putNumber("Shooter kS", 0);
       SmartDashboard.putNumber("Shooter kV", 0);

@@ -239,7 +239,7 @@ public final class Constants {
 
     public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0, 0, 0, CONSTRAINTS);
     
-    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0, 0 , 0);
+    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.14, 0 , 0); // kS = verge of motion, kg = fixes setpoint after weak p
 
     public static final double ZERO = 12.4453125;
     public static final double ALLOWED_ERROR = 0.5;
@@ -250,11 +250,11 @@ public final class Constants {
   }
 
   public static final class shooter {
-
-
     public static final double SHOOTER_DIAMETER_INCHES = 4.0;
     public static final double SHOOTER_DIAMETER_METERS = (SHOOTER_DIAMETER_INCHES) * 0.0254;
     public static final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER_METERS * Math.PI;
+
+    public static final SimpleMotorFeedforward SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.0, 0.0); // kS = verge of motion, kV = volts/vel
 
     public class DataPoints{
       public final double distance;

@@ -36,10 +36,10 @@ import frc.robot.subsystems.shoulder.Shoulder;
 public class RobotContainer {
 
   // take out later
-  DigitalInput dio0 = new DigitalInput(0);
+  // DigitalInput dio0 = new DigitalInput(0);
 
-  DigitalInput dio2 = new DigitalInput(2);
-  DigitalInput dio3 = new DigitalInput(3);
+  // DigitalInput dio2 = new DigitalInput(2);
+  // DigitalInput dio3 = new DigitalInput(3);
 
   private CSP_Controller pilot = new CSP_Controller(Constants.controller.PILOT_PORT);
   private CSP_Controller copilot = new CSP_Controller(Constants.controller.COPILOT_PORT);
@@ -153,11 +153,6 @@ public class RobotContainer {
         .getDownButton()
         .whileTrue(new RunCommand(() -> shoulder.setVoltage(-2.5), shoulder))
         .onFalse(new InstantCommand(() -> shoulder.disable()));
-
-    copilot
-        .getLeftButton()
-        .whileTrue(new RunCommand(() -> shoulder.setVoltage(SmartDashboard.getNumber("Shoulder Voltage Setpoint", 0.0)), shoulder))
-        .onFalse(new InstantCommand(() -> shoulder.disable()));
   
     copilot
         .getAButton()
@@ -169,6 +164,15 @@ public class RobotContainer {
         .getBButton()
         .whileTrue(new RunCommand(() -> feeder.set(0.5), feeder))
         .onFalse(new InstantCommand(() -> feeder.disable()));
+    
+    // buttons for testing SetShooterRPM and SetShoulderAngle :D
+    copilot
+        .getLeftButton()
+        .whileTrue(new SetShooterRPM(() -> SmartDashboard.getNumber("Shooter RPM Setpoint", 0.0)));
+
+    copilot
+        .getRightButton()
+        .whileTrue(new SetShoulderAngle(() -> SmartDashboard.getNumber("Shoulder Setpoint", 0.0)));
 
     // Seriously why is it "Inhale" and "Exhale" lmao. I like it though -Aiden
     // Freak you Aiden
@@ -176,19 +180,16 @@ public class RobotContainer {
 
   public void updateShuffle() {
     // flywheel.updateDashboard();
-    SmartDashboard.putBoolean("dio 0", dio0.get());
+    // SmartDashboard.putBoolean("dio 0", dio0.get());
     
-    SmartDashboard.putBoolean("dio 2", dio2.get());
-    SmartDashboard.putBoolean("dio 3", dio3.get());
+    // SmartDashboard.putBoolean("dio 2", dio2.get());
+    // SmartDashboard.putBoolean("dio 3", dio3.get());
   }
 
   public void smartdashboardButtons() {
     SmartDashboard.putNumber("Shoulder Setpoint", 0.0);
-    SmartDashboard.putData("Set Shoulder Angle", new SetShoulderAngle(() -> SmartDashboard.getNumber("Shoulder Setpoint", 0.0)));
-    SmartDashboard.putNumber("Shoulder Voltage Setpoint", 0.0);
 
-    SmartDashboard.putNumber("Shooter Voltage Setpoint", 0.0);
-    SmartDashboard.putData("Set Shooter Velocity", new SetShooterRPM(() -> SmartDashboard.getNumber("Shooter Velocity Setpoint", 0.0)));
+    SmartDashboard.putNumber("Shooter RPM Setpoint", 0.0);
   }
 
   public void addChooser() {
