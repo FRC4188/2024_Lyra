@@ -34,8 +34,8 @@ public class SetShooterRPM extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setControlMode(ControlMode.VELOCITY);
     shooter.setVelocity(leftVelocity, rightVelocity);
+    shooter.setControlMode(ControlMode.VELOCITY);
   }
 
   // Called once the command ends or is interrupted.

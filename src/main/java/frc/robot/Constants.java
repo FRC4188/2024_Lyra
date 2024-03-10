@@ -167,7 +167,7 @@ public final class Constants {
   }
 
   public static class drivetrain {
-    public static final double DRIVE_GEARING = 5.14; // 6.55 : 1
+    public static final double DRIVE_GEARING = 5.14; // 5.14 : 1
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
     public static final double DRIVE_TICKS_PER_ROTATION =
         robot.FALCON_ENCODER_TICKS * DRIVE_GEARING;
@@ -176,7 +176,7 @@ public final class Constants {
         DRIVE_GEARING / WHEEL_CIRCUMFRENCE;
     public static final double DRIVE_METERS_PER_TICK = 1 / DRIVE_TICKS_PER_METER;
 
-    public static final double ANGLE_GEARING = 11.3142; // 10.29 : 1
+    public static final double ANGLE_GEARING = 11.3142; // 11.3142 : 1
     public static final double ANGLE_TICKS_PER_ROTATION =
         robot.FALCON_ENCODER_TICKS * ANGLE_GEARING;
     public static final double ANGLE_TICKS_PER_DEGREE = ANGLE_TICKS_PER_ROTATION / 360.0;
@@ -241,10 +241,10 @@ public final class Constants {
     
     public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.14, 0 , 0); // kS = verge of motion, kg = fixes setpoint after weak p
 
-    public static final double ZERO = 12.4453125;
+    public static final double ZERO = -200.07421875;
     public static final double ALLOWED_ERROR = 0.5;
 
-    public static final double UPPER_LIMIT = 60.0;
+    public static final double UPPER_LIMIT = 144.0;
     public static final double LOWER_LIMIT = -60.0;
     // 10 14
   }

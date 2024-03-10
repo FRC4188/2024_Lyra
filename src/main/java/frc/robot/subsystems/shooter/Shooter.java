@@ -45,7 +45,7 @@ public class Shooter extends SubsystemBase{
     private CSP_TalonFX right = new CSP_TalonFX(Constants.ids.RIGHT_SHOOTER, "canivore");
 
     private SimpleMotorFeedforward ff = new SimpleMotorFeedforward(0.0, 0.0);
-    private PIDController pid = new PIDController(0.0, 0, 0);
+    private PIDController pid = new PIDController(0.12, 0,0.000003);
 
     private double leftVelocity = 0.0;
     private double rightVelocity = 0.0;
@@ -87,22 +87,27 @@ public class Shooter extends SubsystemBase{
 
     public Shooter() {
       SmartDashboard.putNumber("Shooter kP", 0);
+      SmartDashboard.putNumber("Shooter kD", 0);             
       SmartDashboard.putNumber("Shooter kS", 0);
       SmartDashboard.putNumber("Shooter kV", 0);
 
       left.setInverted(true);
       right.setInverted(false);
+
+      left.setRampRate(0.1);
+      right.setRampRate(0.1);
     }
 
     public void updateDashboard() {
-      SmartDashboard.putNumber("Left Shooter Velocity", getLeftVelocity());
       SmartDashboard.putNumber("Left Shooter Voltage", getLeftVoltage());
       SmartDashboard.putNumber("Left Shooter Temperature", getLeftTemperature());
 
       SmartDashboard.putNumber("Left RPM", left.getRPM());
       SmartDashboard.putNumber("Right RPM", right.getRPM());
-      pid.setP(SmartDashboard.getNumber("Shooter kP", 0.0));
-      ff = new SimpleMotorFeedforward(SmartDashboard.getNumber("Shooter kS", 0.0), SmartDashboard.getNumber("Shooter kV", 0.0), 0.0);
+      
+      // pid.setP(SmartDashboard.getNumber("Shooter kP", 0.0));
+      // pid.setD(SmartDashboard.getNumber("Shooter kD", 0.0));
+      // ff = new SimpleMotorFeedforward(SmartDashboard.getNumber("Shooter kS", 0.0), SmartDashboard.getNumber("Shooter kV", 0.0), 0.0);
     }
 
     @Override
@@ -117,8 +122,7 @@ public class Shooter extends SubsystemBase{
           case VELOCITY:
             setVoltage(
               pid.calculate(getLeftVelocity(), leftVelocity) + ff.calculate(leftVelocity),
-              // pid.calculate(getRightVelocity(), rightVelocity) + ff.calculate(rightVelocity)
-              rightVelocity
+              pid.calculate(getRightVelocity(), rightVelocity) + ff.calculate(rightVelocity)
             );
             break;
           case DASH_VOLTAGE:

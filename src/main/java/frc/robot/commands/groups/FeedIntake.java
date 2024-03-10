@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.feeder.FeedIntoFeeder;
+import frc.robot.commands.feeder.ReturnToFeeder;
 import frc.robot.commands.intake.Inhale;
 import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.intake.Intake;
@@ -26,7 +27,7 @@ public class FeedIntake extends ParallelCommandGroup {
                     new FeedIntoFeeder(),
                     new SetShoulderAngle(() -> 60.0),
                     new Inhale()
-                )
+                ).andThen(new ReturnToFeeder().withTimeout(0.25))
             )
         );
     }

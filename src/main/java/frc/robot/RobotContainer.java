@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoConfigs;
 import frc.robot.commands.drivetrain.TeleDrive;
 import frc.robot.commands.feeder.FeedIntoShooter;
+import frc.robot.commands.feeder.ReturnToFeeder;
 import frc.robot.commands.groups.BlindIntake;
 import frc.robot.commands.intake.Exhale;
 import frc.robot.commands.intake.Inhale;
@@ -156,25 +157,19 @@ public class RobotContainer {
   
     pilot
         .getXButton()
-        .whileTrue(new RunCommand(() -> shooter.setVoltage(
-          8, 8
-          ), shooter))
+        .whileTrue(new RunCommand(() -> shooter.setVoltage(8, 8), shooter))
         .onFalse(new InstantCommand(() -> shooter.disable()));
  
     copilot
         .getBButton()
         .whileTrue(new RunCommand(() -> feeder.set(0.5), feeder))
         .onFalse(new InstantCommand(() -> feeder.disable()));
-
-    pilot
-        .getStartButton()
-        .whileTrue(new RunCommand(() -> feeder.set(-0.5), feeder))
-        .onFalse(new InstantCommand(() -> feeder.disable()));
     
     // buttons for testing SetShooterRPM and SetShoulderAngle :D
-    copilot
+    pilot
         .getLeftButton()
-        .whileTrue(new SetShooterRPM(() -> SmartDashboard.getNumber("rpm", 0.0)));
+        // .whileTrue(new SetShooterRPM(() -> SmartDashboard.getNumber("rpm", 0))); // NOT WORKING FOR SOME REASON
+        .whileTrue(new SetShooterRPM(() -> 2000));
 
     copilot
         .getRightButton()
@@ -187,15 +182,13 @@ public class RobotContainer {
   public void updateShuffle() {
     // flywheel.updateDashboard();
     // SmartDashboard.putBoolean("dio 0", dio0.get());
-    
     // SmartDashboard.putBoolean("dio 2", dio2.get());
     // SmartDashboard.putBoolean("dio 3", dio3.get());
   }
 
   public void smartdashboardButtons() {
     SmartDashboard.putNumber("Shoulder Setpoint", 0.0);
-
-    SmartDashboard.putNumber("rpm", 4.0);
+    SmartDashboard.putNumber("RPM Setpoint", 0.0);
   }
 
   public void addChooser() {
