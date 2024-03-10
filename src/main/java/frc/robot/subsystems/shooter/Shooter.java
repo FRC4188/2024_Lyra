@@ -44,8 +44,10 @@ public class Shooter extends SubsystemBase{
     private CSP_TalonFX left = new CSP_TalonFX(Constants.ids.LEFT_SHOOTER, "canivore");
     private CSP_TalonFX right = new CSP_TalonFX(Constants.ids.RIGHT_SHOOTER, "canivore");
 
-    private SimpleMotorFeedforward ff = new SimpleMotorFeedforward(0.0, 0.0);
-    private PIDController pid = new PIDController(0.12, 0,0.000003);
+    private SimpleMotorFeedforward ff = Constants.shooter.SHOOTER_FEEDFORWARD;
+    private PIDController pid = Constants.shooter.SHOOTER_PID;
+
+    
 
     private double leftVelocity = 0.0;
     private double rightVelocity = 0.0;

@@ -46,8 +46,9 @@ public class Shoulder extends SubsystemBase {
   /** Creates a new Shoulder. */
   public Shoulder() {
     init();
-    SmartDashboard.putNumber("Shoulder kP", 0);
-    SmartDashboard.putNumber("Shoulder kS", 0);
+    SmartDashboard.putNumber("Shoulder kP", 0.0);
+    SmartDashboard.putNumber("Shoulder kD", 0.0);
+    SmartDashboard.putNumber("Shoulder kG", 0.0);
   }
 
   @Override
@@ -60,25 +61,28 @@ public class Shoulder extends SubsystemBase {
     SmartDashboard.putNumber("Shoulder Setpoint", pid.getSetpoint().position); 
 
     pid.setP(SmartDashboard.getNumber("Shoulder kP", 0.0));
-    ff = new ArmFeedforward(SmartDashboard.getNumber("Shoulder kS", 0.0), 0, 0);
+    pid.setD(SmartDashboard.getNumber("Shoulder kD", 0.0));
+    ff = new ArmFeedforward(0, 0, 0);
   }
 
   public void init() {
 
     MagnetSensorConfigs sensorConfigs = new MagnetSensorConfigs();
-    sensorConfigs.MagnetOffset = -(Constants.shoulder.ZERO / 360.0);
+    sensorConfigs.MagnetOffset = -(Constants.shoulder.ZERO / 360.0) * Constants.shoulder.CANCODER_GEAR_RATIO;
     sensorConfigs.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
     sensorConfigs.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
     encoder.getConfigurator().apply(sensorConfigs);
 
-    leader.setInverted(false);
+    leader.setInverted(true);
     leader.setBrake(true);
+
+    leader.setRampRate(0.25);
 
     follower.setControl(new StrictFollower(leader.getDeviceID()));
     follower.setBrake(true);
-    follower.setInverted(true);
+    follower.setInverted(false);
 
-    pid.reset(getAngle().getRadians());
+    pid.reset(getAngle().getDegrees());
     pid.enableContinuousInput(-180, 180);
     pid.setTolerance(Constants.shoulder.ALLOWED_ERROR);
   }
@@ -114,13 +118,13 @@ public class Shoulder extends SubsystemBase {
   public void setAngle(Rotation2d angle) {
     angle = Rotation2d.fromDegrees(clamp(angle.getDegrees(),
       Constants.shoulder.LOWER_LIMIT, Constants.shoulder.UPPER_LIMIT));
-    pid.setGoal(angle.getRadians());
+    pid.setGoal(angle.getDegrees());
     State setpoint = pid.getSetpoint();
-    setVoltage(pid.calculate(getAngle().getRadians()) + ff.calculate(setpoint.position, setpoint.velocity));
+    setVoltage(pid.calculate(getAngle().getDegrees()) + ff.calculate(setpoint.position, setpoint.velocity));
   }
 
   public Rotation2d getAngle() {
-    return Rotation2d.fromDegrees(encoder.getPositionDegrees() * Constants.shoulder.CANCODER_GEAR_RATIO);
+    return Rotation2d.fromDegrees(encoder.getPositionDegrees() / Constants.shoulder.CANCODER_GEAR_RATIO);
   }
 
   public boolean atGoal(double angleDegrees) {

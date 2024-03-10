@@ -38,8 +38,6 @@ public class Climber extends SubsystemBase {
     return instance;
   }
 
-  
-
   public CSP_TalonFX leftClimber = new CSP_TalonFX(Constants.ids.LEFT_CLIMBER, "canivore");
   public CSP_TalonFX rightClimber = new CSP_TalonFX(Constants.ids.RIGHT_CLIMBER, "canivore");
 
@@ -103,6 +101,7 @@ public class Climber extends SubsystemBase {
     rightClimber.setBrake(true);
 
     notifier.startPeriodic(0.2);
+
   }
 
   /**
@@ -115,6 +114,13 @@ public class Climber extends SubsystemBase {
 
     SmartDashboard.putNumber("LClimber Temp:", getLeftTemp());
     SmartDashboard.putNumber("RClimber Temp:", getRightTemp());
+    SmartDashboard.putBoolean("Reached Limit", leftLimit.get());
+  }
+
+  @Override
+  public void periodic() {
+    updateDashboard();
+    
   }
 
   /**

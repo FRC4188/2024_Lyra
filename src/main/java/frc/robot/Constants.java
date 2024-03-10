@@ -162,8 +162,8 @@ public final class Constants {
     public static final int INTAKE_BEAM_BREAKER_1 = 2;
     public static final int INTAKE_BEAM_BREAKER_2 = 3;
 
-    public static final int CLIMBER_LEFT_LIMIT = 3;
-    public static final int CLIMBER_RIGHT_LIMIT = 4;
+    public static final int CLIMBER_LEFT_LIMIT = 4;
+    public static final int CLIMBER_RIGHT_LIMIT = 5;
   }
 
   public static class drivetrain {
@@ -237,14 +237,14 @@ public final class Constants {
     public static final double MAX_ACCEL = 0.0;
     public static final Constraints CONSTRAINTS = new Constraints(MAX_VEL, MAX_ACCEL);
 
-    public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0, 0, 0, CONSTRAINTS);
+    public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0.2, 0, 0, CONSTRAINTS);
     
     public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.14, 0 , 0); // kS = verge of motion, kg = fixes setpoint after weak p
 
-    public static final double ZERO = -200.07421875;
+    public static final double ZERO = -138.57421875;
     public static final double ALLOWED_ERROR = 0.5;
 
-    public static final double UPPER_LIMIT = 144.0;
+    public static final double UPPER_LIMIT = 60.0;
     public static final double LOWER_LIMIT = -60.0;
     // 10 14
   }
@@ -255,6 +255,7 @@ public final class Constants {
     public static final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER_METERS * Math.PI;
 
     public static final SimpleMotorFeedforward SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.16, 0.0021); // kS = verge of motion, kV = volts/vel
+    public static final PIDController SHOOTER_PID = new PIDController(0.12, 0, 0.000003);
 
     public class DataPoints{
       public final double distance;

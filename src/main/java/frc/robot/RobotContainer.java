@@ -27,6 +27,7 @@ import frc.robot.commands.intake.Exhale;
 import frc.robot.commands.intake.Inhale;
 import frc.robot.commands.shooter.SetShooterRPM;
 import frc.robot.commands.shoulder.SetShoulderAngle;
+import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.feeder.Feeder;
 import frc.robot.subsystems.intake.Intake;
@@ -51,6 +52,7 @@ public class RobotContainer {
   Shoulder shoulder = Shoulder.getInstance();
   Shooter shooter = Shooter.getInstance();
   Feeder feeder = Feeder.getInstance();
+  Climber climber = Climber.getInstance();
   // Flywheel flywheel = Flywheel.getInstance();
 
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
@@ -122,7 +124,7 @@ public class RobotContainer {
                 }, sensors));
 
     pilot
-        .getBButton()
+        .getRightTButton()
         .onTrue(
           new BlindIntake()
         );
@@ -172,8 +174,20 @@ public class RobotContainer {
         .whileTrue(new SetShooterRPM(() -> 2000));
 
     copilot
+        .getUpButton()
+        .onTrue(new SetShoulderAngle(() -> 0.0));
+
+
+
+    copilot
         .getRightButton()
-        .whileTrue(new SetShoulderAngle(() -> SmartDashboard.getNumber("Shoulder Setpoint", 0.0)));
+        .onTrue(new SetShoulderAngle(() -> 60.0));
+
+    copilot
+        .getLeftButton()
+        .onTrue(new SetShoulderAngle(() -> -60.0));
+
+    
 
     // Seriously why is it "Inhale" and "Exhale" lmao. I like it though -Aiden
     // Freak you Aiden

@@ -26,7 +26,7 @@ public class SetShoulderAngle extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shoulder.setAngle(Rotation2d.fromRadians(angle));
+    shoulder.setAngle(Rotation2d.fromDegrees(angle));
   }
 
   // Called once the command ends or is interrupted.

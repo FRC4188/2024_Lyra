@@ -21,7 +21,7 @@ public class Inhale extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.set(0.8);
+    intake.set(0.4);
   }
 
   // Called once the command ends or is interrupted.
