@@ -126,7 +126,7 @@ public class RobotContainer {
     pilot
         .getRightTButton()
         .onTrue(
-          new BlindIntake()
+          new BlindIntake().until(() -> pilot.getLeftT(Scale.LINEAR) > 0.01)
         );
 
     pilot
@@ -147,16 +147,7 @@ public class RobotContainer {
         .whileTrue(new Exhale())
         .onFalse(new InstantCommand(() -> intake.disable(), intake));
 
-    pilot
-        .getUpButton()
-        .whileTrue(new RunCommand(() -> shoulder.setVoltage(2.5), shoulder))
-        .onFalse(new InstantCommand(() -> shoulder.disable()));
-        
-    pilot
-        .getDownButton()
-        .whileTrue(new RunCommand(() -> shoulder.setVoltage(-2.5), shoulder))
-        .onFalse(new InstantCommand(() -> shoulder.disable()));
-  
+
     pilot
         .getXButton()
         .whileTrue(new RunCommand(() -> shooter.setVoltage(8, 8), shooter))
@@ -173,21 +164,6 @@ public class RobotContainer {
         // .whileTrue(new SetShooterRPM(() -> SmartDashboard.getNumber("rpm", 0))); // NOT WORKING FOR SOME REASON
         .whileTrue(new SetShooterRPM(() -> 2000));
 
-    copilot
-        .getUpButton()
-        .onTrue(new SetShoulderAngle(() -> 0.0));
-
-
-
-    copilot
-        .getRightButton()
-        .onTrue(new SetShoulderAngle(() -> 60.0));
-
-    copilot
-        .getLeftButton()
-        .onTrue(new SetShoulderAngle(() -> -60.0));
-
-    
 
     // Seriously why is it "Inhale" and "Exhale" lmao. I like it though -Aiden
     // Freak you Aiden

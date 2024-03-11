@@ -26,16 +26,16 @@ public class ShootOnReady extends ParallelCommandGroup {
     /** Creates a new ShootOnReady. 
      * 
     */
-    public ShootOnReady(DoubleSupplier xInput, DoubleSupplier yInput) {
+    public ShootOnReady(DoubleSupplier xInput, DoubleSupplier yInput, DoubleSupplier shooterRPM, DoubleSupplier shoulderAngle, DoubleSupplier driveAngle) {
         addCommands(
                 new ParallelDeadlineGroup(
                     Commands.waitUntil(() -> 
-                        shooter.atRPM(sensors.getMovingShooterRPM()) && 
-                        shoulder.atGoal(sensors.getMovingShoulderAngle().getDegrees()) && 
-                        drive.atGoalAngle(sensors.getMovingDriveAngle().getDegrees())).andThen(
+                        shooter.atRPM(shooterRPM.getAsDouble()) && 
+                        shoulder.atGoal(shoulderAngle.getAsDouble()) && 
+                        drive.atGoalAngle(driveAngle.getAsDouble())).andThen(
                     new FeedIntoShooter().andThen(Commands.waitSeconds(0.25))),
-                    new SetShooterRPM(() -> sensors.getMovingShooterRPM()),
-                    new SetShoulderAngle(() -> sensors.getMovingShoulderAngle().getDegrees()),
+                    new SetShooterRPM(() -> shooterRPM.getAsDouble()),
+                    new SetShoulderAngle(() -> shoulderAngle.getAsDouble()),
                     new TrackingDrive(xInput, yInput)
                 )
         );

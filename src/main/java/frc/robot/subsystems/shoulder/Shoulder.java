@@ -46,7 +46,7 @@ public class Shoulder extends SubsystemBase {
   /** Creates a new Shoulder. */
   public Shoulder() {
     init();
-    SmartDashboard.putNumber("Shoulder kP", 0.0);
+    //SmartDashboard.putNumber("Shoulder kP", 0.0);
     SmartDashboard.putNumber("Shoulder kD", 0.0);
     SmartDashboard.putNumber("Shoulder kG", 0.0);
   }
@@ -60,7 +60,7 @@ public class Shoulder extends SubsystemBase {
     SmartDashboard.putNumber("Shoulder Angle", getAngle().getDegrees());
     SmartDashboard.putNumber("Shoulder Setpoint", pid.getSetpoint().position); 
 
-    pid.setP(SmartDashboard.getNumber("Shoulder kP", 0.0));
+    //pid.setP(SmartDashboard.getNumber("Shoulder kP", 0.0));
     pid.setD(SmartDashboard.getNumber("Shoulder kD", 0.0));
     ff = new ArmFeedforward(0, 0, 0);
   }

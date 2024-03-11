@@ -17,6 +17,8 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -51,6 +53,11 @@ public final class Constants {
     public static Translation3d RED_CENTER_TRAP = new Translation3d(11.24, 4.06, 1.42);
     public static Translation3d RED_RIGHT_TRAP = new Translation3d(11.85, 4.54, 1.42);
 
+    public static Translation3d CURRENT_SPEAKER_LOCATION = 
+      DriverStation.getAlliance().get() == Alliance.Blue ?  
+      BLUE_SPEAKER_LOCATION :
+      RED_SPEAKER_LOCATION;
+
     public static double NOTE_RADIUS = Units.inchesToMeters(7.0);  
 
     public class DataPoints{
@@ -66,7 +73,7 @@ public final class Constants {
     // private static InterpolatingDoubleTreeMap V_TRAP;
     // private static InterpolatingDoubleTreeMap ANGLE_TRAP;
 
-    private static InterpolatingDoubleTreeMap V_SPEAKER;
+    public static InterpolatingDoubleTreeMap V_SPEAKER = new InterpolatingDoubleTreeMap();
     private static InterpolatingDoubleTreeMap ANGLE_SPEAKER;
 
     // private static InterpolatingDoubleTreeMap V_AMP;
@@ -78,15 +85,13 @@ public final class Constants {
     }
 
     public enum Goal {
-      // TRAP_C(ANGLE_TRAP, V_TRAP, ),
-      // TRAP_L,
-      // TRAP_R, 
-      // AMP
       SPEAKER(
         ANGLE_SPEAKER, V_SPEAKER,
-        new Pose2d(RED_SPEAKER_LOCATION.getX(), RED_SPEAKER_LOCATION.getY(), Rotation2d.fromRadians(Math.PI)),
+        new Pose2d(CURRENT_SPEAKER_LOCATION.getX(), CURRENT_SPEAKER_LOCATION.getY(), Rotation2d.fromRadians(Math.PI)), // TODO: change rotation based on color
         10, //TODO: happy zone tuning
         Units.inchesToMeters(3.0 * 12.0 + 5.0 + (3.0 / 8.0)));
+
+
   
 
       public final InterpolatingDoubleTreeMap ITM_A, ITM_V;
@@ -157,13 +162,13 @@ public final class Constants {
 
     public static final int SHOULDER_ENCODER = 24;
 
-    public static final int FEEDER_BEAM_BREAKER = 1;
+    public static final int FEEDER_BEAM_BREAKER = 5;
     
     public static final int INTAKE_BEAM_BREAKER_1 = 2;
     public static final int INTAKE_BEAM_BREAKER_2 = 3;
 
-    public static final int CLIMBER_LEFT_LIMIT = 4;
-    public static final int CLIMBER_RIGHT_LIMIT = 5;
+    public static final int CLIMBER_LEFT_LIMIT = 2;
+    public static final int CLIMBER_RIGHT_LIMIT = 4;
   }
 
   public static class drivetrain {

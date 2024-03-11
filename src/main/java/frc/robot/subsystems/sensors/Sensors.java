@@ -215,4 +215,12 @@ public class Sensors extends SubsystemBase {
     Translation3d movingShotVector = getMovingShotVector();
     return movingShotVector.getNorm(); 
   }
+
+  public void setGoal(Goal goal) {
+    currentGoal = goal;
+  }
+
+  // public void putITMData() {
+  //   currentGoal.ITM_A.put(0.0, 8.0);
+  // }
 }

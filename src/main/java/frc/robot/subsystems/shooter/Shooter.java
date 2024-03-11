@@ -48,6 +48,7 @@ public class Shooter extends SubsystemBase{
     private PIDController pid = Constants.shooter.SHOOTER_PID;
 
     
+    // public
 
     private double leftVelocity = 0.0;
     private double rightVelocity = 0.0;
@@ -242,8 +243,7 @@ public class Shooter extends SubsystemBase{
      * @return whether or not shooter reach inputted RPM 
      */
     public boolean atRPM(double RPM) {
-      
-      return (left.getRPM() == RPM && right.getRPM() == RPM);
+      return (left.getRPM() > RPM && right.getRPM() > RPM);
     }
 
     public void setControlMode(ControlMode mode) {

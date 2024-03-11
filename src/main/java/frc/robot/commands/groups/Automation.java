@@ -27,7 +27,7 @@ public class Automation {
         return new ParallelDeadlineGroup(new FeedIntoFeeder(), new TeleDrive(xInput, yInput, thetaInput));
     }
     private Command shoot(DoubleSupplier xInput, DoubleSupplier yInput) {
-        return new ShootOnReady(xInput, yInput);
+        return new ShootOnReady(xInput, yInput, () -> sensors.getMovingShooterRPM(), () -> sensors.getMovingShoulderAngle().getDegrees(), () -> sensors.getMovingDriveAngle().getDegrees());
     }
     private Command drive(DoubleSupplier xInput, DoubleSupplier yInput, DoubleSupplier thetaInput) {
         return new ParallelCommandGroup(new Stow(), new TeleDrive(xInput, yInput, thetaInput));
