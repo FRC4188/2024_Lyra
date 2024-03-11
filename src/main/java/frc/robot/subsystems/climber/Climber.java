@@ -3,24 +3,12 @@ package frc.robot.subsystems.climber;
 import CSP_Lib.motors.CSP_TalonFX;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.units.Distance;
-import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.MutableMeasure;
-import edu.wpi.first.units.Velocity;
-import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-
-import static edu.wpi.first.units.MutableMeasure.mutable;
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.Volts;
 
 import frc.robot.Constants;
 
@@ -55,41 +43,6 @@ public class Climber extends SubsystemBase {
     updateDashboard();
   });
 
-  // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
-  private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
-  // Mutable holder for unit-safe linear distance values, persisted to avoid reallocation.
-  private final MutableMeasure<Distance> m_distance = mutable(Meters.of(0));
-  // Mutable holder for unit-safe linear velocity values, persisted to avoid reallocation.
-  private final MutableMeasure<Velocity<Distance>> m_velocity = mutable(MetersPerSecond.of(0));
-
-
-    private final SysIdRoutine m_sysIdRoutine =
-      new SysIdRoutine(
-          // Empty config defaults to 1 volt/second ramp rate and 7 volt step voltage.
-          new SysIdRoutine.Config(),
-          new SysIdRoutine.Mechanism(
-              // Tell SysId how to plumb the driving voltage to the motors.
-              (Measure<Voltage> volts) -> {
-                leftClimber.setVoltage(volts.in(Volts));
-              },
-              // Tell SysId how to record a frame of data for each motor on the mechanism being
-              // characterized.
-              log -> {
-                // Record a frame for the left motors.  Since these share an encoder, we consider
-                // the entire group to be one motor.
-                log.motor("climber-left")
-                    .voltage(
-                        m_appliedVoltage.mut_replace(
-                            leftClimber.get() * RobotController.getBatteryVoltage(), Volts))
-                    .linearPosition(m_distance.mut_replace(getPositionLeft(), Meters))
-                    .linearVelocity(
-                        m_velocity.mut_replace(getVelocityLeft(), MetersPerSecond));
-               
-              },
-              // Tell SysId to make generated commands require this subsystem, suffix test state in
-              // WPILog with this subsystem's name ("drive")
-              this));
-
   public Climber() {
 
     leftClimber.setEncoderDegrees(0.0);
@@ -114,6 +67,54 @@ public class Climber extends SubsystemBase {
 
     SmartDashboard.putNumber("LClimber Temp:", getLeftTemp());
     SmartDashboard.putNumber("RClimber Temp:", getRightTemp());
+  }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("LClimber Position", getPositionLeft());
+    SmartDashboard.putNumber("LClimber Temp", getLeftTemp());
+
+    SmartDashboard.putNumber("RClimber Position", getPositionRight());
+    SmartDashboard.putNumber("RClimber Temp", getRightTemp());
+
+    SmartDashboard.putNumber("LClimber kP", leftPID.getP());
+    SmartDashboard.putNumber("LClimber kI", leftPID.getI());
+    SmartDashboard.putNumber("LClimber kD", leftPID.getD());
+    SmartDashboard.putNumber("LClimber kS", leftFF.ks);
+    SmartDashboard.putNumber("LClimber kG", leftFF.kg);
+    SmartDashboard.putNumber("LClimber kV", leftFF.kv);
+
+    SmartDashboard.putNumber("RClimber kP", rightPID.getP());
+    SmartDashboard.putNumber("RClimber kI", rightPID.getI());
+    SmartDashboard.putNumber("RClimber kD", rightPID.getD());
+    SmartDashboard.putNumber("LClimber kS", rightFF.ks);
+    SmartDashboard.putNumber("LClimber kG", rightFF.kg);
+    SmartDashboard.putNumber("LClimber kV", rightFF.kv);
+
+    leftPID.setPID(
+      SmartDashboard.getNumber("LClimber kP", 0.0), 
+      SmartDashboard.getNumber("LClimber kI", 0.0), 
+      SmartDashboard.getNumber("LClimber kD", 0.0)
+    );
+
+    rightPID.setPID(
+      SmartDashboard.getNumber("RClimber kP", 0.0), 
+      SmartDashboard.getNumber("RClimber kI", 0.0), 
+      SmartDashboard.getNumber("RClimber kD", 0.0)
+    );
+
+    leftFF = new ArmFeedforward(
+      SmartDashboard.getNumber("LClimber kS", 0.0), 
+      SmartDashboard.getNumber("LClimber kG", 0.0), 
+      SmartDashboard.getNumber("LClimber kV", 0.0)
+    );
+
+    rightFF = new ArmFeedforward(
+      SmartDashboard.getNumber("RClimber kS", 0.0), 
+      SmartDashboard.getNumber("RClimber kG", 0.0), 
+      SmartDashboard.getNumber("RClimber kV", 0.0)
+    );
   }
 
   /**
@@ -233,35 +234,4 @@ public class Climber extends SubsystemBase {
     rightPID.setPID(p, i, d);
   }
 
-  public void setLeftP(double p) {
-    leftPID.setP(p);
-  }
-
-  public void setLeftI(double i) {
-    leftPID.setI(i);
-  }
-
-  public void setLeftD(double d) {
-    leftPID.setD(d);
-  }
-
-  public void setRightP(double p) {
-    rightPID.setP(p);
-  }
-
-  public void setRightI(double i) {
-    rightPID.setI(i);
-  }
-
-  public void setRightD(double d) {
-    rightPID.setD(d);
-  }
-
-  public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
-    return m_sysIdRoutine.quasistatic(direction);
-  }
-
-  public Command sysIdDynamic(SysIdRoutine.Direction direction) {
-    return m_sysIdRoutine.dynamic(direction);
-  }
 }
