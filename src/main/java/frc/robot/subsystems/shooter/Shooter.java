@@ -31,9 +31,9 @@ public class Shooter extends SubsystemBase{
       return instance;
     }
 
-    DataLog log = DataLogManager.getLog();
-    DoubleLogEntry velocityLog = new DoubleLogEntry(log, "shooter/velocity");
-    DoubleLogEntry voltageLog = new DoubleLogEntry(log, "shooter/voltage");
+    // DataLog log = DataLogManager.getLog();
+    // DoubleLogEntry velocityLog = new DoubleLogEntry(log, "shooter/velocity");
+    // DoubleLogEntry voltageLog = new DoubleLogEntry(log, "shooter/voltage");
 
     public enum ControlMode {
       VELOCITY, STOP, DASH_VOLTAGE, TEST;
@@ -44,10 +44,12 @@ public class Shooter extends SubsystemBase{
     private CSP_TalonFX left = new CSP_TalonFX(Constants.ids.LEFT_SHOOTER, "canivore");
     private CSP_TalonFX right = new CSP_TalonFX(Constants.ids.RIGHT_SHOOTER, "canivore");
 
-    private SimpleMotorFeedforward ff = Constants.shooter.SHOOTER_FEEDFORWARD;
-    private PIDController pid = Constants.shooter.SHOOTER_PID;
+    private SimpleMotorFeedforward leftff = Constants.shooter.LEFT_SHOOTER_FEEDFORWARD;
+    private SimpleMotorFeedforward rightff = Constants.shooter.RIGHT_SHOOTER_FEEDFORWARD;
 
-    
+    private PIDController leftpid = Constants.shooter.LEFT_SHOOTER_PID;
+    private PIDController rightpid = Constants.shooter.RIGHT_SHOOTER_PID;
+
     // public
 
     private double leftVelocity = 0.0;
@@ -68,20 +70,20 @@ public class Shooter extends SubsystemBase{
           new SysIdRoutine.Mechanism(
               // Tell SysId how to plumb the driving voltage to the motors.
               (Measure<Voltage> volts) -> {
-                left.setVoltage(volts.in(Volts));
+                right.setVoltage(volts.in(Volts));
               },
               // Tell SysId how to record a frame of data for each motor on the mechanism being
               // characterized.
               log -> {
                 // Record a frame for the left motors.  Since these share an encoder, we consider
                 // the entire group to be one motor.
-                log.motor("flywheel-left")
+                log.motor("flywheel-right")
                     .voltage(
                         m_appliedVoltage.mut_replace(
-                            left.get() * RobotController.getBatteryVoltage(), Volts))
-                    .linearPosition(m_distance.mut_replace(getLeftPosition(), Meters))
+                            right.get() * RobotController.getBatteryVoltage(), Volts))
+                    .linearPosition(m_distance.mut_replace(getRightPosition(), Meters))
                     .linearVelocity(
-                        m_velocity.mut_replace(getLeftVelocity(), MetersPerSecond));
+                        m_velocity.mut_replace(getRightVelocity(), MetersPerSecond));
                
               },
               // Tell SysId to make generated commands require this subsystem, suffix test state in
@@ -115,8 +117,8 @@ public class Shooter extends SubsystemBase{
 
     @Override
     public void periodic() {
-        velocityLog.append(getLeftVelocity());
-        voltageLog.append(getLeftVoltage());
+        // velocityLog.append(getLeftVelocity());
+        // voltageLog.append(getLeftVoltage());
 
         switch (controlMode) {
           case STOP: 
@@ -124,8 +126,8 @@ public class Shooter extends SubsystemBase{
             break;
           case VELOCITY:
             setVoltage(
-              pid.calculate(getLeftVelocity(), leftVelocity) + ff.calculate(leftVelocity),
-              pid.calculate(getRightVelocity(), rightVelocity) + ff.calculate(rightVelocity)
+              leftpid.calculate(getLeftVelocity(), leftVelocity) + leftff.calculate(leftVelocity),
+              rightpid.calculate(getRightVelocity(), rightVelocity) + rightff.calculate(rightVelocity)
             );
             break;
           case DASH_VOLTAGE:
@@ -175,8 +177,8 @@ public class Shooter extends SubsystemBase{
      * @return velocity as a double
      */
     public double getLeftVelocity() {
-        // return (left.getRPM() / 60.0) * Constants.shooter.SHOOTER_DIAMETER_METERS * Math.PI;
-        return left.getRPM();
+        return (left.getRPM() / 60.0) * Constants.shooter.SHOOTER_DIAMETER_METERS * Math.PI;
+        // return left.getRPM();
     }
     
     /**
@@ -184,8 +186,8 @@ public class Shooter extends SubsystemBase{
      * @return velocity as a double
      */
     public double getRightVelocity() {
-        // return (right.getRPM() / 60.0) * Constants.shooter.SHOOTER_DIAMETER_METERS * Math.PI;
-        return right.getRPM();
+        return (right.getRPM() / 60.0) * Constants.shooter.SHOOTER_DIAMETER_METERS * Math.PI;
+        //return right.getRPM();
         
     }
 

@@ -2,38 +2,67 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.894982565999367,
-      "y": 7.412959533479694
+      "x": 15.226493448707295,
+      "y": 5.550936522700434
     },
-    "rotation": -90.0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Suck"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Three Deep Breaths"
-                }
-              }
-            ]
+            "name": "Blind Speaker Prep"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Feed Into Shooter"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "First Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Feed Into Shooter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Second Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Feed Into Shooter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Third Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Feed Into Shooter"
           }
         }
       ]

@@ -57,7 +57,24 @@
             {
               "type": "named",
               "data": {
-                "name": "Inhale"
+                "name": "Blind Intake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 1.5,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Blind Speaker Prep"
               }
             }
           ]

@@ -7,21 +7,21 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class SetShooterRPM extends Command {
+public class SetShooterMPS extends Command {
   private Shooter shooter = Shooter.getInstance();
 
   private double leftVelocity;
   private double rightVelocity;
 
   /** Creates a new SetShooterRPM. */
-  public SetShooterRPM(DoubleSupplier leftVelocity, DoubleSupplier rightVelocity) {
+  public SetShooterMPS(DoubleSupplier leftVelocity, DoubleSupplier rightVelocity) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
     this.leftVelocity = leftVelocity.getAsDouble();
     this.rightVelocity = rightVelocity.getAsDouble();
   }
 
-  public SetShooterRPM(DoubleSupplier velocity) {
+  public SetShooterMPS(DoubleSupplier velocity) {
     addRequirements(shooter);
     this.leftVelocity = velocity.getAsDouble();
     this.rightVelocity = velocity.getAsDouble();

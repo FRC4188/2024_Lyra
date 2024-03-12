@@ -73,16 +73,26 @@ public final class Constants {
     // private static InterpolatingDoubleTreeMap V_TRAP;
     // private static InterpolatingDoubleTreeMap ANGLE_TRAP;
 
+        public static InterpolatingDoubleTreeMap getMap(DataPoints[] dataPoints){
+      InterpolatingDoubleTreeMap map = new InterpolatingDoubleTreeMap();
+
+      for (DataPoints data : dataPoints) {
+        map.put(data.distance, data.value);
+      }
+
+      return map;
+    }
+
     public static InterpolatingDoubleTreeMap V_SPEAKER = new InterpolatingDoubleTreeMap();
-    private static InterpolatingDoubleTreeMap ANGLE_SPEAKER;
+    private static InterpolatingDoubleTreeMap ANGLE_SPEAKER = getMap(new DataPoints[] {}); //TODO: DO
 
     // private static InterpolatingDoubleTreeMap V_AMP;
     // private static InterpolatingDoubleTreeMap ANGLE_AMP;
 
-    //actual constants values
-    static {
-
-    }
+    // //actual constants values
+    // static {
+    //   Goal.SPEAKER.ITM_A.put(0.0, 9.0);
+    // }
 
     public enum Goal {
       SPEAKER(
@@ -106,6 +116,10 @@ public final class Constants {
         this.happyZone = happyZone;
         this.goalWidth = goalWidth;
       }
+
+
+
+
 
     }
   }
@@ -162,13 +176,13 @@ public final class Constants {
 
     public static final int SHOULDER_ENCODER = 24;
 
-    public static final int FEEDER_BEAM_BREAKER = 5;
+    public static final int FEEDER_BEAM_BREAKER = 5; // input = 0
     
-    public static final int INTAKE_BEAM_BREAKER_1 = 2;
-    public static final int INTAKE_BEAM_BREAKER_2 = 3;
+    public static final int INTAKE_BEAM_BREAKER_1 = 8;
+    public static final int INTAKE_BEAM_BREAKER_2 = 9;
 
-    public static final int CLIMBER_LEFT_LIMIT = 2;
-    public static final int CLIMBER_RIGHT_LIMIT = 4;
+    public static final int CLIMBER_LEFT_LIMIT = 12;
+    public static final int CLIMBER_RIGHT_LIMIT = 13;
   }
 
   public static class drivetrain {
@@ -238,20 +252,22 @@ public final class Constants {
      */
     public static final double CANCODER_GEAR_RATIO = 1.2;
 
-    public static final double MAX_VEL = 0.0;
-    public static final double MAX_ACCEL = 0.0;
+    public static final double MAX_VEL = 360.0;
+    public static final double MAX_ACCEL = 720.0;
     public static final Constraints CONSTRAINTS = new Constraints(MAX_VEL, MAX_ACCEL);
 
-    public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0.2, 0, 0, CONSTRAINTS);
+    public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0.375, 0, 0, CONSTRAINTS);
     
-    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.14, 0 , 0); // kS = verge of motion, kg = fixes setpoint after weak p
+    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.14, 0.4 , 0); // kS = verge of motion, kg = fixes setpoint after weak p
 
-    public static final double ZERO = -138.57421875;
+    public static final double ZERO = -141.2109375;
     public static final double ALLOWED_ERROR = 0.5;
 
-    public static final double UPPER_LIMIT = 60.0;
-    public static final double LOWER_LIMIT = -60.0;
+    public static final double UPPER_LIMIT = 75.0; // 79.1
+    public static final double LOWER_LIMIT = -75.0; // -77.5
     // 10 14
+
+    public static final double HANDOFF_ANGLE = -58.4;
   }
 
   public static final class shooter {
@@ -259,8 +275,11 @@ public final class Constants {
     public static final double SHOOTER_DIAMETER_METERS = (SHOOTER_DIAMETER_INCHES) * 0.0254;
     public static final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER_METERS * Math.PI;
 
-    public static final SimpleMotorFeedforward SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.16, 0.0021); // kS = verge of motion, kV = volts/vel
-    public static final PIDController SHOOTER_PID = new PIDController(0.12, 0, 0.000003);
+    public static final SimpleMotorFeedforward LEFT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.25165, 0.39997, 0.091618); // kS = verge of motion, kV = volts/vel
+    public static final PIDController LEFT_SHOOTER_PID = new PIDController(0.2591, 0.0, 0.0);
+
+    public static final SimpleMotorFeedforward RIGHT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.21491, 0.40234, 0.095778); // kS = verge of motion, kV = volts/vel
+    public static final PIDController RIGHT_SHOOTER_PID = new PIDController(0.45997, 0.0, 0.0);
 
     public class DataPoints{
       public final double distance;
@@ -309,7 +328,7 @@ public final class Constants {
 
     public static final class limelight {
       public static final String FRONT_NAME = "limelight-front";
-      public static final Translation3d FRONT_POSITION = new Translation3d(0, 0, 0); // translation/rotation in robot space from robot to limelight
+      public static final Translation3d FRONT_POSITION = new Translation3d(0.4476242, 0, 0.2650236); // translation/rotation in robot space from robot to limelight
       public static final Rotation3d FRONT_ROTATION = 
         new Rotation3d(
           Units.degreesToRadians(0),
@@ -317,7 +336,7 @@ public final class Constants {
           Units.degreesToRadians(0));
 
       public static final String BACK_NAME = "limelight-back";
-      public static final Translation3d BACK_POSITION = new Translation3d(-11.748, 0, 5.394); 
+      public static final Translation3d BACK_POSITION = new Translation3d(-0.2859024, 0, 0.1682242); 
       public static final Rotation3d BACK_ROTATION = 
         new Rotation3d(
           Units.degreesToRadians(180.0),

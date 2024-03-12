@@ -30,10 +30,10 @@ public class Shoulder extends SubsystemBase {
     return instance;
   }
 
-  DataLog log = DataLogManager.getLog();
+  // DataLog log = DataLogManager.getLog();
 
-  DoubleLogEntry positionLog = new DoubleLogEntry(log, "shoulder/position");
-  DoubleLogEntry voltageLog = new DoubleLogEntry(log, "shoulder/voltage");
+  // DoubleLogEntry positionLog = new DoubleLogEntry(log, "shoulder/position");
+  // DoubleLogEntry voltageLog = new DoubleLogEntry(log, "shoulder/voltage");
 
   private CSP_TalonFX leader = new CSP_TalonFX(Constants.ids.SHOULDER_LEADER, "canivore");
   private CSP_TalonFX follower = new CSP_TalonFX(Constants.ids.SHOULDER_FOLLOWER, "canivore");
@@ -53,8 +53,8 @@ public class Shoulder extends SubsystemBase {
 
   @Override
   public void periodic() {
-    positionLog.append(getAngle().getDegrees());
-    voltageLog.append(getVoltage());
+    // positionLog.append(getAngle().getDegrees());
+    // voltageLog.append(getVoltage());
 
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shoulder Angle", getAngle().getDegrees());

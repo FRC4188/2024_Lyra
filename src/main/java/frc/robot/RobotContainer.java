@@ -16,16 +16,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoConfigs;
 import frc.robot.commands.drivetrain.TeleDrive;
+import frc.robot.commands.feeder.EjectFeeder;
 import frc.robot.commands.feeder.FeedIntoShooter;
-import frc.robot.commands.feeder.ReturnToFeeder;
+import frc.robot.commands.groups.BlindAmpPrep;
 import frc.robot.commands.groups.BlindIntake;
-import frc.robot.commands.intake.Exhale;
-import frc.robot.commands.intake.Inhale;
-import frc.robot.commands.shooter.SetShooterRPM;
+import frc.robot.commands.groups.BlindSpeakerPrep;
+import frc.robot.commands.groups.Eject;
+import frc.robot.commands.groups.StillSpeakerPrep;
+import frc.robot.commands.groups.Stow;
+import frc.robot.commands.shooter.SetShooterMPS;
 import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.drivetrain.Swerve;
@@ -34,14 +36,13 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.sensors.Sensors;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shoulder.Shoulder;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+
 
 public class RobotContainer {
 
-  // take out later
-  // DigitalInput dio0 = new DigitalInput(0);
-
-  // DigitalInput dio2 = new DigitalInput(2);
-  // DigitalInput dio3 = new DigitalInput(3);
+  DigitalInput dio1 = new DigitalInput(1);
+  DigitalInput dio4 = new DigitalInput(4);
 
   private CSP_Controller pilot = new CSP_Controller(Constants.controller.PILOT_PORT);
   private CSP_Controller copilot = new CSP_Controller(Constants.controller.COPILOT_PORT);
@@ -53,7 +54,6 @@ public class RobotContainer {
   Shooter shooter = Shooter.getInstance();
   Feeder feeder = Feeder.getInstance();
   Climber climber = Climber.getInstance();
-  // Flywheel flywheel = Flywheel.getInstance();
 
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
@@ -78,23 +78,23 @@ public class RobotContainer {
   }
 
   private void setDefaultCommands() {
-    // drive.setDefaultCommand(
-    //   new TeleDrive(
-    //     () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
-    //     () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
-    //     () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.15 : 0.5))
-    // );
+    drive.setDefaultCommand(
+      new TeleDrive(
+        () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
+        () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
+        () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.15 : 0.5))
+    );
   }
 
   private void configureBindings() {
     
     //Add these in for sysid tests
-    // pilot.a().whileTrue(flywheel.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    // pilot.b().whileTrue(flywheel.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-    // pilot.x().whileTrue(flywheel.sysIdDynamic(SysIdRoutine.Direction.kForward));
-    // pilot.y().whileTrue(flywheel.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    // pilot.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    // pilot.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    // pilot.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    // pilot.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
-    //BRING THIS BACK ONCE WE CAN TRACK AND DRIVE
+    //BRING THIS BACK ONCE WE CAN TRACK AND DRIVE TODO: ACTUALLY, DONT 
     // pilot 
     //     .getStartButton()
     //     .whileFalse(
@@ -113,7 +113,7 @@ public class RobotContainer {
     //     new FeedIntake().andThen(new Stow().until(() -> sensors.areHappy()))
 
 
-    //reset pigeon
+    // reset pigeon
     pilot
         .getAButton()
         .onTrue(
@@ -126,43 +126,65 @@ public class RobotContainer {
     pilot
         .getRightTButton()
         .onTrue(
-          new BlindIntake().until(() -> pilot.getLeftT(Scale.LINEAR) > 0.01)
+          new BlindIntake()
+        );
+
+    pilot 
+        .getLeftBumperButton()
+        .whileTrue(
+          new Eject()
         );
 
     pilot
-        .getYButton()
-        .onTrue(
+        .getLeftTButton()
+        .whileTrue(
           new FeedIntoShooter()
         );
 
-    //intake
-    copilot
-        .getRightTButton()
-        .whileTrue(new Inhale())
-        .whileFalse(new InstantCommand(() -> intake.disable(), intake));
-
-    //outake
-    copilot
-        .getLeftTButton()
-        .whileTrue(new Exhale())
-        .onFalse(new InstantCommand(() -> intake.disable(), intake));
-
-
     pilot
+        .getDownButton()
+        .whileTrue(
+          new EjectFeeder()
+        );
+
+    copilot
+        .getAButton()
+        .onTrue(
+          new BlindAmpPrep()
+        );
+
+    copilot
+        .getYButton()
+        .onTrue(
+          new BlindSpeakerPrep()
+        );
+
+    copilot
         .getXButton()
-        .whileTrue(new RunCommand(() -> shooter.setVoltage(8, 8), shooter))
-        .onFalse(new InstantCommand(() -> shooter.disable()));
- 
+        .onTrue(
+          new StillSpeakerPrep(
+            () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
+            () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7)
+          )
+        );
+
     copilot
-        .getBButton()
-        .whileTrue(new RunCommand(() -> feeder.set(0.5), feeder))
-        .onFalse(new InstantCommand(() -> feeder.disable()));
+        .getStartButton()
+        .onTrue(
+          new Stow()
+        );
+
+    copilot
+        .getUpButton()
+        .whileTrue(
+          new SetShoulderAngle(() -> SmartDashboard.getNumber("Shoulder Setpoint", 0.0))
+          .alongWith(
+            new SetShooterMPS(() -> SmartDashboard.getNumber("MPS Setpoint", 0.0))
+          )
+        );
+
     
-    // buttons for testing SetShooterRPM and SetShoulderAngle :D
-    pilot
-        .getLeftButton()
-        // .whileTrue(new SetShooterRPM(() -> SmartDashboard.getNumber("rpm", 0))); // NOT WORKING FOR SOME REASON
-        .whileTrue(new SetShooterRPM(() -> 2000));
+  
 
 
     // Seriously why is it "Inhale" and "Exhale" lmao. I like it though -Aiden
@@ -170,15 +192,17 @@ public class RobotContainer {
   }
 
   public void updateShuffle() {
-    // flywheel.updateDashboard();
-    // SmartDashboard.putBoolean("dio 0", dio0.get());
-    // SmartDashboard.putBoolean("dio 2", dio2.get());
-    // SmartDashboard.putBoolean("dio 3", dio3.get());
+    // SmartDashboard.putBoolean("dio0", dio0.get());
+    SmartDashboard.putBoolean("dio1", dio1.get());
+    SmartDashboard.putBoolean("dio4", dio4.get());
+    // SmartDashboard.putBoolean("dio5", dio5.get()); 
+
+    
   }
 
   public void smartdashboardButtons() {
     SmartDashboard.putNumber("Shoulder Setpoint", 0.0);
-    SmartDashboard.putNumber("RPM Setpoint", 0.0);
+    SmartDashboard.putNumber("MPS Setpoint", 0.0);
   }
 
   public void addChooser() {

@@ -8,13 +8,13 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
-public class SpeakerStillShot extends ParallelCommandGroup {
+public class StillSpeakerPrep extends ParallelCommandGroup {
     private Sensors sensors = Sensors.getInstance();
 
     /** Creates a new ShootOnReady. 
      * 
     */
-    public SpeakerStillShot(DoubleSupplier xInput, DoubleSupplier yInput) {
+    public StillSpeakerPrep(DoubleSupplier xInput, DoubleSupplier yInput) {
         addCommands(
             new InstantCommand(() -> sensors.setGoal(Goal.SPEAKER)),
             new ShootOnReady(

@@ -7,7 +7,8 @@ public class Inhale extends Command {
   private Intake intake = Intake.getInstance();
 
   /** Creates a new Roll. */
-  public Inhale() {
+  public 
+  Inhale() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
   }
@@ -21,7 +22,7 @@ public class Inhale extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.set(0.5);
+    intake.set(0.8);
   }
 
   // Called once the command ends or is interrupted.

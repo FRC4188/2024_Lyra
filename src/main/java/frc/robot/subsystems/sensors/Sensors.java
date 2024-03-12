@@ -51,6 +51,7 @@ public class Sensors extends SubsystemBase {
     SmartDashboard.putString("Front Pose", limelightFront.getPose3d().toPose2d().toString());
     SmartDashboard.putString("Back Pose", limelightBack.getPose3d().toPose2d().toString());
     SmartDashboard.putNumber("Pigeon Angle", getRotation2d().getDegrees());
+    SmartDashboard.putString("current speaker location", Constants.field.CURRENT_SPEAKER_LOCATION.toString());
   }
 
   public Pose3d getPose3d() {

@@ -14,9 +14,7 @@ public class FeedIntoShooter extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() { 
-    
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -30,9 +28,8 @@ public class FeedIntoShooter extends Command {
     feeder.set(0.0);
   }
 
-  // Command ends when beam breaker is not broken (when note shot out)
   @Override
   public boolean isFinished() {
-    return !feeder.isBroken();
+    return false;
   }
 }
