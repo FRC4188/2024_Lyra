@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.fasterxml.jackson.databind.ser.std.InetAddressSerializer;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -73,18 +75,18 @@ public final class Constants {
     // private static InterpolatingDoubleTreeMap V_TRAP;
     // private static InterpolatingDoubleTreeMap ANGLE_TRAP;
 
-        public static InterpolatingDoubleTreeMap getMap(DataPoints[] dataPoints){
-      InterpolatingDoubleTreeMap map = new InterpolatingDoubleTreeMap();
+    //     public static InterpolatingDoubleTreeMap getMap(DataPoints[] dataPoints){
+    //   InterpolatingDoubleTreeMap map = new InterpolatingDoubleTreeMap();
 
-      for (DataPoints data : dataPoints) {
-        map.put(data.distance, data.value);
-      }
+    //   for (DataPoints data : dataPoints) {
+    //     map.put(data.distance, data.value);
+    //   }
 
-      return map;
-    }
+    //   return map;
+    // }
 
     public static InterpolatingDoubleTreeMap V_SPEAKER = new InterpolatingDoubleTreeMap();
-    private static InterpolatingDoubleTreeMap ANGLE_SPEAKER = getMap(new DataPoints[] {}); //TODO: DO
+    private static InterpolatingDoubleTreeMap ANGLE_SPEAKER = new InterpolatingDoubleTreeMap();
 
     // private static InterpolatingDoubleTreeMap V_AMP;
     // private static InterpolatingDoubleTreeMap ANGLE_AMP;
@@ -116,10 +118,6 @@ public final class Constants {
         this.happyZone = happyZone;
         this.goalWidth = goalWidth;
       }
-
-
-
-
 
     }
   }
@@ -222,10 +220,10 @@ public final class Constants {
     public static final Translation2d BR_LOCATION =
         new Translation2d(-(Constants.robot.A_LENGTH / 2), -(Constants.robot.A_WIDTH / 2));
 
-    public static final double FL_ZERO = 145.54687500000003;
-    public static final double BL_ZERO = 117.59765625;
-    public static final double BR_ZERO = -146.42578125;
-    public static final double FR_ZERO = 88.330078125;
+    public static final double FL_ZERO = 143.876953125;
+    public static final double BL_ZERO = 119.619140625;
+    public static final double BR_ZERO = -147.83203125;
+    public static final double FR_ZERO = 87.099609375;
 
   public static final PIDController ANGLE_PID = new PIDController(0.008, 0.0, 0.0);
     public static final SimpleMotorFeedforward ANGLE_FF = new SimpleMotorFeedforward(0.0, 1);
@@ -252,16 +250,16 @@ public final class Constants {
      */
     public static final double CANCODER_GEAR_RATIO = 1.2;
 
-    public static final double MAX_VEL = 360.0;
-    public static final double MAX_ACCEL = 720.0;
+    public static final double MAX_VEL = 960.0;
+    public static final double MAX_ACCEL = 1440.0;
     public static final Constraints CONSTRAINTS = new Constraints(MAX_VEL, MAX_ACCEL);
 
-    public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0.375, 0, 0, CONSTRAINTS);
+    public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0.32, 0, 0, CONSTRAINTS);
     
     public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.14, 0.4 , 0); // kS = verge of motion, kg = fixes setpoint after weak p
 
     public static final double ZERO = -141.2109375;
-    public static final double ALLOWED_ERROR = 0.5;
+    public static final double ALLOWED_ERROR = 1.0;
 
     public static final double UPPER_LIMIT = 75.0; // 79.1
     public static final double LOWER_LIMIT = -75.0; // -77.5

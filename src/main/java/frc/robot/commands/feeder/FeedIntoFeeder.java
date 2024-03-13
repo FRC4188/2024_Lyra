@@ -31,6 +31,6 @@ public class FeedIntoFeeder extends Command {
   // Returns true when the beam breaker is broken (note in magazine)
   @Override
   public boolean isFinished() {
-    return feeder.isBroken();
+    return feeder.isBroken() ;
   }
 }

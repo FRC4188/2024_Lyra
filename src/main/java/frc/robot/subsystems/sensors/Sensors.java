@@ -126,7 +126,8 @@ public class Sensors extends SubsystemBase {
    * @return 
    */
   public double getFormulaShooterRPM() {
-    return currentGoal.ITM_V.get(getXYDistance());
+    // return currentGoal.ITM_V.get(getXYDistance());
+    return 0;
   }
 
   /**
@@ -135,7 +136,8 @@ public class Sensors extends SubsystemBase {
    * @return angle in double
    */
   public Rotation2d getFormulaShoulderAngle() {
-    return Rotation2d.fromDegrees(currentGoal.ITM_A.get(getXYDistance()));
+    // return Rotation2d.fromDegrees(currentGoal.ITM_A.get(getXYDistance()));
+    return new Rotation2d();
   }
 
   /**

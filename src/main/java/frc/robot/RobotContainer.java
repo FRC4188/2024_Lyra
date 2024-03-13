@@ -18,10 +18,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoConfigs;
+import frc.robot.commands.climber.LowerClimber;
+import frc.robot.commands.climber.RaiseClimber;
 import frc.robot.commands.drivetrain.TeleDrive;
 import frc.robot.commands.feeder.EjectFeeder;
 import frc.robot.commands.feeder.FeedIntoShooter;
-import frc.robot.commands.groups.BlindAmpPrep;
+import frc.robot.commands.groups.ReverseBlindSpeakerPrep;
+import frc.robot.commands.groups.ReverseBlindAmpShoot;
+import frc.robot.commands.groups.BlindAmpShoot;
 import frc.robot.commands.groups.BlindIntake;
 import frc.robot.commands.groups.BlindSpeakerPrep;
 import frc.robot.commands.groups.Eject;
@@ -80,9 +84,9 @@ public class RobotContainer {
   private void setDefaultCommands() {
     drive.setDefaultCommand(
       new TeleDrive(
-        () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
-        () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
-        () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.15 : 0.5))
+        () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.5 : 1.0), 
+        () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.5 : 1.0), 
+        () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0))
     );
   }
 
@@ -129,6 +133,7 @@ public class RobotContainer {
           new BlindIntake()
         );
 
+    //outtake intake
     pilot 
         .getLeftBumperButton()
         .whileTrue(
@@ -141,6 +146,7 @@ public class RobotContainer {
           new FeedIntoShooter()
         );
 
+    //outtake feeder
     pilot
         .getDownButton()
         .whileTrue(
@@ -150,24 +156,30 @@ public class RobotContainer {
     copilot
         .getAButton()
         .onTrue(
-          new BlindAmpPrep()
+          new BlindAmpShoot()
         );
 
+    //shooter on battery side w speaker angle
     copilot
         .getYButton()
         .onTrue(
           new BlindSpeakerPrep()
         );
 
+    //shooter on intake side w speaker angle
     copilot
+        .getBButton()
+        .onTrue(
+          new ReverseBlindSpeakerPrep()
+        );
+    
+        copilot
         .getXButton()
         .onTrue(
-          new StillSpeakerPrep(
-            () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
-            () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7)
-          )
+          new ReverseBlindAmpShoot()
         );
 
+    //default shooter pos + stop intake n feeder
     copilot
         .getStartButton()
         .onTrue(
@@ -175,18 +187,26 @@ public class RobotContainer {
         );
 
     copilot
-        .getUpButton()
-        .whileTrue(
-          new SetShoulderAngle(() -> SmartDashboard.getNumber("Shoulder Setpoint", 0.0))
+        .getRightTButton()
+        .onTrue(
+          new SetShoulderAngle(() -> SmartDashboard.getNumber("Shoulder Point", 0.0))
           .alongWith(
-            new SetShooterMPS(() -> SmartDashboard.getNumber("MPS Setpoint", 0.0))
+            new SetShooterMPS(() -> SmartDashboard.getNumber("MPS Point", 0.0))
           )
         );
 
-    
+    // copilot
+    //     .getUpButton()
+    //     .onTrue(
+    //       new RaiseClimber()
+    //     );
+
+    // copilot
+    //     .getDownButton()
+    //     .whileTrue(
+    //       new LowerClimber()
+    //     );
   
-
-
     // Seriously why is it "Inhale" and "Exhale" lmao. I like it though -Aiden
     // Freak you Aiden
   }
@@ -201,8 +221,8 @@ public class RobotContainer {
   }
 
   public void smartdashboardButtons() {
-    SmartDashboard.putNumber("Shoulder Setpoint", 0.0);
-    SmartDashboard.putNumber("MPS Setpoint", 0.0);
+    SmartDashboard.putNumber("Shoulder Point", 0.0);
+    SmartDashboard.putNumber("MPS Point", 0.0);
   }
 
   public void addChooser() {
@@ -210,6 +230,7 @@ public class RobotContainer {
     
     autoChooser.setDefaultOption("Do Nothing", new SequentialCommandGroup());
     autoChooser.addOption("Three Deep Breaths", new PathPlannerAuto("Three Deep Breaths"));
+    autoChooser.addOption("Shoot and Leave", new PathPlannerAuto("Shoot and Leave"));
     //autoChooser.addOption("First Note", new PathPlannerAuto("First Note"));
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
