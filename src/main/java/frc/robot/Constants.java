@@ -85,9 +85,9 @@ public final class Constants {
 
     public static final int CLIMBER_LEFT = 21;
     public static final int CLIMBER_RIGHT = 22;
-
-    public static final int CLIMBER_LEFT_LIMIT = 0;
-    public static final int CLIMBER_RIGHT_LIMIT = 1;
+    
+    public static final int CLIMBER_LEFT_LIMIT = 12;
+    public static final int CLIMBER_RIGHT_LIMIT = 13;
   }
 
   public static class drivetrain {
