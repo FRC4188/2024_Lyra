@@ -118,6 +118,15 @@ public class Climber extends SubsystemBase {
   }
 
   /**
+   * Disabling both climber motors
+   */
+
+  public void disableBothClimbers() {
+    leftClimber.disable();
+    rightClimber.disable();
+  }
+
+  /**
    * Sets the left climber motor to a given power
    * @param power from 0 to 1, the amount of power set to the motor
    */

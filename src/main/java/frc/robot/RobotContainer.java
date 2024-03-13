@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoConfigs;
+import frc.robot.commands.climber.RaiseClimber;
+import frc.robot.commands.climber.LowerClimber;
 import frc.robot.commands.drivetrain.TeleDrive;
 import frc.robot.commands.intake.Exhale;
 import frc.robot.commands.intake.Inhale;
@@ -28,6 +30,7 @@ import frc.robot.commands.intake.Suck;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.sensors.Sensors;
+import frc.robot.subsystems.climber.Climber;
 
 public class RobotContainer {
 
@@ -37,6 +40,8 @@ public class RobotContainer {
   Swerve drive = Swerve.getInstance();
   Intake intake = Intake.getInstance();
   Sensors sensors = Sensors.getInstance();
+  Climber climber = Climber.getInstance();
+
 
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
@@ -88,6 +93,15 @@ public class RobotContainer {
         .onFalse(new InstantCommand(() -> intake.disable(), intake));
     // Seriously why is it "Inhale" and "Exhale" lmao. I like it though -Aiden
     // Freak you Aiden
+
+    pilot
+        .getUpButton()
+        .whileTrue(new RaiseClimber());
+
+    pilot
+        .getDownButton()
+        .whileTrue(new LowerClimber())
+        .onFalse(new InstantCommand(() -> climber.disableBothClimbers(), climber));
   }
 
   public void smartdashboardButtons() {}

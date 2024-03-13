@@ -23,6 +23,9 @@ public class LowerClimber extends Command {
   @Override
   public void execute() {
     climber.setPosition(0);
+
+    climber.setLeft(0.4);
+    climber.setRight(0.4);
   }
 
   // Called once the command ends or is interrupted.
