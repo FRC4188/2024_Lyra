@@ -4,16 +4,24 @@
 
 package frc.robot;
 
+import CSP_Lib.inputs.CSP_Controller;
 import CSP_Lib.utils.TempManager;
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.feeder.Feeder;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  private CSP_Controller pilot = new CSP_Controller(Constants.controller.PILOT_PORT);
+  private CSP_Controller copilot = new CSP_Controller(Constants.controller.COPILOT_PORT);
+
+  private Feeder feeder = Feeder.getInstance();
 
   @Override
   public void robotInit() {
@@ -60,7 +68,15 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    if (feeder.isBroken() && (pilot.getRightTriggerAxis() > 0.5)) {
+      pilot.setRumble(RumbleType.kBothRumble, 1.0);
+      copilot.setRumble(RumbleType.kBothRumble, 1.0);
+    } else {
+      pilot.setRumble(RumbleType.kBothRumble, 0.0);
+      copilot.setRumble(RumbleType.kBothRumble, 0.0);
+    }
+  }
 
   @Override
   public void teleopExit() {}
