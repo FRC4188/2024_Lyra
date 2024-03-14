@@ -23,7 +23,6 @@ public class Robot extends TimedRobot {
 
   private Feeder feeder = Feeder.getInstance();
 
-
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
