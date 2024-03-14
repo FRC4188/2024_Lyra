@@ -1,5 +1,6 @@
 package frc.robot.commands.groups;
 
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
@@ -19,9 +20,9 @@ public class BlindAmpShoot extends ParallelCommandGroup {
                 new ParallelCommandGroup(
                     new SetShoulderAngle(() -> -10.0),
                     new SetShooterMPS(() -> 4.0)
-                ).until(() -> shooter.atRPM(6) && shoulder.atGoal(-10.0)),
+                ).until(() -> shooter.atRPM(4) && shoulder.atGoal(-10.0)),
                 new ParallelCommandGroup(
-                    new FeedIntoShooter(),
+                    Commands.waitSeconds(0.5).andThen(new FeedIntoShooter()),
                     new SetShooterMPS(() -> 4.0),
                     new SetShoulderAngle(() -> -40.0)
                 )

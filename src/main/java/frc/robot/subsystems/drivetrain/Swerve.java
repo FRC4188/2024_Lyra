@@ -17,6 +17,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -199,9 +200,9 @@ public class Swerve extends SubsystemBase {
   public void updateOdometry() {
     Pose2d pose = sensors.getPose2d();
 
-    if (!pose.equals(new Pose2d())) {
-      odometry.addVisionMeasurement(pose, sensors.getLatency());
-    }
+    // if (!pose.equals(new Pose2d())) {
+    //   odometry.addVisionMeasurement(pose, sensors.getLatency());
+    // }
 
     odometry.update(
         sensors.getRotation2d(),
@@ -260,10 +261,10 @@ public class Swerve extends SubsystemBase {
               // Boolean supplier that controls when the path will be mirrored for the red alliance
               // This will flip the path being followed to the red side of the field. 
               // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-              // var alliance = DriverStation.getAlliance();
-              // if (alliance.isPresent()) {
-              //   return alliance.get() == DriverStation.Alliance.Red;
-              // }
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Blue;
+              }
               return false;
             },
             this // Reference to this subsystem to set requirements

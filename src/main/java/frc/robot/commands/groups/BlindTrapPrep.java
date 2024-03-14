@@ -13,11 +13,9 @@ public class BlindTrapPrep extends ParallelCommandGroup {
 
         public BlindTrapPrep() {
         addCommands(
-            new SequentialCommandGroup(
-                new ParallelCommandGroup(
-                    new SetShooterMPS(() -> 1.0),
-                    new SetShoulderAngle(() -> -20.0)
-                )
+            new ParallelCommandGroup(
+                new SetShooterMPS(() -> 10.0),
+                new SetShoulderAngle(() -> -30.0)
             )
         );
     }

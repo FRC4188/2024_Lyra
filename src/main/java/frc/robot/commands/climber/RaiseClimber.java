@@ -22,17 +22,17 @@ public class RaiseClimber extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (climber.leftLimit.get()) {
+    if (!climber.leftLimit.get()) {
       climber.setLeft(0.0);
     } else {
-      climber.setLeft(0.4);
+      climber.setLeft(0.8);
     }
 
-    if (climber.rightLimit.get()) {
+    if (!climber.rightLimit.get()) {
       climber.setRight(0.0);
     } else {
-      climber.setRight(0.4);
-    }
+      climber.setRight(0.8);
+    } 
   }
 
   // Called once the command ends or is interrupted.

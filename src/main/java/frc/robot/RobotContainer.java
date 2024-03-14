@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoConfigs;
 import frc.robot.commands.climber.LowerClimber;
@@ -24,10 +26,12 @@ import frc.robot.commands.drivetrain.TeleDrive;
 import frc.robot.commands.feeder.EjectFeeder;
 import frc.robot.commands.feeder.FeedIntoShooter;
 import frc.robot.commands.groups.ReverseBlindSpeakerPrep;
+import frc.robot.commands.groups.ShooterIntake;
 import frc.robot.commands.groups.ReverseBlindAmpShoot;
 import frc.robot.commands.groups.BlindAmpShoot;
-import frc.robot.commands.groups.BlindIntake;
+import frc.robot.commands.groups.FeedIntake;
 import frc.robot.commands.groups.BlindSpeakerPrep;
+import frc.robot.commands.groups.BlindTrapPrep;
 import frc.robot.commands.groups.Eject;
 import frc.robot.commands.groups.StillSpeakerPrep;
 import frc.robot.commands.groups.Stow;
@@ -45,8 +49,8 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 public class RobotContainer {
 
-  DigitalInput dio1 = new DigitalInput(1);
-  DigitalInput dio4 = new DigitalInput(4);
+  // DigitalInput dio1 = new DigitalInput(1);
+  // DigitalInput dio4 = new DigitalInput(4);
 
   private CSP_Controller pilot = new CSP_Controller(Constants.controller.PILOT_PORT);
   private CSP_Controller copilot = new CSP_Controller(Constants.controller.COPILOT_PORT);
@@ -98,25 +102,6 @@ public class RobotContainer {
     // pilot.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
     // pilot.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
-    //BRING THIS BACK ONCE WE CAN TRACK AND DRIVE TODO: ACTUALLY, DONT 
-    // pilot 
-    //     .getStartButton()
-    //     .whileFalse(
-    //       new TeleDrive(
-    //         () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
-    //         () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
-    //         () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.15 : 0.5))
-    //     ).whileTrue(
-    //       new ShootOnReady(
-    //         () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7), 
-    //         () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.4 : 0.7),
-    //         DriverStation.getAlliance().get() == DriverStation.Alliance.Blue ? Constants.field.BLUE_SPEAKER_LOCATION : Constants.field.RED_SPEAKER_LOCATION
-    //       )
-    //     );
-    
-    //     new FeedIntake().andThen(new Stow().until(() -> sensors.areHappy()))
-
-
     // reset pigeon
     pilot
         .getAButton()
@@ -130,7 +115,7 @@ public class RobotContainer {
     pilot
         .getRightTButton()
         .onTrue(
-          new BlindIntake()
+          new FeedIntake()
         );
 
     //outtake intake
@@ -152,28 +137,32 @@ public class RobotContainer {
         .whileTrue(
           new EjectFeeder()
         );
-
+ 
     copilot
         .getAButton()
-        .onTrue(
-          new BlindAmpShoot()
+        .whileTrue(
+          new ShooterIntake()
+        ).onFalse(
+          new EjectFeeder().withTimeout(0.25)
         );
 
-    //shooter on battery side w speaker angle
     copilot
-        .getYButton()
+        .getBButton()
         .onTrue(
-          new BlindSpeakerPrep()
+          new BlindTrapPrep()
         );
 
     //shooter on intake side w speaker angle
     copilot
-        .getBButton()
+        .getYButton()
         .onTrue(
-          new ReverseBlindSpeakerPrep()
+          new ConditionalCommand(
+            new BlindSpeakerPrep(), 
+            new ReverseBlindSpeakerPrep(), 
+            () -> !(Math.abs(sensors.getRotation2d().getDegrees()) > 90.0))
         );
     
-        copilot
+    copilot
         .getXButton()
         .onTrue(
           new ReverseBlindAmpShoot()
@@ -188,24 +177,24 @@ public class RobotContainer {
 
     copilot
         .getRightTButton()
-        .onTrue(
-          new SetShoulderAngle(() -> SmartDashboard.getNumber("Shoulder Point", 0.0))
-          .alongWith(
+        .whileTrue(
+          new ParallelCommandGroup(
+            new SetShoulderAngle(() -> SmartDashboard.getNumber("Shoulder Point", 0.0)),
             new SetShooterMPS(() -> SmartDashboard.getNumber("MPS Point", 0.0))
           )
         );
 
-    // copilot
-    //     .getUpButton()
-    //     .onTrue(
-    //       new RaiseClimber()
-    //     );
+    copilot
+        .getUpButton()
+        .onTrue(
+          new RaiseClimber()
+        );
 
-    // copilot
-    //     .getDownButton()
-    //     .whileTrue(
-    //       new LowerClimber()
-    //     );
+    copilot
+        .getDownButton()
+        .whileTrue(
+          new LowerClimber()
+        );
   
     // Seriously why is it "Inhale" and "Exhale" lmao. I like it though -Aiden
     // Freak you Aiden
@@ -213,8 +202,8 @@ public class RobotContainer {
 
   public void updateShuffle() {
     // SmartDashboard.putBoolean("dio0", dio0.get());
-    SmartDashboard.putBoolean("dio1", dio1.get());
-    SmartDashboard.putBoolean("dio4", dio4.get());
+    // SmartDashboard.putBoolean("dio1", dio1.get());
+    // SmartDashboard.putBoolean("dio4", dio4.get());
     // SmartDashboard.putBoolean("dio5", dio5.get()); 
 
     

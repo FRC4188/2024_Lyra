@@ -120,6 +120,9 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     updateDashboard();
+
+    SmartDashboard.putBoolean("Left Limit", leftLimit.get());
+    SmartDashboard.putBoolean("Right Limit", rightLimit.get());
     
   }
 
@@ -128,7 +131,7 @@ public class Climber extends SubsystemBase {
    * @param power from 0 to 1, the amount of power set to the motor
    */
   public void setLeft(double power) {
-    leftClimber.set(power / RobotController.getBatteryVoltage());
+    leftClimber.set(power);
   } 
 
   /**
@@ -137,7 +140,7 @@ public class Climber extends SubsystemBase {
    */
 
   public void setRight(double power) {
-    rightClimber.set(power / RobotController.getBatteryVoltage());
+    rightClimber.set(power);
   }
 
   /**

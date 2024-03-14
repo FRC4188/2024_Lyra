@@ -179,8 +179,8 @@ public final class Constants {
     public static final int INTAKE_BEAM_BREAKER_1 = 8;
     public static final int INTAKE_BEAM_BREAKER_2 = 9;
 
-    public static final int CLIMBER_LEFT_LIMIT = 12;
-    public static final int CLIMBER_RIGHT_LIMIT = 13;
+    public static final int CLIMBER_LEFT_LIMIT = 4;
+    public static final int CLIMBER_RIGHT_LIMIT = 1;
   }
 
   public static class drivetrain {

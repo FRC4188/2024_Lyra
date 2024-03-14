@@ -21,7 +21,7 @@ public class Pigeon extends Pigeon2 {
   }
 
   public Rotation2d getRotation2d() {
-    return Rotation2d.fromDegrees(((super.getYaw().getValueAsDouble() + 180) % 360) - 180);
+    return Rotation2d.fromDegrees(((super.getYaw().getValueAsDouble() + 180.0) % 360.0) - 180.0);
   }
 
   public double getRollAsDouble() {

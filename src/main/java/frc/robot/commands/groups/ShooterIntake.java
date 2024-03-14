@@ -6,23 +6,23 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.feeder.FeedIntoFeeder;
 import frc.robot.commands.intake.Inhale;
+import frc.robot.commands.shooter.SetShooterMPS;
 import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.shoulder.Shoulder;
 
-public class BlindIntake extends ParallelCommandGroup {
+public class ShooterIntake extends ParallelCommandGroup {
     
     private Shoulder shoulder = Shoulder.getInstance();
 
     /** Creates a new ShootOnReady. */
-    public BlindIntake() {
+    public ShooterIntake() {
         addCommands(
             new SequentialCommandGroup(
-                new SetShoulderAngle(() -> Constants.shoulder.HANDOFF_ANGLE)
-                    .until(() -> shoulder.atGoal(Constants.shoulder.HANDOFF_ANGLE)),
-                new ParallelDeadlineGroup(
-                    new FeedIntoFeeder(),
-                    new SetShoulderAngle(() -> Constants.shoulder.HANDOFF_ANGLE),
-                    new Inhale()
+                new SetShoulderAngle(() -> 30.0)
+                    .until(() -> shoulder.atGoal(30.0)),
+                new ParallelCommandGroup(
+                    new SetShooterMPS(() -> -4.0),
+                    new SetShoulderAngle(() -> 30.0)
                 )
             )
         );

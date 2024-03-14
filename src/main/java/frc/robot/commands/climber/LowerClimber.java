@@ -23,8 +23,8 @@ public class LowerClimber extends Command {
   @Override
   public void execute() {
 
-      climber.setLeft(-0.4);
-      climber.setRight(-0.4);
+      climber.setLeft(-0.8);
+      climber.setRight(-0.8);
     
   }
 
