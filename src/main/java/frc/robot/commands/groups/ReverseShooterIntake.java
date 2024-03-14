@@ -12,20 +12,20 @@ import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.feeder.Feeder;
 import frc.robot.subsystems.shoulder.Shoulder;
 
-public class ShooterIntake extends ParallelCommandGroup {
+public class ReverseShooterIntake extends ParallelCommandGroup {
     
     private Shoulder shoulder = Shoulder.getInstance();
     private Feeder feeder = Feeder.getInstance();
 
     /** Creates a new ShootOnReady. */
-    public ShooterIntake() {
+    public ReverseShooterIntake() {
         addCommands(
             new SequentialCommandGroup(
-                new SetShoulderAngle(() -> -30.0)
-                    .until(() -> shoulder.atGoal(-30.0)),
+                new SetShoulderAngle(() -> 30.0)
+                    .until(() -> shoulder.atGoal(30.0)),
                 new ParallelCommandGroup(
                     new SetShooterMPS(() -> -4.0),
-                    new SetShoulderAngle(() -> -30.0)
+                    new SetShoulderAngle(() -> 30.0)
                 )
             ).until(() -> feeder.isBroken()).andThen(new EjectFeeder().withTimeout(0.5))
         );

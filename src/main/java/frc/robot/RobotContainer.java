@@ -26,6 +26,7 @@ import frc.robot.commands.drivetrain.TeleDrive;
 import frc.robot.commands.feeder.EjectFeeder;
 import frc.robot.commands.feeder.FeedIntoShooter;
 import frc.robot.commands.groups.ReverseBlindSpeakerPrep;
+import frc.robot.commands.groups.ReverseShooterIntake;
 import frc.robot.commands.groups.ShooterIntake;
 import frc.robot.commands.groups.ReverseBlindAmpShoot;
 import frc.robot.commands.groups.BlindAmpShoot;
@@ -137,14 +138,14 @@ public class RobotContainer {
         .whileTrue(
           new EjectFeeder()
         );
- 
+
     copilot
         .getAButton()
-        .whileTrue(
-          new ShooterIntake()
-        ).onFalse(
-          new EjectFeeder().withTimeout(0.25)
-        );
+        .onTrue(
+          new ConditionalCommand(
+            new ReverseShooterIntake(),
+            new ShooterIntake(), 
+            () -> !(Math.abs(sensors.getRotation2d().getDegrees()) > 90.0)));
 
     copilot
         .getBButton()
