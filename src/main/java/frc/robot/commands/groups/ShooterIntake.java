@@ -3,6 +3,7 @@ package frc.robot.commands.groups;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.feeder.EjectFeeder;
 import frc.robot.commands.feeder.FeedIntoFeeder;
@@ -21,13 +22,16 @@ public class ShooterIntake extends ParallelCommandGroup {
     public ShooterIntake() {
         addCommands(
             new SequentialCommandGroup(
-                new SetShoulderAngle(() -> -30.0)
-                    .until(() -> shoulder.atGoal(-30.0)),
+                new SetShoulderAngle(() -> 30.0)
+                    .until(() -> shoulder.atGoal(30.0)),
                 new ParallelCommandGroup(
-                    new SetShooterMPS(() -> -4.0),
-                    new SetShoulderAngle(() -> -30.0)
-                )
-            ).until(() -> feeder.isBroken()).andThen(new EjectFeeder().withTimeout(0.5))
+                    new SetShooterMPS(() -> -6.0),
+                    new SetShoulderAngle(() -> 30.0)
+                ).until(() -> feeder.isBroken())
+            ).andThen(
+                new ParallelDeadlineGroup(
+                    new WaitCommand(0.5).andThen(new EjectFeeder().until(() -> !feeder.isBroken()).andThen(new FeedIntoFeeder())),
+                    new SetShooterMPS(() -> -6.0)))
         );
     }
 }

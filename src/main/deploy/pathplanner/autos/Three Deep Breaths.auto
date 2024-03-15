@@ -14,19 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Blind Speaker Prep"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Feed Into Shooter"
+            "name": "Auto Speaker Shoot"
           }
         },
         {
@@ -38,7 +26,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Feed Into Shooter"
+            "name": "Auto Speaker Shoot"
           }
         },
         {
@@ -50,7 +38,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Feed Into Shooter"
+            "name": "Auto Speaker Shoot"
           }
         },
         {
@@ -62,7 +50,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Feed Into Shooter"
+            "name": "Auto Speaker Shoot"
           }
         }
       ]

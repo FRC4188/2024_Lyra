@@ -5,14 +5,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.shooter.SetShooterMPS;
 import frc.robot.commands.shoulder.SetShoulderAngle;
 
-public class BlindSpeakerPrep extends ParallelCommandGroup {
+public class FarReverseSpeakerPrep extends ParallelCommandGroup {
 
-    public BlindSpeakerPrep() {
+    public FarReverseSpeakerPrep() {
         addCommands(
             new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                    new SetShooterMPS(() -> 13.0),
-                    new SetShoulderAngle(() -> 32.5))
+                    new SetShooterMPS(() -> 12.0),
+                    new SetShoulderAngle(() -> -45.0))
             )
         );
     }

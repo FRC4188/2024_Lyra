@@ -220,10 +220,10 @@ public final class Constants {
     public static final Translation2d BR_LOCATION =
         new Translation2d(-(Constants.robot.A_LENGTH / 2), -(Constants.robot.A_WIDTH / 2));
 
-    public static final double FL_ZERO = 143.876953125;
-    public static final double BL_ZERO = 119.619140625;
-    public static final double BR_ZERO = -147.83203125;
-    public static final double FR_ZERO = 87.099609375;
+    public static final double FL_ZERO = 145.810546875;
+    public static final double BL_ZERO = 116.279296875;
+    public static final double BR_ZERO = -148.271484375;
+    public static final double FR_ZERO = 86.044921875;
 
   public static final PIDController ANGLE_PID = new PIDController(0.008, 0.0, 0.0);
     public static final SimpleMotorFeedforward ANGLE_FF = new SimpleMotorFeedforward(0.0, 1);

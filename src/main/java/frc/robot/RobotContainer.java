@@ -25,15 +25,15 @@ import frc.robot.commands.climber.RaiseClimber;
 import frc.robot.commands.drivetrain.TeleDrive;
 import frc.robot.commands.feeder.EjectFeeder;
 import frc.robot.commands.feeder.FeedIntoShooter;
-import frc.robot.commands.groups.ReverseBlindSpeakerPrep;
-import frc.robot.commands.groups.ReverseShooterIntake;
+import frc.robot.commands.groups.BlindReverseSpeakerPrep;
 import frc.robot.commands.groups.ShooterIntake;
-import frc.robot.commands.groups.ReverseBlindAmpShoot;
+import frc.robot.commands.groups.BlindReverseAmpShoot;
 import frc.robot.commands.groups.BlindAmpShoot;
 import frc.robot.commands.groups.FeedIntake;
 import frc.robot.commands.groups.BlindSpeakerPrep;
-import frc.robot.commands.groups.BlindTrapPrep;
 import frc.robot.commands.groups.Eject;
+import frc.robot.commands.groups.FarReverseSpeakerPrep;
+import frc.robot.commands.groups.FarSpeakerPrep;
 import frc.robot.commands.groups.StillSpeakerPrep;
 import frc.robot.commands.groups.Stow;
 import frc.robot.commands.shooter.SetShooterMPS;
@@ -142,16 +142,15 @@ public class RobotContainer {
     copilot
         .getAButton()
         .onTrue(
-          new ConditionalCommand(
-            new ReverseShooterIntake(),
-            new ShooterIntake(), 
-            () -> !(Math.abs(sensors.getRotation2d().getDegrees()) > 90.0)));
+          new ShooterIntake());
 
     copilot
         .getBButton()
         .onTrue(
-          new BlindTrapPrep()
-        );
+          new ConditionalCommand(
+            new FarSpeakerPrep(),
+            new FarReverseSpeakerPrep(), 
+            () -> (Math.abs(sensors.getRotation2d().getDegrees() + 180.0)) < 90.0));
 
     //shooter on intake side w speaker angle
     copilot
@@ -159,15 +158,24 @@ public class RobotContainer {
         .onTrue(
           new ConditionalCommand(
             new BlindSpeakerPrep(), 
-            new ReverseBlindSpeakerPrep(), 
-            () -> !(Math.abs(sensors.getRotation2d().getDegrees()) > 90.0))
+            new BlindReverseSpeakerPrep(), 
+            () -> (Math.abs(sensors.getRotation2d().getDegrees()) > 90.0))
         );
     
     copilot
         .getXButton()
         .onTrue(
-          new ReverseBlindAmpShoot()
+          new BlindAmpShoot()
         );
+
+    // copilot
+    //     .getXButton()
+    //     .onTrue(
+    //       new ConditionalCommand(
+    //         new BlindAmpShoot(), 
+    //         new BlindReverseAmpShoot(), 
+    //         () -> (sensors.getRotation2d().getDegrees() < 0.0))
+    //     );
 
     //default shooter pos + stop intake n feeder
     copilot
@@ -176,26 +184,17 @@ public class RobotContainer {
           new Stow()
         );
 
-    copilot
-        .getRightTButton()
-        .whileTrue(
-          new ParallelCommandGroup(
-            new SetShoulderAngle(() -> SmartDashboard.getNumber("Shoulder Point", 0.0)),
-            new SetShooterMPS(() -> SmartDashboard.getNumber("MPS Point", 0.0))
-          )
-        );
+    // copilot
+    //     .getUpButton()
+    //     .onTrue(
+    //       new RaiseClimber()
+    //     );
 
-    copilot
-        .getUpButton()
-        .onTrue(
-          new RaiseClimber()
-        );
-
-    copilot
-        .getDownButton()
-        .whileTrue(
-          new LowerClimber()
-        );
+    // copilot
+    //     .getDownButton()
+    //     .whileTrue(
+    //       new LowerClimber()
+    //     );
   
     // Seriously why is it "Inhale" and "Exhale" lmao. I like it though -Aiden
     // Freak you Aiden
@@ -216,11 +215,12 @@ public class RobotContainer {
   }
 
   public void addChooser() {
-    autoChooser = AutoBuilder.buildAutoChooser();
+    // autoChooser = AutoBuilder.buildAutoChooser();
     
     autoChooser.setDefaultOption("Do Nothing", new SequentialCommandGroup());
     autoChooser.addOption("Three Deep Breaths", new PathPlannerAuto("Three Deep Breaths"));
     autoChooser.addOption("Shoot and Leave", new PathPlannerAuto("Shoot and Leave"));
+    autoChooser.addOption("Make Them Cry", new PathPlannerAuto("Make Them Cry"));
     //autoChooser.addOption("First Note", new PathPlannerAuto("First Note"));
 
     SmartDashboard.putData("Auto Chooser", autoChooser);

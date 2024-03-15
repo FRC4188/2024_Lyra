@@ -99,8 +99,8 @@ public class Shooter extends SubsystemBase{
       left.setInverted(true);
       right.setInverted(false);
 
-      left.setRampRate(0.1);
-      right.setRampRate(0.1);
+      left.setRampRate(0.5);
+      right.setRampRate(0.5);
     }
 
     public void updateDashboard() {
