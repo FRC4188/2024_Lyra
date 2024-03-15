@@ -13,7 +13,7 @@ public class FarSpeakerPrep extends ParallelCommandGroup {
             new SequentialCommandGroup(
                 new ParallelCommandGroup(
                     new SetShooterMPS(() -> 12.0),
-                    new SetShoulderAngle(() -> Math.abs(Sensors.getInstance().getRotation2d().getDegrees()) > 90.0 ? 45.0 : -45.0))
+                    new SetShoulderAngle(() -> 45.0))
             )
         );
     }

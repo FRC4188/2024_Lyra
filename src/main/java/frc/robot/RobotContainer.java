@@ -24,6 +24,7 @@ import frc.robot.commands.climber.LowerClimber;
 import frc.robot.commands.climber.RaiseClimber;
 import frc.robot.commands.drivetrain.TeleDrive;
 import frc.robot.commands.feeder.EjectFeeder;
+import frc.robot.commands.feeder.FeedIntoFeeder;
 import frc.robot.commands.feeder.FeedIntoShooter;
 import frc.robot.commands.groups.BlindReverseSpeakerPrep;
 import frc.robot.commands.groups.ShooterIntake;
@@ -150,7 +151,7 @@ public class RobotContainer {
           new ConditionalCommand(
             new FarSpeakerPrep(),
             new FarReverseSpeakerPrep(), 
-            () -> (Math.abs(sensors.getRotation2d().getDegrees() + 180.0)) < 90.0));
+            () -> (Math.abs(sensors.getRotation2d().getDegrees()) > 90.0)));
 
     //shooter on intake side w speaker angle
     copilot
@@ -161,13 +162,35 @@ public class RobotContainer {
             new BlindReverseSpeakerPrep(), 
             () -> (Math.abs(sensors.getRotation2d().getDegrees()) > 90.0))
         );
-    
+
+    copilot
+        .getRightTButton()
+        .onTrue(
+          new ConditionalCommand(
+            new BlindSpeakerPrep(), 
+            new BlindReverseSpeakerPrep(), 
+            () -> (Math.abs(sensors.getRotation2d().getDegrees()) < 90.0))
+        );
+        
     copilot
         .getXButton()
         .onTrue(
           new BlindAmpShoot()
         );
 
+    copilot
+        .getUpButton()
+        .onTrue(
+          new FeedIntoFeeder()
+        );
+        
+    copilot
+        .getDownButton()
+        .whileTrue(
+          new EjectFeeder()
+        );
+
+    
     // copilot
     //     .getXButton()
     //     .onTrue(
@@ -210,8 +233,8 @@ public class RobotContainer {
   }
 
   public void smartdashboardButtons() {
-    SmartDashboard.putNumber("Shoulder Point", 0.0);
-    SmartDashboard.putNumber("MPS Point", 0.0);
+    // SmartDashboard.putNumber("Shoulder Point", 0.0);
+    // SmartDashboard.putNumber("MPS Point", 0.0);
   }
 
   public void addChooser() {
