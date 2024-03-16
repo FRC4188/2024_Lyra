@@ -6,12 +6,13 @@ package CSP_Lib.utils;
 
 import CSP_Lib.motors.CSP_Motor;
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.Constants;
 
 import java.util.ArrayList;
 
 /** Add your docs here. */
 public final class TempManager {
+  private static double maxTemp = 70.0;
+
   private static ArrayList<CSP_Motor> motorsList = new ArrayList<CSP_Motor>();
 
   /**
@@ -28,16 +29,20 @@ public final class TempManager {
   /** Begin monitoring */
   public static void monitor() {
     for (CSP_Motor motor : motorsList) {
-      if (motor.getTemperature() > Constants.robot.MAX_TEMP
-          && motor.getTemperature() < Constants.robot.MAX_TEMP + 10) {
+      if (motor.getTemperature() > maxTemp
+          && motor.getTemperature() < maxTemp + 10) {
         String tempWarning =
             "Motor " + motor.getID() + " Maximum Temperature Reached " + motor.getTemperature();
         DriverStation.reportWarning(tempWarning, false);
-      } else if (motor.getTemperature() > Constants.robot.MAX_TEMP + 10) {
+      } else if (motor.getTemperature() > maxTemp + 10) {
         String tempError =
             "Motor " + motor.getID() + " Critical Temperature Reached " + motor.getTemperature();
         DriverStation.reportError(tempError, false);
       }
     }
+  }
+
+  public static void setMaxTemp(double maxTemperature) {
+    maxTemp = maxTemperature;
   }
 }

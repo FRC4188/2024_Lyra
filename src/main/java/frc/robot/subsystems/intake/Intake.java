@@ -8,53 +8,36 @@ import frc.robot.Constants;
 
 public class Intake extends SubsystemBase{
     private static Intake instance = null;
-
-    private CSP_TalonFX motor = new CSP_TalonFX(Constants.ids.INTAKE, "canivore");
-
-    // private DigitalInput breakerOne = new DigitalInput(Constants.ids.INTAKE_BEAM_BREAKER_1);
-    // private DigitalInput breakerTwo = new DigitalInput(Constants.ids.INTAKE_BEAM_BREAKER_2);
-
-
     public static synchronized Intake getInstance() {
       if (instance == null) instance = new Intake();
       return instance;
     }
 
+    private enum ControlMode {
+      STOP,
+      VOLTAGE,
+      DASH_VOLTAGE
+    }
+    private ControlMode mode = ControlMode.STOP;
+
     public Intake() {
-      motor.setBrake(true);
-      motor.setInverted(false);
     }
 
     @Override
     public void periodic() {
-      SmartDashboard.putNumber("Intake AMPS", motor.getCurrent());
-    }
 
-    public void set(double percent) {
-        motor.set(percent);
-    }
+      switch (mode) {
+        case STOP:
 
-    /**
-     * Sets the voltage of the Intake
-     * @param voltage the number of volts
-     */
-    public void setVoltage(double voltage) {
-        motor.setVoltage(voltage);
-    }
+          break;
+        
+        case VOLTAGE:
 
-    /**
-     * Returns the velocity of the Intake, in Rotations Per Minute
-     */
-    public double getVelocity() {
-      return motor.getRPM(); 
-    }
+          break;
+        
+        case DASH_VOLTAGE:
 
-    public void disable() {
-      motor.stopMotor();
-    }
-
-    public boolean isBroken() {
-      // return !breakerOne.get();
-      return false;
+          break;
+      }
     }
 }

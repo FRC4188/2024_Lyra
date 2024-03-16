@@ -14,6 +14,8 @@ public class CSP_Controller extends CommandXboxController {
   private short m_leftRumble;
   private short m_rightRumble;
 
+  private double deadband = 0.1;
+
   public enum Scale {
     LINEAR,
     SQUARED,
@@ -33,14 +35,22 @@ public class CSP_Controller extends CommandXboxController {
    * @return adjusted value
    */
   private double getOutput(double input, Scale scale) {
-    if (Math.abs(input) > Constants.controller.DEADBAND) {
-      if (scale == Scale.SQUARED) return Math.signum(input) * Math.pow(input, 2);
-      else if (scale == Scale.CUBED) return Math.pow(input, 3);
-      else if (scale == Scale.QUARTIC) return Math.signum(input) * Math.pow(input, 4);
-      else return input;
-    } else {
-      return 0;
+    if (Math.abs(input) > deadband) {
+      switch (scale) {
+        case CUBED:
+          return input * input * input;
+        case LINEAR:
+          return input;
+        case QUARTIC:
+          return Math.signum(input) * input * input * input * input;
+         case SQUARED:
+          return Math.signum(input) * input * input;
+        default:
+          break;
+      }
     }
+    
+    return 0.0;
   }
 
   /**
@@ -137,5 +147,9 @@ public class CSP_Controller extends CommandXboxController {
 
   public void setRumble(RumbleType type, double value) {
     getHID().setRumble(type, value);
+  }
+
+  public void setDeadband(double deadband) {
+    this.deadband = deadband;
   }
 }
