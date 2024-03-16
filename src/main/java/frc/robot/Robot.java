@@ -19,6 +19,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private static RobotControlState state = RobotControlState.DRIVE;
 
   private CSP_Controller pilot = new CSP_Controller(Constants.io.PILOT_CONTROLLER);
   private CSP_Controller copilot = new CSP_Controller(Constants.io.COPILOT_CONTROLLER);
@@ -90,4 +91,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testExit() {}
+
+  public static RobotControlState getState() {
+    return state;
+  }
+
+  public static void setState(RobotControlState newState) {
+    state = newState;
+  }
 }

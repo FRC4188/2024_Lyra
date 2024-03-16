@@ -5,20 +5,18 @@
 package frc.robot;
 
 import CSP_Lib.inputs.CSP_Controller;
+import CSP_Lib.utils.Binding;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.commands.shooting.BlindShoot;
 
 public class RobotContainer {
 
-  private final Notifier shuffleUpdater = new Notifier(() -> updateShuffle());
   private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
   private final CSP_Controller pilot, copilot;
-
-  private RobotControlState state = RobotControlState.STOW;
 
   public RobotContainer(CSP_Controller pilot, CSP_Controller copilot) {
     this.pilot = pilot;
@@ -28,8 +26,6 @@ public class RobotContainer {
 
     configureBindings();
 
-    shuffleUpdater.startPeriodic(0.1);
-
     // Add auto chooser to SmartDashboard
     addChooser();
   }
@@ -38,6 +34,22 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+
+    // The below configuration is pretty useless it just shows how
+    // to use Bindings to constrain a button binding to a state.
+    
+    new Binding(
+      pilot.rightTrigger(), // Trigger
+      new BlindShoot(BlindShots.SPEAKER_DIRECT), // On True
+      null // On False
+    ).addState(RobotControlState.SHOOT); // Add valid state
+
+    new Binding(
+      pilot.rightTrigger(), // Trigger
+      new BlindShoot(BlindShots.SPEAKER_DEFENDED), // On True
+      null // On False
+    ).addState(RobotControlState.DRIVE) // Add valid state
+    .addState(RobotControlState.BLIND_SHOOT); // Add another state
   }
 
   public void updateShuffle() {

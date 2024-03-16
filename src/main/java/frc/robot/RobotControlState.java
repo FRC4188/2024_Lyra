@@ -1,7 +1,8 @@
 package frc.robot;
 
 public enum RobotControlState {
-    STOW,
+    DRIVE,
+    BLIND_SHOOT,
     SHOOT,
-    INTAKE
+    AMP;
 }
