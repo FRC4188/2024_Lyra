@@ -10,6 +10,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import CSP_Lib.inputs.CSP_Controller;
 import CSP_Lib.inputs.CSP_Controller.Scale;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -19,10 +20,11 @@ import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoConfigs;
-import frc.robot.commands.climber.LowerClimber;
-import frc.robot.commands.climber.RaiseClimber;
+import frc.robot.commands.drivetrain.HockeyStop;
 import frc.robot.commands.drivetrain.TeleDrive;
+import frc.robot.commands.drivetrain.XPattern;
 import frc.robot.commands.feeder.EjectFeeder;
 import frc.robot.commands.feeder.FeedIntoFeeder;
 import frc.robot.commands.feeder.FeedIntoShooter;
@@ -37,9 +39,9 @@ import frc.robot.commands.groups.FarReverseSpeakerPrep;
 import frc.robot.commands.groups.FarSpeakerPrep;
 import frc.robot.commands.groups.StillSpeakerPrep;
 import frc.robot.commands.groups.Stow;
+import frc.robot.commands.intake.Exhale;
 import frc.robot.commands.shooter.SetShooterMPS;
 import frc.robot.commands.shoulder.SetShoulderAngle;
-import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.feeder.Feeder;
 import frc.robot.subsystems.intake.Intake;
@@ -63,7 +65,6 @@ public class RobotContainer {
   Shoulder shoulder = Shoulder.getInstance();
   Shooter shooter = Shooter.getInstance();
   Feeder feeder = Feeder.getInstance();
-  Climber climber = Climber.getInstance();
 
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
@@ -89,11 +90,12 @@ public class RobotContainer {
 
   private void setDefaultCommands() {
     drive.setDefaultCommand(
-      new TeleDrive(
-        () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.5 : 1.0), 
-        () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.5 : 1.0), 
-        () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0))
-    );
+    //   new TeleDrive(
+    //     () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+    //     () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+    //     () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0))
+    // );
+    new XPattern());
   }
 
   private void configureBindings() {
@@ -103,6 +105,14 @@ public class RobotContainer {
     // pilot.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
     // pilot.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
     // pilot.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    Trigger drivingInput = new Trigger(() -> MathUtil.applyDeadband(pilot.getLeftX(), 0.075) != 0.0 || MathUtil.applyDeadband(pilot.getLeftY(), 0.075) != 0.0 || MathUtil.applyDeadband(pilot.getRightX(), 0.075) != 0.0);
+    drivingInput.onTrue(new TeleDrive(
+        () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+        () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+        () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0))
+    )
+    .onFalse(new HockeyStop().withTimeout(0.25));
 
     // reset pigeon
     pilot
@@ -171,7 +181,7 @@ public class RobotContainer {
             new BlindReverseSpeakerPrep(), 
             () -> (Math.abs(sensors.getRotation2d().getDegrees()) < 90.0))
         );
-        
+
     copilot
         .getXButton()
         .onTrue(
@@ -190,6 +200,11 @@ public class RobotContainer {
           new EjectFeeder()
         );
 
+    copilot
+        .getLeftTButton()
+        .whileTrue(
+          new ParallelCommandGroup(new FeedIntoFeeder(), new Exhale())
+        );
     
     // copilot
     //     .getXButton()
@@ -228,7 +243,6 @@ public class RobotContainer {
     // SmartDashboard.putBoolean("dio1", dio1.get());
     // SmartDashboard.putBoolean("dio4", dio4.get());
     // SmartDashboard.putBoolean("dio5", dio5.get()); 
-
     
   }
 
@@ -242,7 +256,8 @@ public class RobotContainer {
     
     autoChooser.setDefaultOption("Do Nothing", new SequentialCommandGroup());
     autoChooser.addOption("Three Deep Breaths", new PathPlannerAuto("Three Deep Breaths"));
-    autoChooser.addOption("Shoot and Leave", new PathPlannerAuto("Shoot and Leave"));
+    autoChooser.addOption("Shoot and Leave Long", new PathPlannerAuto("Shoot and Leave Long"));
+    // autoChooser.addOption("Shoot and Leave Short", new PathPlannerAuto("Shoot and Leave Short"));
     autoChooser.addOption("Make Them Cry", new PathPlannerAuto("Make Them Cry"));
     //autoChooser.addOption("First Note", new PathPlannerAuto("First Note"));
 

@@ -19,7 +19,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -98,7 +97,6 @@ public class Swerve extends SubsystemBase {
 
   private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(getLocations(moduleList));
 
-  private Field2d m_field = new Field2d();
 
   private Notifier notifier = new Notifier(() -> {
     updateDashboard();
@@ -126,13 +124,13 @@ public class Swerve extends SubsystemBase {
 
     notifier.startPeriodic(0.2);
 
-    SmartDashboard.putData("Field", m_field);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     updateOdometry();
+
   }
 
   public void setChassisSpeeds(ChassisSpeeds speeds) {
@@ -223,7 +221,6 @@ public class Swerve extends SubsystemBase {
 
   public void updateDashboard() {
 
-    m_field.setRobotPose(getPose2d());
 
 
     for (SwerveModule module : moduleList) {
@@ -240,8 +237,6 @@ public class Swerve extends SubsystemBase {
       
     }
 
-    SmartDashboard.putString("Position", getPose2d().toString());
-    SmartDashboard.putNumber("rotPID setpoint", rotPID.getSetpoint());
   }
 
   public void configurePathPlanner() {

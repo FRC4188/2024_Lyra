@@ -1,6 +1,10 @@
 {
   "download": {
+    "deleteAfter": false,
     "localDir": "C:\\Users\\mukil\\Downloads",
     "serverTeam": "4188"
+  },
+  "output": {
+    "outputFolder": "C:\\Users\\mukil\\Downloads"
   }
 }

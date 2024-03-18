@@ -20,6 +20,7 @@ public class Stow extends ParallelCommandGroup {
                 new SetShoulderAngle(() -> Constants.shoulder.HANDOFF_ANGLE)),
                 new SetShooterMPS(() -> 0.0)
             )
+            
         );
     }
 }

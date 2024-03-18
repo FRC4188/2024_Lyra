@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    addPeriodic(() -> TempManager.monitor(), 2.0);
+    //addPeriodic(() -> TempManager.monitor(), 2.0);
 
     //DataLogManager.start();
   }

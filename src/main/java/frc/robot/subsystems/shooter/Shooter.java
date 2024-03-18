@@ -13,7 +13,6 @@ import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -31,9 +30,13 @@ public class Shooter extends SubsystemBase{
       return instance;
     }
 
-    // DataLog log = DataLogManager.getLog();
-    // DoubleLogEntry velocityLog = new DoubleLogEntry(log, "shooter/velocity");
-    // DoubleLogEntry voltageLog = new DoubleLogEntry(log, "shooter/voltage");
+    DataLog log = DataLogManager.getLog();
+    DoubleLogEntry leftVelocityLog = new DoubleLogEntry(log, "leftshooter/velocity");
+    DoubleLogEntry leftVoltageLog = new DoubleLogEntry(log, "leftshooter/voltage");
+  DoubleLogEntry rightVelocityLog = new DoubleLogEntry(log, "rightshooter/velocity");
+    DoubleLogEntry rightVoltageLog = new DoubleLogEntry(log, "rightshooter/voltage");
+
+    
 
     public enum ControlMode {
       VELOCITY, STOP, DASH_VOLTAGE, TEST;
@@ -91,10 +94,6 @@ public class Shooter extends SubsystemBase{
               this));
 
     public Shooter() {
-      SmartDashboard.putNumber("Shooter kP", 0);
-      SmartDashboard.putNumber("Shooter kD", 0);             
-      SmartDashboard.putNumber("Shooter kS", 0);
-      SmartDashboard.putNumber("Shooter kV", 0);
 
       left.setInverted(true);
       right.setInverted(false);
@@ -104,11 +103,6 @@ public class Shooter extends SubsystemBase{
     }
 
     public void updateDashboard() {
-      SmartDashboard.putNumber("Left Shooter Voltage", getLeftVoltage());
-      SmartDashboard.putNumber("Left Shooter Temperature", getLeftTemperature());
-
-      SmartDashboard.putNumber("Left RPM", left.getRPM());
-      SmartDashboard.putNumber("Right RPM", right.getRPM());
       
       // pid.setP(SmartDashboard.getNumber("Shooter kP", 0.0));
       // pid.setD(SmartDashboard.getNumber("Shooter kD", 0.0));
@@ -117,8 +111,11 @@ public class Shooter extends SubsystemBase{
 
     @Override
     public void periodic() {
-        // velocityLog.append(getLeftVelocity());
-        // voltageLog.append(getLeftVoltage());
+        leftVelocityLog.append(getLeftVelocity());
+        leftVoltageLog.append(getLeftVoltage());
+
+        rightVelocityLog.append(getRightVelocity());
+        rightVoltageLog.append(getRightVoltage());
 
         switch (controlMode) {
           case STOP: 
@@ -131,7 +128,6 @@ public class Shooter extends SubsystemBase{
             );
             break;
           case DASH_VOLTAGE:
-            setVoltage(0.0, SmartDashboard.getNumber("Flywheel voltage set", 0.0));
             break;
           case TEST: // do nothing while testing
             break;

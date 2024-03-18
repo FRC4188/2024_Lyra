@@ -61,10 +61,10 @@ public class SwerveModule {
 
   public void init() {
 
-    speed.setBrake(true);
+    speed.setBrake(false);
     speed.setRampRate(Constants.drivetrain.RAMP_RATE);
 
-    angle.setBrake(true);
+    angle.setBrake(false);
     angle.setInverted(true);
 
     encoder.clearStickyFaults();
@@ -86,9 +86,9 @@ public class SwerveModule {
 
     double velocity = optimized.speedMetersPerSecond / Constants.drivetrain.DRIVE_METERS_PER_TICK;
     // pseudocode : setVolts(PID + FF)
-    speed.setVoltage(speedPID.calculate(getVelocity(), velocity) + speedFF.calculate(velocity));
+    speed.setVoltage(Math.min(speedPID.calculate(getVelocity(), velocity) + speedFF.calculate(velocity), 0.9 * 12.0));
     // angle.setVoltage(angleFF.calculate(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees())));
-    angle.set(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees()));
+      angle.set(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees()));
   }
 
   /** Sets the speed and angle motors to zero power */

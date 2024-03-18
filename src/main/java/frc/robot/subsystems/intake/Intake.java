@@ -27,7 +27,6 @@ public class Intake extends SubsystemBase{
 
     @Override
     public void periodic() {
-      SmartDashboard.putNumber("Intake AMPS", motor.getCurrent());
     }
 
     public void set(double percent) {

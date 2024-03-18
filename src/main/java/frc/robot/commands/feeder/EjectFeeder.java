@@ -19,7 +19,7 @@ public class EjectFeeder extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    feeder.set(-0.15);
+    feeder.set(-0.3);
   }
 
   // Called once the command ends or is interrupted.

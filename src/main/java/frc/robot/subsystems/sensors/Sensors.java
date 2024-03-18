@@ -7,7 +7,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.field.Goal;
@@ -48,10 +47,6 @@ public class Sensors extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putString("Front Pose", limelightFront.getPose3d().toPose2d().toString());
-    SmartDashboard.putString("Back Pose", limelightBack.getPose3d().toPose2d().toString());
-    SmartDashboard.putNumber("Pigeon Angle", getRotation2d().getDegrees());
-    SmartDashboard.putString("current speaker location", Constants.field.CURRENT_SPEAKER_LOCATION.toString());
   }
 
   public Pose3d getPose3d() {
