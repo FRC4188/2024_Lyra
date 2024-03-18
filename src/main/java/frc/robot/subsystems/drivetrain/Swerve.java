@@ -26,6 +26,8 @@ public class Swerve extends SubsystemBase {
   }
   private ControlMode mode = ControlMode.STOP;
 
+  private Limiter limiter = new CompetitionLimit();
+
   /** Creates a new Swerve. */
   private Swerve() {
   }
