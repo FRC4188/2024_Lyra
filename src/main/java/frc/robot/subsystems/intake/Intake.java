@@ -24,7 +24,7 @@ public class Intake extends SubsystemBase{
       PERCENT,
       DASH_VOLTAGE
     }
-    private ControlMode mode = ControlMode.STOP;
+    private ControlMode controlMode = ControlMode.STOP;
 
     public Intake() {
       motor.setBrake(true);
@@ -34,7 +34,7 @@ public class Intake extends SubsystemBase{
     @Override
     public void periodic() {
 
-      switch (mode) {
+      switch (controlMode) {
         case STOP:
           disable();
           break;
@@ -70,6 +70,6 @@ public class Intake extends SubsystemBase{
     }
 
     public void setControlMode(ControlMode mode) {
-      this.mode = mode;
+      this.controlMode = mode;
     }
 }

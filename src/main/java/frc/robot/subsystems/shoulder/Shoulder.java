@@ -72,5 +72,4 @@ public class Shoulder extends SubsystemBase {
   private void applyVoltage(double volts) {
 
   }
-
 }
