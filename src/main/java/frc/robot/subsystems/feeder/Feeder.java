@@ -1,6 +1,9 @@
 package frc.robot.subsystems.feeder;
 
+import CSP_Lib.motors.CSP_TalonFX;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Feeder extends SubsystemBase {
 
@@ -15,26 +18,33 @@ public class Feeder extends SubsystemBase {
     return instance;
   }
 
-  private enum ControlMode {
+  private CSP_TalonFX motor = new CSP_TalonFX(Constants.ids.FEEDER, "canivore");
+  private DigitalInput breaker = new DigitalInput(Constants.ids.FEEDER_BEAM_BREAKER);
+
+  public enum ControlMode {
     STOP,
-    VOLTAGE,
+    PERCENT,
     DASH_VOLTAGE
   }
-  private ControlMode mode = ControlMode.STOP;
+  private ControlMode controlMode = ControlMode.STOP;
+
+  private double percent = 0;
 
   public Feeder() {
+    motor.setBrake(true);
+    motor.setInverted(false);
   }
 
   @Override
   public void periodic() {
 
-      switch (mode) {
+      switch (controlMode) {
         case STOP:
-
+          disable();
           break;
         
-        case VOLTAGE:
-
+        case PERCENT:
+          motor.set(percent);
           break;
         
         case DASH_VOLTAGE:
@@ -43,4 +53,28 @@ public class Feeder extends SubsystemBase {
       }
   }
 
+  public void setPercent(double percent) {
+    this.percent = percent;
+  }
+
+  /**
+   * Returns the velocity of the Intake, in Rotations Per Minute
+   */
+  public double getVelocity() {
+    return motor.getRPM(); 
+  }
+
+  public void disable() {
+    motor.stopMotor();
+  }
+
+  public boolean isBroken() {
+    return !breaker.get();
+    // return false;
+  }
+
+  public void setControlMode(ControlMode mode) {
+    this.controlMode = mode;
+  }
 }
+
