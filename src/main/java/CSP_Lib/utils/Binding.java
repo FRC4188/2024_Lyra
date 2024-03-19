@@ -21,8 +21,12 @@ public class Binding {
      * @param onFalse The {@link Command} for the onFalse behvior of the trigger.
      */
     public Binding(Trigger trigger, Command onTrue, Command onFalse) {
-        this.trigger = trigger.and(() -> states.contains(Robot.getState()))
-            .onTrue(onTrue).onFalse(onFalse);
+        this.trigger = trigger.and(() -> states.contains(Robot.getState()));
+        
+        if (onTrue != null)
+            trigger.onTrue(onTrue);
+        if (onFalse != null)
+            trigger.onFalse(onFalse);
     }
 
     /**
