@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.ShotConstants.BlindShots;
+import frc.robot.ShotConstants.DataPoints;
 import frc.robot.commands.drivetrain.TeleDrive;
 import frc.robot.commands.groups.BlindShoot;
 
@@ -33,6 +34,8 @@ public class RobotContainer {
 
     // Add auto chooser to SmartDashboard
     addChooser();
+
+    addITMData();
   }
 
   private void setDefaultCommands() {
@@ -65,9 +68,29 @@ public class RobotContainer {
     //   null // On False
     // ).addState(RobotControlState.DRIVE) // Add valid state
     // .addState(RobotControlState.BLIND_SHOOT); // Add another state
+
+    new Binding(
+      pilot.rightTrigger(), // Trigger
+      new BlindShoot(BlindShots.SPEAKER_DEFENDED), // On True
+      null // On False
+    ).addState(RobotControlState.DRIVE); // Add valid state
+
+    new Binding(
+      pilot.leftTrigger(), // Trigger
+      new BlindShoot(BlindShots.SPEAKER_DEFENDED), // On True
+      null // On False
+    ).addState(RobotControlState.SHOOT); // Add valid state
   }
 
   public void updateShuffle() {
+  }
+
+  public void addITMData() {
+    for(DataPoints dataPoint : ShotConstants.VELOCITY_DATA_POINTS) {
+      ShotConstants.VELOCITY_SPEAKER.put(dataPoint.distance, dataPoint.value);}
+
+    for(DataPoints dataPoint : ShotConstants.ANGLE_DATA_POINTS) {
+      ShotConstants.ANGLE_SPEAKER.put(dataPoint.distance, dataPoint.value);}
   }
 
   public void addChooser() {

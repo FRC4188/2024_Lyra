@@ -74,4 +74,8 @@ public class Localization {
     public static boolean atGoalAngle(double angleDegrees) {
         return (Math.abs(getPose().getRotation().getDegrees() - angleDegrees) < 3.0);
     }
+
+    public static boolean isFlipped() {
+        return getRotation2d().getCos() > 0.0;
+    }
 }
