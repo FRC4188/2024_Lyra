@@ -10,6 +10,7 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
@@ -220,5 +221,28 @@ public final class Constants {
     public static final SimpleMotorFeedforward RIGHT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.21491, 0.40234, 0.095778); // kS = verge of motion, kV = volts/vel
     public static final PIDController RIGHT_SHOOTER_PID = new PIDController(0.45997, 0.0, 0.0);
   }
-  
+
+  public static final class sensors {
+    public static final class pigeon {
+      public static final double PIGEON_OFFSET_DEGREES = 0.0;
+    }
+
+    public static final class limelight {
+      public static final String FRONT_NAME = "limelight-front";
+      public static final Translation3d FRONT_POSITION = new Translation3d(0.4476242, 0, 0.2650236); // translation/rotation in robot space from robot to limelight
+      public static final Rotation3d FRONT_ROTATION = 
+        new Rotation3d(
+          Units.degreesToRadians(0),
+          Units.degreesToRadians(0),
+          Units.degreesToRadians(0));
+
+      public static final String BACK_NAME = "limelight-back";
+      public static final Translation3d BACK_POSITION = new Translation3d(-0.2859024, 0, 0.1682242); 
+      public static final Rotation3d BACK_ROTATION = 
+        new Rotation3d(
+          Units.degreesToRadians(180.0),
+          Units.degreesToRadians(0),
+          Units.degreesToRadians(180.0));
+    }
+  }
 }
