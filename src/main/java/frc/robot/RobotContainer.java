@@ -18,6 +18,7 @@ import frc.robot.ShotConstants.BlindShots;
 import frc.robot.ShotConstants.DataPoints;
 import frc.robot.commands.drivetrain.HockeyStop;
 import frc.robot.commands.drivetrain.TeleDrive;
+import frc.robot.commands.drivetrain.XPattern;
 import frc.robot.commands.feeder.EjectFeeder;
 import frc.robot.commands.groups.BlindReverseAmpShoot;
 import frc.robot.commands.groups.BlindShoot;
@@ -51,7 +52,7 @@ public class RobotContainer {
   }
 
   private void setDefaultCommands() {
-
+    drive.setDefaultCommand(new XPattern());
   }
 
   private void configureBindings() {
