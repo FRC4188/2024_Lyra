@@ -17,15 +17,9 @@ public class Localization {
         Constants.ids.PIGEON, 
         Constants.sensors.pigeon.PIGEON_OFFSET_DEGREES);
 
-    private static SwerveDrivePoseEstimator odometry =
-      new SwerveDrivePoseEstimator(
-          drive.getKinematics(),
-          getRotation2d(),
-          drive.getSwerveModulePositions(drive.getModuleList()),
-          new Pose2d()
-          // ,Constants.drivetrain.STATE_STD_DEVS, 
-          // Constants.drivetrain.VISION_STD_DEVS
-          );
+    private static SwerveDrivePoseEstimator odometry;
+
+    
 
     private static void refresh() {
         updateOdometry();
@@ -33,6 +27,16 @@ public class Localization {
 
     public static void start() {
         start(DEFAULT_REFRESH_RATE);
+
+        odometry =
+            new SwerveDrivePoseEstimator(
+                drive.getKinematics(),
+                getRotation2d(),
+                drive.getSwerveModulePositions(drive.getModuleList()),
+                new Pose2d()
+                // ,Constants.drivetrain.STATE_STD_DEVS, 
+                // Constants.drivetrain.VISION_STD_DEVS
+                );
     }
 
     public static void start(double refreshRate) {

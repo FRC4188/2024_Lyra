@@ -9,8 +9,10 @@ import CSP_Lib.utils.DashboardManager;
 import CSP_Lib.utils.TempManager;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.feeder.Feeder;
@@ -19,7 +21,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  private static RobotControlState state = RobotControlState.DRIVE;
+  private static RobotControlState state = RobotControlState.INTAKE;
 
   private CSP_Controller pilot = new CSP_Controller(Constants.io.PILOT_CONTROLLER);
   private CSP_Controller copilot = new CSP_Controller(Constants.io.COPILOT_CONTROLLER);
@@ -27,20 +29,13 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer(pilot, copilot);
-    addPeriodic(() -> TempManager.monitor(), 2.0);
 
     DashboardManager.start(0.01);
-
-    DashboardManager.addNumberInput("Input A", 1.0);
-    DashboardManager.putValue("Output B", 2.0);
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-
-    DashboardManager.putValue("Input A progress", DashboardManager.readNumberInput("Input A"));
-    DashboardManager.putValue("Output B", RobotController.getFPGATime());
   }
 
   @Override

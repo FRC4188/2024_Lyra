@@ -14,6 +14,7 @@ public final class ShotConstants {
     public static enum BlindShots {
         SPEAKER_DIRECT(13.0, 32.5),
         SPEAKER_DEFENDED(12.0, 45.0);
+        
 
         private final double velocity;
         private final double angle;
@@ -53,8 +54,8 @@ public final class ShotConstants {
     };
 
     public static Translation3d CURRENT_SPEAKER_LOCATION = 
-        DriverStation.getAlliance().get() == Alliance.Blue ?  
-        Constants.field.BLUE_SPEAKER_LOCATION :
+        // DriverStation.getAlliance().get() == Alliance.Blue ?  
+        // Constants.field.BLUE_SPEAKER_LOCATION :
         Constants.field.RED_SPEAKER_LOCATION;
 
 
@@ -67,9 +68,6 @@ public final class ShotConstants {
         new Pose2d(CURRENT_SPEAKER_LOCATION.getX(), CURRENT_SPEAKER_LOCATION.getY(), Rotation2d.fromRadians(Math.PI)), // TODO: change rotation based on color
         10, //TODO: happy zone tuning
         Units.inchesToMeters(3.0 * 12.0 + 5.0 + (3.0 / 8.0)));
-
-
-  
 
       public final InterpolatingDoubleTreeMap ITM_A, ITM_V;
       public final Pose2d position;

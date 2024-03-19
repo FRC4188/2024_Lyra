@@ -35,7 +35,7 @@ public class TeleDrive extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drive.setControlMode(ControlMode.FIELD_ORIENTED);
+    drive.setControlMode(ControlMode.DRIVE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -50,7 +50,7 @@ public class TeleDrive extends Command {
     xSpeed = Math.signum(xSpeed) * limiterX.calculate(Math.abs(xSpeed));
     ySpeed = Math.signum(ySpeed) * limiterY.calculate(Math.abs(ySpeed));
 
-    drive.setSpeeds(
+    drive.setChassisSpeeds(
     ChassisSpeeds.fromFieldRelativeSpeeds(new ChassisSpeeds(
         xSpeed,
         ySpeed, 

@@ -17,7 +17,7 @@ public class Exhale extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.setPercent(-0.8);
+    intake.setPercent(-1.0);
     intake.setControlMode(ControlMode.PERCENT);
   }
 

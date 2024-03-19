@@ -12,8 +12,8 @@ public class CompetitionLimit implements Limiter {
     public ChassisSpeeds limit(ChassisSpeeds speeds) {
         return new ChassisSpeeds(
             xLimiter.calculate(speeds.vxMetersPerSecond),
-            yLimiter.calculate(speeds.vyMetersPerSecond)
-            , speeds.omegaRadiansPerSecond
+            yLimiter.calculate(speeds.vyMetersPerSecond), 
+            speeds.omegaRadiansPerSecond
         );
     }
     

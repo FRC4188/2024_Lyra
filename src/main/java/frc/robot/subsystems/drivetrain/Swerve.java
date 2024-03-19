@@ -9,6 +9,7 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import CSP_Lib.utils.DashboardManager;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -40,17 +41,20 @@ public class Swerve extends SubsystemBase {
   public enum ControlMode {
     STOP,
     X_PATTERN,
-    FIELD_ORIENTED,
-    ROBOT_ORIENTED,
+    DRIVE,
     MODULE_STATES,
     AUTO
   }
-  private ControlMode controlMode = ControlMode.ROBOT_ORIENTED;
-
+  private ControlMode controlMode = ControlMode.DRIVE;
+ 
   private Limiter limiter = new CompetitionLimit();
 
   private ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
-  private SwerveModuleState[] moduleStates = null;
+  private SwerveModuleState[] moduleStates = new SwerveModuleState[] {
+            new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
+            new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
+            new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
+            new SwerveModuleState(0, Rotation2d.fromDegrees(45))};
   
 
   private static Translation2d[] getLocations(SwerveModule... modules) {
@@ -129,29 +133,34 @@ public class Swerve extends SubsystemBase {
     rotPID.setTolerance(0.5);
 
     notifier.startPeriodic(0.2);
+
+    SmartDashboard.putNumber("Angle kP", Constants.drivetrain.ANGLE_PID.getP());
+    SmartDashboard.putNumber("Angle kD", Constants.drivetrain.ANGLE_PID.getD());
+    SmartDashboard.putNumber("Speed kP", Constants.drivetrain.SPEED_PID.getP());
+    SmartDashboard.putNumber("Speed kD", Constants.drivetrain.SPEED_PID.getD());
+
   }
 
   @Override
   public void periodic() {
+    updateDashboard();
     switch (controlMode) {
-
       case STOP:
+        disable();
+        break;
+      case X_PATTERN:
         setModuleStates(
-        new SwerveModuleState[] {
-            new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(45))});
+          new SwerveModuleState[] {
+              new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
+              new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
+              new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
+              new SwerveModuleState(0, Rotation2d.fromDegrees(45))});
         break;
     
-      case FIELD_ORIENTED:
-        setChassisSpeeds(chassisSpeeds);
+      case DRIVE:
+        applyChassisSpeeds(chassisSpeeds);
         break;
-      
-      case ROBOT_ORIENTED:
 
-        break;
-      
       case MODULE_STATES:
         setModuleStates(moduleStates);
         break;
@@ -162,7 +171,7 @@ public class Swerve extends SubsystemBase {
     }
  }
 
- public void setChassisSpeeds(ChassisSpeeds speeds) {
+ public void applyChassisSpeeds(ChassisSpeeds speeds) {
     ChassisSpeeds correctedSpeeds = speeds;
 
     if (speeds.omegaRadiansPerSecond != 0.0) {
@@ -224,7 +233,7 @@ public class Swerve extends SubsystemBase {
     return moduleList;
   }
 
-  public void setSpeeds(ChassisSpeeds speeds) {
+  public void setChassisSpeeds(ChassisSpeeds speeds) {
     chassisSpeeds = speeds;
   }
 
@@ -234,22 +243,23 @@ public class Swerve extends SubsystemBase {
 
   public void updateDashboard() {
 
-
+    
 
     for (SwerveModule module : moduleList) {
       SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());
-
-      // module.setAnglePIDConstants(
-      //   SmartDashboard.getNumber("Angle kP", 0.0), 
-      //   SmartDashboard.getNumber("Angle kI", 0.0), 
-      //   SmartDashboard.getNumber("Angle kD", 0.0));
-      // module.setSpeedPIDConstants(
-      //   SmartDashboard.getNumber("Speed kP", 0.0), 
-      //   SmartDashboard.getNumber("Speed kI", 0.0), 
-      //   SmartDashboard.getNumber("Speed kD", 0.0));
       
+      SmartDashboard.putNumber(module.getName() + " Setpoint", module.getAngleSetpoint());
+      
+      module.setAnglePIDConstants(
+        SmartDashboard.getNumber("Angle kP", 0.0), 
+        0.0, 
+        SmartDashboard.getNumber("Angle kD", 0.0));
+      
+      module.setSpeedPIDConstants( 
+        SmartDashboard.getNumber("Speed kP", 0.0), 
+        0.0, 
+        SmartDashboard.getNumber("Speed kD", 0.0));
     }
-
   }
 
   public void configurePathPlanner() {
