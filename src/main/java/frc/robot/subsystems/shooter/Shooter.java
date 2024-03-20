@@ -240,8 +240,10 @@ public class Shooter extends SubsystemBase{
      * @param RPM
      * @return whether or not shooter reach inputted RPM 
      */
-    public boolean atRPM(double RPM) {
-      return (left.getRPM() > RPM && right.getRPM() > RPM);
+    public boolean atMPS() {
+      // return (getLeftVelocity() > MPS && right.getRPM() > RPM);
+      return (Math.abs(getLeftVelocity() - leftVelocity) < 0.5 &&
+              Math.abs(getRightVelocity() - rightVelocity) < 0.5);
     }
 
     public void setControlMode(ControlMode mode) {

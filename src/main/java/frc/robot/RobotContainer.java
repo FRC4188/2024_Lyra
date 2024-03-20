@@ -28,14 +28,12 @@ import frc.robot.commands.drivetrain.XPattern;
 import frc.robot.commands.feeder.EjectFeeder;
 import frc.robot.commands.feeder.FeedIntoFeeder;
 import frc.robot.commands.feeder.FeedIntoShooter;
-import frc.robot.commands.groups.BlindReverseSpeakerPrep;
+import frc.robot.commands.groups.BlindReverseSpeakerShoot;
 import frc.robot.commands.groups.ShooterIntake;
 import frc.robot.commands.groups.BlindReverseAmpShoot;
-import frc.robot.commands.groups.BlindAmpPrep;
 import frc.robot.commands.groups.BlindAmpShoot;
 import frc.robot.commands.groups.FeedIntake;
-import frc.robot.commands.groups.BlindReverseAmpPrep;
-import frc.robot.commands.groups.BlindSpeakerPrep;
+import frc.robot.commands.groups.BlindSpeakerShoot;
 import frc.robot.commands.groups.Eject;
 import frc.robot.commands.groups.FarReverseSpeakerPrep;
 import frc.robot.commands.groups.FarSpeakerPrep;
@@ -141,7 +139,10 @@ public class RobotContainer {
     pilot
         .getLeftTButton()
         .whileTrue(
-          new FeedIntoShooter(12.0)
+          new ConditionalCommand(
+            new BlindSpeakerShoot(), 
+            new BlindReverseSpeakerShoot(), 
+            () -> (sensors.getRotation2d().getCos() < 0.0))
         );
 
     //outtake feeder
@@ -162,26 +163,26 @@ public class RobotContainer {
           new ConditionalCommand(
             new FarSpeakerPrep(),
             new FarReverseSpeakerPrep(), 
-            () -> (Math.abs(sensors.getRotation2d().getDegrees()) > 90.0)));
+            () -> (sensors.getRotation2d().getCos() < 0.0)));
 
-    //shooter on intake side w speaker angle
-    copilot
-        .getYButton()
-        .onTrue(
-          new ConditionalCommand(
-            new BlindSpeakerPrep(), 
-            new BlindReverseSpeakerPrep(), 
-            () -> (Math.abs(sensors.getRotation2d().getDegrees()) > 90.0))
-        );
+    // //shooter on intake side w speaker angle
+    // copilot
+    //     .getYButton()
+    //     .onTrue(
+    //       new ConditionalCommand(
+    //         new BlindSpeakerShoot(), 
+    //         new BlindReverseSpeakerPrep(), 
+    //         () -> (sensors.getRotation2d().getCos() < 0.0))
+    //     );
 
-    copilot
-        .getRightTButton()
-        .onTrue(
-          new ConditionalCommand(
-            new BlindSpeakerPrep(), 
-            new BlindReverseSpeakerPrep(), 
-            () -> (Math.abs(sensors.getRotation2d().getDegrees()) < 90.0))
-        );
+    // copilot
+    //     .getRightTButton()
+    //     .onTrue(
+    //       new ConditionalCommand(
+    //         new BlindSpeakerShoot(), 
+    //         new BlindReverseSpeakerPrep(), 
+    //         () -> !(sensors.getRotation2d().getCos() < 0.0))
+    //     );
 
     copilot
         .getXButton()
@@ -207,19 +208,7 @@ public class RobotContainer {
           new ParallelCommandGroup(new FeedIntoFeeder(1.8), new Exhale())
         );
     
-    copilot
-        .getRightButton()
-        .onTrue(
-          new BlindAmpPrep()
-        );
 
-    copilot
-        .getLeftButton()
-        .onTrue(
-          new BlindReverseAmpPrep()
-        );
-    
-    
     
     //default shooter pos + stop intake n feeder
     copilot
@@ -260,12 +249,13 @@ public class RobotContainer {
   public void addChooser() {
     // autoChooser = AutoBuilder.buildAutoChooser();
     
-    autoChooser.setDefaultOption("Do Nothing", new SequentialCommandGroup());
-    autoChooser.addOption("Three Deep Breaths", new PathPlannerAuto("Three Deep Breaths"));
-    autoChooser.addOption("Shoot and Leave Long", new PathPlannerAuto("Shoot and Leave Long"));
-    // autoChooser.addOption("Shoot and Leave Short", new PathPlannerAuto("Shoot and Leave Short"));
-    autoChooser.addOption("Make Them Cry", new PathPlannerAuto("Make Them Cry"));
-    //autoChooser.addOption("First Note", new PathPlannerAuto("First Note"));
+    // autoChooser.setDefaultOption("Do Nothing", new SequentialCommandGroup());
+    // autoChooser.addOption("Blind Four Mid", new PathPlannerAuto("Blind Four Mid"));
+    // autoChooser.addOption("Vision Four Mid", new PathPlannerAuto("Vision Four Mid"));
+    // autoChooser.addOption("Shoot and Leave", new PathPlannerAuto("Shoot and Leave"));
+    // // autoChooser.addOption("Shoot and Leave Short", new PathPlannerAuto("Shoot and Leave Short"));
+    // autoChooser.addOption("Make Them Cry", new PathPlannerAuto("Make Them Cry"));
+    // //autoChooser.addOption("First Note", new PathPlannerAuto("First Note"));
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }

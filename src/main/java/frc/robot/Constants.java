@@ -207,9 +207,9 @@ public final class Constants {
     public static final double RAMP_RATE = 0.5;
 
     public static final Matrix<N3, N1> STATE_STD_DEVS =
-        VecBuilder.fill(0.01, 0.01, 0.01); // [x, y, theta]
+        VecBuilder.fill(0.01, 0.01, 0.001); // [x, y, theta]
     public static final Matrix<N3, N1> VISION_STD_DEVS =
-        VecBuilder.fill(0.02, 0.02, 0.01); // [x, y, theta]
+        VecBuilder.fill(0.027, 0.027, 0.347); // [x, y, theta]
 
     public static final Translation2d FL_LOCATION =
         new Translation2d((Constants.robot.A_LENGTH / 2), (Constants.robot.A_WIDTH / 2));

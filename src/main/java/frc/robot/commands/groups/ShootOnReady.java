@@ -27,7 +27,7 @@ public class ShootOnReady extends ParallelCommandGroup {
         addCommands(
                 new ParallelDeadlineGroup(
                     Commands.waitUntil(() -> 
-                        shooter.atRPM(shooterRPM.getAsDouble()) && 
+                        shooter.atMPS() && 
                         shoulder.atGoal(shoulderAngle.getAsDouble()) && 
                         drive.atGoalAngle(driveAngle.getAsDouble())).andThen(
                     new FeedIntoShooter(12.0).andThen(Commands.waitSeconds(0.25))),

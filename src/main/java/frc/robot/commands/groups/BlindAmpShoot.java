@@ -19,11 +19,11 @@ public class BlindAmpShoot extends ParallelCommandGroup {
             new SequentialCommandGroup(
                 new ParallelCommandGroup(
                     new SetShoulderAngle(() -> 10.0),
-                    new SetShooterMPS(() -> 4.0)
-                ).until(() -> shooter.atRPM(4) && shoulder.atGoal(10.0)),
+                    new SetShooterMPS(() -> 2.0)
+                ).until(() -> shooter.atMPS() && shoulder.atGoal(10.0)),
                 new ParallelCommandGroup(
-                    Commands.waitSeconds(0.1).andThen(new FeedIntoShooter(12.0)),
-                    new SetShooterMPS(() -> 4.0),
+                    Commands.waitSeconds(0.2).andThen(new FeedIntoShooter(12.0)),
+                    new SetShooterMPS(() -> 2.0),
                     new SetShoulderAngle(() -> 40.0)
                 )
             )

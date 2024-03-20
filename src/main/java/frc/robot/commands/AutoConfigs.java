@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import frc.robot.Constants;
 import frc.robot.commands.feeder.FeedIntoShooter;
 import frc.robot.commands.groups.FeedIntake;
-import frc.robot.commands.groups.BlindReverseSpeakerPrep;
 import frc.robot.commands.groups.Stow;
 import frc.robot.commands.intake.Inhale;
 
@@ -25,7 +24,7 @@ public class AutoConfigs {
           Map.ofEntries(
             // Map.entry("Name of Command", new Command()),
             // Map.entry("Name of Command", new Command().withTimeout(TIME_SECONDS))
-            Map.entry("Blind Intake", new FeedIntake()),
-            Map.entry("Auto Speaker Shoot", new ParallelDeadlineGroup(new BlindReverseSpeakerPrep().withTimeout(1.0), Commands.waitSeconds(0.5).andThen(new FeedIntoShooter(12.0))))
+            Map.entry("Blind Intake", new FeedIntake())
+            // Map.entry("Auto Speaker Shoot", new ParallelDeadlineGroup(new BlindReverseSpeakerPrep().withTimeout(1.0), Commands.waitSeconds(0.5).andThen(new FeedIntoShooter(12.0).withTimeout(2.0))))
       ));
 }
