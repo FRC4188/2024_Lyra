@@ -26,6 +26,6 @@ public class AutoConfigs {
             // Map.entry("Name of Command", new Command()),
             // Map.entry("Name of Command", new Command().withTimeout(TIME_SECONDS))
             Map.entry("Blind Intake", new FeedIntake()),
-            Map.entry("Auto Speaker Shoot", new ParallelDeadlineGroup(new BlindReverseSpeakerPrep().withTimeout(1.0), Commands.waitSeconds(0.5).andThen(new FeedIntoShooter())))
+            Map.entry("Auto Speaker Shoot", new ParallelDeadlineGroup(new BlindReverseSpeakerPrep().withTimeout(1.0), Commands.waitSeconds(0.5).andThen(new FeedIntoShooter(12.0))))
       ));
 }

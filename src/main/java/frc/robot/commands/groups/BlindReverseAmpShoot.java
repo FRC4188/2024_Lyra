@@ -21,7 +21,7 @@ public class BlindReverseAmpShoot extends ParallelCommandGroup {
                     new SetShooterMPS(() -> 4.0)
                 ).until(() -> shooter.atRPM(6) && shoulder.atGoal(-10.0)),
                 new ParallelCommandGroup(
-                    new FeedIntoShooter(),
+                    new FeedIntoShooter(12.0),
                     new SetShooterMPS(() -> 4.0),
                     new SetShoulderAngle(() -> -40.0)
                 )

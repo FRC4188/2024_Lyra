@@ -31,15 +31,14 @@ import frc.robot.commands.feeder.FeedIntoShooter;
 import frc.robot.commands.groups.BlindReverseSpeakerPrep;
 import frc.robot.commands.groups.ShooterIntake;
 import frc.robot.commands.groups.BlindReverseAmpShoot;
-import frc.robot.commands.groups.AmpShoot;
+import frc.robot.commands.groups.BlindAmpPrep;
 import frc.robot.commands.groups.BlindAmpShoot;
 import frc.robot.commands.groups.FeedIntake;
-import frc.robot.commands.groups.ReverseAmpShoot;
+import frc.robot.commands.groups.BlindReverseAmpPrep;
 import frc.robot.commands.groups.BlindSpeakerPrep;
 import frc.robot.commands.groups.Eject;
 import frc.robot.commands.groups.FarReverseSpeakerPrep;
 import frc.robot.commands.groups.FarSpeakerPrep;
-import frc.robot.commands.groups.StillSpeakerPrep;
 import frc.robot.commands.groups.Stow;
 import frc.robot.commands.intake.Exhale;
 import frc.robot.commands.shooter.SetShooterMPS;
@@ -142,7 +141,7 @@ public class RobotContainer {
     pilot
         .getLeftTButton()
         .whileTrue(
-          new FeedIntoShooter()
+          new FeedIntoShooter(12.0)
         );
 
     //outtake feeder
@@ -193,7 +192,7 @@ public class RobotContainer {
     copilot
         .getUpButton()
         .onTrue(
-          new FeedIntoFeeder()
+          new FeedIntoFeeder(1.8)
         );
         
     copilot
@@ -205,19 +204,19 @@ public class RobotContainer {
     copilot
         .getLeftTButton()
         .whileTrue(
-          new ParallelCommandGroup(new FeedIntoFeeder(), new Exhale())
+          new ParallelCommandGroup(new FeedIntoFeeder(1.8), new Exhale())
         );
     
     copilot
         .getRightButton()
         .onTrue(
-          new AmpShoot()
+          new BlindAmpPrep()
         );
 
     copilot
         .getLeftButton()
         .onTrue(
-          new ReverseAmpShoot()
+          new BlindReverseAmpPrep()
         );
     
     

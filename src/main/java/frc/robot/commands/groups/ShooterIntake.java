@@ -30,7 +30,7 @@ public class ShooterIntake extends ParallelCommandGroup {
                 ).until(() -> feeder.isBroken())
             ).andThen(
                 new ParallelDeadlineGroup(
-                    new WaitCommand(0.5).andThen(new EjectFeeder().until(() -> !feeder.isBroken()).andThen(new FeedIntoFeeder())),
+                    new WaitCommand(0.5).andThen(new EjectFeeder().until(() -> !feeder.isBroken()).andThen(new FeedIntoFeeder(1.8))),
                     new SetShooterMPS(() -> -6.0)))
         );
     }

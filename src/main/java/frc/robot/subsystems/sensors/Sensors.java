@@ -25,11 +25,11 @@ public class Sensors extends SubsystemBase {
   //Offset is 180 because the pigeon is oriented backwards
   private Pigeon pigeon = new Pigeon(Constants.ids.PIGEON, Constants.sensors.pigeon.PIGEON_OFFSET_DEGREES);
 
-  private Limelight limelightFront =
-      new Limelight(
-          Constants.sensors.limelight.FRONT_NAME,
-          Constants.sensors.limelight.FRONT_POSITION,
-          Constants.sensors.limelight.FRONT_ROTATION);
+  // private Limelight limelightFront =
+  //     new Limelight(
+  //         Constants.sensors.limelight.FRONT_NAME,
+  //         Constants.sensors.limelight.FRONT_POSITION,
+  //         Constants.sensors.limelight.FRONT_ROTATION);
   private Limelight limelightBack =
       new Limelight(
           Constants.sensors.limelight.BACK_NAME,
@@ -49,35 +49,42 @@ public class Sensors extends SubsystemBase {
   public void periodic() {
   }
 
-  public Pose3d getPose3d() {
-    if (limelightFront.getTV() && limelightBack.getTV()) {
-      Pose3d poseLeft = limelightBack.getPose3d();
-      Pose3d poseRight = limelightBack.getPose3d();
+  // public Pose3d getPose3d() {
+  //   if (limelightFront.getTV() && limelightBack.getTV()) {
+  //     Pose3d poseLeft = limelightBack.getPose3d();
+  //     Pose3d poseRight = limelightBack.getPose3d();
 
-      // averages the poses of both limelights
-      return new Pose3d(
-          poseLeft.getTranslation().plus(poseRight.getTranslation()).div(2),
-          poseLeft.getRotation().plus(poseRight.getRotation()).div(2));
-    } else if (limelightFront.getTV()) 
-        return limelightFront.getPose3d();
-     else if (limelightBack.getTV()) 
-        return limelightBack.getPose3d();
-     else return new Pose3d(); 
+  //     // averages the poses of both limelights
+  //     return new Pose3d(
+  //         poseLeft.getTranslation().plus(poseRight.getTranslation()).div(2),
+  //         poseLeft.getRotation().plus(poseRight.getRotation()).div(2));
+  //   } else if (limelightFront.getTV()) 
+  //       return limelightFront.getPose3d();
+  //    else if (limelightBack.getTV()) 
+  //       return limelightBack.getPose3d();
+  //    else return new Pose3d(); 
+  // }
+  public Pose3d getPose3d() {
+    if (limelightBack.getTV()) return limelightBack.getPose3d();
+    return new Pose3d(); 
   }
 
   public Pose2d getPose2d() {
     return getPose3d().toPose2d();
   }
 
+  // public double getLatency() {
+  //   if (limelightFront.getTV() && limelightBack.getTV()) {
+  //     // averages the latencies
+  //     return (limelightFront.getLatency() + limelightBack.getLatency()) / 2;
+  //   } else if (limelightFront.getTV()) {
+  //     return limelightFront.getLatency();
+  //   } else if (limelightBack.getTV()) {
+  //     return limelightBack.getLatency();
+  //   } else return 0.0;
+  // }
   public double getLatency() {
-    if (limelightFront.getTV() && limelightBack.getTV()) {
-      // averages the latencies
-      return (limelightFront.getLatency() + limelightBack.getLatency()) / 2;
-    } else if (limelightFront.getTV()) {
-      return limelightFront.getLatency();
-    } else if (limelightBack.getTV()) {
-      return limelightBack.getLatency();
-    } else return 0.0;
+    return limelightBack.getLatency();
   }
 
   public Rotation2d getRotation2d() {

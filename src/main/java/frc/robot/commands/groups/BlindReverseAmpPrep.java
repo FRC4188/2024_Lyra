@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.shooter.SetShooterMPS;
 import frc.robot.commands.shoulder.SetShoulderAngle;
 
-public class ReverseAmpShoot extends ParallelCommandGroup {
+public class BlindReverseAmpPrep extends ParallelCommandGroup {
 
-    public ReverseAmpShoot() {
+    public BlindReverseAmpPrep() {
         addCommands(
             new SequentialCommandGroup(
                 new ParallelCommandGroup(

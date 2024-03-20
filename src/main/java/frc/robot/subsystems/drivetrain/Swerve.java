@@ -108,8 +108,8 @@ public class Swerve extends SubsystemBase {
           sensors.getRotation2d(),
           getSwerveModulePositions(moduleList),
           new Pose2d()
-          // ,Constants.drivetrain.STATE_STD_DEVS, 
-          // Constants.drivetrain.VISION_STD_DEVS
+          ,Constants.drivetrain.STATE_STD_DEVS, 
+          Constants.drivetrain.VISION_STD_DEVS
           );
 
   public PIDController rotPID = Constants.drivetrain.ROT_PID;
@@ -200,9 +200,9 @@ public class Swerve extends SubsystemBase {
   public void updateOdometry() {
     Pose2d pose = sensors.getPose2d();
 
-    // if (!pose.equals(new Pose2d())) {
-    //   odometry.addVisionMeasurement(pose, sensors.getLatency());
-    // }
+    if (!pose.equals(new Pose2d())) {
+      odometry.addVisionMeasurement(pose, sensors.getLatency());
+    }
 
     odometry.update(
         sensors.getRotation2d(),
