@@ -249,13 +249,13 @@ public class RobotContainer {
   public void addChooser() {
     // autoChooser = AutoBuilder.buildAutoChooser();
     
-    // autoChooser.setDefaultOption("Do Nothing", new SequentialCommandGroup());
-    // autoChooser.addOption("Blind Four Mid", new PathPlannerAuto("Blind Four Mid"));
-    // autoChooser.addOption("Vision Four Mid", new PathPlannerAuto("Vision Four Mid"));
-    // autoChooser.addOption("Shoot and Leave", new PathPlannerAuto("Shoot and Leave"));
-    // // autoChooser.addOption("Shoot and Leave Short", new PathPlannerAuto("Shoot and Leave Short"));
-    // autoChooser.addOption("Make Them Cry", new PathPlannerAuto("Make Them Cry"));
-    // //autoChooser.addOption("First Note", new PathPlannerAuto("First Note"));
+    autoChooser.setDefaultOption("Do Nothing", new SequentialCommandGroup());
+    autoChooser.addOption("Blind Four Mid", new PathPlannerAuto("Blind Four Mid"));
+    autoChooser.addOption("Vision Four Mid", new PathPlannerAuto("Vision Four Mid"));
+    autoChooser.addOption("Shoot and Leave", new PathPlannerAuto("Shoot and Leave"));
+    // autoChooser.addOption("Shoot and Leave Short", new PathPlannerAuto("Shoot and Leave Short"));
+    autoChooser.addOption("Make Them Cry", new PathPlannerAuto("Make Them Cry"));
+    //autoChooser.addOption("First Note", new PathPlannerAuto("First Note"));
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }

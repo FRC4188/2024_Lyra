@@ -201,7 +201,7 @@ public class Swerve extends SubsystemBase {
     Pose2d pose = sensors.getPose2d();
 
     if (!pose.equals(new Pose2d())) {
-      odometry.addVisionMeasurement(pose, sensors.getLatency());
+      // odometry.addVisionMeasurement(pose, sensors.getLatency());
     }
 
     odometry.update(

@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 13.0,
-        "y": 5.45
+        "x": 13.235651235924438,
+        "y": 5.37
       },
       "prevControl": {
-        "x": 12.971581451187152,
-        "y": 5.43902109073833
+        "x": 13.20723268711159,
+        "y": 5.35902109073833
       },
       "nextControl": {
-        "x": 13.028418548812848,
-        "y": 5.46097890926167
+        "x": 13.264069784737286,
+        "y": 5.38097890926167
       },
       "isLocked": false,
       "linkedName": null
@@ -33,11 +33,11 @@
     {
       "anchor": {
         "x": 15.13,
-        "y": 5.67
+        "y": 5.668044888158249
       },
       "prevControl": {
         "x": 14.13,
-        "y": 5.67
+        "y": 5.668044888158249
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,28 +46,10 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "Blind Intake"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
