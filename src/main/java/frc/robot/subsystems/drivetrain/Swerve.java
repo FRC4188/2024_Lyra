@@ -124,6 +124,8 @@ public class Swerve extends SubsystemBase {
 
     notifier.startPeriodic(0.2);
 
+    SmartDashboard.putNumber("Angle kP", Constants.drivetrain.ANGLE_PID.getP());
+    SmartDashboard.putNumber("Angle kD", Constants.drivetrain.ANGLE_PID.getD());
   }
 
   @Override
@@ -225,14 +227,15 @@ public class Swerve extends SubsystemBase {
 
     for (SwerveModule module : moduleList) {
       SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());
+      SmartDashboard.putNumber(module.getName() + " Angle Setpoint", module.getAnglePIDSetpoint());
 
-      // module.setAnglePIDConstants(
-      //   SmartDashboard.getNumber("Angle kP", 0.0), 
-      //   SmartDashboard.getNumber("Angle kI", 0.0), 
-      //   SmartDashboard.getNumber("Angle kD", 0.0));
+      module.setAnglePIDConstants(
+        SmartDashboard.getNumber("Angle kP", 0.0), 
+        0.0, 
+        SmartDashboard.getNumber("Angle kD", 0.0));
       // module.setSpeedPIDConstants(
       //   SmartDashboard.getNumber("Speed kP", 0.0), 
-      //   SmartDashboard.getNumber("Speed kI", 0.0), 
+      //   0.0, 
       //   SmartDashboard.getNumber("Speed kD", 0.0));
       
     }

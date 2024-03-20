@@ -31,8 +31,10 @@ import frc.robot.commands.feeder.FeedIntoShooter;
 import frc.robot.commands.groups.BlindReverseSpeakerPrep;
 import frc.robot.commands.groups.ShooterIntake;
 import frc.robot.commands.groups.BlindReverseAmpShoot;
+import frc.robot.commands.groups.AmpShoot;
 import frc.robot.commands.groups.BlindAmpShoot;
 import frc.robot.commands.groups.FeedIntake;
+import frc.robot.commands.groups.ReverseAmpShoot;
 import frc.robot.commands.groups.BlindSpeakerPrep;
 import frc.robot.commands.groups.Eject;
 import frc.robot.commands.groups.FarReverseSpeakerPrep;
@@ -206,15 +208,20 @@ public class RobotContainer {
           new ParallelCommandGroup(new FeedIntoFeeder(), new Exhale())
         );
     
-    // copilot
-    //     .getXButton()
-    //     .onTrue(
-    //       new ConditionalCommand(
-    //         new BlindAmpShoot(), 
-    //         new BlindReverseAmpShoot(), 
-    //         () -> (sensors.getRotation2d().getDegrees() < 0.0))
-    //     );
+    copilot
+        .getRightButton()
+        .onTrue(
+          new AmpShoot()
+        );
 
+    copilot
+        .getLeftButton()
+        .onTrue(
+          new ReverseAmpShoot()
+        );
+    
+    
+    
     //default shooter pos + stop intake n feeder
     copilot
         .getStartButton()

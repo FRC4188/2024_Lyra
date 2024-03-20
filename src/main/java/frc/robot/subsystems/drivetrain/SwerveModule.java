@@ -133,6 +133,10 @@ public class SwerveModule {
     return encoder.getPositionDegrees();
   }
 
+  public double getAnglePIDSetpoint() {
+    return anglePID.getSetpoint();
+  }
+
   private double getPositionMeters() {
     return (speed.getPositionDegrees() * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / (360.0 * GEAR_RATIO);
   }

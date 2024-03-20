@@ -1,39 +1,36 @@
-package frc.robot.commands.intake;
+package frc.robot.commands.feeder;
 
-import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.feeder.Feeder;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class Inhale extends Command {
-  private Intake intake = Intake.getInstance();
+public class FastFeeder extends Command {
+  private Feeder feeder = Feeder.getInstance();
 
-  /** Creates a new Roll. */
-  public 
-  Inhale() {
+  /** Creates a new Feed. */
+  public FastFeeder() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intake);
+    addRequirements(feeder);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.set(1.0);
+    feeder.set(0.4);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.set(0.0);
+    feeder.set(0.0);
   }
 
-  // Returns true when the command should end.
+  // Returns true when the beam breaker is broken (note in magazine)
   @Override
   public boolean isFinished() {
-    return false;
+    return feeder.isBroken() ;
   }
 }
