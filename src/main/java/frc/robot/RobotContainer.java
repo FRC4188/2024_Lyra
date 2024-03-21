@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.List;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -11,6 +13,10 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import CSP_Lib.inputs.CSP_Controller;
 import CSP_Lib.inputs.CSP_Controller.Scale;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -22,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoConfigs;
+import frc.robot.commands.drivetrain.FollowPath;
 import frc.robot.commands.drivetrain.HockeyStop;
 import frc.robot.commands.drivetrain.TeleDrive;
 import frc.robot.commands.drivetrain.XPattern;
@@ -38,6 +45,7 @@ import frc.robot.commands.groups.Eject;
 import frc.robot.commands.groups.FarReverseSpeakerPrep;
 import frc.robot.commands.groups.FarSpeakerPrep;
 import frc.robot.commands.groups.Stow;
+import frc.robot.commands.groups.autos.SourceNoteOne;
 import frc.robot.commands.intake.Exhale;
 import frc.robot.commands.shooter.SetShooterMPS;
 import frc.robot.commands.shoulder.SetShoulderAngle;
@@ -217,6 +225,12 @@ public class RobotContainer {
           new Stow()
         );
 
+    copilot
+        .getBackButton()
+        .onTrue(
+          new InstantCommand(() -> Swerve.getInstance().resetOdometry(new Pose2d(15.73, 4.47, Rotation2d.fromDegrees(-120.0))))
+        );
+
     // copilot
     //     .getUpButton()
     //     .onTrue(
@@ -254,6 +268,7 @@ public class RobotContainer {
     autoChooser.addOption("Shoot and Leave", new PathPlannerAuto("Shoot and Leave"));
     // autoChooser.addOption("Shoot and Leave Short", new PathPlannerAuto("Shoot and Leave Short"));
     //autoChooser.addOption("Three Source", new Holo/*new PathPlannerAuto("Three Source")*/);
+    autoChooser.addOption("Three Source", new SourceNoteOne());
     autoChooser.addOption("Make Them Cry", new PathPlannerAuto("Make Them Cry"));
     //autoChooser.addOption("First Note", new PathPlannerAuto("First Note"));
 

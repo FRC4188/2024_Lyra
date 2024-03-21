@@ -101,6 +101,10 @@ public class Sensors extends SubsystemBase {
     pigeon.reset();
   }
 
+  public void resetPigeon(Rotation2d rotation) {
+    pigeon.reset(rotation);
+  }
+
   public boolean isHappy() {
     Pose2d pose = Swerve.getInstance().getPose2d();
     Pose2d goalPos = currentGoal.position;

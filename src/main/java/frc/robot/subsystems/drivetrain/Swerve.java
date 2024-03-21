@@ -210,7 +210,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public void resetOdometry(Pose2d initPose) {
-    sensors.resetPigeon();
+    sensors.resetPigeon(initPose.getRotation());
     odometry.resetPosition(
         sensors.getRotation2d(),
         getSwerveModulePositions(moduleList),

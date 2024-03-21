@@ -21,6 +21,10 @@ public class Pigeon extends Pigeon2 {
     super.setYaw(offsetDegrees + 360.0); // fix formula thing
   }
 
+  public void reset(Rotation2d rotation) {
+    super.setYaw(offsetDegrees + rotation.getDegrees() + 360.0);
+  }
+
   // public Rotation2d getRotation2d() {
   //   return Rotation2d.fromDegrees(((super.getYaw().getValueAsDouble() + 180.0) % 360.0) + 180.0);
   // }
