@@ -1,11 +1,9 @@
 package frc.robot.commands.drivetrain;
 
-import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.drivetrain.Swerve.ControlMode;
@@ -16,20 +14,14 @@ public class TeleDrive extends Command {
 
   Swerve drive = Swerve.getInstance();
 
-  DoubleSupplier xInput, yInput, thetaInput;
-  boolean noInput;
-
-  SlewRateLimiter limiterX = new SlewRateLimiter(Constants.drivetrain.MAX_ACCEL * 2.0);
-  SlewRateLimiter limiterY = new SlewRateLimiter(Constants.drivetrain.MAX_ACCEL * 2.0);
+  Supplier<Translation2d> translationSupplier, rotationSupplier;
 
   /** Creates a new TeleDrive. */
-  public TeleDrive(DoubleSupplier xInput, DoubleSupplier yInput, DoubleSupplier thetaInput) {
+  public TeleDrive(Supplier<Translation2d> translationSupplier, Supplier<Translation2d> rotationSupplier) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
-    this.xInput = xInput;
-    this.yInput = yInput;
-    this.thetaInput = thetaInput;
-
+    this.translationSupplier = translationSupplier;
+    this.rotationSupplier = rotationSupplier;
   }
 
   // Called when the command is initially scheduled.
@@ -41,14 +33,9 @@ public class TeleDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double totalSpeed = Math.pow(Math.hypot(xInput.getAsDouble(), yInput.getAsDouble()), 1.0);
-    double angle = Math.atan2(yInput.getAsDouble(), xInput.getAsDouble());
-    double xSpeed = totalSpeed * Math.cos(angle) * Constants.drivetrain.MAX_VELOCITY;
-    double ySpeed = totalSpeed * Math.sin(angle) * Constants.drivetrain.MAX_VELOCITY;
-    double rotSpeed = -thetaInput.getAsDouble() * Constants.drivetrain.MAX_RADIANS;
-
-    xSpeed = Math.signum(xSpeed) * limiterX.calculate(Math.abs(xSpeed));
-    ySpeed = Math.signum(ySpeed) * limiterY.calculate(Math.abs(ySpeed));
+    double xSpeed = translationSupplier.get().getY() * Constants.drivetrain.MAX_VELOCITY;
+    double ySpeed = translationSupplier.get().getX() * Constants.drivetrain.MAX_VELOCITY;
+    double rotSpeed = -rotationSupplier.get().getX() * Constants.drivetrain.MAX_RADIANS;
 
     drive.setChassisSpeeds(
     ChassisSpeeds.fromFieldRelativeSpeeds(new ChassisSpeeds(

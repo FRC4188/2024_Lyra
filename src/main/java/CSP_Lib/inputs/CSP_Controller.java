@@ -4,6 +4,8 @@
 
 package CSP_Lib.inputs;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -89,12 +91,28 @@ public class CSP_Controller extends CommandXboxController {
     return getOutput(new Translation2d(super.getRightX(), super.getRightY()), scale);
   }
 
+  public Supplier<Translation2d> getRightSupplier() {
+    return () -> getRightStick();
+  }
+
+  public Supplier<Translation2d> getRightSupplier(Scale scale) {
+    return () -> getRightStick(scale);
+  }
+
   public Translation2d getLeftStick() {
     return getLeftStick(Scale.LINEAR);
   }
 
   public Translation2d getLeftStick(Scale scale) {
     return getOutput(new Translation2d(super.getLeftX(), super.getLeftY()), scale);
+  }
+
+  public Supplier<Translation2d> getLeftSupplier() {
+    return () -> getLeftStick();
+  }
+
+  public Supplier<Translation2d> getLeftSupplier(Scale scale) {
+    return () -> getLeftStick(scale);
   }
 
   public Trigger getLeftS() {

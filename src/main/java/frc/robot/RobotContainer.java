@@ -63,11 +63,10 @@ public class RobotContainer {
 
     Trigger drivingInput = new Trigger(() -> translationInput.getNorm() != 0.0 && rotationInput.getX() != 0.0);
     drivingInput.onTrue(new TeleDrive(
-        () -> translationInput.getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-        () -> translationInput.getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-        () -> rotationInput.getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0))
+        () -> translationInput.times(pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+        () -> rotationInput.times(pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0))
     )
-    .onFalse(new HockeyStop().withTimeout(0.25));
+    .onFalse(new HockeyStop().withTimeout(0.5));
 
 
     // The below configuration is pretty useless it just shows how
