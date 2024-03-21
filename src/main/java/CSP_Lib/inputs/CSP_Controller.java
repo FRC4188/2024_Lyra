@@ -4,6 +4,7 @@
 
 package CSP_Lib.inputs;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -14,7 +15,9 @@ public class CSP_Controller extends CommandXboxController {
   private short m_leftRumble;
   private short m_rightRumble;
 
-  private double deadband = 0.1;
+  private final double DEFAULT_DEADBAND = 0.1;
+  private double stickDeadband = DEFAULT_DEADBAND;
+  private double triggerDeadband = DEFAULT_DEADBAND;
 
   public enum Scale {
     LINEAR,
@@ -34,43 +37,64 @@ public class CSP_Controller extends CommandXboxController {
    * @param scale input scale
    * @return adjusted value
    */
-  private double getOutput(double input, Scale scale) {
-    if (Math.abs(input) > deadband) {
+  private Translation2d getOutput(Translation2d input, Scale scale) {
+    double norm = input.getNorm();
+
+    if (norm > stickDeadband) {
       switch (scale) {
         case CUBED:
-          return input * input * input;
-        case LINEAR:
-          return input;
+          norm = norm * norm * norm;
+          break;
         case QUARTIC:
-          return Math.signum(input) * input * input * input * input;
+          norm = norm * norm * norm * norm;
+          break;
          case SQUARED:
-          return Math.signum(input) * input * input;
+         norm = norm * norm;
         default:
           break;
       }
+
+      return new Translation2d((norm - stickDeadband) / (1 - stickDeadband), input.getAngle());
+    }
+    
+    return new Translation2d();
+  }
+
+  private double getOutput(double input, Scale scale) {
+    if (input > stickDeadband) {
+      switch (scale) {
+        case CUBED:
+          input = input * input * input;
+          break;
+        case QUARTIC:
+          input = Math.signum(input) * input * input * input * input;
+          break;
+        case SQUARED:
+         input = Math.signum(input) * input * input;
+        default:
+          break;
+      }
+
+      return (input - triggerDeadband) / (1 - triggerDeadband);
     }
     
     return 0.0;
   }
 
-  /**
-   * @param scale
-   * @return
-   */
-  public double getRightY(Scale scale) {
-    return -getOutput(this.getRightY(), scale);
+  public Translation2d getRightStick() {
+    return getRightStick(Scale.LINEAR);
   }
 
-  public double getRightX(Scale scale) {
-    return getOutput(this.getRightX(), scale);
+  public Translation2d getRightStick(Scale scale) {
+    return getOutput(new Translation2d(super.getRightX(), super.getRightY()), scale);
   }
 
-  public double getLeftY(Scale scale) {
-    return -getOutput(this.getLeftY(), scale);
+  public Translation2d getLeftStick() {
+    return getLeftStick(Scale.LINEAR);
   }
 
-  public double getLeftX(Scale scale) {
-    return -getOutput(this.getLeftX(), scale);
+  public Translation2d getLeftStick(Scale scale) {
+    return getOutput(new Translation2d(super.getLeftX(), super.getLeftY()), scale);
   }
 
   public Trigger getLeftS() {
@@ -149,7 +173,11 @@ public class CSP_Controller extends CommandXboxController {
     getHID().setRumble(type, value);
   }
 
-  public void setDeadband(double deadband) {
-    this.deadband = deadband;
+  public void setStickDeadband(double deadband) {
+    this.stickDeadband = deadband;
+  }
+
+  public void setTriggerDeadband(double deadband) {
+    this.triggerDeadband = deadband;
   }
 }

@@ -8,6 +8,7 @@ import CSP_Lib.inputs.CSP_Controller;
 import CSP_Lib.inputs.CSP_Controller.Scale;
 import CSP_Lib.utils.Binding;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -57,11 +58,14 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    Trigger drivingInput = new Trigger(() -> MathUtil.applyDeadband(pilot.getLeftX(), 0.075) != 0.0 || MathUtil.applyDeadband(pilot.getLeftY(), 0.075) != 0.0 || MathUtil.applyDeadband(pilot.getRightX(), 0.075) != 0.0);
+    Translation2d translationInput = pilot.getLeftStick();
+    Translation2d rotationInput = pilot.getRightStick();
+
+    Trigger drivingInput = new Trigger(() -> translationInput.getNorm() != 0.0 && rotationInput.getX() != 0.0);
     drivingInput.onTrue(new TeleDrive(
-        () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-        () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-        () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0))
+        () -> translationInput.getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+        () -> translationInput.getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+        () -> rotationInput.getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0))
     )
     .onFalse(new HockeyStop().withTimeout(0.25));
 
