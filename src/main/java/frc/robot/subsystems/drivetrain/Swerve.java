@@ -181,6 +181,8 @@ public class Swerve extends SubsystemBase {
       correctedSpeeds.omegaRadiansPerSecond = rotPID.atSetpoint() ? 0.0 : correction;  
     }
 
+    correctedSpeeds = limiter.limit(correctedSpeeds);
+
     setModuleStates(kinematics.toSwerveModuleStates(correctedSpeeds));
   }
 
