@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 15.179650102524167,
-        "y": 3.9114194062910226
+        "x": 12.345627658445046,
+        "y": 0.08197585582046922
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.328810723241988,
-        "y": 0.7846260485673593
+        "x": 8.317099886696207,
+        "y": 2.435854001522554
       },
       "prevControl": {
-        "x": 9.83183773894095,
-        "y": 0.5341215459508719
+        "x": 10.711071974795006,
+        "y": 2.1235967726401146
       },
       "nextControl": {
-        "x": 8.188280684692607,
-        "y": 0.808047721658922
+        "x": 8.04775064614323,
+        "y": 2.4709865111598974
       },
       "isLocked": false,
       "linkedName": null
@@ -36,8 +36,8 @@
         "y": 4.496961233580098
       },
       "prevControl": {
-        "x": 15.589529381626521,
-        "y": 2.8925766268080317
+        "x": 13.950012265217111,
+        "y": -0.0351325096373456
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,13 +46,18 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.75,
+      "waypointRelativePos": 1.4,
       "rotationDegrees": 180.0,
       "rotateFast": true
     },
     {
-      "waypointRelativePos": 0.35,
+      "waypointRelativePos": 1.75,
       "rotationDegrees": -120.0,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 1.45,
+      "rotationDegrees": 180.0,
       "rotateFast": true
     }
   ],
@@ -60,7 +65,7 @@
     {
       "name": "New Constraints Zone",
       "minWaypointRelativePos": 0.45,
-      "maxWaypointRelativePos": 0.75,
+      "maxWaypointRelativePos": 0.9,
       "constraints": {
         "maxVelocity": 3.0,
         "maxAcceleration": 3.0,
@@ -69,25 +74,7 @@
       }
     }
   ],
-  "eventMarkers": [
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.7,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "Blind Intake"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.5,
     "maxAcceleration": 4.5,

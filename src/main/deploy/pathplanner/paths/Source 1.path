@@ -8,36 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 12.345627658445046,
-        "y": 0.08197585582046922
+        "x": 14.898590025425417,
+        "y": 0.38645760601079004
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.317099886696207,
-        "y": 2.435854001522554
+        "x": 7.602738857403534,
+        "y": -0.3
       },
       "prevControl": {
-        "x": 10.711071974795006,
-        "y": 2.1235967726401146
-      },
-      "nextControl": {
-        "x": 8.04775064614323,
-        "y": 2.4709865111598974
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 15.847167785633717,
-        "y": 4.496961233580098
-      },
-      "prevControl": {
-        "x": 13.950012265217111,
-        "y": -0.0351325096373456
+        "x": 9.12649825959013,
+        "y": -0.3000000000000002
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,7 +30,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.8,
+      "waypointRelativePos": 0.75,
       "rotationDegrees": 180.0,
       "rotateFast": true
     },
@@ -69,25 +53,7 @@
       }
     }
   ],
-  "eventMarkers": [
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.7,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "Blind Intake"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.5,
     "maxAcceleration": 4.5,
@@ -96,7 +62,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -117.55281157671814,
+    "rotation": -178.4088597288054,
     "rotateFast": false
   },
   "reversed": false,
