@@ -24,7 +24,8 @@ public class FeedIntake extends ParallelCommandGroup {
                     new FeedIntoFeeder(3.0).andThen(new Heimlich()),
                     new SetShoulderAngle(() -> Constants.shoulder.HANDOFF_ANGLE),
                     new Inhale()
-                )
+                ),
+                new Heimlich()
             )
         );
     }

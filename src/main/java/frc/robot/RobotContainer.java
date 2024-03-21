@@ -28,16 +28,13 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoConfigs;
-import frc.robot.commands.drivetrain.FollowPath;
 import frc.robot.commands.drivetrain.HockeyStop;
 import frc.robot.commands.drivetrain.TeleDrive;
 import frc.robot.commands.drivetrain.XPattern;
 import frc.robot.commands.feeder.EjectFeeder;
 import frc.robot.commands.feeder.FeedIntoFeeder;
-import frc.robot.commands.feeder.FeedIntoShooter;
 import frc.robot.commands.groups.BlindReverseSpeakerShoot;
 import frc.robot.commands.groups.ShooterIntake;
-import frc.robot.commands.groups.BlindReverseAmpShoot;
 import frc.robot.commands.groups.BlindAmpShoot;
 import frc.robot.commands.groups.FeedIntake;
 import frc.robot.commands.groups.BlindSpeakerShoot;
@@ -45,17 +42,15 @@ import frc.robot.commands.groups.Eject;
 import frc.robot.commands.groups.FarReverseSpeakerPrep;
 import frc.robot.commands.groups.FarSpeakerPrep;
 import frc.robot.commands.groups.Stow;
-import frc.robot.commands.groups.autos.SourceNoteOne;
+import frc.robot.commands.groups.autos.BlueSourceNoteOne;
+import frc.robot.commands.groups.autos.RedSourceNoteOne;
 import frc.robot.commands.intake.Exhale;
-import frc.robot.commands.shooter.SetShooterMPS;
-import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.feeder.Feeder;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.sensors.Sensors;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shoulder.Shoulder;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 
 public class RobotContainer {
@@ -268,7 +263,8 @@ public class RobotContainer {
     autoChooser.addOption("Shoot and Leave", new PathPlannerAuto("Shoot and Leave"));
     // autoChooser.addOption("Shoot and Leave Short", new PathPlannerAuto("Shoot and Leave Short"));
     //autoChooser.addOption("Three Source", new Holo/*new PathPlannerAuto("Three Source")*/);
-    autoChooser.addOption("Three Source", new SourceNoteOne());
+    autoChooser.addOption("Red Source One", new RedSourceNoteOne());
+    autoChooser.addOption("Blue Source One", new BlueSourceNoteOne());
     autoChooser.addOption("Make Them Cry", new PathPlannerAuto("Make Them Cry"));
     //autoChooser.addOption("First Note", new PathPlannerAuto("First Note"));
 
