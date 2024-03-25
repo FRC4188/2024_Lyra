@@ -31,6 +31,8 @@ public class ShootOnReady extends ParallelCommandGroup {
                         shoulder.atGoal(shoulderAngle.getAsDouble()) && 
                         drive.atGoalAngle(driveAngle.getAsDouble())).andThen(
                     new FeedIntoShooter(12.0).andThen(Commands.waitSeconds(0.25))),
+
+                    
                     new SetShooterMPS(() -> shooterRPM.getAsDouble()),
                     new SetShoulderAngle(() -> shoulderAngle.getAsDouble()),
                     new TrackingDrive(xInput, yInput)

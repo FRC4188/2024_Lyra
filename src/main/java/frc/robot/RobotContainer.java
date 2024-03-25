@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -37,6 +38,7 @@ import frc.robot.commands.groups.BlindReverseSpeakerShoot;
 import frc.robot.commands.groups.ShooterIntake;
 import frc.robot.commands.groups.BlindAmpShoot;
 import frc.robot.commands.groups.FeedIntake;
+import frc.robot.commands.groups.ShootOnReady;
 import frc.robot.commands.groups.BlindSpeakerShoot;
 import frc.robot.commands.groups.Eject;
 import frc.robot.commands.groups.FarReverseSpeakerShoot;
@@ -108,7 +110,14 @@ public class RobotContainer {
     // pilot.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
     // pilot.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
-    Trigger drivingInput = new Trigger(() -> MathUtil.applyDeadband(pilot.getLeftX(), 0.075) != 0.0 || MathUtil.applyDeadband(pilot.getLeftY(), 0.075) != 0.0 || MathUtil.applyDeadband(pilot.getRightX(), 0.075) != 0.0);
+    Command visionShoot = new ShootOnReady(
+      () -> -pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+      () -> -pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0),
+      () -> sensors.getFormulaShooterRPM(),
+      () -> sensors.getFormulaShoulderAngle().getDegrees(),
+      () -> sensors.getFormulaDriveAngle().getDegrees());
+
+    Trigger drivingInput = new Trigger(() -> (pilot.getCorrectedLeft().getNorm() != 0.0 || pilot.getCorrectedRight().getX() != 0.0) && !CommandScheduler.getInstance().isScheduled(visionShoot));
     drivingInput.onTrue(     
       new TeleDrive(
         () -> -pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
@@ -132,6 +141,9 @@ public class RobotContainer {
         .onTrue(
           new FeedIntake()
         );
+    
+    pilot.getRightBumperButton()
+    .onTrue(visionShoot);
 
     //outtake intake
     pilot 
@@ -198,6 +210,7 @@ public class RobotContainer {
 
     copilot
         .getUpButton()
+
         .onTrue(
           new FeedIntoFeeder(1.8)
         );

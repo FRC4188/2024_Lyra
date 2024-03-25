@@ -13,6 +13,7 @@ import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -39,7 +40,7 @@ public class Shooter extends SubsystemBase{
     
 
     public enum ControlMode {
-      VELOCITY, STOP, DASH_VOLTAGE, TEST;
+      VELOCITY, STOP, DASH_VELOCITY, TEST;
     }
 
     private ControlMode controlMode = ControlMode.STOP;
@@ -100,6 +101,10 @@ public class Shooter extends SubsystemBase{
 
       left.setRampRate(0.5);
       right.setRampRate(0.5);
+
+      SmartDashboard.putNumber("Set Left Velocity", 0.0);
+      SmartDashboard.putNumber("Set Right Velocity", 0.0);
+
     }
 
     public void updateDashboard() {
@@ -121,13 +126,19 @@ public class Shooter extends SubsystemBase{
           case STOP: 
             setVoltage(0.0, 0.0);
             break;
-          case VELOCITY:
+          case VELOCITY: //just normal driving
             setVoltage(
               leftpid.calculate(getLeftVelocity(), leftVelocity) + leftff.calculate(leftVelocity),
               rightpid.calculate(getRightVelocity(), rightVelocity) + rightff.calculate(rightVelocity)
             );
             break;
-          case DASH_VOLTAGE:
+          case DASH_VELOCITY: // get velocity from dashboard
+            double velocity = SmartDashboard.getNumber("Set Velocity", 0.0);
+
+            setVoltage(
+              leftpid.calculate(getLeftVelocity(), velocity + 0.5) + leftff.calculate(velocity + 0.5),
+              rightpid.calculate(getRightVelocity(), velocity - 0.5) + rightff.calculate(velocity - 0.5)
+            );
             break;
           case TEST: // do nothing while testing
             break;

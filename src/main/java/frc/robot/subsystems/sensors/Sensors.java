@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.field.Goal;
-import frc.robot.Constants.shooter.DataPoints;
 import frc.robot.subsystems.drivetrain.Swerve;
 
 public class Sensors extends SubsystemBase {
@@ -40,8 +39,7 @@ public class Sensors extends SubsystemBase {
   private Goal currentGoal = Goal.SPEAKER;
 
   /** Creates a new Sensors. */
-  private Sensors() {
-    
+  private Sensors() {    
   }
 
   private void init() {}
@@ -134,8 +132,7 @@ public class Sensors extends SubsystemBase {
    * @return 
    */
   public double getFormulaShooterRPM() {
-    // return currentGoal.ITM_V.get(getXYDistance());
-    return 0;
+    return currentGoal.ITM_V.get(getXYDistance());
   }
 
   /**
@@ -144,8 +141,7 @@ public class Sensors extends SubsystemBase {
    * @return angle in double
    */
   public Rotation2d getFormulaShoulderAngle() {
-    // return Rotation2d.fromDegrees(currentGoal.ITM_A.get(getXYDistance()));
-    return new Rotation2d();
+    return Rotation2d.fromDegrees(currentGoal.ITM_A.get(getXYDistance()));
   }
 
   /**

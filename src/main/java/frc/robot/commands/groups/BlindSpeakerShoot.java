@@ -12,6 +12,7 @@ import frc.robot.subsystems.shoulder.Shoulder;
 
 public class BlindSpeakerShoot extends ParallelCommandGroup {
 
+    /* */
     public BlindSpeakerShoot() {
         addCommands(
             new ParallelDeadlineGroup(

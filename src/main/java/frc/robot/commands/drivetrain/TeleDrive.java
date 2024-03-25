@@ -18,6 +18,7 @@ public class TeleDrive extends Command {
 
   DoubleSupplier xInput, yInput, thetaInput;
   boolean noInput;
+  boolean input;
 
   SlewRateLimiter limiterX;
   SlewRateLimiter limiterY;
@@ -42,6 +43,7 @@ public class TeleDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
     double totalSpeed = Math.pow(Math.hypot(xInput.getAsDouble(), yInput.getAsDouble()), 1.0);
     double angle = Math.atan2(yInput.getAsDouble(), xInput.getAsDouble());
     double xSpeed = totalSpeed * Math.cos(angle) * Constants.drivetrain.MAX_VELOCITY;
@@ -67,7 +69,10 @@ public class TeleDrive extends Command {
           ySpeed, 
           rotSpeed), 
           sensors.getRotation2d()));
-    // }
+
+    input = xInput.getAsDouble() != 0.0 || yInput.getAsDouble() != 0.0;
+
+    //TODO: hockey stop implementation + bs
   }
 
   // Called once the command ends or is interrupted.

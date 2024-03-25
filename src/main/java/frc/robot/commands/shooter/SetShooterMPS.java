@@ -23,8 +23,8 @@ public class SetShooterMPS extends Command {
 
   public SetShooterMPS(DoubleSupplier velocity) {
     addRequirements(shooter);
-    this.leftVelocity = velocity.getAsDouble();
-    this.rightVelocity = velocity.getAsDouble();
+    this.leftVelocity = velocity.getAsDouble() + 0.5;
+    this.rightVelocity = velocity.getAsDouble() - 0.5;
   }
 
   // Called when the command is initially scheduled.

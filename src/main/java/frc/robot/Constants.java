@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import javax.xml.crypto.Data;
+
 import com.fasterxml.jackson.databind.ser.std.InetAddressSerializer;
 
 import edu.wpi.first.math.Matrix;
@@ -85,8 +87,18 @@ public final class Constants {
     //   return map;
     // }
 
-    public static InterpolatingDoubleTreeMap V_SPEAKER = new InterpolatingDoubleTreeMap();
-    private static InterpolatingDoubleTreeMap ANGLE_SPEAKER = new InterpolatingDoubleTreeMap();
+    private static InterpolatingDoubleTreeMap makeMap(DataPoints[] points) {
+      InterpolatingDoubleTreeMap result = new InterpolatingDoubleTreeMap();
+
+      for (DataPoints point : points) {
+        result.put(point.distance, point.value);
+      }
+
+      return result;
+    }
+
+    public static InterpolatingDoubleTreeMap V_SPEAKER = makeMap(new DataPoints[] {});
+    private static InterpolatingDoubleTreeMap ANGLE_SPEAKER = makeMap(new DataPoints[] {});
 
     // private static InterpolatingDoubleTreeMap V_AMP;
     // private static InterpolatingDoubleTreeMap ANGLE_AMP;
@@ -278,19 +290,6 @@ public final class Constants {
 
     public static final SimpleMotorFeedforward RIGHT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.21491, 0.40234, 0.095778); // kS = verge of motion, kV = volts/vel
     public static final PIDController RIGHT_SHOOTER_PID = new PIDController(0.45997, 0.0, 0.0);
-
-    public class DataPoints{
-      public final double distance;
-      public final double value;
-
-      public DataPoints(double distance, double value){
-        this.distance = distance;
-        this.value = value;
-      }
-    }
-
-    public static final DataPoints[] VELOCITY_DATA_POINTS = {};
-    public static final DataPoints[] ANGLE_DATA_POINTS = {};
   }
 
   public static final class climber {
