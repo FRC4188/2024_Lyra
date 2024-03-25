@@ -19,8 +19,8 @@ public class TeleDrive extends Command {
   DoubleSupplier xInput, yInput, thetaInput;
   boolean noInput;
 
-  SlewRateLimiter limiterX = new SlewRateLimiter(Constants.drivetrain.MAX_ACCEL * 2.0);
-  SlewRateLimiter limiterY = new SlewRateLimiter(Constants.drivetrain.MAX_ACCEL * 2.0);
+  SlewRateLimiter limiterX;
+  SlewRateLimiter limiterY;
 
   /** Creates a new TeleDrive. */
   public TeleDrive(DoubleSupplier xInput, DoubleSupplier yInput, DoubleSupplier thetaInput) {
@@ -34,7 +34,10 @@ public class TeleDrive extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    limiterX = new SlewRateLimiter(Constants.drivetrain.MAX_ACCEL);
+    limiterY = new SlewRateLimiter(Constants.drivetrain.MAX_ACCEL);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -45,8 +48,8 @@ public class TeleDrive extends Command {
     double ySpeed = totalSpeed * Math.sin(angle) * Constants.drivetrain.MAX_VELOCITY;
     double rotSpeed = -thetaInput.getAsDouble() * Constants.drivetrain.MAX_RADIANS;
 
-    xSpeed = Math.signum(xSpeed) * limiterX.calculate(Math.abs(xSpeed));
-    ySpeed = Math.signum(ySpeed) * limiterY.calculate(Math.abs(ySpeed));
+    xSpeed = limiterX.calculate(xSpeed);
+    ySpeed = limiterY.calculate(ySpeed);
 
     // noInput = xSpeed == 0 && ySpeed == 0 && rotSpeed == 0;
 

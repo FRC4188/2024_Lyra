@@ -48,7 +48,7 @@ public class Sensors extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putString("back ll pose", getPose2d().toString());
+    // SmartDashboard.putString("back ll pose", getPose2d().toString());
   }
 
   // public Pose3d getPose3d() {

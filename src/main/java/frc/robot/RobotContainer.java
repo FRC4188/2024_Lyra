@@ -39,8 +39,8 @@ import frc.robot.commands.groups.BlindAmpShoot;
 import frc.robot.commands.groups.FeedIntake;
 import frc.robot.commands.groups.BlindSpeakerShoot;
 import frc.robot.commands.groups.Eject;
-import frc.robot.commands.groups.FarReverseSpeakerPrep;
-import frc.robot.commands.groups.FarSpeakerPrep;
+import frc.robot.commands.groups.FarReverseSpeakerShoot;
+import frc.robot.commands.groups.FarSpeakerShoot;
 import frc.robot.commands.groups.Stow;
 import frc.robot.commands.groups.autos.BlueSourceNoteOne;
 import frc.robot.commands.groups.autos.RedSourceNoteOne;
@@ -109,12 +109,13 @@ public class RobotContainer {
     // pilot.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     Trigger drivingInput = new Trigger(() -> MathUtil.applyDeadband(pilot.getLeftX(), 0.075) != 0.0 || MathUtil.applyDeadband(pilot.getLeftY(), 0.075) != 0.0 || MathUtil.applyDeadband(pilot.getRightX(), 0.075) != 0.0);
-    drivingInput.onTrue(new TeleDrive(
-        () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-        () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+    drivingInput.onTrue(     
+      new TeleDrive(
+        () -> -pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+        () -> -pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
         () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0))
     )
-    .onFalse(new HockeyStop().withTimeout(0.25));
+    .onFalse(new HockeyStop().withTimeout(0.5));
 
     // reset pigeon
     pilot
@@ -162,11 +163,13 @@ public class RobotContainer {
 
     copilot
         .getBButton()
-        .onTrue(
+        .whileTrue(
           new ConditionalCommand(
-            new FarSpeakerPrep(),
-            new FarReverseSpeakerPrep(), 
-            () -> (sensors.getRotation2d().getCos() < 0.0)));
+            new FarSpeakerShoot(), 
+            new FarReverseSpeakerShoot(), 
+            () -> (sensors.getRotation2d().getCos() < 0.0))
+        );
+
 
     // //shooter on intake side w speaker angle
     // copilot
@@ -220,11 +223,6 @@ public class RobotContainer {
           new Stow()
         );
 
-    copilot
-        .getBackButton()
-        .onTrue(
-          new InstantCommand(() -> Swerve.getInstance().resetOdometry(new Pose2d(15.73, 4.47, Rotation2d.fromDegrees(-120.0))))
-        );
 
     // copilot
     //     .getUpButton()
@@ -259,13 +257,20 @@ public class RobotContainer {
     // autoChooser = AutoBuilder.buildAutoChooser();
     
     autoChooser.setDefaultOption("Do Nothing", new SequentialCommandGroup());
-    autoChooser.addOption("Blind Four Mid", new PathPlannerAuto("Blind Four Mid"));
+    // autoChooser.addOption("Blue Four Mid", new PathPlannerAuto("Blue Four Mid"));
+    autoChooser.addOption("Blind Four Mid", new PathPlannerAuto("Red Four Mid"));
+    autoChooser.addOption("IHOT Auto", new PathPlannerAuto("IHOT Auto"));
+
     autoChooser.addOption("Shoot and Leave", new PathPlannerAuto("Shoot and Leave"));
     // autoChooser.addOption("Shoot and Leave Short", new PathPlannerAuto("Shoot and Leave Short"));
-    //autoChooser.addOption("Three Source", new Holo/*new PathPlannerAuto("Three Source")*/);
     autoChooser.addOption("Red Source One", new RedSourceNoteOne());
     autoChooser.addOption("Blue Source One", new BlueSourceNoteOne());
     autoChooser.addOption("Make Them Cry", new PathPlannerAuto("Make Them Cry"));
+    // autoChooser.addOption("Red Source 3 Piece", new RedSourceNoteOne().andThen(new PathPlannerAuto("Only Third Piece")));
+    // autoChooser.addOption("Blue Source 3 Piece", new BlueSourceNoteOne().andThen(new PathPlannerAuto("Only Third Piece")));
+    autoChooser.addOption("Red Walton Auto", new PathPlannerAuto("Walton Auto").andThen(new RedSourceNoteOne()));
+    autoChooser.addOption("Blue Walton Auto", new PathPlannerAuto("Walton Auto").andThen(new BlueSourceNoteOne()));
+
     //autoChooser.addOption("First Note", new PathPlannerAuto("First Note"));
 
     SmartDashboard.putData("Auto Chooser", autoChooser);

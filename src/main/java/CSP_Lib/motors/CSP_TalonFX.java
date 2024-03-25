@@ -1,6 +1,7 @@
 package CSP_Lib.motors;
 
 import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -34,6 +35,7 @@ public class CSP_TalonFX extends TalonFX implements CSP_Motor {
   /** Configures the motor for typical use */
   public void init() {
     super.getConfigurator().apply(new TalonFXConfiguration());
+    super.getConfigurator().apply(new CurrentLimitsConfigs().withStatorCurrentLimit(40.0));
     super.clearStickyFaults();
     setEncoderDegrees(0.0);
 

@@ -47,8 +47,8 @@ public class Shoulder extends SubsystemBase {
   public Shoulder() {
     init();
     //SmartDashboard.putNumber("Shoulder kP", 0.0);
-    SmartDashboard.putNumber("Shoulder kD", 0.0);
-    SmartDashboard.putNumber("Shoulder kG", 0.0);
+    // SmartDashboard.putNumber("Shoulder kD", 0.0);
+    // SmartDashboard.putNumber("Shoulder kG", 0.0);
   }
 
   @Override
@@ -61,8 +61,8 @@ public class Shoulder extends SubsystemBase {
     SmartDashboard.putNumber("Shoulder Setpoint", pid.getSetpoint().position); 
 
     //pid.setP(SmartDashboard.getNumber("Shoulder kP", 0.0));
-    pid.setD(SmartDashboard.getNumber("Shoulder kD", 0.0));
-    ff = new ArmFeedforward(0, 0, 0);
+    // pid.setD(SmartDashboard.getNumber("Shoulder kD", 0.0));
+    // ff = new ArmFeedforward(0, 0, 0);
   }
 
   public void init() {
@@ -120,7 +120,7 @@ public class Shoulder extends SubsystemBase {
       Constants.shoulder.LOWER_LIMIT, Constants.shoulder.UPPER_LIMIT));
     pid.setGoal(angle.getDegrees());
     State setpoint = pid.getSetpoint();
-    setVoltage(pid.calculate(getAngle().getDegrees()) + ff.calculate(setpoint.position, setpoint.velocity));
+    setVoltage(pid.calculate(getAngle().getDegrees()) - ff.calculate(setpoint.position, setpoint.velocity));
   }
 
   public Rotation2d getAngle() {

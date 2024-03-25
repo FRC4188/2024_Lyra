@@ -4,6 +4,7 @@
 
 package CSP_Lib.inputs;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -41,6 +42,24 @@ public class CSP_Controller extends CommandXboxController {
     } else {
       return 0;
     }
+  }
+
+  public Translation2d getCorrectedRight() {
+    Translation2d input = new Translation2d(super.getRightY(), super.getRightX());
+    if (input.getNorm() < Constants.controller.DEADBAND) {
+      return new Translation2d();
+    }
+
+    return new Translation2d((input.getNorm() - Constants.controller.DEADBAND) / (1.0 - Constants.controller.DEADBAND), input.getAngle());
+  }
+
+  public Translation2d getCorrectedLeft() {
+    Translation2d input = new Translation2d(super.getLeftY(), super.getLeftX());
+    if (input.getNorm() < Constants.controller.DEADBAND) {
+      return new Translation2d();
+    }
+
+    return new Translation2d((input.getNorm() - Constants.controller.DEADBAND) / (1.0 - Constants.controller.DEADBAND), input.getAngle()); 
   }
 
   /**

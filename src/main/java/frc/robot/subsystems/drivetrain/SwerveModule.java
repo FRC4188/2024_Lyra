@@ -86,7 +86,7 @@ public class SwerveModule {
 
     double velocity = optimized.speedMetersPerSecond / Constants.drivetrain.DRIVE_METERS_PER_TICK;
     // pseudocode : setVolts(PID + FF)
-    speed.setVoltage(Math.min(speedPID.calculate(getVelocity(), velocity) + speedFF.calculate(velocity), 0.9 * 12.0));
+    speed.setVoltage(speedPID.calculate(getVelocity(), velocity) + speedFF.calculate(velocity));
     // angle.setVoltage(angleFF.calculate(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees())));
       angle.set(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees()));
   }

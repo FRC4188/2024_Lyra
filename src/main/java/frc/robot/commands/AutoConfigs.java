@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import frc.robot.Constants;
 import frc.robot.commands.feeder.FeedIntoShooter;
@@ -10,6 +11,7 @@ import frc.robot.commands.groups.BlindSpeakerShoot;
 import frc.robot.commands.groups.FeedIntake;
 import frc.robot.commands.groups.Stow;
 import frc.robot.commands.intake.Inhale;
+import frc.robot.subsystems.drivetrain.Swerve;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +29,10 @@ public class AutoConfigs {
             // Map.entry("Name of Command", new Command()),
             // Map.entry("Name of Command", new Command().withTimeout(TIME_SECONDS))
             Map.entry("Blind Intake", new FeedIntake()),
-            Map.entry("Auto Speaker Shoot", new ParallelDeadlineGroup(new BlindReverseSpeakerShoot()).withTimeout(2.0))
+            Map.entry("Auto Speaker Shoot", new BlindReverseSpeakerShoot().withTimeout(1.2)),
+            Map.entry(
+                  "Stop Drivetrain",
+                  new InstantCommand(
+                      () -> Swerve.getInstance().disable(), Swerve.getInstance()))
       ));
 }

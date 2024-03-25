@@ -55,10 +55,10 @@ public final class Constants {
     public static Translation3d RED_CENTER_TRAP = new Translation3d(11.24, 4.06, 1.42);
     public static Translation3d RED_RIGHT_TRAP = new Translation3d(11.85, 4.54, 1.42);
 
-    public static Translation3d CURRENT_SPEAKER_LOCATION = 
-      DriverStation.getAlliance().get() == Alliance.Blue ?  
-      BLUE_SPEAKER_LOCATION :
-      RED_SPEAKER_LOCATION;
+    // public static Translation3d CURRENT_SPEAKER_LOCATION = 
+    //   DriverStation.getAlliance().get() == Alliance.Blue ?  
+    //   BLUE_SPEAKER_LOCATION :
+    //   RED_SPEAKER_LOCATION;
 
     public static double NOTE_RADIUS = Units.inchesToMeters(7.0);  
 
@@ -99,7 +99,7 @@ public final class Constants {
     public enum Goal {
       SPEAKER(
         ANGLE_SPEAKER, V_SPEAKER,
-        new Pose2d(CURRENT_SPEAKER_LOCATION.getX(), CURRENT_SPEAKER_LOCATION.getY(), Rotation2d.fromRadians(Math.PI)), // TODO: change rotation based on color
+        new Pose2d(BLUE_SPEAKER_LOCATION.getX(), BLUE_SPEAKER_LOCATION.getY(), Rotation2d.fromRadians(Math.PI)), // TODO: change rotation based on color
         10, //TODO: happy zone tuning
         Units.inchesToMeters(3.0 * 12.0 + 5.0 + (3.0 / 8.0)));
 
@@ -200,8 +200,8 @@ public final class Constants {
     public static final double ANGLE_DEGREES_PER_TICK = 1.0 / ANGLE_TICKS_PER_DEGREE;
 
     public static final double MAX_VOLTS = 12.0;
-    public static final double MAX_VELOCITY = 10.0; // ?
-    public static final double MAX_ACCEL = 7.0;
+    public static final double MAX_VELOCITY = 5.0; // ?
+    public static final double MAX_ACCEL = 11.6;
     public static final double MAX_CACCEL = 8.0;
     public static final double MAX_RADIANS = 5 * Math.PI;
     public static final double RAMP_RATE = 0.5;
@@ -254,12 +254,12 @@ public final class Constants {
     public static final double MAX_ACCEL = 1440.0;
     public static final Constraints CONSTRAINTS = new Constraints(MAX_VEL, MAX_ACCEL);
 
-    public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0.32, 0, 0, CONSTRAINTS);
+    public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0.325, 0, 0.002, CONSTRAINTS);
     
-    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.14, 0.4 , 0); // kS = verge of motion, kg = fixes setpoint after weak p
+    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.14, 0.5 , 0); // kS = verge of motion, kg = fixes setpoint after weak p
 
     public static final double ZERO = -141.2109375;
-    public static final double ALLOWED_ERROR = 1.0;
+    public static final double ALLOWED_ERROR = 2.0;
 
     public static final double UPPER_LIMIT = 75.0; // 79.1
     public static final double LOWER_LIMIT = -75.0; // -77.5

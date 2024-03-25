@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.226493448707295,
+      "x": 1.3099999999999987,
       "y": 5.550936522700434
     },
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -18,13 +18,13 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Blind First Note"
+                  "pathName": "Blue First Note"
                 }
               },
               {
@@ -39,17 +39,23 @@
         {
           "type": "named",
           "data": {
+            "name": "Stop Drivetrain"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Auto Speaker Shoot"
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Blind Second Note"
+                  "pathName": "Blue Second Note"
                 }
               },
               {
@@ -64,17 +70,23 @@
         {
           "type": "named",
           "data": {
+            "name": "Stop Drivetrain"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Auto Speaker Shoot"
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Blind Third Note"
+                  "pathName": "Blue Third Note"
                 }
               },
               {
@@ -84,6 +96,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stop Drivetrain"
           }
         },
         {

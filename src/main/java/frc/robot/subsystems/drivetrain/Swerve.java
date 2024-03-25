@@ -124,8 +124,8 @@ public class Swerve extends SubsystemBase {
 
     notifier.startPeriodic(0.2);
 
-    SmartDashboard.putNumber("Angle kP", Constants.drivetrain.ANGLE_PID.getP());
-    SmartDashboard.putNumber("Angle kD", Constants.drivetrain.ANGLE_PID.getD());
+    // SmartDashboard.putNumber("Angle kP", Constants.drivetrain.ANGLE_PID.getP());
+    // SmartDashboard.putNumber("Angle kD", Constants.drivetrain.ANGLE_PID.getD());
   }
 
   @Override
@@ -215,6 +215,27 @@ public class Swerve extends SubsystemBase {
         sensors.getRotation2d(),
         getSwerveModulePositions(moduleList),
         initPose);
+
+    sensors.resetPigeon(initPose.getRotation());
+    odometry.resetPosition(
+        sensors.getRotation2d(),
+        getSwerveModulePositions(moduleList),
+        initPose);
+
+    sensors.resetPigeon(initPose.getRotation());
+    odometry.resetPosition(
+        sensors.getRotation2d(),
+        getSwerveModulePositions(moduleList),
+        initPose);
+
+  }
+
+  public void resetPPOdometry(Pose2d initPose) {
+    sensors.resetPigeon();
+    odometry.resetPosition(
+        sensors.getRotation2d(),
+        getSwerveModulePositions(moduleList),
+        initPose);
   }
 
   public boolean atGoalAngle(double angleDegrees) {
@@ -223,16 +244,16 @@ public class Swerve extends SubsystemBase {
 
   public void updateDashboard() {
 
-    SmartDashboard.putString("Estimated Pose", getPose2d().toString());
+    // SmartDashboard.putString("Estimated Pose", getPose2d().toString());
 
     for (SwerveModule module : moduleList) {
-      SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());
-      SmartDashboard.putNumber(module.getName() + " Angle Setpoint", module.getAnglePIDSetpoint());
+      // SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());
+      // SmartDashboard.putNumber(module.getName() + " Angle Setpoint", module.getAnglePIDSetpoint());
 
-      module.setAnglePIDConstants(
-        SmartDashboard.getNumber("Angle kP", 0.0), 
-        0.0, 
-        SmartDashboard.getNumber("Angle kD", 0.0));
+      // module.setAnglePIDConstants(
+        // SmartDashboard.getNumber("Angle kP", 0.0), 
+        // 0.0, 
+        // SmartDashboard.getNumber("Angle kD", 0.0));
       // module.setSpeedPIDConstants(
       //   SmartDashboard.getNumber("Speed kP", 0.0), 
       //   0.0, 
@@ -259,11 +280,13 @@ public class Swerve extends SubsystemBase {
               // Boolean supplier that controls when the path will be mirrored for the red alliance
               // This will flip the path being followed to the red side of the field. 
               // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+              
               var alliance = DriverStation.getAlliance();
               if (alliance.isPresent()) {
                 return alliance.get() == DriverStation.Alliance.Blue;
               }
               return false;
+
             },
             this // Reference to this subsystem to set requirements
     );
