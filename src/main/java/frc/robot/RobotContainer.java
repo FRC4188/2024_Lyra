@@ -117,15 +117,38 @@ public class RobotContainer {
       () -> sensors.getFormulaShoulderAngle().getDegrees(),
       () -> sensors.getFormulaDriveAngle().getDegrees());
 
-    Trigger drivingInput = new Trigger(() -> (pilot.getCorrectedLeft().getNorm() != 0.0 || pilot.getCorrectedRight().getX() != 0.0) && !CommandScheduler.getInstance().isScheduled(visionShoot));
-    drivingInput.onTrue(     
-      new TeleDrive(
+    // Trigger drivingInput = new Trigger(() -> (pilot.getCorrectedLeft().getNorm() != 0.0 || pilot.getCorrectedRight().getX() != 0.0) && !CommandScheduler.getInstance().isScheduled(visionShoot));
+    // drivingInput.onTrue(     
+    //   new TeleDrive(
+    //     () -> -pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+    //     () -> -pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+    //     () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0))
+    // )
+    // .onFalse(new HockeyStop().withTimeout(0.5));
+
+    Command normalDrive = new TeleDrive(
         () -> -pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
         () -> -pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-        () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0))
-    )
-    .onFalse(new HockeyStop().withTimeout(0.5));
+        () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0));
+    
+    boolean toggleDrive = true; //true for normal, false for track (one button to toggle both)
+    boolean changeDriveMode = pilot.getRightBumperButton().getAsBoolean();
 
+    if (changeDriveMode) toggleDrive = !toggleDrive;
+
+    Trigger drivingInput = new Trigger(() -> (pilot.getCorrectedLeft().getNorm() != 0.0 || pilot.getCorrectedRight().getX() != 0.0));
+
+    if(toggleDrive)
+      drivingInput
+        .onTrue(normalDrive)
+        .onFalse(new HockeyStop().withTimeout(0.5));
+    
+    else 
+      drivingInput
+        .onTrue(visionShoot)
+        .onFalse(new HockeyStop().withTimeout(0.5));
+
+    
     // reset pigeon
     pilot
         .getAButton()

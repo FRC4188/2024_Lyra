@@ -72,7 +72,6 @@ public class TeleDrive extends Command {
 
     input = xInput.getAsDouble() != 0.0 || yInput.getAsDouble() != 0.0;
 
-    //TODO: hockey stop implementation + bs
   }
 
   // Called once the command ends or is interrupted.
