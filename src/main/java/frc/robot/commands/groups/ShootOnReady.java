@@ -9,7 +9,7 @@ import frc.robot.subsystems.sensors.Sensors;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shoulder.Shoulder;
 
-import java.util.function.DoubleSupplier;
+import javax.sound.midi.Track;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -23,19 +23,18 @@ public class ShootOnReady extends ParallelCommandGroup {
     /** Creates a new ShootOnReady. 
      * 
     */
-    public ShootOnReady(DoubleSupplier xInput, DoubleSupplier yInput, DoubleSupplier shooterRPM, DoubleSupplier shoulderAngle, DoubleSupplier driveAngle) {
+    public ShootOnReady() {
         addCommands(
                 new ParallelDeadlineGroup(
                     Commands.waitUntil(() -> 
                         shooter.atMPS() && 
-                        shoulder.atGoal(shoulderAngle.getAsDouble()) && 
-                        drive.atGoalAngle(driveAngle.getAsDouble())).andThen(
+                        shoulder.atGoal(Sensors.getInstance().getFormulaShoulderAngle()) && 
+                        drive.atGoalAngle(Sensors.getInstance().getFormulaDriveAngle())).andThen(
                     new FeedIntoShooter(12.0).andThen(Commands.waitSeconds(0.25))),
 
-                    
-                    new SetShooterMPS(() -> shooterRPM.getAsDouble()),
-                    new SetShoulderAngle(() -> shoulderAngle.getAsDouble()),
-                    new TrackingDrive(xInput, yInput)
+                    new TrackingDrive(() -> 0.0, () -> 0.0),
+                    new SetShooterMPS(() -> Sensors.getInstance().getFormulaShooterRPM()),
+                    new SetShoulderAngle(() -> Sensors.getInstance().getFormulaShoulderAngle().getDegrees())
                 )
         );
     }

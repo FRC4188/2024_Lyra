@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class TrackingDrive extends Command {
   private Swerve drive = Swerve.getInstance();
-  private Sensors sensors = Sensors.getInstance();
 
   Translation3d goal;
   DoubleSupplier xInput, yInput;
@@ -37,12 +36,12 @@ public class TrackingDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double goalAngle = sensors.getMovingDriveAngle().getRadians();
+    Rotation2d goalAngle = Sensors.getInstance().getFormulaDriveAngle();
     Pose2d pose = drive.getPose2d();
-    Translation2d currentSpeed = drive.getFOSpeeds();
+    // Translation2d currentSpeed = drive.getFOSpeeds();
 
-    double dx = goal.getX() - pose.getX(); //get distance needed to travel in x
-    double dy = goal.getY() - pose.getY(); //get distance needed to travel in y
+    // double dx = goal.getX() - pose.getX(); //get distance needed to travel in x
+    // double dy = goal.getY() - pose.getY(); //get distance needed to travel in y
 
     /* Get hypothenuse cube of the slope yInput and xInput
      * cube = scaling 
@@ -58,10 +57,10 @@ public class TrackingDrive extends Command {
     double rotSpeed = 0.0;
 
     //rotSpeed calculated from rotPID
-    rotSpeed += -drive.rotPID.calculate(sensors.getRotation2d().getRadians(), goalAngle);
+    rotSpeed += -drive.rotPID.calculate(pose.getRotation().getDegrees(), goalAngle.getDegrees());
     /**rotSpeed from aiden's math hellscape = predicting wut the drivetrain rotation speed should be
      * to keep aiming while moving */
-    rotSpeed += currentSpeed.getX() * -dy / (dx * dx + dy * dy) + currentSpeed.getY() * dx / (dx * dx + dy * dy); 
+    // rotSpeed += currentSpeed.getX() * -dy / (dx * dx + dy * dy) + currentSpeed.getY() * dx / (dx * dx + dy * dy); TODO: Bring back if moving and shooting
 
     noInput = xSpeed == 0 && ySpeed == 0 && rotSpeed == 0;
 
@@ -79,7 +78,7 @@ public class TrackingDrive extends Command {
           xSpeed,
           ySpeed, 
           rotSpeed), 
-          sensors.getRotation2d()));
+          Sensors.getInstance().getRotation2d()));
     }
   }
 

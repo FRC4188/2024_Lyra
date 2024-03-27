@@ -7,9 +7,11 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.field.DataPoints;
 import frc.robot.Constants.field.Goal;
 import frc.robot.subsystems.drivetrain.Swerve;
 
@@ -37,9 +39,23 @@ public class Sensors extends SubsystemBase {
           Constants.sensors.limelight.BACK_ROTATION);
 
   private Goal currentGoal = Goal.SPEAKER;
+  private Translation3d speakerLocation = Constants.field.BLUE_SPEAKER_LOCATION;
+
+  private InterpolatingDoubleTreeMap velocityMap = new InterpolatingDoubleTreeMap();
+  private InterpolatingDoubleTreeMap angleMap = new InterpolatingDoubleTreeMap();
+
+
 
   /** Creates a new Sensors. */
-  private Sensors() {    
+  private Sensors() {  
+    setSpeakerLocation();  
+
+    velocityMap.put(0.0, 0.0);
+    angleMap.put(0.0, 0.0);
+
+    velocityMap.put(1.0, 0.0);
+    angleMap.put(1.0, 0.0);
+
   }
 
   private void init() {}
@@ -47,6 +63,10 @@ public class Sensors extends SubsystemBase {
   @Override
   public void periodic() {
     // SmartDashboard.putString("back ll pose", getPose2d().toString());
+    SmartDashboard.putNumber("Goal XYDistance", getXYDistance());
+
+    Translation2d translation = Swerve.getInstance().getPose2d().getTranslation().minus(speakerLocation.toTranslation2d());
+    SmartDashboard.putNumber("Drive Angle Setpoint", Units.radiansToDegrees(Math.atan2(translation.getY(), translation.getX())));
   }
 
   // public Pose3d getPose3d() {
@@ -123,7 +143,7 @@ public class Sensors extends SubsystemBase {
   }
 
   public double getXYDistance() {
-    return currentGoal.position.getTranslation().getDistance(Swerve.getInstance().getPose2d().getTranslation());
+    return speakerLocation.toTranslation2d().getDistance(Swerve.getInstance().getPose2d().getTranslation());
   }
 
   /**
@@ -132,7 +152,8 @@ public class Sensors extends SubsystemBase {
    * @return 
    */
   public double getFormulaShooterRPM() {
-    return currentGoal.ITM_V.get(getXYDistance());
+    // return currentGoal.ITM_V.get(getXYDistance());
+    return velocityMap.get(getXYDistance());
   }
 
   /**
@@ -141,7 +162,8 @@ public class Sensors extends SubsystemBase {
    * @return angle in double
    */
   public Rotation2d getFormulaShoulderAngle() {
-    return Rotation2d.fromDegrees(currentGoal.ITM_A.get(getXYDistance()));
+    // return Rotation2d.fromDegrees(currentGoal.ITM_A.get(getXYDistance()));
+    return Rotation2d.fromDegrees(angleMap.get(getXYDistance()));
   }
 
   /**
@@ -150,7 +172,7 @@ public class Sensors extends SubsystemBase {
    * @return angle in double
    */
   public Rotation2d getFormulaDriveAngle() {
-    Translation2d translation = Swerve.getInstance().getPose2d().getTranslation().minus(currentGoal.position.getTranslation());
+    Translation2d translation = Swerve.getInstance().getPose2d().getTranslation().minus(speakerLocation.toTranslation2d());
     return Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX()));
   }
 
@@ -227,7 +249,14 @@ public class Sensors extends SubsystemBase {
     currentGoal = goal;
   }
 
-  // public void putITMData() {
-  //   currentGoal.ITM_A.put(0.0, 8.0);
-  // }
+  public void setSpeakerLocation() {
+    var alliance = DriverStation.getAlliance();
+      if (alliance.isPresent()) {
+        speakerLocation = 
+          alliance.get() == DriverStation.Alliance.Blue ? 
+          Constants.field.BLUE_SPEAKER_LOCATION :
+          Constants.field.RED_SPEAKER_LOCATION;
+      }
+
+  }
 }

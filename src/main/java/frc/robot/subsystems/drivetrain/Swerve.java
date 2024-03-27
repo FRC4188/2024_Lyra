@@ -12,6 +12,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -201,7 +202,7 @@ public class Swerve extends SubsystemBase {
     Pose2d pose = sensors.getPose2d();
 
     if (!pose.equals(new Pose2d())) {
-      // odometry.addVisionMeasurement(pose, sensors.getLatency());
+      odometry.addVisionMeasurement(pose, sensors.getLatency());
     }
 
     odometry.update(
@@ -238,13 +239,13 @@ public class Swerve extends SubsystemBase {
         initPose);
   }
 
-  public boolean atGoalAngle(double angleDegrees) {
-    return (Math.abs(getPose2d().getRotation().getDegrees() - angleDegrees) < 3.0);
+  public boolean atGoalAngle(Rotation2d angle) {
+    return (Math.abs(getPose2d().getRotation().getDegrees() - angle.getDegrees()) < 3.0);
   }
 
   public void updateDashboard() {
 
-    // SmartDashboard.putString("Estimated Pose", getPose2d().toString());
+    SmartDashboard.putString("Estimated Pose", getPose2d().toString());
 
     for (SwerveModule module : moduleList) {
       // SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());

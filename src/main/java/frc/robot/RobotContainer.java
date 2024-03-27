@@ -26,11 +26,14 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoConfigs;
 import frc.robot.commands.drivetrain.HockeyStop;
 import frc.robot.commands.drivetrain.TeleDrive;
+import frc.robot.commands.drivetrain.TrackingDrive;
 import frc.robot.commands.drivetrain.XPattern;
 import frc.robot.commands.feeder.EjectFeeder;
 import frc.robot.commands.feeder.FeedIntoFeeder;
@@ -103,50 +106,27 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    
+
+    SmartDashboard.putData("Set Shooter MPS", new RunCommand(() -> shooter.setVelocity(SmartDashboard.getNumber("MPS", 0))));
+    SmartDashboard.putData("Set Shoulder Angle", new RunCommand(() -> shoulder.setAngle(Rotation2d.fromDegrees(SmartDashboard.getNumber("Angle", 0)))));
+
     //Add these in for sysid tests
     // pilot.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
     // pilot.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
     // pilot.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
     // pilot.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
-    Command visionShoot = new ShootOnReady(
-      () -> -pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-      () -> -pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0),
-      () -> sensors.getFormulaShooterRPM(),
-      () -> sensors.getFormulaShoulderAngle().getDegrees(),
-      () -> sensors.getFormulaDriveAngle().getDegrees());
-
-    // Trigger drivingInput = new Trigger(() -> (pilot.getCorrectedLeft().getNorm() != 0.0 || pilot.getCorrectedRight().getX() != 0.0) && !CommandScheduler.getInstance().isScheduled(visionShoot));
-    // drivingInput.onTrue(     
-    //   new TeleDrive(
-    //     () -> -pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-    //     () -> -pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-    //     () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0))
-    // )
-    // .onFalse(new HockeyStop().withTimeout(0.5));
-
-    Command normalDrive = new TeleDrive(
-        () -> -pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-        () -> -pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-        () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0));
-    
-    boolean toggleDrive = true; //true for normal, false for track (one button to toggle both)
-    boolean changeDriveMode = pilot.getRightBumperButton().getAsBoolean();
-
-    if (changeDriveMode) toggleDrive = !toggleDrive;
-
+    Trigger isShooting = pilot.leftTrigger();
     Trigger drivingInput = new Trigger(() -> (pilot.getCorrectedLeft().getNorm() != 0.0 || pilot.getCorrectedRight().getX() != 0.0));
 
-    if(toggleDrive)
-      drivingInput
-        .onTrue(normalDrive)
-        .onFalse(new HockeyStop().withTimeout(0.5));
-    
-    else 
-      drivingInput
-        .onTrue(visionShoot)
-        .onFalse(new HockeyStop().withTimeout(0.5));
+
+    drivingInput
+    .onTrue(    
+      new TeleDrive(
+        () -> -pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+        () -> -pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+        () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0)))
+    .onFalse(new HockeyStop().withTimeout(0.5));
 
     
     // reset pigeon
@@ -165,8 +145,10 @@ public class RobotContainer {
           new FeedIntake()
         );
     
-    pilot.getRightBumperButton()
-    .onTrue(visionShoot);
+    // pilot.getLeftTButton()
+    //     .whileTrue(
+    //       new ShootOnReady().withInterruptBehavior(InterruptionBehavior.kCancelIncoming)
+    //     );
 
     //outtake intake
     pilot 
@@ -184,12 +166,6 @@ public class RobotContainer {
             () -> (sensors.getRotation2d().getCos() < 0.0))
         );
 
-    //outtake feeder
-    pilot
-        .getDownButton()
-        .whileTrue(
-          new EjectFeeder()
-        );
 
     copilot
         .getAButton()

@@ -157,6 +157,11 @@ public class Shooter extends SubsystemBase{
         this.rightVelocity = rightVelocity;
       }
 
+      public void setVelocity(double velocity) {
+        this.leftVelocity = velocity;
+        this.rightVelocity = velocity;
+      }
+
     /**
      * Sets the voltage of the flywheel
      * @param voltage the number of volts

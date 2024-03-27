@@ -1,5 +1,6 @@
 package frc.robot.commands.groups;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -19,7 +20,7 @@ public class FeedIntake extends ParallelCommandGroup {
         addCommands(
             new SequentialCommandGroup(
                 new SetShoulderAngle(() -> Constants.shoulder.HANDOFF_ANGLE)
-                    .until(() -> shoulder.atGoal(Constants.shoulder.HANDOFF_ANGLE)),
+                    .until(() -> shoulder.atGoal(Rotation2d.fromDegrees(Constants.shoulder.HANDOFF_ANGLE))),
                 new ParallelDeadlineGroup(
                     new FeedIntoFeeder(3.0).andThen(new Heimlich()),
                     new SetShoulderAngle(() -> Constants.shoulder.HANDOFF_ANGLE),

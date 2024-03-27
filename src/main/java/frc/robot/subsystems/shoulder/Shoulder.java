@@ -127,7 +127,7 @@ public class Shoulder extends SubsystemBase {
     return Rotation2d.fromDegrees(encoder.getPositionDegrees() / Constants.shoulder.CANCODER_GEAR_RATIO);
   }
 
-  public boolean atGoal(double angleDegrees) {
-    return Math.abs(angleDegrees - getAngle().getDegrees()) < Constants.shoulder.ALLOWED_ERROR;
+  public boolean atGoal(Rotation2d angle) {
+    return Math.abs(angle.getDegrees() - getAngle().getDegrees()) < Constants.shoulder.ALLOWED_ERROR;
   }
 }

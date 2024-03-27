@@ -1,5 +1,6 @@
 package frc.robot.commands.groups;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -23,7 +24,7 @@ public class ShooterIntake extends ParallelCommandGroup {
         addCommands(
             new SequentialCommandGroup(
                 new SetShoulderAngle(() -> 30.0)
-                    .until(() -> shoulder.atGoal(30.0)),
+                    .until(() -> shoulder.atGoal(Rotation2d.fromDegrees(30.0))),
                 new ParallelCommandGroup(
                     new SetShooterMPS(() -> -6.0),
                     new SetShoulderAngle(() -> 30.0)
