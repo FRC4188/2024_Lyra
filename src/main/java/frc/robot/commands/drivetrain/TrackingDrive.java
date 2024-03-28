@@ -37,7 +37,7 @@ public class TrackingDrive extends Command {
   @Override
   public void execute() {
     Rotation2d goalAngle = Sensors.getInstance().getFormulaDriveAngle();
-    Pose2d pose = drive.getPose2d();
+    // Pose2d pose = drive.getPose2d();
     // Translation2d currentSpeed = drive.getFOSpeeds();
 
     // double dx = goal.getX() - pose.getX(); //get distance needed to travel in x
@@ -46,7 +46,7 @@ public class TrackingDrive extends Command {
     /* Get hypothenuse cube of the slope yInput and xInput
      * cube = scaling 
      * if input not full/max, the output would be closer to 0 for the best driver control
-     * if input is max, the output would be max too -> cube makes the transition smoother
+     * if input is rotpid, the output would be max too -> cube makes the transition smoother
      */
     double totalSpeed = Math.pow(Math.hypot(xInput.getAsDouble(), yInput.getAsDouble()), 3.0);
     //arctan of the slope of y and x = angle
@@ -57,7 +57,7 @@ public class TrackingDrive extends Command {
     double rotSpeed = 0.0;
 
     //rotSpeed calculated from rotPID
-    rotSpeed += -drive.rotPID.calculate(pose.getRotation().getDegrees(), goalAngle.getDegrees());
+    rotSpeed += drive.rotPID.calculate(Sensors.getInstance().getRotation2d().getDegrees(), goalAngle.getDegrees());
     /**rotSpeed from aiden's math hellscape = predicting wut the drivetrain rotation speed should be
      * to keep aiming while moving */
     // rotSpeed += currentSpeed.getX() * -dy / (dx * dx + dy * dy) + currentSpeed.getY() * dx / (dx * dx + dy * dy); TODO: Bring back if moving and shooting

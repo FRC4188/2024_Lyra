@@ -15,6 +15,7 @@ import CSP_Lib.inputs.CSP_Controller.Scale;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -37,6 +38,7 @@ import frc.robot.commands.drivetrain.TrackingDrive;
 import frc.robot.commands.drivetrain.XPattern;
 import frc.robot.commands.feeder.EjectFeeder;
 import frc.robot.commands.feeder.FeedIntoFeeder;
+import frc.robot.commands.feeder.FeedIntoShooter;
 import frc.robot.commands.groups.BlindReverseSpeakerShoot;
 import frc.robot.commands.groups.ShooterIntake;
 import frc.robot.commands.groups.BlindAmpShoot;
@@ -123,8 +125,8 @@ public class RobotContainer {
     drivingInput
     .onTrue(    
       new TeleDrive(
-        () -> -pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-        () -> -pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+        () -> pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+        () -> pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
         () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0)))
     .onFalse(new HockeyStop().withTimeout(0.5));
 
@@ -135,8 +137,8 @@ public class RobotContainer {
         .onTrue(
             new InstantCommand(
                 () -> {
-                  sensors.resetPigeon();
-                  drive.rotPID.setSetpoint(0.0);
+                  drive.resetOdometry(new Pose2d(new Translation2d(13.0, 4.0), Rotation2d.fromDegrees(180.0)));
+                  drive.rotPID.setSetpoint(180.0);
                 }, sensors));
 
     pilot
@@ -145,11 +147,13 @@ public class RobotContainer {
           new FeedIntake()
         );
     
-    // pilot.getLeftTButton()
-    //     .whileTrue(
-    //       new ShootOnReady().withInterruptBehavior(InterruptionBehavior.kCancelIncoming)
-    //     );
+    pilot.getLeftTButton()
+        .whileTrue(
+          new ShootOnReady().withInterruptBehavior(InterruptionBehavior.kCancelIncoming)
+        );
 
+    
+    
     //outtake intake
     pilot 
         .getLeftBumperButton()
@@ -157,14 +161,16 @@ public class RobotContainer {
           new Eject()
         );
 
-    pilot
-        .getLeftTButton()
-        .whileTrue(
-          new ConditionalCommand(
-            new BlindSpeakerShoot(), 
-            new BlindReverseSpeakerShoot(), 
-            () -> (sensors.getRotation2d().getCos() < 0.0))
-        );
+    pilot.getUpButton().whileTrue(new FeedIntoShooter(12.0));
+
+    // pilot
+    //     .getLeftTButton()
+    //     .whileTrue(
+    //       new ConditionalCommand(
+    //         new BlindSpeakerShoot(), 
+    //         new BlindReverseSpeakerShoot(), 
+    //         () -> (sensors.getRotation2d().getCos() < 0.0))
+    //     );
 
 
     copilot

@@ -233,12 +233,11 @@ public final class Constants {
 
     // public static final PIDConstants XY_PID = new PIDConstants(3.0, 0.0, 0.0);
 
-    // public static final PIDConstants ROT_PID = new PIDConstants(0.0, 0.0, 0.0);
+    public static final PIDController ROT_PID = new PIDController(0.1, 0.0, 0.006);
 
     // public static final PIDConstants CORRECTION_PID = new PIDConstants(-0.1, 0.0, -0.006);
 
-    public static final PIDController ROT_PID = new PIDController(0.1, 0.0, 0.006);
-
+    public static final PIDController CORRECTION_PID = new PIDController(0.1, 0.0, 0.006);
   }
 
   public static final class shoulder {
@@ -256,10 +255,10 @@ public final class Constants {
 
     public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0.325, 0, 0.002, CONSTRAINTS);
     
-    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.14, 0.5 , 0); // kS = verge of motion, kg = fixes setpoint after weak p
+    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.14, 0.2, 0); // kS = verge of motion, kg = fixes setpoint after weak p
 
     public static final double ZERO = -141.2109375;
-    public static final double ALLOWED_ERROR = 2.0;
+    public static final double ALLOWED_ERROR = 0.5;
 
     public static final double UPPER_LIMIT = 75.0; // 79.1
     public static final double LOWER_LIMIT = -75.0; // -77.5

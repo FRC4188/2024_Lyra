@@ -114,13 +114,17 @@ public class Swerve extends SubsystemBase {
           );
 
   public PIDController rotPID = Constants.drivetrain.ROT_PID;
+  public PIDController correctionPID = Constants.drivetrain.CORRECTION_PID;
 
 
   /** Creates a new Swerve. */
   private Swerve() {
     configurePathPlanner();
 
-    rotPID.enableContinuousInput(-180, 180);
+    correctionPID.enableContinuousInput(-180, 180);
+    correctionPID.setTolerance(0.5);
+
+    rotPID.enableContinuousInput(-180.0, 180.0);
     rotPID.setTolerance(0.5);
 
     notifier.startPeriodic(0.2);
@@ -140,10 +144,10 @@ public class Swerve extends SubsystemBase {
     ChassisSpeeds correctedSpeeds = speeds;
 
     if (speeds.omegaRadiansPerSecond != 0.0) {
-      rotPID.setSetpoint(sensors.getRotation2d().getDegrees());
+      correctionPID.setSetpoint(sensors.getRotation2d().getDegrees());
     } else if (speeds.vxMetersPerSecond != 0 || speeds.vyMetersPerSecond != 0) {
-      double correction = rotPID.calculate(sensors.getRotation2d().getDegrees());
-      correctedSpeeds.omegaRadiansPerSecond = rotPID.atSetpoint() ? 0.0 : correction;  
+      double correction = correctionPID.calculate(sensors.getRotation2d().getDegrees());
+      correctedSpeeds.omegaRadiansPerSecond = correctionPID.atSetpoint() ? 0.0 : correction;  
     }
 
     setModuleStates(kinematics.toSwerveModuleStates(correctedSpeeds));
@@ -240,7 +244,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public boolean atGoalAngle(Rotation2d angle) {
-    return (Math.abs(getPose2d().getRotation().getDegrees() - angle.getDegrees()) < 3.0);
+    return (Math.abs(Sensors.getInstance().getRotation2d().getDegrees() - angle.getDegrees()) < 3.0);
   }
 
   public void updateDashboard() {

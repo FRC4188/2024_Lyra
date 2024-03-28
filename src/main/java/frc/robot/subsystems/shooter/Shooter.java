@@ -43,7 +43,9 @@ public class Shooter extends SubsystemBase{
       VELOCITY, STOP, DASH_VELOCITY, TEST;
     }
 
-    private ControlMode controlMode = ControlMode.STOP;
+    // private ControlMode controlMode = ControlMode.STOP;
+        private ControlMode controlMode = ControlMode.DASH_VELOCITY;
+
 
     private CSP_TalonFX left = new CSP_TalonFX(Constants.ids.LEFT_SHOOTER, "canivore");
     private CSP_TalonFX right = new CSP_TalonFX(Constants.ids.RIGHT_SHOOTER, "canivore");
@@ -102,12 +104,16 @@ public class Shooter extends SubsystemBase{
       left.setRampRate(0.5);
       right.setRampRate(0.5);
 
-      SmartDashboard.putNumber("Set Left Velocity", 0.0);
-      SmartDashboard.putNumber("Set Right Velocity", 0.0);
 
+      SmartDashboard.putNumber("Set Velocity", 0.0);
     }
 
     public void updateDashboard() {
+
+      SmartDashboard.putNumber("Shooter MPS", getLeftVelocity());
+            SmartDashboard.putNumber("Shooter Setpoint", leftVelocity);
+
+
       
       // pid.setP(SmartDashboard.getNumber("Shooter kP", 0.0));
       // pid.setD(SmartDashboard.getNumber("Shooter kD", 0.0));
@@ -116,6 +122,7 @@ public class Shooter extends SubsystemBase{
 
     @Override
     public void periodic() {
+
         leftVelocityLog.append(getLeftVelocity());
         leftVoltageLog.append(getLeftVoltage());
 
@@ -158,8 +165,8 @@ public class Shooter extends SubsystemBase{
       }
 
       public void setVelocity(double velocity) {
-        this.leftVelocity = velocity;
-        this.rightVelocity = velocity;
+        this.leftVelocity = velocity + 0.5;
+        this.rightVelocity = velocity - 0.5;
       }
 
     /**
@@ -258,8 +265,8 @@ public class Shooter extends SubsystemBase{
      */
     public boolean atMPS() {
       // return (getLeftVelocity() > MPS && right.getRPM() > RPM);
-      return (Math.abs(getLeftVelocity() - leftVelocity) < 0.5 &&
-              Math.abs(getRightVelocity() - rightVelocity) < 0.5);
+      return (Math.abs(getLeftVelocity() - leftVelocity) < 0.2 &&
+              Math.abs(getRightVelocity() - rightVelocity) < 0.2);
     }
 
     public void setControlMode(ControlMode mode) {

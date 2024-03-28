@@ -50,11 +50,12 @@ public class Sensors extends SubsystemBase {
   private Sensors() {  
     setSpeakerLocation();  
 
-    velocityMap.put(0.0, 0.0);
-    angleMap.put(0.0, 0.0);
+    velocityMap.put(3.970525611458612, 15.0);
+    angleMap.put(3.970525611458612, -58.0);
 
-    velocityMap.put(1.0, 0.0);
-    angleMap.put(1.0, 0.0);
+    velocityMap.put(1.0, 13.0);
+    angleMap.put(1.0, -32.5);
+
 
   }
 
@@ -65,8 +66,9 @@ public class Sensors extends SubsystemBase {
     // SmartDashboard.putString("back ll pose", getPose2d().toString());
     SmartDashboard.putNumber("Goal XYDistance", getXYDistance());
 
-    Translation2d translation = Swerve.getInstance().getPose2d().getTranslation().minus(speakerLocation.toTranslation2d());
-    SmartDashboard.putNumber("Drive Angle Setpoint", Units.radiansToDegrees(Math.atan2(translation.getY(), translation.getX())));
+    SmartDashboard.putNumber("Drive Angle", Swerve.getInstance().getPose2d().getRotation().getDegrees());
+    SmartDashboard.putNumber("Pigeon Angle", getRotation2d().getDegrees());
+    SmartDashboard.putString("back ll pose", getPose2d().toString());
   }
 
   // public Pose3d getPose3d() {
@@ -173,7 +175,11 @@ public class Sensors extends SubsystemBase {
    */
   public Rotation2d getFormulaDriveAngle() {
     Translation2d translation = Swerve.getInstance().getPose2d().getTranslation().minus(speakerLocation.toTranslation2d());
-    return Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX()));
+    // Translation2d translation = speakerLocation.toTranslation2d().minus(Swerve.getInstance().getPose2d().getTranslation());
+
+    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX()));
+    SmartDashboard.putNumber("Drive Setpoint", setpoint.getDegrees());
+    return setpoint;
   }
 
   /**
