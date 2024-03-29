@@ -46,10 +46,11 @@ public class Shoulder extends SubsystemBase {
   /** Creates a new Shoulder. */
   public Shoulder() {
     init();
-    //SmartDashboard.putNumber("Shoulder kP", 0.0);
-    // SmartDashboard.putNumber("Shoulder kD", 0.0);
-    // SmartDashboard.putNumber("Shoulder kG", 0.0);
+    SmartDashboard.putNumber("Shoulder kP", 0.0);
+    SmartDashboard.putNumber("Shoulder kD", 0.0);
+    SmartDashboard.putNumber("Shoulder kG", 0.0);
     SmartDashboard.putNumber("Angle", 0.0);
+
   }
 
   @Override
@@ -59,11 +60,12 @@ public class Shoulder extends SubsystemBase {
 
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shoulder Angle", getAngle().getDegrees());
-    SmartDashboard.putNumber("Shoulder Setpoint", pid.getSetpoint().position); 
+    SmartDashboard.putNumber("Shoulder Setpoint", pid.getGoal().position); 
 
-    //pid.setP(SmartDashboard.getNumber("Shoulder kP", 0.0));
+    // pid.setP(SmartDashboard.getNumber("Shoulder kP", 0.0));
     // pid.setD(SmartDashboard.getNumber("Shoulder kD", 0.0));
-    // ff = new ArmFeedforward(0, 0, 0);
+
+    // ff = new ArmFeedforward(0.155, SmartDashboard.getNumber("Shoulder kG", 0.0), 0);
   }
 
   public void init() {
@@ -85,11 +87,15 @@ public class Shoulder extends SubsystemBase {
 
     pid.reset(getAngle().getDegrees());
     pid.enableContinuousInput(-180, 180);
-    pid.setTolerance(Constants.shoulder.ALLOWED_ERROR);
   }
 
   public void disable() {
     leader.disable();
+    follower.disable();
+  }
+
+  public void refreshPID() {
+    pid.reset(getAngle().getDegrees());
   }
 
   public double getVoltage() {
@@ -121,7 +127,7 @@ public class Shoulder extends SubsystemBase {
       Constants.shoulder.LOWER_LIMIT, Constants.shoulder.UPPER_LIMIT));
     pid.setGoal(angle.getDegrees());
     State setpoint = pid.getSetpoint();
-    setVoltage(pid.calculate(getAngle().getDegrees()) - ff.calculate(setpoint.position + 90.0, setpoint.velocity));
+    setVoltage(pid.calculate(getAngle().getDegrees()) + ff.calculate(setpoint.position + 90.0, setpoint.velocity));
   }
 
   public Rotation2d getAngle() {

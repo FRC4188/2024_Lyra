@@ -57,7 +57,7 @@ public class TrackingDrive extends Command {
     double rotSpeed = 0.0;
 
     //rotSpeed calculated from rotPID
-    rotSpeed += drive.rotPID.calculate(Sensors.getInstance().getRotation2d().getDegrees(), goalAngle.getDegrees());
+    rotSpeed += drive.rotPID.calculate(Swerve.getInstance().getPose2d().getRotation().getDegrees(), goalAngle.getDegrees());
     /**rotSpeed from aiden's math hellscape = predicting wut the drivetrain rotation speed should be
      * to keep aiming while moving */
     // rotSpeed += currentSpeed.getX() * -dy / (dx * dx + dy * dy) + currentSpeed.getY() * dx / (dx * dx + dy * dy); TODO: Bring back if moving and shooting

@@ -10,23 +10,25 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class SetShoulderAngle extends Command {
   private Shoulder shoulder = Shoulder.getInstance();
 
-  private double angle;
+  private DoubleSupplier angle;
 
   /** Creates a new SetShoulderAngle. */
   public SetShoulderAngle(DoubleSupplier angle) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shoulder);
-    this.angle = angle.getAsDouble();
+    this.angle = angle;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    shoulder.refreshPID();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shoulder.setAngle(Rotation2d.fromDegrees(angle));
+    shoulder.setAngle(Rotation2d.fromDegrees(angle.getAsDouble()));
   }
 
   // Called once the command ends or is interrupted.

@@ -14,6 +14,8 @@ import frc.robot.Constants;
 import frc.robot.Constants.field.DataPoints;
 import frc.robot.Constants.field.Goal;
 import frc.robot.subsystems.drivetrain.Swerve;
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shoulder.Shoulder;
 
 public class Sensors extends SubsystemBase {
 
@@ -50,12 +52,20 @@ public class Sensors extends SubsystemBase {
   private Sensors() {  
     setSpeakerLocation();  
 
-    velocityMap.put(3.970525611458612, 15.0);
-    angleMap.put(3.970525611458612, -58.0);
+    // velocityMap.put(3.970525611458612, 15.0);
+    // angleMap.put(3.970525611458612, -58.0);
 
-    velocityMap.put(1.0, 13.0);
-    angleMap.put(1.0, -32.5);
+    velocityMap.put(8.0, 22.0);
+    angleMap.put(8.0, -65.5);
 
+    velocityMap.put(3.4, 14.0);
+    angleMap.put(3.4, -54.5);
+
+    velocityMap.put(2.07, 12.5);
+    angleMap.put(2.07, -46.0);
+
+    velocityMap.put(1.500, 13.0);
+    angleMap.put(1.500, -32.5);
 
   }
 
@@ -69,6 +79,14 @@ public class Sensors extends SubsystemBase {
     SmartDashboard.putNumber("Drive Angle", Swerve.getInstance().getPose2d().getRotation().getDegrees());
     SmartDashboard.putNumber("Pigeon Angle", getRotation2d().getDegrees());
     SmartDashboard.putString("back ll pose", getPose2d().toString());
+
+    SmartDashboard.putBoolean("Shooter Ready?", Shooter.getInstance().atMPS());
+    SmartDashboard.putBoolean("Shoulder Ready?", Shoulder.getInstance().atGoal(getFormulaShoulderAngle()));
+    SmartDashboard.putBoolean("Drive Ready?", Swerve.getInstance().atGoalAngle(getFormulaDriveAngle()));
+
+    SmartDashboard.putNumber("Shoulder ITM Goal", Sensors.getInstance().getFormulaShoulderAngle().getDegrees());
+        SmartDashboard.putNumber("Shooter ITM Goal", Sensors.getInstance().getFormulaShooterRPM());
+
   }
 
   // public Pose3d getPose3d() {
@@ -177,7 +195,7 @@ public class Sensors extends SubsystemBase {
     Translation2d translation = Swerve.getInstance().getPose2d().getTranslation().minus(speakerLocation.toTranslation2d());
     // Translation2d translation = speakerLocation.toTranslation2d().minus(Swerve.getInstance().getPose2d().getTranslation());
 
-    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX()));
+    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX()) - Math.toRadians(5.0));
     SmartDashboard.putNumber("Drive Setpoint", setpoint.getDegrees());
     return setpoint;
   }

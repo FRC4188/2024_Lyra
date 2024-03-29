@@ -85,11 +85,11 @@ public class CSP_TalonFX extends TalonFX implements CSP_Motor {
    */
   public void setRampRate(double rampRate) {
     OpenLoopRampsConfigs openLoopRampsConfigs = new OpenLoopRampsConfigs();
-    openLoopRampsConfigs.DutyCycleOpenLoopRampPeriod = 1.0 / rampRate;
+    openLoopRampsConfigs.VoltageOpenLoopRampPeriod = rampRate;
     super.getConfigurator().apply(openLoopRampsConfigs);
 
     ClosedLoopRampsConfigs closedLoopRampsConfigs = new ClosedLoopRampsConfigs();
-    closedLoopRampsConfigs.DutyCycleClosedLoopRampPeriod = 1.0 / rampRate;
+    closedLoopRampsConfigs.VoltageClosedLoopRampPeriod = rampRate;
     super.getConfigurator().apply(closedLoopRampsConfigs);
   }
 

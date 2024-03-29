@@ -10,21 +10,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class SetShooterMPS extends Command {
   private Shooter shooter = Shooter.getInstance();
 
-  private double leftVelocity;
-  private double rightVelocity;
+  private DoubleSupplier velocity;
 
-  /** Creates a new SetShooterRPM. */
-  public SetShooterMPS(DoubleSupplier leftVelocity, DoubleSupplier rightVelocity) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
-    this.leftVelocity = leftVelocity.getAsDouble();
-    this.rightVelocity = rightVelocity.getAsDouble();
-  }
+  // /** Creates a new SetShooterRPM. */
+  // public SetShooterMPS(DoubleSupplier leftVelocity, DoubleSupplier rightVelocity) {
+  //   // Use addRequirements() here to declare subsystem dependencies.
+  //   addRequirements(shooter);
+  //   this.leftVelocity = leftVelocity.getAsDouble();
+  //   this.rightVelocity = rightVelocity.getAsDouble();
+  // }
 
   public SetShooterMPS(DoubleSupplier velocity) {
     addRequirements(shooter);
-    this.leftVelocity = velocity.getAsDouble();
-    this.rightVelocity = velocity.getAsDouble();
+    this.velocity = velocity;
   }
 
   // Called when the command is initially scheduled.
@@ -34,7 +32,7 @@ public class SetShooterMPS extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setVelocity(leftVelocity, rightVelocity);
+    shooter.setVelocity(velocity.getAsDouble());
     shooter.setControlMode(ControlMode.VELOCITY);
   }
 

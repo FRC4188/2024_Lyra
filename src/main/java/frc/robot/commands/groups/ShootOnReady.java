@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 
-public class ShootOnReady extends ParallelCommandGroup {
+public class ShootOnReady extends ParallelDeadlineGroup {
     private Swerve drive = Swerve.getInstance();
     private Shoulder shoulder = Shoulder.getInstance();
     private Shooter shooter = Shooter.getInstance();
@@ -24,18 +24,16 @@ public class ShootOnReady extends ParallelCommandGroup {
      * 
     */
     public ShootOnReady() {
-        addCommands(
-                new ParallelDeadlineGroup(
-                    Commands.waitUntil(() -> 
-                        shooter.atMPS() && 
-                        shoulder.atGoal(Sensors.getInstance().getFormulaShoulderAngle()) && 
-                        drive.atGoalAngle(Sensors.getInstance().getFormulaDriveAngle())).andThen(
-                    new FeedIntoShooter(12.0).andThen(Commands.waitSeconds(0.25))),
+        super(
+            Commands.waitUntil(() -> 
+                Shooter.getInstance().atMPS() && 
+                Shoulder.getInstance().atGoal(Sensors.getInstance().getFormulaShoulderAngle()) && 
+                Swerve.getInstance().atGoalAngle(Sensors.getInstance().getFormulaDriveAngle())).andThen(
+            new FeedIntoShooter(12.0).andThen(Commands.waitSeconds(0.25))),
 
-                    new TrackingDrive(() -> 0.0, () -> 0.0),
-                    new SetShooterMPS(() -> Sensors.getInstance().getFormulaShooterRPM()),
-                    new SetShoulderAngle(() -> Sensors.getInstance().getFormulaShoulderAngle().getDegrees())
-                )
+            new TrackingDrive(() -> 0.0, () -> 0.0),
+            new SetShooterMPS(() -> Sensors.getInstance().getFormulaShooterRPM()),
+            new SetShoulderAngle(() -> Sensors.getInstance().getFormulaShoulderAngle().getDegrees())
         );
     }
 }

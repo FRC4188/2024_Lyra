@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -58,6 +59,7 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.sensors.Sensors;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shoulder.Shoulder;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 
 public class RobotContainer {
@@ -67,6 +69,7 @@ public class RobotContainer {
 
   private CSP_Controller pilot = new CSP_Controller(Constants.controller.PILOT_PORT);
   private CSP_Controller copilot = new CSP_Controller(Constants.controller.COPILOT_PORT);
+  private CSP_Controller test = new CSP_Controller(2);
 
   Swerve drive = Swerve.getInstance();
   Intake intake = Intake.getInstance();
@@ -109,26 +112,31 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    SmartDashboard.putData("Set Shooter MPS", new RunCommand(() -> shooter.setVelocity(SmartDashboard.getNumber("MPS", 0))));
+    SmartDashboard.putData("Set Shooter MPS", new RunCommand(() -> shooter.setVelocity(SmartDashboard.getNumber("Set Velocity", 0))));
     SmartDashboard.putData("Set Shoulder Angle", new RunCommand(() -> shoulder.setAngle(Rotation2d.fromDegrees(SmartDashboard.getNumber("Angle", 0)))));
 
     //Add these in for sysid tests
-    // pilot.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    // pilot.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-    // pilot.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
-    // pilot.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    // test.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    // test.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    // test.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    // test.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     Trigger isShooting = pilot.leftTrigger();
     Trigger drivingInput = new Trigger(() -> (pilot.getCorrectedLeft().getNorm() != 0.0 || pilot.getCorrectedRight().getX() != 0.0));
 
-
-    drivingInput
-    .onTrue(    
-      new TeleDrive(
+    Command teleDrive = new TeleDrive(
         () -> pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
         () -> pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-        () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0)))
-    .onFalse(new HockeyStop().withTimeout(0.5));
+        () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0));
+    Command shootOnReady = new ShootOnReady();
+
+
+
+    drivingInput.onTrue(teleDrive);
+    isShooting.onTrue(shootOnReady.withInterruptBehavior(InterruptionBehavior.kCancelIncoming))
+    .onFalse(Commands.runOnce(() -> CommandScheduler.getInstance().cancel(shootOnReady)));
+    
+    new Trigger(() -> CommandScheduler.getInstance().isScheduled(teleDrive) || CommandScheduler.getInstance().isScheduled(shootOnReady)).onFalse(new HockeyStop().withTimeout(0.5));
 
     
     // reset pigeon
@@ -137,7 +145,7 @@ public class RobotContainer {
         .onTrue(
             new InstantCommand(
                 () -> {
-                  drive.resetOdometry(new Pose2d(new Translation2d(13.0, 4.0), Rotation2d.fromDegrees(180.0)));
+                  drive.resetOdometry(new Pose2d(drive.getPose2d().getTranslation(), Rotation2d.fromDegrees(180.0)));
                   drive.rotPID.setSetpoint(180.0);
                 }, sensors));
 

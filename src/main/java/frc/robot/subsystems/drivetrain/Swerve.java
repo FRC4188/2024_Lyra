@@ -122,7 +122,7 @@ public class Swerve extends SubsystemBase {
     configurePathPlanner();
 
     correctionPID.enableContinuousInput(-180, 180);
-    correctionPID.setTolerance(0.5);
+    correctionPID.setTolerance(1.0);
 
     rotPID.enableContinuousInput(-180.0, 180.0);
     rotPID.setTolerance(0.5);
@@ -244,7 +244,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public boolean atGoalAngle(Rotation2d angle) {
-    return (Math.abs(Sensors.getInstance().getRotation2d().getDegrees() - angle.getDegrees()) < 3.0);
+    return (Math.abs(getPose2d().getRotation().getDegrees() - angle.getDegrees()) < 3.0);
   }
 
   public void updateDashboard() {

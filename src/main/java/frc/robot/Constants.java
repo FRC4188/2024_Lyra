@@ -253,9 +253,9 @@ public final class Constants {
     public static final double MAX_ACCEL = 1440.0;
     public static final Constraints CONSTRAINTS = new Constraints(MAX_VEL, MAX_ACCEL);
 
-    public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0.325, 0, 0.002, CONSTRAINTS);
+    public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0.325, 0.0, 0.002, CONSTRAINTS);
     
-    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.14, 0.2, 0); // kS = verge of motion, kg = fixes setpoint after weak p
+    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.155, 0.22, 0); // kS = verge of motion, kg = fixes setpoint after weak p
 
     public static final double ZERO = -141.2109375;
     public static final double ALLOWED_ERROR = 0.5;
@@ -272,11 +272,11 @@ public final class Constants {
     public static final double SHOOTER_DIAMETER_METERS = (SHOOTER_DIAMETER_INCHES) * 0.0254;
     public static final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER_METERS * Math.PI;
 
-    public static final SimpleMotorFeedforward LEFT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.25165, 0.39997, 0.091618); // kS = verge of motion, kV = volts/vel
-    public static final PIDController LEFT_SHOOTER_PID = new PIDController(0.2591, 0.0, 0.0);
+    public static final SimpleMotorFeedforward LEFT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.38505, 0.4, 0.071659); // kS = verge of motion, kV = volts/vel
+    public static final PIDController LEFT_SHOOTER_PID = new PIDController(0.23219, 0.0, 0.0);
 
-    public static final SimpleMotorFeedforward RIGHT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.21491, 0.40234, 0.095778); // kS = verge of motion, kV = volts/vel
-    public static final PIDController RIGHT_SHOOTER_PID = new PIDController(0.45997, 0.0, 0.0);
+    public static final SimpleMotorFeedforward RIGHT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.24931, 0.4, 0.058677); // kS = verge of motion, kV = volts/vel
+    public static final PIDController RIGHT_SHOOTER_PID = new PIDController(0.30718, 0.0, 0.0);
 
     public class DataPoints{
       public final double distance;
