@@ -29,8 +29,6 @@ public class TrackingDrive extends Command {
     addRequirements(drive);
     this.xInput = xInput;
     this.yInput = yInput;
-
-    rotPID.enableContinuousInput(0.0, 180.0);
   }
 
   // Called when the command is initially scheduled.

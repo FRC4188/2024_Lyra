@@ -43,11 +43,11 @@ import frc.robot.commands.groups.BlindReverseSpeakerShoot;
 import frc.robot.commands.groups.ShooterIntake;
 import frc.robot.commands.groups.BlindAmpShoot;
 import frc.robot.commands.groups.FeedIntake;
+import frc.robot.commands.groups.Pass;
 import frc.robot.commands.groups.ShootOnReady;
 import frc.robot.commands.groups.BlindSpeakerShoot;
 import frc.robot.commands.groups.Eject;
-import frc.robot.commands.groups.FarReverseSpeakerShoot;
-import frc.robot.commands.groups.FarSpeakerShoot;
+
 import frc.robot.commands.groups.Stow;
 import frc.robot.commands.groups.autos.BlueSourceNoteOne;
 import frc.robot.commands.groups.autos.RedSourceNoteOne;
@@ -139,10 +139,30 @@ public class RobotContainer {
                 }, sensors));
 
     pilot
-        .getBButton()
+        .getAButton()
+        .onTrue(
+          new BlindAmpShoot()
+        );
+
+    pilot
+        .getYButton()
         .onTrue(
           new ShooterIntake()
         );
+
+    pilot
+        .getXButton()
+        .whileTrue(
+          new ConditionalCommand(
+            new BlindSpeakerShoot(), 
+            new BlindReverseSpeakerShoot(), 
+            () -> (drive.getPose2d().getRotation().getCos() > 0.0))
+        ).onFalse(new Stow());
+        
+    pilot.getBButton()
+        .whileTrue(
+          new Pass().withInterruptBehavior(InterruptionBehavior.kCancelIncoming)
+        ).onFalse(new Stow());
 
     pilot
         .getRightTButton()
@@ -153,7 +173,7 @@ public class RobotContainer {
     pilot.getLeftTButton()
         .whileTrue(
           new ShootOnReady().withInterruptBehavior(InterruptionBehavior.kCancelIncoming)
-        );
+        ).onFalse(new Stow());
 
     pilot 
         .getLeftBumperButton()
@@ -167,30 +187,10 @@ public class RobotContainer {
           new ShooterIntake());
 
     copilot
-        .getBButton()
-        .whileTrue(
-          new ConditionalCommand(
-            new FarSpeakerShoot(), 
-            new FarReverseSpeakerShoot(), 
-            () -> (sensors.getRotation2d().getCos() < 0.0))
-        );
-
-
-    // //shooter on intake side w speaker angle
-    // copilot
-    //     .getYButton()
-    //     .onTrue(
-    //       new ConditionalCommand(
-    //         new BlindSpeakerShoot(), 
-    //         new BlindReverseSpeakerPrep(), 
-    //         () -> (sensors.getRotation2d().getCos() < 0.0))
-    //     );
-
-    copilot
         .getXButton()
         .onTrue(
           new BlindAmpShoot()
-        );
+        ); 
 
     copilot
         .getUpButton()
@@ -220,19 +220,6 @@ public class RobotContainer {
           new Stow()
         );
 
-
-    // copilot
-    //     .getUpButton()
-    //     .onTrue(
-    //       new RaiseClimber()
-    //     );
-
-    // copilot
-    //     .getDownButton()
-    //     .whileTrue(
-    //       new LowerClimber()
-    //     );
-  
     // Seriously why is it "Inhale" and "Exhale" lmao. I like it though -Aiden
     // Freak you Aiden
   }

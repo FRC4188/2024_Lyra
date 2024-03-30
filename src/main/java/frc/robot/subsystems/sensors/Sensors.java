@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -50,13 +51,15 @@ public class Sensors extends SubsystemBase {
 
   /** Creates a new Sensors. */
   private Sensors() {  
-    setSpeakerLocation();  
 
     // velocityMap.put(3.970525611458612, 15.0);
     // angleMap.put(3.970525611458612, -58.0);
 
-    velocityMap.put(8.0, 22.0);
-    angleMap.put(8.0, 65.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 8.0)));
+    // velocityMap.put(8.0, 22.0);
+    // angleMap.put(8.0, 65.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 8.0)));
+
+    velocityMap.put(5.6, 19.2);
+    angleMap.put(5.6, 61.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 5.6)));
 
     velocityMap.put(4.7, 18.2);
     angleMap.put(4.7, 61.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.7)));
@@ -83,6 +86,9 @@ public class Sensors extends SubsystemBase {
 
   @Override
   public void periodic() {
+        
+    setSpeakerLocation();  
+
     // SmartDashboard.putString("back ll pose", getPose2d().toString());
     SmartDashboard.putNumber("Goal XYDistance", getXYDistance());
 
@@ -101,21 +107,6 @@ public class Sensors extends SubsystemBase {
 
   }
 
-  // public Pose3d getPose3d() {
-  //   if (limelightFront.getTV() && limelightBack.getTV()) {
-  //     Pose3d poseLeft = limelightBack.getPose3d();
-  //     Pose3d poseRight = limelightBack.getPose3d();
-
-  //     // averages the poses of both limelights
-  //     return new Pose3d(
-  //         poseLeft.getTranslation().plus(poseRight.getTranslation()).div(2),
-  //         poseLeft.getRotation().plus(poseRight.getRotation()).div(2));
-  //   } else if (limelightFront.getTV()) 
-  //       return limelightFront.getPose3d();
-  //    else if (limelightBack.getTV()) 
-  //       return limelightBack.getPose3d();
-  //    else return new Pose3d(); 
-  // }
   public Pose2d getBackPose2d() {
     if (limelightBack.getTV()) return limelightBack.getPose2d();
     return new Pose2d(); 
@@ -126,17 +117,6 @@ public class Sensors extends SubsystemBase {
     return new Pose2d(); 
   }
 
-
-  // public double getLatency() {
-  //   if (limelightFront.getTV() && limelightBack.getTV()) {
-  //     // averages the latencies
-  //     return (limelightFront.getLatency() + limelightBack.getLatency()) / 2;
-  //   } else if (limelightFront.getTV()) {
-  //     return limelightFront.getLatency();
-  //   } else if (limelightBack.getTV()) {
-  //     return limelightBack.getLatency();
-  //   } else return 0.0;
-  // }
   public double getBackLatency() {
     return limelightBack.getLatency();
   }
@@ -213,11 +193,19 @@ public class Sensors extends SubsystemBase {
     Translation2d translation = Swerve.getInstance().getPose2d().getTranslation().minus(speakerLocation.toTranslation2d());
     // Translation2d translation = speakerLocation.toTranslation2d().minus(Swerve.getInstance().getPose2d().getTranslation());
 
-    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX())).rotateBy(Rotation2d.fromDegrees(-4.5));
+    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX())).rotateBy(Rotation2d.fromDegrees(-3.5));
     SmartDashboard.putNumber("Drive Setpoint", setpoint.getDegrees());
     return setpoint;
   }
 
+  public Rotation2d getFormulaDriveAngle(Translation2d goal) {
+    Translation2d translation = Swerve.getInstance().getPose2d().getTranslation().minus(goal);
+    // Translation2d translation = speakerLocation.toTranslation2d().minus(Swerve.getInstance().getPose2d().getTranslation());
+
+    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX())).rotateBy(Rotation2d.fromDegrees(-4.5));
+    SmartDashboard.putNumber("Drive Setpoint", setpoint.getDegrees());
+    return setpoint;
+  }
   /**
    * Get the vector (angle and speed) for shooting into goal when standing still
    * @param goal
@@ -292,6 +280,12 @@ public class Sensors extends SubsystemBase {
     currentGoal = goal;
   }
 
+  public Alliance getAllianceColor() {
+    var alliance = DriverStation.getAlliance();
+
+    return alliance.isPresent() ? alliance.get() : DriverStation.Alliance.Blue;
+  }
+
   public void setSpeakerLocation() {
     var alliance = DriverStation.getAlliance();
       if (alliance.isPresent()) {
@@ -300,6 +294,5 @@ public class Sensors extends SubsystemBase {
           Constants.field.BLUE_SPEAKER_LOCATION :
           Constants.field.RED_SPEAKER_LOCATION;
       }
-
   }
 }
