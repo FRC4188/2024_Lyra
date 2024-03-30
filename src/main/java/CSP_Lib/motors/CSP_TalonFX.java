@@ -35,7 +35,9 @@ public class CSP_TalonFX extends TalonFX implements CSP_Motor {
   /** Configures the motor for typical use */
   public void init() {
     super.getConfigurator().apply(new TalonFXConfiguration());
-    super.getConfigurator().apply(new CurrentLimitsConfigs().withStatorCurrentLimit(40.0));
+    super.getConfigurator().apply(new CurrentLimitsConfigs()
+    .withStatorCurrentLimit(70.0)
+    .withSupplyCurrentLimit(110.0));
     super.clearStickyFaults();
     setEncoderDegrees(0.0);
 

@@ -67,9 +67,9 @@ public class RobotContainer {
   // DigitalInput dio1 = new DigitalInput(1);
   // DigitalInput dio4 = new DigitalInput(4);
 
-  private CSP_Controller pilot = new CSP_Controller(Constants.controller.PILOT_PORT);
+  public static CSP_Controller pilot = new CSP_Controller(Constants.controller.PILOT_PORT);
   private CSP_Controller copilot = new CSP_Controller(Constants.controller.COPILOT_PORT);
-  private CSP_Controller test = new CSP_Controller(2);
+  //private CSP_Controller test = new CSP_Controller(2);
 
   Swerve drive = Swerve.getInstance();
   Intake intake = Intake.getInstance();
@@ -116,25 +116,25 @@ public class RobotContainer {
     SmartDashboard.putData("Set Shoulder Angle", new RunCommand(() -> shoulder.setAngle(Rotation2d.fromDegrees(SmartDashboard.getNumber("Angle", 0)))));
 
     //Add these in for sysid tests
-    // test.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    // test.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-    // test.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
-    // test.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    // test.a().whileTrue(drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    // test.b().whileTrue(drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    // test.x().whileTrue(drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    // test.y().whileTrue(drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     Trigger isShooting = pilot.leftTrigger();
     Trigger drivingInput = new Trigger(() -> (pilot.getCorrectedLeft().getNorm() != 0.0 || pilot.getCorrectedRight().getX() != 0.0));
 
     Command teleDrive = new TeleDrive(
+        () -> -pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
         () -> pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-        () -> pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
         () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0));
     Command shootOnReady = new ShootOnReady();
 
 
 
     drivingInput.onTrue(teleDrive);
-    isShooting.onTrue(shootOnReady.withInterruptBehavior(InterruptionBehavior.kCancelIncoming))
-    .onFalse(Commands.runOnce(() -> CommandScheduler.getInstance().cancel(shootOnReady)));
+    isShooting.onTrue(shootOnReady)
+    .onFalse(Commands.runOnce(() -> CommandScheduler.getInstance().cancel(shootOnReady)).andThen(new Stow()));
     
     new Trigger(() -> CommandScheduler.getInstance().isScheduled(teleDrive) || CommandScheduler.getInstance().isScheduled(shootOnReady)).onFalse(new HockeyStop().withTimeout(0.5));
 
@@ -146,7 +146,7 @@ public class RobotContainer {
             new InstantCommand(
                 () -> {
                   drive.resetOdometry(new Pose2d(drive.getPose2d().getTranslation(), Rotation2d.fromDegrees(180.0)));
-                  drive.rotPID.setSetpoint(180.0);
+                  drive.rotPID.setSetpoint(Math.PI);
                 }, sensors));
 
     pilot

@@ -147,11 +147,11 @@ public class CSP_Controller extends CommandXboxController {
   }
 
   public Trigger getRightTButton() {
-    return this.rightTrigger();
+    return this.rightTrigger(0.1);
   }
 
   public Trigger getLeftTButton() {
-    return this.leftTrigger();
+    return this.leftTrigger(0.1);
   }
 
   public void setRumble(RumbleType type, double value) {

@@ -1,10 +1,14 @@
 package frc.robot.commands.groups;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.commands.feeder.FeedIntoFeeder;
 import frc.robot.commands.feeder.Heimlich;
 import frc.robot.commands.intake.Inhale;
@@ -26,8 +30,10 @@ public class FeedIntake extends ParallelCommandGroup {
                     new SetShoulderAngle(() -> Constants.shoulder.HANDOFF_ANGLE),
                     new Inhale()
                 ),
-                new Heimlich()
-            )
+                new ParallelDeadlineGroup(
+                    new Heimlich(), 
+                    new RunCommand(() -> RobotContainer.pilot.setRumble(RumbleType.kBothRumble, 1.0))
+            ).andThen(Commands.run(() -> RobotContainer.pilot.setRumble(RumbleType.kBothRumble, 0.0))))
         );
     }
 }

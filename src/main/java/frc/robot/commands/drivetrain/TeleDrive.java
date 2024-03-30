@@ -68,7 +68,7 @@ public class TeleDrive extends Command {
           xSpeed,
           ySpeed, 
           rotSpeed), 
-          sensors.getRotation2d()));
+          drive.getPose2d().getRotation()));
 
     input = xInput.getAsDouble() != 0.0 || yInput.getAsDouble() != 0.0;
 

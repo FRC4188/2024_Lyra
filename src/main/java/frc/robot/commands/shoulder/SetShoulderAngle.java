@@ -22,7 +22,6 @@ public class SetShoulderAngle extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shoulder.refreshPID();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

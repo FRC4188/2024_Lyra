@@ -43,6 +43,8 @@ public class Shoulder extends SubsystemBase {
 
   private ArmFeedforward ff = Constants.shoulder.ARM_FEEDFORWARD;
 
+  private double angle = -60.0;
+
   /** Creates a new Shoulder. */
   public Shoulder() {
     init();
@@ -62,10 +64,9 @@ public class Shoulder extends SubsystemBase {
     SmartDashboard.putNumber("Shoulder Angle", getAngle().getDegrees());
     SmartDashboard.putNumber("Shoulder Setpoint", pid.getGoal().position); 
 
-    // pid.setP(SmartDashboard.getNumber("Shoulder kP", 0.0));
-    // pid.setD(SmartDashboard.getNumber("Shoulder kD", 0.0));
-
-    // ff = new ArmFeedforward(0.155, SmartDashboard.getNumber("Shoulder kG", 0.0), 0);
+    pid.setGoal(angle);
+    State setpoint = pid.getSetpoint();
+    setVoltage(pid.calculate(getAngle().getDegrees()) + ff.calculate(Math.toRadians(angle + 90.0), 0.0));
   }
 
   public void init() {
@@ -123,11 +124,8 @@ public class Shoulder extends SubsystemBase {
   }
 
   public void setAngle(Rotation2d angle) {
-    angle = Rotation2d.fromDegrees(clamp(angle.getDegrees(),
-      Constants.shoulder.LOWER_LIMIT, Constants.shoulder.UPPER_LIMIT));
-    pid.setGoal(angle.getDegrees());
-    State setpoint = pid.getSetpoint();
-    setVoltage(pid.calculate(getAngle().getDegrees()) + ff.calculate(setpoint.position + 90.0, setpoint.velocity));
+    this.angle = clamp(angle.getDegrees(),
+      Constants.shoulder.LOWER_LIMIT, Constants.shoulder.UPPER_LIMIT);
   }
 
   public Rotation2d getAngle() {

@@ -29,7 +29,7 @@ public class ShootOnReady extends ParallelDeadlineGroup {
                 Shooter.getInstance().atMPS() && 
                 Shoulder.getInstance().atGoal(Sensors.getInstance().getFormulaShoulderAngle()) && 
                 Swerve.getInstance().atGoalAngle(Sensors.getInstance().getFormulaDriveAngle())).andThen(
-            new FeedIntoShooter(12.0).andThen(Commands.waitSeconds(0.25))),
+            new FeedIntoShooter(12.0).withTimeout(0.25)),
 
             new TrackingDrive(() -> 0.0, () -> 0.0),
             new SetShooterMPS(() -> Sensors.getInstance().getFormulaShooterRPM()),

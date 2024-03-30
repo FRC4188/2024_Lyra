@@ -4,18 +4,28 @@
 
 package frc.robot.subsystems.sensors;
 
+import java.lang.invoke.ConstantBootstraps;
+
 import CSP_Lib.utils.LimelightHelpers;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.Constants;
+import frc.robot.subsystems.drivetrain.Swerve;
 
 /** Add your docs here. */
 public class Limelight {
   private String name;
   private Translation3d position = new Translation3d();
   private Rotation3d rotation = new Rotation3d();
+
+  private Pose2d currentPose = new Pose2d();
 
   // private MedianFilter filter = new MedianFilter(2);
 
@@ -37,11 +47,12 @@ public class Limelight {
         Units.radiansToDegrees(rotation.getZ()));
   }
 
-  public Pose3d getPose3d() {
+  public Pose2d getPose2d() {
     if (LimelightHelpers.getTV(name)) {
-      return LimelightHelpers.getBotPose3d_wpiBlue(name);
+      currentPose = LimelightHelpers.getBotPose3d_wpiBlue(name).toPose2d();
+      return currentPose;
     } else {
-      return new Pose3d();
+      return new Pose2d();
     }
   }
   

@@ -18,12 +18,28 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.MutableMeasure;
+import edu.wpi.first.units.Velocity;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.subsystems.sensors.Sensors;
+
+import static edu.wpi.first.units.MutableMeasure.mutable;
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.Volts;
+import static edu.wpi.first.units.Units.Degrees;
 
 public class Swerve extends SubsystemBase {
   private static Swerve instance = null;
@@ -98,6 +114,8 @@ public class Swerve extends SubsystemBase {
 
   private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(getLocations(moduleList));
 
+  public double setOmega = 0.0;
+
 
   private Notifier notifier = new Notifier(() -> {
     updateDashboard();
@@ -125,7 +143,6 @@ public class Swerve extends SubsystemBase {
     correctionPID.setTolerance(1.0);
 
     rotPID.enableContinuousInput(-180.0, 180.0);
-    rotPID.setTolerance(0.5);
 
     notifier.startPeriodic(0.2);
 
@@ -149,8 +166,13 @@ public class Swerve extends SubsystemBase {
       double correction = correctionPID.calculate(sensors.getRotation2d().getDegrees());
       correctedSpeeds.omegaRadiansPerSecond = correctionPID.atSetpoint() ? 0.0 : correction;  
     }
+    setOmega = correctedSpeeds.omegaRadiansPerSecond;
 
     setModuleStates(kinematics.toSwerveModuleStates(correctedSpeeds));
+  }
+
+  public void setRotationSpeed(double speed) {
+    setChassisSpeeds(new ChassisSpeeds(0, 0, speed));
   }
 
   public void disable() {
@@ -203,11 +225,16 @@ public class Swerve extends SubsystemBase {
   }
 
   public void updateOdometry() {
-    Pose2d pose = sensors.getPose2d();
+    Pose2d backPose = sensors.getBackPose2d();
+    // Pose2d frontPose = sensors.getBackPose2d();
 
-    if (!pose.equals(new Pose2d())) {
-      odometry.addVisionMeasurement(pose, sensors.getLatency());
+
+    if (!backPose.equals(new Pose2d())) {
+      odometry.addVisionMeasurement(backPose, sensors.getBackLatency());
     }
+    // if (!frontPose.equals(new Pose2d())) {
+    //   odometry.addVisionMeasurement(frontPose, sensors.getFrontLatency());
+    // }
 
     odometry.update(
         sensors.getRotation2d(),
@@ -244,7 +271,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public boolean atGoalAngle(Rotation2d angle) {
-    return (Math.abs(getPose2d().getRotation().getDegrees() - angle.getDegrees()) < 3.0);
+    return (Math.abs(getPose2d().getRotation().getDegrees() - angle.getDegrees()) < Math.toDegrees(Math.atan(1.0 / (2.0 * Sensors.getInstance().getXYDistance()))));
   }
 
   public void updateDashboard() {

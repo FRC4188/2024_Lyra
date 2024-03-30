@@ -37,7 +37,7 @@ public final class Constants {
   public static class controller {
     public static final int PILOT_PORT = 0;
     public static final int COPILOT_PORT = 1;
-    public static final double DEADBAND = 0.15;
+    public static final double DEADBAND = 0.1;
     public static final double TRIGGER_THRESHOLD = 0.6;
   }
 
@@ -233,7 +233,7 @@ public final class Constants {
 
     // public static final PIDConstants XY_PID = new PIDConstants(3.0, 0.0, 0.0);
 
-    public static final PIDController ROT_PID = new PIDController(0.1, 0.0, 0.006);
+    public static final PIDController ROT_PID = new PIDController(0.15, 0.0, 0.006);
 
     // public static final PIDConstants CORRECTION_PID = new PIDConstants(-0.1, 0.0, -0.006);
 
@@ -250,12 +250,12 @@ public final class Constants {
     public static final double CANCODER_GEAR_RATIO = 1.2;
 
     public static final double MAX_VEL = 960.0;
-    public static final double MAX_ACCEL = 1440.0;
+    public static final double MAX_ACCEL = 720.0;
     public static final Constraints CONSTRAINTS = new Constraints(MAX_VEL, MAX_ACCEL);
 
-    public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0.325, 0.0, 0.002, CONSTRAINTS);
+    public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0.3, 0.0, 0.01, CONSTRAINTS);
     
-    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.155, 0.22, 0); // kS = verge of motion, kg = fixes setpoint after weak p
+    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.155, 0.5, 0); // kS = verge of motion, kg = fixes setpoint after weak p
 
     public static final double ZERO = -141.2109375;
     public static final double ALLOWED_ERROR = 0.5;
@@ -272,11 +272,11 @@ public final class Constants {
     public static final double SHOOTER_DIAMETER_METERS = (SHOOTER_DIAMETER_INCHES) * 0.0254;
     public static final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER_METERS * Math.PI;
 
-    public static final SimpleMotorFeedforward LEFT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.38505, 0.4, 0.071659); // kS = verge of motion, kV = volts/vel
-    public static final PIDController LEFT_SHOOTER_PID = new PIDController(0.23219, 0.0, 0.0);
+    public static final SimpleMotorFeedforward LEFT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.38505, 0.375, 0.071659); // kS = verge of motion, kV = volts/vel
+    public static final PIDController LEFT_SHOOTER_PID = new PIDController(0.28219, 0.0, 0.0);
 
-    public static final SimpleMotorFeedforward RIGHT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.24931, 0.4, 0.058677); // kS = verge of motion, kV = volts/vel
-    public static final PIDController RIGHT_SHOOTER_PID = new PIDController(0.30718, 0.0, 0.0);
+    public static final SimpleMotorFeedforward RIGHT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.24931, 0.375, 0.058677); // kS = verge of motion, kV = volts/vel
+    public static final PIDController RIGHT_SHOOTER_PID = new PIDController(0.35718, 0.0, 0.0);
 
     public class DataPoints{
       public final double distance;

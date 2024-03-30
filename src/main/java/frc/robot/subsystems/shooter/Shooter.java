@@ -4,6 +4,7 @@ import CSP_Lib.motors.CSP_TalonFX;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.MutableMeasure;
@@ -58,8 +59,12 @@ public class Shooter extends SubsystemBase{
 
     // public
 
+
     private double leftVelocity = 0.0;
     private double rightVelocity = 0.0;
+
+    private SlewRateLimiter leftLimiter = new SlewRateLimiter(20.0);
+    private SlewRateLimiter rightLimiter = new SlewRateLimiter(20.0);
 
   // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
   private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
@@ -101,8 +106,8 @@ public class Shooter extends SubsystemBase{
       left.setInverted(true);
       right.setInverted(false);
 
-      left.setRampRate(0.5);
-      right.setRampRate(0.5);
+      left.setRampRate(1.0);
+      right.setRampRate(1.0);
 
 
       SmartDashboard.putNumber("Set Velocity", 0.0);
@@ -135,8 +140,12 @@ public class Shooter extends SubsystemBase{
         switch (controlMode) {
           case STOP: 
             setVoltage(0.0, 0.0);
+            leftLimiter.reset(getLeftVelocity());
+            rightLimiter.reset(getRightVelocity());
             break;
           case VELOCITY: //just normal driving
+          double leftVelocity = leftLimiter.calculate(this.leftVelocity);
+          double rightVelocity = rightLimiter.calculate(this.rightVelocity);
             setVoltage(
               leftpid.calculate(getLeftVelocity(), leftVelocity) + leftff.calculate(leftVelocity),
               rightpid.calculate(getRightVelocity(), rightVelocity) + rightff.calculate(rightVelocity)
@@ -168,11 +177,12 @@ public class Shooter extends SubsystemBase{
       }
 
       public void setVelocity(double velocity) {
-        this.leftVelocity = velocity + 1.0;
-        this.rightVelocity = velocity - 1.0;
+        this.leftVelocity = velocity - 1.5;
+        this.rightVelocity = velocity + 1.5;
       }
 
     /**
+     * 
      * Sets the voltage of the flywheel
      * @param voltage the number of volts
      */
@@ -268,8 +278,8 @@ public class Shooter extends SubsystemBase{
      */
     public boolean atMPS() {
       // return (getLeftVelocity() > MPS && right.getRPM() > RPM);
-      return (Math.abs(getLeftVelocity() - leftVelocity) < 0.2 &&
-              Math.abs(getRightVelocity() - rightVelocity) < 0.2);
+      return (Math.abs(getLeftVelocity() - leftVelocity) < 0.2 * leftVelocity / 10.0 &&
+              Math.abs(getRightVelocity() - rightVelocity) < 0.2 * rightVelocity / 10.0);
     }
 
     public void setControlMode(ControlMode mode) {

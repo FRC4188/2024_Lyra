@@ -29,11 +29,11 @@ public class Sensors extends SubsystemBase {
   //Offset is 180 because the pigeon is oriented backwards
   private Pigeon pigeon = new Pigeon(Constants.ids.PIGEON, Constants.sensors.pigeon.PIGEON_OFFSET_DEGREES);
 
-  // private Limelight limelightFront =
-  //     new Limelight(
-  //         Constants.sensors.limelight.FRONT_NAME,
-  //         Constants.sensors.limelight.FRONT_POSITION,
-  //         Constants.sensors.limelight.FRONT_ROTATION);
+  private Limelight limelightFront =
+      new Limelight(
+          Constants.sensors.limelight.FRONT_NAME,
+          Constants.sensors.limelight.FRONT_POSITION,
+          Constants.sensors.limelight.FRONT_ROTATION);
   private Limelight limelightBack =
       new Limelight(
           Constants.sensors.limelight.BACK_NAME,
@@ -58,11 +58,21 @@ public class Sensors extends SubsystemBase {
     velocityMap.put(8.0, 22.0);
     angleMap.put(8.0, -65.5);
 
-    velocityMap.put(3.4, 14.0);
-    angleMap.put(3.4, -54.5);
+    velocityMap.put(4.7, 18.2);
+    angleMap.put(4.7, -61.5);
+
+    angleMap.put(4.4, -61.0);
+
+    velocityMap.put(3.7, 16.0);
+    angleMap.put(3.7, -54.7);
+
+    velocityMap.put(2.9, 16.0);
+    angleMap.put(2.9, -53.25);
 
     velocityMap.put(2.07, 12.5);
-    angleMap.put(2.07, -46.0);
+    angleMap.put(2.07, -43.0);
+
+    angleMap.put(1.7, -37.0);
 
     velocityMap.put(1.500, 13.0);
     angleMap.put(1.500, -32.5);
@@ -78,7 +88,9 @@ public class Sensors extends SubsystemBase {
 
     SmartDashboard.putNumber("Drive Angle", Swerve.getInstance().getPose2d().getRotation().getDegrees());
     SmartDashboard.putNumber("Pigeon Angle", getRotation2d().getDegrees());
-    SmartDashboard.putString("back ll pose", getPose2d().toString());
+    SmartDashboard.putString("back ll pose", getBackPose2d().toString());
+    SmartDashboard.putString("front ll pose", getFrontPose2d().toString());
+
 
     SmartDashboard.putBoolean("Shooter Ready?", Shooter.getInstance().atMPS());
     SmartDashboard.putBoolean("Shoulder Ready?", Shoulder.getInstance().atGoal(getFormulaShoulderAngle()));
@@ -104,14 +116,16 @@ public class Sensors extends SubsystemBase {
   //       return limelightBack.getPose3d();
   //    else return new Pose3d(); 
   // }
-  public Pose3d getPose3d() {
-    if (limelightBack.getTV()) return limelightBack.getPose3d();
-    return new Pose3d(); 
+  public Pose2d getBackPose2d() {
+    if (limelightBack.getTV()) return limelightBack.getPose2d();
+    return new Pose2d(); 
   }
 
-  public Pose2d getPose2d() {
-    return getPose3d().toPose2d();
+  public Pose2d getFrontPose2d() {
+    if (limelightFront.getTV()) return limelightFront.getPose2d();
+    return new Pose2d(); 
   }
+
 
   // public double getLatency() {
   //   if (limelightFront.getTV() && limelightBack.getTV()) {
@@ -123,8 +137,12 @@ public class Sensors extends SubsystemBase {
   //     return limelightBack.getLatency();
   //   } else return 0.0;
   // }
-  public double getLatency() {
+  public double getBackLatency() {
     return limelightBack.getLatency();
+  }
+
+  public double getFrontLatency() {
+    return limelightFront.getLatency();
   }
 
   public Rotation2d getRotation2d() {
@@ -195,7 +213,7 @@ public class Sensors extends SubsystemBase {
     Translation2d translation = Swerve.getInstance().getPose2d().getTranslation().minus(speakerLocation.toTranslation2d());
     // Translation2d translation = speakerLocation.toTranslation2d().minus(Swerve.getInstance().getPose2d().getTranslation());
 
-    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX()) - Math.toRadians(5.0));
+    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX())).rotateBy(Rotation2d.fromDegrees(-4.5));
     SmartDashboard.putNumber("Drive Setpoint", setpoint.getDegrees());
     return setpoint;
   }
@@ -232,6 +250,7 @@ public class Sensors extends SubsystemBase {
     //new moving vectors need to get xy speed instead of just angles 
     return new Translation3d(stillShotVector.getX() - xSpeed, stillShotVector.getY() - ySpeed, stillShotVector.getZ());
   }
+
 
   /**
    * Get horizontal angle that serve should turn to while aiming and moving 
