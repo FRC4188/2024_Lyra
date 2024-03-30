@@ -255,7 +255,7 @@ public final class Constants {
 
     public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0.3, 0.0, 0.01, CONSTRAINTS);
     
-    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.155, 0.5, 0); // kS = verge of motion, kg = fixes setpoint after weak p
+    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.155, 0.4, 0); // kS = verge of motion, kg = fixes setpoint after weak p
 
     public static final double ZERO = -141.2109375;
     public static final double ALLOWED_ERROR = 0.5;
@@ -273,10 +273,10 @@ public final class Constants {
     public static final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER_METERS * Math.PI;
 
     public static final SimpleMotorFeedforward LEFT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.38505, 0.375, 0.071659); // kS = verge of motion, kV = volts/vel
-    public static final PIDController LEFT_SHOOTER_PID = new PIDController(0.28219, 0.0, 0.0);
+    public static final PIDController LEFT_SHOOTER_PID = new PIDController(0.28219 * 1.25, 0.0, 0.0);
 
     public static final SimpleMotorFeedforward RIGHT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.24931, 0.375, 0.058677); // kS = verge of motion, kV = volts/vel
-    public static final PIDController RIGHT_SHOOTER_PID = new PIDController(0.35718, 0.0, 0.0);
+    public static final PIDController RIGHT_SHOOTER_PID = new PIDController(0.35718 * 1.25, 0.0, 0.0);
 
     public class DataPoints{
       public final double distance;

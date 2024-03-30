@@ -6,6 +6,7 @@ import frc.robot.subsystems.sensors.Sensors;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -20,6 +21,7 @@ public class TrackingDrive extends Command {
   Translation3d goal;
   DoubleSupplier xInput, yInput;
   boolean noInput;
+  PIDController rotPID = drive.rotPID;
 
   /** Creates a new TrackingDrive. */
   public TrackingDrive(DoubleSupplier xInput, DoubleSupplier yInput) {
@@ -27,6 +29,8 @@ public class TrackingDrive extends Command {
     addRequirements(drive);
     this.xInput = xInput;
     this.yInput = yInput;
+
+    rotPID.enableContinuousInput(0.0, 180.0);
   }
 
   // Called when the command is initially scheduled.

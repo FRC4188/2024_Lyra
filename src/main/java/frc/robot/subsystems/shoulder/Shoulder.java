@@ -135,4 +135,8 @@ public class Shoulder extends SubsystemBase {
   public boolean atGoal(Rotation2d angle) {
     return Math.abs(angle.getDegrees() - getAngle().getDegrees()) < Constants.shoulder.ALLOWED_ERROR;
   }
+
+  public boolean atGoal(Rotation2d angle, double tolerance) {
+    return Math.abs(angle.getDegrees() - getAngle().getDegrees()) < tolerance;
+  }
 }

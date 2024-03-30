@@ -15,6 +15,7 @@ import frc.robot.commands.intake.Inhale;
 import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.shoulder.Shoulder;
 
+
 public class FeedIntake extends ParallelCommandGroup {
     
     private Shoulder shoulder = Shoulder.getInstance();
@@ -24,16 +25,20 @@ public class FeedIntake extends ParallelCommandGroup {
         addCommands(
             new SequentialCommandGroup(
                 new SetShoulderAngle(() -> Constants.shoulder.HANDOFF_ANGLE)
-                    .until(() -> shoulder.atGoal(Rotation2d.fromDegrees(Constants.shoulder.HANDOFF_ANGLE))),
+                    .until(() -> shoulder.atGoal(Rotation2d.fromDegrees(Constants.shoulder.HANDOFF_ANGLE), 5.0)),
                 new ParallelDeadlineGroup(
                     new FeedIntoFeeder(3.0).andThen(new Heimlich()),
                     new SetShoulderAngle(() -> Constants.shoulder.HANDOFF_ANGLE),
                     new Inhale()
                 ),
                 new ParallelDeadlineGroup(
-                    new Heimlich(), 
-                    new RunCommand(() -> RobotContainer.pilot.setRumble(RumbleType.kBothRumble, 1.0))
-            ).andThen(Commands.run(() -> RobotContainer.pilot.setRumble(RumbleType.kBothRumble, 0.0))))
+                    new Heimlich(),
+                    Commands.run(() -> RobotContainer.pilot.setRumble(RumbleType.kBothRumble, 1.0))
+                        
+                    //new RunCommand(() -> pilot.setRumble(RumbleType.kBothRumble, 1.0))
+                ).andThen(Commands.run(() -> RobotContainer.pilot.setRumble(RumbleType.kBothRumble, 0.0)))
+ 
+            )
         );
     }
 }

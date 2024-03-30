@@ -11,6 +11,7 @@ import frc.robot.subsystems.shoulder.Shoulder;
 
 import javax.sound.midi.Track;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
@@ -28,7 +29,8 @@ public class ShootOnReady extends ParallelDeadlineGroup {
             Commands.waitUntil(() -> 
                 Shooter.getInstance().atMPS() && 
                 Shoulder.getInstance().atGoal(Sensors.getInstance().getFormulaShoulderAngle()) && 
-                Swerve.getInstance().atGoalAngle(Sensors.getInstance().getFormulaDriveAngle())).andThen(
+                (Swerve.getInstance().atGoalAngle(Sensors.getInstance().getFormulaDriveAngle()) ||
+                Swerve.getInstance().atGoalAngle(Sensors.getInstance().getFormulaDriveAngle().rotateBy(Rotation2d.fromRotations(0.5))))).andThen(
             new FeedIntoShooter(12.0).withTimeout(0.25)),
 
             new TrackingDrive(() -> 0.0, () -> 0.0),

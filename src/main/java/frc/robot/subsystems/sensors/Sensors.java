@@ -56,26 +56,26 @@ public class Sensors extends SubsystemBase {
     // angleMap.put(3.970525611458612, -58.0);
 
     velocityMap.put(8.0, 22.0);
-    angleMap.put(8.0, -65.5);
+    angleMap.put(8.0, 65.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 8.0)));
 
     velocityMap.put(4.7, 18.2);
-    angleMap.put(4.7, -61.5);
+    angleMap.put(4.7, 61.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.7)));
 
-    angleMap.put(4.4, -61.0);
+    angleMap.put(4.4, 61.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.4)));
 
     velocityMap.put(3.7, 16.0);
-    angleMap.put(3.7, -54.7);
+    angleMap.put(3.7, 57.7 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.7)));
 
     velocityMap.put(2.9, 16.0);
-    angleMap.put(2.9, -53.25);
+    angleMap.put(2.9, 53.25 - 90.0 + Math.toDegrees(Math.atan(2.04 / 2.9)));
 
     velocityMap.put(2.07, 12.5);
-    angleMap.put(2.07, -43.0);
+    angleMap.put(2.07, 43.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 2.07)));
 
-    angleMap.put(1.7, -37.0);
+    angleMap.put(1.7, 37.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 1.7)));
 
     velocityMap.put(1.500, 13.0);
-    angleMap.put(1.500, -32.5);
+    angleMap.put(1.500, 32.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 1.5)));
 
   }
 
@@ -91,13 +91,13 @@ public class Sensors extends SubsystemBase {
     SmartDashboard.putString("back ll pose", getBackPose2d().toString());
     SmartDashboard.putString("front ll pose", getFrontPose2d().toString());
 
-
     SmartDashboard.putBoolean("Shooter Ready?", Shooter.getInstance().atMPS());
     SmartDashboard.putBoolean("Shoulder Ready?", Shoulder.getInstance().atGoal(getFormulaShoulderAngle()));
     SmartDashboard.putBoolean("Drive Ready?", Swerve.getInstance().atGoalAngle(getFormulaDriveAngle()));
 
     SmartDashboard.putNumber("Shoulder ITM Goal", Sensors.getInstance().getFormulaShoulderAngle().getDegrees());
         SmartDashboard.putNumber("Shooter ITM Goal", Sensors.getInstance().getFormulaShooterRPM());
+    SmartDashboard.putBoolean("Is Happy?", isHappy());
 
   }
 
@@ -201,7 +201,7 @@ public class Sensors extends SubsystemBase {
    */
   public Rotation2d getFormulaShoulderAngle() {
     // return Rotation2d.fromDegrees(currentGoal.ITM_A.get(getXYDistance()));
-    return Rotation2d.fromDegrees(angleMap.get(getXYDistance()));
+    return Rotation2d.fromDegrees((90.0 - Math.toDegrees(Math.atan(2.04 / getXYDistance())) + angleMap.get(getXYDistance())) * Math.signum(Swerve.getInstance().getPose2d().getRotation().getCos()));
   }
 
   /**
