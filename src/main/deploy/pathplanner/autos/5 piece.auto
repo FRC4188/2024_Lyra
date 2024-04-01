@@ -1,0 +1,61 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 15.296758467981984,
+      "y": 5.492382339971527
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Auto Speaker Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 piece - First Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot on Ready"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 piece - Second Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot on Ready"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 piece - Third Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot on Ready"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

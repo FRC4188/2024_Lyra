@@ -1,0 +1,76 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 13.08341036082928,
+        "y": 5.305008955239023
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 15.203071775615733,
+        "y": 4.567226252854788
+      },
+      "isLocked": false,
+      "linkedName": "Second Note"
+    },
+    {
+      "anchor": {
+        "x": 13.762638880484609,
+        "y": 3.7708893677416455
+      },
+      "prevControl": {
+        "x": 15.519264362351835,
+        "y": 4.157346973752435
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Blind Intake"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Shooter Prep"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -162.03086025984283,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "5 Piece",
+  "previewStartingState": {
+    "rotation": 176.3086140135486,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

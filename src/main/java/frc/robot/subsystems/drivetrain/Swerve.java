@@ -218,6 +218,14 @@ public class Swerve extends SubsystemBase {
     return odometry.getEstimatedPosition();
   }
 
+  public Rotation2d getColorNormRotation() {
+    if (Sensors.getInstance().getAllianceColor() == DriverStation.Alliance.Blue) {
+      return getPose2d().getRotation().rotateBy(Rotation2d.fromDegrees(180.0));
+    } else {
+      return getPose2d().getRotation();
+    } 
+  }
+
   public double getSpeed() {
     ChassisSpeeds speeds = getChassisSpeeds();
 

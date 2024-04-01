@@ -59,17 +59,20 @@ public class Sensors extends SubsystemBase {
     // angleMap.put(8.0, 65.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 8.0)));
 
     velocityMap.put(5.6, 19.2);
-    angleMap.put(5.6, 61.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 5.6)));
+    angleMap.put(5.6, 59.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 5.6)));
 
-    velocityMap.put(4.7, 18.2);
-    angleMap.put(4.7, 61.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.7)));
+    velocityMap.put(4.7, 19.2);
+    angleMap.put(4.7, 59.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.7)));
 
-    angleMap.put(4.4, 61.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.4)));
+    angleMap.put(4.4, 60.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.4)));
 
-    velocityMap.put(3.7, 16.0);
+    velocityMap.put(3.7, 17.5);
     angleMap.put(3.7, 57.7 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.7)));
 
-    velocityMap.put(2.9, 16.0);
+    velocityMap.put(3.4, 17.0);
+    angleMap.put(3.4, 55.2 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.4)));
+
+    velocityMap.put(2.9, 16.5);
     angleMap.put(2.9, 53.25 - 90.0 + Math.toDegrees(Math.atan(2.04 / 2.9)));
 
     velocityMap.put(2.07, 12.5);

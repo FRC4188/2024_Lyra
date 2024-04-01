@@ -19,6 +19,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -134,7 +135,9 @@ public class RobotContainer {
         .onTrue(
             new InstantCommand(
                 () -> {
-                  drive.resetOdometry(new Pose2d(drive.getPose2d().getTranslation(), Rotation2d.fromDegrees(180.0)));
+                  drive.resetOdometry(
+                    new Pose2d(drive.getPose2d().getTranslation(), 
+                    sensors.getAllianceColor() == DriverStation.Alliance.Red ? Rotation2d.fromDegrees(180.0) : Rotation2d.fromDegrees(0)));
                   drive.rotPID.setSetpoint(180.0);
                 }, sensors));
 
@@ -156,7 +159,7 @@ public class RobotContainer {
           new ConditionalCommand(
             new BlindSpeakerShoot(), 
             new BlindReverseSpeakerShoot(), 
-            () -> (drive.getPose2d().getRotation().getCos() > 0.0))
+            () -> (drive.getColorNormRotation().getCos() > 0.0))
         ).onFalse(new Stow());
         
     pilot.getBButton()
@@ -194,7 +197,6 @@ public class RobotContainer {
 
     copilot
         .getUpButton()
-
         .onTrue(
           new FeedIntoFeeder(1.8)
         );
@@ -205,15 +207,6 @@ public class RobotContainer {
           new EjectFeeder()
         );
 
-    copilot
-        .getLeftTButton()
-        .whileTrue(
-          new ParallelCommandGroup(new FeedIntoFeeder(1.8), new Exhale())
-        );
-    
-
-    
-    //default shooter pos + stop intake n feeder
     copilot
         .getStartButton()
         .onTrue(
@@ -238,24 +231,20 @@ public class RobotContainer {
   }
 
   public void addChooser() {
-    // autoChooser = AutoBuilder.buildAutoChooser();
     
+    // VISIONLESS AUTONOMOUS PATHS
     autoChooser.setDefaultOption("Do Nothing", new SequentialCommandGroup());
-    // autoChooser.addOption("Blue Four Mid", new PathPlannerAuto("Blue Four Mid"));
-    autoChooser.addOption("Blind Four Mid", new PathPlannerAuto("Red Four Mid"));
-    autoChooser.addOption("IHOT Auto", new PathPlannerAuto("IHOT Auto"));
+    // autoChooser.addOption("Blind Four Mid", new PathPlannerAuto("Red Four Mid"));
+    // autoChooser.addOption("IHOT Auto", new PathPlannerAuto("IHOT Auto"));
+    // autoChooser.addOption("Shoot and Leave", new PathPlannerAuto("Shoot and Leave"));
+    // autoChooser.addOption("Red Source One", new RedSourceNoteOne());
+    // autoChooser.addOption("Blue Source One", new BlueSourceNoteOne());
+    // autoChooser.addOption("Make Them Cry", new PathPlannerAuto("Make Them Cry"));
+    // autoChooser.addOption("Red Walton Auto", new PathPlannerAuto("Walton Auto").andThen(new RedSourceNoteOne()));
+    // autoChooser.addOption("Blue Walton Auto", new PathPlannerAuto("Walton Auto").andThen(new BlueSourceNoteOne()));
 
-    autoChooser.addOption("Shoot and Leave", new PathPlannerAuto("Shoot and Leave"));
-    // autoChooser.addOption("Shoot and Leave Short", new PathPlannerAuto("Shoot and Leave Short"));
-    autoChooser.addOption("Red Source One", new RedSourceNoteOne());
-    autoChooser.addOption("Blue Source One", new BlueSourceNoteOne());
-    autoChooser.addOption("Make Them Cry", new PathPlannerAuto("Make Them Cry"));
-    // autoChooser.addOption("Red Source 3 Piece", new RedSourceNoteOne().andThen(new PathPlannerAuto("Only Third Piece")));
-    // autoChooser.addOption("Blue Source 3 Piece", new BlueSourceNoteOne().andThen(new PathPlannerAuto("Only Third Piece")));
-    autoChooser.addOption("Red Walton Auto", new PathPlannerAuto("Walton Auto").andThen(new RedSourceNoteOne()));
-    autoChooser.addOption("Blue Walton Auto", new PathPlannerAuto("Walton Auto").andThen(new BlueSourceNoteOne()));
+    autoChooser.addOption("5 piece", new PathPlannerAuto("5 piece")); 
 
-    //autoChooser.addOption("First Note", new PathPlannerAuto("First Note"));
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
