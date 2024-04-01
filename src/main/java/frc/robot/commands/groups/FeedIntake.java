@@ -33,11 +33,15 @@ public class FeedIntake extends ParallelCommandGroup {
                 ),
                 new ParallelDeadlineGroup(
                     new Heimlich(),
-                    Commands.run(() -> RobotContainer.pilot.setRumble(RumbleType.kBothRumble, 1.0))
+                    Commands.run(() -> RobotContainer.pilot.setRumble(RumbleType.kBothRumble, 1.0)),
+                    Commands.run(() -> RobotContainer.copilot.setRumble(RumbleType.kBothRumble, 1.0))
                         
-                    //new RunCommand(() -> pilot.setRumble(RumbleType.kBothRumble, 1.0))
-                ).andThen(Commands.run(() -> RobotContainer.pilot.setRumble(RumbleType.kBothRumble, 0.0)))
- 
+                ).andThen(
+                    new ParallelCommandGroup(
+                        Commands.run(() -> RobotContainer.pilot.setRumble(RumbleType.kBothRumble, 0.0)),
+                        Commands.run(() -> RobotContainer.copilot.setRumble(RumbleType.kBothRumble, 0.0))
+                    )
+                )
             )
         );
     }

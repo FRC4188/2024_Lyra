@@ -64,7 +64,7 @@ import frc.robot.subsystems.shoulder.Shoulder;
 public class RobotContainer {
 
   public static CSP_Controller pilot = new CSP_Controller(Constants.controller.PILOT_PORT);
-  public CSP_Controller copilot = new CSP_Controller(Constants.controller.COPILOT_PORT);
+  public static CSP_Controller copilot = new CSP_Controller(Constants.controller.COPILOT_PORT);
 
   Swerve drive = Swerve.getInstance();
   Intake intake = Intake.getInstance();
@@ -137,7 +137,7 @@ public class RobotContainer {
                 () -> {
                   drive.resetOdometry(
                     new Pose2d(drive.getPose2d().getTranslation(), 
-                    sensors.getAllianceColor() == DriverStation.Alliance.Red ? Rotation2d.fromDegrees(180.0) : Rotation2d.fromDegrees(0)));
+                    sensors.getAllianceColor() == DriverStation.Alliance.Red ? Rotation2d.fromDegrees(180.0) : Rotation2d.fromDegrees(0.0)));
                   drive.rotPID.setSetpoint(180.0);
                 }, sensors));
 
@@ -231,9 +231,8 @@ public class RobotContainer {
   }
 
   public void addChooser() {
-    
-    // VISIONLESS AUTONOMOUS PATHS
     autoChooser.setDefaultOption("Do Nothing", new SequentialCommandGroup());
+  // VISIONLESS AUTONOMOUS PATHS
     // autoChooser.addOption("Blind Four Mid", new PathPlannerAuto("Red Four Mid"));
     // autoChooser.addOption("IHOT Auto", new PathPlannerAuto("IHOT Auto"));
     // autoChooser.addOption("Shoot and Leave", new PathPlannerAuto("Shoot and Leave"));
@@ -244,7 +243,7 @@ public class RobotContainer {
     // autoChooser.addOption("Blue Walton Auto", new PathPlannerAuto("Walton Auto").andThen(new BlueSourceNoteOne()));
 
     autoChooser.addOption("5 piece", new PathPlannerAuto("5 piece")); 
-
+    autoChooser.addOption("Source 3 Piece", new PathPlannerAuto("Source 3 Piece"));
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
