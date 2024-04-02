@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 13.08341036082928,
-        "y": 7.29585116802188
+        "x": 14.722927477238693,
+        "y": 4.368142031576503
       },
       "prevControl": null,
       "nextControl": {
-        "x": 15.41392313553858,
-        "y": 6.344444227349993
+        "x": 16.139938699278257,
+        "y": 3.3727209251850745
       },
       "isLocked": false,
-      "linkedName": "First Note"
+      "linkedName": "Third Note"
     },
     {
       "anchor": {
-        "x": 13.08341036082928,
-        "y": 5.0124069478908195
+        "x": 8.071172319234796,
+        "y": 4.20419031993556
       },
       "prevControl": {
-        "x": 15.607259229883965,
-        "y": 5.820297340315047
+        "x": 11.115989821137989,
+        "y": 3.407853434822417
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Second Note"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -43,12 +43,6 @@
               "data": {
                 "name": "Blind Intake"
               }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Shooter Prep"
-              }
             }
           ]
         }
@@ -63,13 +57,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -162.03,
+    "rotation": 179.61547034041553,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "5 Piece",
   "previewStartingState": {
-    "rotation": 144.6887865603669,
+    "rotation": -159.3701200538738,
     "velocity": 0
   },
   "useDefaultConstraints": true

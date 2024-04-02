@@ -9,18 +9,10 @@ import frc.robot.subsystems.sensors.Sensors;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shoulder.Shoulder;
 
-import javax.sound.midi.Track;
-
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 
 public class ShootOnReady extends ParallelDeadlineGroup {
-    private Swerve drive = Swerve.getInstance();
-    private Shoulder shoulder = Shoulder.getInstance();
-    private Shooter shooter = Shooter.getInstance();
-
     /** Creates a new ShootOnReady. 
      * 
     */

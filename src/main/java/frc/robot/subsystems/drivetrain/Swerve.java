@@ -18,28 +18,12 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.units.Angle;
-import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.MutableMeasure;
-import edu.wpi.first.units.Velocity;
-import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.subsystems.sensors.Sensors;
-
-import static edu.wpi.first.units.MutableMeasure.mutable;
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.Radians;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static edu.wpi.first.units.Units.Volts;
-import static edu.wpi.first.units.Units.Degrees;
 
 public class Swerve extends SubsystemBase {
   private static Swerve instance = null;
@@ -287,7 +271,7 @@ public class Swerve extends SubsystemBase {
     SmartDashboard.putString("Estimated Pose", getPose2d().toString());
 
     for (SwerveModule module : moduleList) {
-      // SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());
+      SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());
       // SmartDashboard.putNumber(module.getName() + " Angle Setpoint", module.getAnglePIDSetpoint());
 
       // module.setAnglePIDConstants(

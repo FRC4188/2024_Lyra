@@ -1,16 +1,11 @@
 package frc.robot.commands.drivetrain;
 
-import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drivetrain.Swerve;
-import frc.robot.subsystems.sensors.Sensors;
-import frc.robot.Constants;
 
 public class HockeyStop extends Command {
 
@@ -26,7 +21,7 @@ public class HockeyStop extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-        speeds = drive.getChassisSpeeds();
+      speeds = drive.getChassisSpeeds();
 
   }
 

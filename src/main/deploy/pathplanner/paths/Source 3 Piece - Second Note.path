@@ -106,7 +106,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "New Folder",
   "previewStartingState": {
     "rotation": -128.99099404250538,
     "velocity": 0

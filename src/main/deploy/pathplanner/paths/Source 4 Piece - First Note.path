@@ -3,32 +3,54 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 13.08341036082928,
-        "y": 7.29585116802188
+        "x": 15.741770256725804,
+        "y": 4.543804579766157
       },
       "prevControl": null,
       "nextControl": {
-        "x": 15.41392313553858,
-        "y": 6.344444227349993
+        "x": 14.93372253506688,
+        "y": 4.309587848850526
       },
       "isLocked": false,
-      "linkedName": "First Note"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 13.08341036082928,
-        "y": 5.0124069478908195
+        "x": 13.598687168843668,
+        "y": 3.946551915928368
       },
       "prevControl": {
-        "x": 15.607259229883965,
-        "y": 5.820297340315047
+        "x": 14.359891544319463,
+        "y": 4.169057810298215
+      },
+      "nextControl": {
+        "x": 12.837482793367872,
+        "y": 3.7240460215585216
+      },
+      "isLocked": false,
+      "linkedName": "Source 4 Piece - First Note"
+    },
+    {
+      "anchor": {
+        "x": 15.741770256725804,
+        "y": 4.543804579766157
+      },
+      "prevControl": {
+        "x": 14.195939832682646,
+        "y": 4.192479483392713
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Second Note"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": -179.31793960682734,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
@@ -63,13 +85,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -162.03,
+    "rotation": -120.52970590015696,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "5 Piece",
+  "folder": "New Folder",
   "previewStartingState": {
-    "rotation": 144.6887865603669,
+    "rotation": -118.19497906246205,
     "velocity": 0
   },
   "useDefaultConstraints": true

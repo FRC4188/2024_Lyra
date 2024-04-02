@@ -1,0 +1,61 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 15.712242595656361,
+      "y": 4.548393961652788
+    },
+    "rotation": -121.27055830932343
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Auto Speaker Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Source 4 Piece - First Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Auto Speaker Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Source 3 Piece - First Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot on Ready"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Source 3 Piece - Second Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot on Ready"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

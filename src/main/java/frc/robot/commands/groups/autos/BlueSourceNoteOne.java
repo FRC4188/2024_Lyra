@@ -14,7 +14,6 @@ import frc.robot.commands.drivetrain.FollowPath;
 import frc.robot.commands.groups.BlindReverseSpeakerShoot;
 import frc.robot.commands.groups.FeedIntake;
 import frc.robot.subsystems.drivetrain.Swerve;
-import frc.robot.subsystems.sensors.Sensors;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shoulder.Shoulder;
 

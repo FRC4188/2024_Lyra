@@ -70,7 +70,7 @@ public class Sensors extends SubsystemBase {
     angleMap.put(3.95, 56.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.95)));
 
     velocityMap.put(3.7, 17.5);
-    angleMap.put(3.7, 57.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.7)));
+    angleMap.put(3.7, 56.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.7)));
 
     velocityMap.put(3.4, 17.0);
     angleMap.put(3.4, 55.2 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.4)));
@@ -107,8 +107,8 @@ public class Sensors extends SubsystemBase {
     SmartDashboard.putBoolean("Shoulder Ready?", Shoulder.getInstance().atGoal(getFormulaShoulderAngle()));
     SmartDashboard.putBoolean("Drive Ready?", Swerve.getInstance().atGoalAngle(getFormulaDriveAngle()));
 
-    // SmartDashboard.putNumber("Shoulder ITM Goal", Sensors.getInstance().getFormulaShoulderAngle().getDegrees());
-    // SmartDashboard.putNumber("Shooter ITM Goal", Sensors.getInstance().getFormulaShooterRPM());
+    SmartDashboard.putNumber("Shoulder ITM Goal", Sensors.getInstance().getFormulaShoulderAngle().getDegrees());
+    SmartDashboard.putNumber("Shooter ITM Goal", Sensors.getInstance().getFormulaShooterRPM());
     // SmartDashboard.putBoolean("Is Happy?", isHappy());
 
   }
@@ -187,7 +187,7 @@ public class Sensors extends SubsystemBase {
    */
   public Rotation2d getFormulaShoulderAngle() {
     // return Rotation2d.fromDegrees(currentGoal.ITM_A.get(getXYDistance()));
-    return Rotation2d.fromDegrees((90.0 - Math.toDegrees(Math.atan(2.04 / getXYDistance())) + angleMap.get(getXYDistance())) * Math.signum(Swerve.getInstance().getPose2d().getRotation().getCos()));
+    return Rotation2d.fromDegrees(-(90.0 - Math.toDegrees(Math.atan(2.04 / getXYDistance())) + angleMap.get(getXYDistance())));
   }
 
   /**
