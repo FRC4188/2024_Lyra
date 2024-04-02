@@ -59,21 +59,24 @@ public class Sensors extends SubsystemBase {
     // angleMap.put(8.0, 65.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 8.0)));
 
     velocityMap.put(5.6, 19.2);
-    angleMap.put(5.6, 59.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 5.6)));
+    angleMap.put(5.6, 58.7 - 90.0 + Math.toDegrees(Math.atan(2.04 / 5.6)));
 
     velocityMap.put(4.7, 19.2);
-    angleMap.put(4.7, 59.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.7)));
+    angleMap.put(4.7, 59.2 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.7)));
 
-    angleMap.put(4.4, 60.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.4)));
+    angleMap.put(4.4, 59.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.4)));
+
+    velocityMap.put(3.95, 19.0);
+    angleMap.put(3.95, 56.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.95)));
 
     velocityMap.put(3.7, 17.5);
-    angleMap.put(3.7, 57.7 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.7)));
+    angleMap.put(3.7, 57.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.7)));
 
     velocityMap.put(3.4, 17.0);
     angleMap.put(3.4, 55.2 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.4)));
 
     velocityMap.put(2.9, 16.5);
-    angleMap.put(2.9, 53.25 - 90.0 + Math.toDegrees(Math.atan(2.04 / 2.9)));
+    angleMap.put(2.9, 52.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 2.9)));
 
     velocityMap.put(2.07, 12.5);
     angleMap.put(2.07, 43.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 2.07)));
@@ -97,16 +100,16 @@ public class Sensors extends SubsystemBase {
 
     SmartDashboard.putNumber("Drive Angle", Swerve.getInstance().getPose2d().getRotation().getDegrees());
     SmartDashboard.putNumber("Pigeon Angle", getRotation2d().getDegrees());
-    SmartDashboard.putString("back ll pose", getBackPose2d().toString());
-    SmartDashboard.putString("front ll pose", getFrontPose2d().toString());
+    // SmartDashboard.putString("back ll pose", getBackPose2d().toString());
+    // SmartDashboard.putString("front ll pose", getFrontPose2d().toString());
 
     SmartDashboard.putBoolean("Shooter Ready?", Shooter.getInstance().atMPS());
     SmartDashboard.putBoolean("Shoulder Ready?", Shoulder.getInstance().atGoal(getFormulaShoulderAngle()));
     SmartDashboard.putBoolean("Drive Ready?", Swerve.getInstance().atGoalAngle(getFormulaDriveAngle()));
 
-    SmartDashboard.putNumber("Shoulder ITM Goal", Sensors.getInstance().getFormulaShoulderAngle().getDegrees());
-        SmartDashboard.putNumber("Shooter ITM Goal", Sensors.getInstance().getFormulaShooterRPM());
-    SmartDashboard.putBoolean("Is Happy?", isHappy());
+    // SmartDashboard.putNumber("Shoulder ITM Goal", Sensors.getInstance().getFormulaShoulderAngle().getDegrees());
+    // SmartDashboard.putNumber("Shooter ITM Goal", Sensors.getInstance().getFormulaShooterRPM());
+    // SmartDashboard.putBoolean("Is Happy?", isHappy());
 
   }
 

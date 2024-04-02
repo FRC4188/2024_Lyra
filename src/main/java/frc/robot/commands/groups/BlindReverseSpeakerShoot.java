@@ -17,10 +17,10 @@ public class BlindReverseSpeakerShoot extends ParallelCommandGroup {
         addCommands(
             new ParallelDeadlineGroup(
                 Commands.waitUntil(() -> 
-                    Shooter.getInstance().atMPS(13.0, 3.0) && 
+                    Shooter.getInstance().atMPS(12.0, 3.0) && 
                     Shoulder.getInstance().atGoal(Rotation2d.fromDegrees(-32.5), 3.0)).andThen(
                 new FeedIntoShooter(12.0).andThen(Commands.waitSeconds(0.25))),
-                new SetShooterMPS(() -> 13.0),
+                new SetShooterMPS(() -> 12.0),
                 new SetShoulderAngle(() -> -32.5))
         );
     }

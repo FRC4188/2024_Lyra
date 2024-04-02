@@ -108,9 +108,6 @@ public class Shooter extends SubsystemBase{
 
       left.setRampRate(1.0);
       right.setRampRate(1.0);
-
-
-      SmartDashboard.putNumber("Set Velocity", 0.0);
     }
 
     public void updateDashboard() {
@@ -278,8 +275,8 @@ public class Shooter extends SubsystemBase{
      */
     public boolean atMPS() {
       // return (getLeftVelocity() > MPS && right.getRPM() > RPM);
-      return (Math.abs(getLeftVelocity() - leftVelocity) < 0.2 * leftVelocity / 10.0 &&
-              Math.abs(getRightVelocity() - rightVelocity) < 0.2 * rightVelocity / 10.0);
+      return (Math.abs(getLeftVelocity() - leftVelocity) < 0.3 * leftVelocity / 10.0 &&
+              Math.abs(getRightVelocity() - rightVelocity) < 0.3 * rightVelocity / 10.0);
     }
 
     public boolean atMPS(double goal) {

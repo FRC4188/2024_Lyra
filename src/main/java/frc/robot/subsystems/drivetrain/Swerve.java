@@ -234,15 +234,15 @@ public class Swerve extends SubsystemBase {
 
   public void updateOdometry() {
     Pose2d backPose = sensors.getBackPose2d();
-    Pose2d frontPose = sensors.getBackPose2d();
+    // Pose2d frontPose = sensors.getBackPose2d();
 
 
     if (!backPose.equals(new Pose2d())) {
       odometry.addVisionMeasurement(backPose, sensors.getBackLatency());
     }
-    if (!frontPose.equals(new Pose2d())) {
-      odometry.addVisionMeasurement(frontPose, sensors.getFrontLatency());
-    }
+    // if (!frontPose.equals(new Pose2d())) {
+    //   odometry.addVisionMeasurement(frontPose, sensors.getFrontLatency());
+    // }
 
     odometry.update(
         sensors.getRotation2d(),

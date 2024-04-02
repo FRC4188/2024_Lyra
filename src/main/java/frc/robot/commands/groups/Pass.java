@@ -29,8 +29,8 @@ public class Pass extends ParallelDeadlineGroup {
     public Pass() {
         super(
             Commands.waitUntil(() -> 
-                Shooter.getInstance().atMPS(16.0) && 
-                Shoulder.getInstance().atGoal(Rotation2d.fromDegrees(-30.0)) && 
+                Shooter.getInstance().atMPS(16.0, 2.0) && 
+                Shoulder.getInstance().atGoal(Rotation2d.fromDegrees(-30.0), 2.0) && 
                 (Swerve.getInstance().atGoalAngle(Sensors.getInstance().getFormulaDriveAngle(
                     Sensors.getInstance().getAllianceColor() == DriverStation.Alliance.Blue ? 
                         Constants.field.BLUE_AMP_LOCATION.toTranslation2d() :

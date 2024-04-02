@@ -4,31 +4,58 @@
     {
       "anchor": {
         "x": 13.08341036082928,
-        "y": 5.305008955239023
+        "y": 5.0124069478908195
       },
       "prevControl": null,
       "nextControl": {
-        "x": 15.203071775615733,
-        "y": 4.567226252854788
+        "x": 11.121803012836796,
+        "y": 6.821463759244867
       },
       "isLocked": false,
       "linkedName": "Second Note"
     },
     {
       "anchor": {
-        "x": 13.762638880484609,
-        "y": 3.7708893677416455
+        "x": 7.115824231648465,
+        "y": 7.73568316367402
       },
       "prevControl": {
-        "x": 15.519264362351835,
-        "y": 4.157346973752435
+        "x": 8.573467193197716,
+        "y": 7.152625979054331
+      },
+      "nextControl": {
+        "x": 7.017154803540378,
+        "y": 7.775150934917254
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 11.54608155370157,
+        "y": 6.719388054160724
+      },
+      "prevControl": {
+        "x": 9.533225220296595,
+        "y": 7.173267423457925
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 164.6237487511738,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 143.7595789164341,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
@@ -43,12 +70,6 @@
               "data": {
                 "name": "Blind Intake"
               }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Shooter Prep"
-              }
             }
           ]
         }
@@ -56,20 +77,20 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -162.03086025984283,
+    "rotation": 173.9909940425055,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "5 Piece",
   "previewStartingState": {
-    "rotation": 176.3086140135486,
+    "rotation": -162.6962316049006,
     "velocity": 0
   },
   "useDefaultConstraints": true

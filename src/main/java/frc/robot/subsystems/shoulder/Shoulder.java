@@ -43,16 +43,11 @@ public class Shoulder extends SubsystemBase {
 
   private ArmFeedforward ff = Constants.shoulder.ARM_FEEDFORWARD;
 
-  private double angle = -60.0;
+  private double angle = -32.5;
 
   /** Creates a new Shoulder. */
   public Shoulder() {
     init();
-    SmartDashboard.putNumber("Shoulder kP", 0.0);
-    SmartDashboard.putNumber("Shoulder kD", 0.0);
-    SmartDashboard.putNumber("Shoulder kG", 0.0);
-    SmartDashboard.putNumber("Angle", 0.0);
-
   }
 
   @Override

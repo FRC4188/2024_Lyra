@@ -10,6 +10,7 @@ import frc.robot.commands.feeder.FeedIntoShooter;
 import frc.robot.commands.shooter.SetShooterMPS;
 import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.Shooter.ControlMode;
 import frc.robot.subsystems.shoulder.Shoulder;
 
 public class BlindAmpShoot extends ParallelCommandGroup {
@@ -21,8 +22,10 @@ public class BlindAmpShoot extends ParallelCommandGroup {
             new SequentialCommandGroup(
                 new ParallelCommandGroup(
                     new SetShoulderAngle(() -> 10.0),
-                    new RunCommand(() -> shooter.setVelocity(3.0, 3.0))
-                ).until(() -> shooter.atMPS() && shoulder.atGoal(Rotation2d.fromDegrees(10.0))),
+                    new RunCommand(() -> shooter.setVelocity(3.0, 3.0)),
+                                        new RunCommand(() -> shooter.setControlMode(ControlMode.VELOCITY))
+
+                ).until(() -> shooter.atMPS(3.0, 0.5) && shoulder.atGoal(Rotation2d.fromDegrees(10.0), 1.5)),
                 new ParallelCommandGroup(
                     Commands.waitSeconds(0.2).andThen(new FeedIntoShooter(12.0)),
                     new RunCommand(() -> shooter.setVelocity(3.0, 3.0)),
