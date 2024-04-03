@@ -1,4 +1,4 @@
-package CSP_Lib.utils.ATLATL;
+package CSP_Lib.utils.atlatl;
 
 /** Class to represent the limelight's vision measurement for a specified AprilTag */
 public class VisionResult {

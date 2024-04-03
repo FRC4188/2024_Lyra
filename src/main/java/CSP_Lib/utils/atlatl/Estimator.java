@@ -2,12 +2,15 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package CSP_Lib.utils.ATLATL;
+package CSP_Lib.utils.atlatl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import CSP_Lib.utils.atlatl.apriltags.AprilTagLayoutType;
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -19,7 +22,14 @@ public class Estimator {
     
     private static final double ROOT_TWO_OVER_TWO = Math.sqrt(2.0) / 2.0;
     private static HashMap<Integer, Translation3d> readTranslations() {
-        return null;
+        HashMap<Integer, Translation3d> result = new HashMap<>();
+        AprilTagFieldLayout layout = AprilTagLayoutType.OFFICIAL.layout;
+
+        for (AprilTag tag : layout.getTags()) {
+            result.put(tag.ID, tag.pose.getTranslation());
+        }
+
+        return result;
     }
     private static final HashMap<Integer, Translation3d> tagTranslations = readTranslations();
 

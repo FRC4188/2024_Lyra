@@ -1,4 +1,4 @@
-package CSP_Lib.utils.ATLATL;
+package CSP_Lib.utils.atlatl;
 
 import edu.wpi.first.math.geometry.Translation2d;
 
