@@ -20,15 +20,15 @@ public class Amp1 extends ParallelCommandGroup {
         addCommands(
             new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                    new SetShoulderAngle(() -> 25.0),
+                    new SetShoulderAngle(() -> 10.0),
                     new RunCommand(() -> shooter.setVelocity(3.0, 3.0)),
                                         new RunCommand(() -> shooter.setControlMode(ControlMode.VELOCITY))
 
-                ).until(() -> shooter.atMPS(3.0) && shoulder.atGoal(Rotation2d.fromDegrees(25.0), 2.0)),
+                ).until(() -> shooter.atMPS(3.0) && shoulder.atGoal(Rotation2d.fromDegrees(10.0), 2.0)),
                 new ParallelCommandGroup(
                     Commands.waitSeconds(0.2).andThen(new FeedIntoShooter(12.0)),
                     new RunCommand(() -> shooter.setVelocity(3.0, 3.0)),
-                    new SetShoulderAngle(() -> 40.0)
+                    new RunCommand(() -> shoulder.setVoltage(7.0)).until(() -> shoulder.atGoal(Rotation2d.fromDegrees(40.0), 2.0))
                 )
             )
         );

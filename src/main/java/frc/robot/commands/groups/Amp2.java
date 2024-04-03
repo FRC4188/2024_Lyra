@@ -20,11 +20,11 @@ public class Amp2 extends ParallelCommandGroup {
         addCommands(
             new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                    new SetShoulderAngle(() -> 20.0),
+                    new SetShoulderAngle(() -> 15.0),
                     new RunCommand(() -> shooter.setVelocity(3.0, 3.0)),
                                         new RunCommand(() -> shooter.setControlMode(ControlMode.VELOCITY))
 
-                ).until(() -> shooter.atMPS(3.0) && shoulder.atGoal(Rotation2d.fromDegrees(20.0), 2.0)),
+                ).until(() -> shooter.atMPS(3.0, 0.5) && shoulder.atGoal(Rotation2d.fromDegrees(10.0), 1.5)),
                 new ParallelCommandGroup(
                     Commands.waitSeconds(0.2).andThen(new FeedIntoShooter(12.0)),
                     new RunCommand(() -> shooter.setVelocity(3.0, 3.0)),

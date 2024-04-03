@@ -22,7 +22,7 @@ public class ShooterIntake extends ParallelCommandGroup {
         addCommands(
             new SequentialCommandGroup(
                 new SetShoulderAngle(() -> 30.0)
-                    .until(() -> shoulder.atGoal(Rotation2d.fromDegrees(30.0))),
+                    .until(() -> shoulder.atGoal(Rotation2d.fromDegrees(30.0), 2.0)),
                 new ParallelCommandGroup(
                     new SetShooterMPS(() -> -6.0),
                     new SetShoulderAngle(() -> 30.0)

@@ -174,20 +174,6 @@ public class RobotContainer {
         );
 
     copilot
-        .getAButton()
-        .onTrue(
-          new Amp1()
-        );
-
-    
-    copilot
-        .getYButton()
-        .onTrue(
-          new Amp2()
-        );
-
-
-    copilot
         .getUpButton()
         .onTrue(
           new FeedIntoFeeder(1.8)
