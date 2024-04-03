@@ -1,18 +1,15 @@
 package frc.robot.subsystems.sensors;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.field.DataPoints;
 import frc.robot.Constants.field.Goal;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.shooter.Shooter;
@@ -67,13 +64,13 @@ public class Sensors extends SubsystemBase {
     angleMap.put(4.4, 59.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.4)));
 
     velocityMap.put(3.95, 19.0);
-    angleMap.put(3.95, 56.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.95)));
+    angleMap.put(3.95, 57.2 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.95)));
 
     velocityMap.put(3.7, 17.5);
     angleMap.put(3.7, 56.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.7)));
 
     velocityMap.put(3.4, 17.0);
-    angleMap.put(3.4, 55.2 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.4)));
+    angleMap.put(3.4, 54.7 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.4)));
 
     velocityMap.put(2.9, 16.5);
     angleMap.put(2.9, 52.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 2.9)));
@@ -87,8 +84,6 @@ public class Sensors extends SubsystemBase {
     angleMap.put(1.500, 32.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 1.5)));
 
   }
-
-  private void init() {}
 
   @Override
   public void periodic() {

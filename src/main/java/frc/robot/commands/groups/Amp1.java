@@ -24,7 +24,7 @@ public class Amp1 extends ParallelCommandGroup {
                     new RunCommand(() -> shooter.setVelocity(3.0, 3.0)),
                                         new RunCommand(() -> shooter.setControlMode(ControlMode.VELOCITY))
 
-                ).until(() -> shooter.atMPS(3.0) && shoulder.atGoal(Rotation2d.fromDegrees(25.0), 1.5)),
+                ).until(() -> shooter.atMPS(3.0) && shoulder.atGoal(Rotation2d.fromDegrees(25.0), 2.0)),
                 new ParallelCommandGroup(
                     Commands.waitSeconds(0.2).andThen(new FeedIntoShooter(12.0)),
                     new RunCommand(() -> shooter.setVelocity(3.0, 3.0)),

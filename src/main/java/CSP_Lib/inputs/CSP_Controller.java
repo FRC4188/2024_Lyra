@@ -12,8 +12,6 @@ import frc.robot.Constants;
 
 /** Add your docs here. */
 public class CSP_Controller extends CommandXboxController {
-  private short m_leftRumble;
-  private short m_rightRumble;
 
   public enum Scale {
     LINEAR,

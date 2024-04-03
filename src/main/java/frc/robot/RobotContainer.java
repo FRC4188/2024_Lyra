@@ -33,8 +33,9 @@ import frc.robot.commands.groups.ShooterIntake;
 import frc.robot.commands.groups.Amp1;
 import frc.robot.commands.groups.Amp2;
 import frc.robot.commands.groups.BlindAmpShoot;
+import frc.robot.commands.groups.BlindPass;
+import frc.robot.commands.groups.BlindReversePass;
 import frc.robot.commands.groups.FeedIntake;
-import frc.robot.commands.groups.Pass;
 import frc.robot.commands.groups.ShootOnReady;
 import frc.robot.commands.groups.BlindSpeakerShoot;
 import frc.robot.commands.groups.Eject;
@@ -100,7 +101,7 @@ public class RobotContainer {
     // pilot.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
     // pilot.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
-    Trigger isShooting = pilot.leftTrigger();
+    // Trigger isShooting = pilot.leftTrigger();
     Trigger drivingInput = new Trigger(() -> (pilot.getCorrectedLeft().getNorm() != 0.0 || pilot.getCorrectedRight().getX() != 0.0));
 
 
@@ -146,9 +147,13 @@ public class RobotContainer {
             () -> (drive.getColorNormRotation().getCos() > 0.0))
         ).onFalse(new Stow());
         
-    pilot.getBButton()
+    pilot
+        .getBButton()
         .whileTrue(
-          new Pass().withInterruptBehavior(InterruptionBehavior.kCancelIncoming)
+          new ConditionalCommand(
+            new BlindPass(), 
+            new BlindReversePass(), 
+            () -> (drive.getColorNormRotation().getCos() > 0.0))
         ).onFalse(new Stow());
 
     pilot
