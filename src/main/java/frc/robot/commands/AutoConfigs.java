@@ -34,7 +34,7 @@ public class AutoConfigs {
             Map.entry("Shoot on Ready", new ShootOnReady().withTimeout(1.5)
                                             .andThen(
                                                 new ConditionalCommand(
-                                                    new FeedIntoShooter(12.0).withTimeout(0.5),
+                                                    new FeedIntoShooter(12.0).withTimeout(0.9),
                                                     new SequentialCommandGroup(),
                                                     () -> Feeder.getInstance().isBroken())
                                             )),

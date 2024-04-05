@@ -4,7 +4,9 @@
 
 package frc.robot.subsystems.shoulder;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.StrictFollower;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
@@ -77,6 +79,22 @@ public class Shoulder extends SubsystemBase {
 
     pid.reset(getAngle().getDegrees());
     pid.enableContinuousInput(-180, 180);
+
+    
+      leader.getConfigurator().apply(new CurrentLimitsConfigs()
+    .withStatorCurrentLimitEnable(true)
+    .withSupplyCurrentLimitEnable(true)
+    .withStatorCurrentLimit(250.0)
+    .withSupplyCurrentLimit(100.0));
+    leader.clearStickyFaults();
+
+    
+    follower.getConfigurator().apply(new CurrentLimitsConfigs()
+.withStatorCurrentLimitEnable(true)
+.withSupplyCurrentLimitEnable(true)
+.withStatorCurrentLimit(250.0)
+.withSupplyCurrentLimit(100.0));
+follower.clearStickyFaults();
   }
 
   public void disable() {

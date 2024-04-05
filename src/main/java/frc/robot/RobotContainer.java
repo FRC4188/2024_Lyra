@@ -28,6 +28,7 @@ import frc.robot.commands.drivetrain.TeleDrive;
 import frc.robot.commands.drivetrain.XPattern;
 import frc.robot.commands.feeder.EjectFeeder;
 import frc.robot.commands.feeder.FeedIntoFeeder;
+import frc.robot.commands.feeder.FeedIntoShooter;
 import frc.robot.commands.groups.BlindReverseSpeakerShoot;
 import frc.robot.commands.groups.ShooterIntake;
 import frc.robot.commands.groups.BlindAmpShoot;
@@ -175,6 +176,12 @@ public class RobotContainer {
         .getUpButton()
         .onTrue(
           new FeedIntoFeeder(1.8)
+        );
+
+    copilot
+        .getRightTButton()
+        .whileTrue(
+          new FeedIntoShooter(12.0)
         );
         
     copilot

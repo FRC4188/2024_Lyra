@@ -56,18 +56,18 @@ public class Sensors extends SubsystemBase {
     // angleMap.put(8.0, 65.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 8.0)));
 
     velocityMap.put(5.6, 21.0);
-    angleMap.put(5.6, 62.8 - 90.0 + Math.toDegrees(Math.atan(2.04 / 5.6)));
+    angleMap.put(5.6, 62.3 - 90.0 + Math.toDegrees(Math.atan(2.04 / 5.6)));
 
     velocityMap.put(4.7, 19.2);
     angleMap.put(4.7, 61.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.7)));
 
-    angleMap.put(4.4, 61.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.4)));
+    angleMap.put(4.4, 60.2 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.4)));
 
     velocityMap.put(3.95, 19.0);
-    angleMap.put(3.95, 59.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.95)));
+    angleMap.put(3.95, 58.1 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.95)));
 
     velocityMap.put(3.7, 17.5);
-    angleMap.put(3.7, 57.2 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.7)));
+    angleMap.put(3.7, 57.1 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.7)));
 
     velocityMap.put(3.4, 17.0);
     angleMap.put(3.4, 55.7 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.4)));
@@ -103,7 +103,7 @@ public class Sensors extends SubsystemBase {
     SmartDashboard.putBoolean("Drive Ready?", Swerve.getInstance().atGoalAngle(getFormulaDriveAngle()));
 
     // SmartDashboard.putNumber("Shoulder ITM Goal", Sensors.getInstance().getFormulaShoulderAngle().getDegrees());
-    // SmartDashboard.putNumber("Shooter ITM Goal", Sensors.getInstance().getFormulaShooterRPM());
+    SmartDashboard.putNumber("Shooter ITM Goal", Sensors.getInstance().getFormulaShooterRPM());
     // SmartDashboard.putBoolean("Is Happy?", isHappy());
 
   }
@@ -191,10 +191,17 @@ public class Sensors extends SubsystemBase {
    * @return angle in double
    */
   public Rotation2d getFormulaDriveAngle() {
-    Translation2d translation = Swerve.getInstance().getPose2d().getTranslation().minus(speakerLocation.toTranslation2d());
+    Translation2d translation;
+    if(getAllianceColor() == DriverStation.Alliance.Blue) {
+      translation = speakerLocation.toTranslation2d().minus(new Translation2d(0.25, 0.0));
+    } else {
+      translation = speakerLocation.toTranslation2d().plus(new Translation2d(0.25, 0.0));
+    }
+
+    Translation2d difference = Swerve.getInstance().getPose2d().getTranslation().minus(translation);
     // Translation2d translation = speakerLocation.toTranslation2d().minus(Swerve.getInstance().getPose2d().getTranslation());
 
-    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX())).rotateBy(Rotation2d.fromDegrees(-3.5));
+    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(difference.getY(), difference.getX())).rotateBy(Rotation2d.fromDegrees(-3.5));
     SmartDashboard.putNumber("Drive Setpoint", setpoint.getDegrees());
     return setpoint;
   }

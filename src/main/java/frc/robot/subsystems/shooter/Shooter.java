@@ -23,6 +23,9 @@ import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+
 public class Shooter extends SubsystemBase{
     private static Shooter instance = null;
     public static synchronized Shooter getInstance() {
@@ -61,8 +64,8 @@ public class Shooter extends SubsystemBase{
     private double leftVelocity = 0.0;
     private double rightVelocity = 0.0;
 
-    private SlewRateLimiter leftLimiter = new SlewRateLimiter(40.0);
-    private SlewRateLimiter rightLimiter = new SlewRateLimiter(40.0);
+    private SlewRateLimiter leftLimiter = new SlewRateLimiter(60.0);
+    private SlewRateLimiter rightLimiter = new SlewRateLimiter(60.0);
 
   // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
   private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
@@ -109,15 +112,27 @@ public class Shooter extends SubsystemBase{
 
       left.setBrake(false);
       right.setBrake(false);
+
+        left.getConfigurator().apply(new CurrentLimitsConfigs()
+    .withStatorCurrentLimitEnable(false)
+    .withSupplyCurrentLimitEnable(false));
+
+    left.clearStickyFaults();
+
+        right.getConfigurator().apply(new CurrentLimitsConfigs()
+    .withStatorCurrentLimitEnable(false)
+    .withSupplyCurrentLimitEnable(false));
+
+    right.clearStickyFaults();
     }
 
     public void updateDashboard() {
 
-      // SmartDashboard.putNumber("Left Shooter MPS", getLeftVelocity());
-      // SmartDashboard.putNumber("Left Shooter Setpoint", leftVelocity);
+      SmartDashboard.putNumber("Left Shooter MPS", getLeftVelocity());
+      SmartDashboard.putNumber("Left Shooter Setpoint", leftVelocity);
 
-      // SmartDashboard.putNumber("Right Shooter MPS", getRightVelocity());
-      // SmartDashboard.putNumber("Right Shooter Setpoint", rightVelocity);
+      SmartDashboard.putNumber("Right Shooter MPS", getRightVelocity());
+      SmartDashboard.putNumber("Right Shooter Setpoint", rightVelocity);
 
 
       
@@ -270,23 +285,21 @@ public class Shooter extends SubsystemBase{
      */
     public boolean atMPS() {
       // return (getLeftVelocity() > MPS && right.getRPM() > RPM);
-      return (Math.abs(getLeftVelocity() - leftVelocity) < 0.3 * leftVelocity / 10.0 &&
-              Math.abs(getRightVelocity() - rightVelocity) < 0.3 * rightVelocity / 10.0);
+      return (Math.abs(getLeftVelocity() - leftVelocity) < 0.2 * leftVelocity / 10.0 &&
+              Math.abs(getRightVelocity() - rightVelocity) < 0.2 * rightVelocity / 10.0);
     }
 
     public boolean atMPS(double goal) {
       // return (getLeftVelocity() > MPS && right.getRPM() > RPM);
-      return (Math.abs(getLeftVelocity() - goal) < 0.2 * goal / 10.0 &&
-              Math.abs(getRightVelocity() - goal) < 0.2 * goal / 10.0);
+      return (Math.abs(getLeftVelocity() - goal) < 0.3 * goal / 10.0 &&
+              Math.abs(getRightVelocity() - goal) < 0.3 * goal / 10.0);
     }
 
     public boolean atMPS(double goal, double tolerance) {
       // return (getLeftVelocity() > MPS && right.getRPM() > RPM);
-      return (Math.abs(getLeftVelocity() - goal) < tolerance * goal / 10.0 &&
-              Math.abs(getRightVelocity() - goal) < tolerance * goal / 10.0);
+      return (Math.abs(getLeftVelocity() - (goal - 2.0)) < tolerance * (goal - 2.0) / 10.0 &&
+              Math.abs(getRightVelocity() - (goal + 2.0)) < tolerance * (goal + 2.0) / 10.0);
     }
-
-
 
     public void setControlMode(ControlMode mode) {
       this.controlMode = mode;

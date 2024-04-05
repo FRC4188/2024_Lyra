@@ -3,6 +3,7 @@ package frc.robot.subsystems.drivetrain;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 
+import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -80,9 +81,34 @@ public class SwerveModule {
     anglePID.setTolerance(0);    
     angle.setEncoderDegrees(getAngleDegrees());
 
-    // speed.optimizeBusUtilization();
-    // angle.optimizeBusUtilization();
-    // encoder.optimizeBusUtilization();
+
+    speed.getVelocity().setUpdateFrequency(50.0);
+    speed.getRotorPosition().setUpdateFrequency(50.0);
+    speed.getDeviceTemp().setUpdateFrequency(4.0);
+
+    angle.getVelocity().setUpdateFrequency(50.0);
+    angle.getRotorPosition().setUpdateFrequency(50.0);
+    angle.getDeviceTemp().setUpdateFrequency(4.0);
+
+    encoder.getAbsolutePosition().setUpdateFrequency(100.0);
+
+    speed.optimizeBusUtilization();
+    angle.optimizeBusUtilization();
+    encoder.optimizeBusUtilization();
+
+    speed.getConfigurator().apply(new CurrentLimitsConfigs()
+    .withStatorCurrentLimitEnable(true)
+    .withSupplyCurrentLimitEnable(true)
+    .withStatorCurrentLimit(250.0)
+    .withSupplyCurrentLimit(50.0));
+    speed.clearStickyFaults();
+    
+        angle.getConfigurator().apply(new CurrentLimitsConfigs()
+    .withStatorCurrentLimitEnable(true)
+    .withSupplyCurrentLimitEnable(true)
+    .withStatorCurrentLimit(250.0)
+    .withSupplyCurrentLimit(50.0));
+    angle.clearStickyFaults();
   }
 
   public void setModuleState(SwerveModuleState desired) {

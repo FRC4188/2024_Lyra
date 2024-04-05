@@ -268,11 +268,11 @@ public final class Constants {
     public static final double SHOOTER_DIAMETER_METERS = (SHOOTER_DIAMETER_INCHES) * 0.0254;
     public static final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER_METERS * Math.PI;
 
-    public static final SimpleMotorFeedforward LEFT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.38505, 0.375, 0.071659); // kS = verge of motion, kV = volts/vel
-    public static final PIDController LEFT_SHOOTER_PID = new PIDController(0.28219 * 1.25, 0.0, 0.0);
+    public static final SimpleMotorFeedforward LEFT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.38505, 0.375 * 1.2, 0.071659); // kS = verge of motion, kV = volts/vel
+    public static final PIDController LEFT_SHOOTER_PID = new PIDController(0.28219 * 1.25 * 1.2, 0.0, 0.0);
 
-    public static final SimpleMotorFeedforward RIGHT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.24931, 0.375, 0.058677); // kS = verge of motion, kV = volts/vel
-    public static final PIDController RIGHT_SHOOTER_PID = new PIDController(0.35718 * 1.25, 0.0, 0.0);
+    public static final SimpleMotorFeedforward RIGHT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.24931, 0.375 * 1.2, 0.058677); // kS = verge of motion, kV = volts/vel
+    public static final PIDController RIGHT_SHOOTER_PID = new PIDController(0.35718 * 1.25 * 1.2, 0.0, 0.0);
 
     public class DataPoints{
       public final double distance;
