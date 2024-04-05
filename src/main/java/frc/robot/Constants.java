@@ -205,7 +205,7 @@ public final class Constants {
     public static final Matrix<N3, N1> STATE_STD_DEVS =
         VecBuilder.fill(0.01, 0.01, 0.001); // [x, y, theta]
     public static final Matrix<N3, N1> VISION_STD_DEVS =
-        VecBuilder.fill(0.040, 0.040, 0.525); // [x, y, theta]
+        VecBuilder.fill(0.020, 0.020, 0.264); // [x, y, theta]
 
     public static final Translation2d FL_LOCATION =
         new Translation2d((Constants.robot.A_LENGTH / 2), (Constants.robot.A_WIDTH / 2));
@@ -320,13 +320,13 @@ public final class Constants {
     }
 
     public static final class limelight {
-      public static final String FRONT_NAME = "limelight-front";
-      public static final Translation3d FRONT_POSITION = new Translation3d(0.4476242, 0, 0.2650236); // translation/rotation in robot space from robot to limelight
-      public static final Rotation3d FRONT_ROTATION = 
-        new Rotation3d(
-          Units.degreesToRadians(0),
-          Units.degreesToRadians(0),
-          Units.degreesToRadians(0));
+      // public static final String FRONT_NAME = "limelight-front";
+      // public static final Translation3d FRONT_POSITION = new Translation3d(0.4476242, 0, 0.2650236); // translation/rotation in robot space from robot to limelight
+      // public static final Rotation3d FRONT_ROTATION = 
+      //   new Rotation3d(
+      //     Units.degreesToRadians(0),
+      //     Units.degreesToRadians(0),
+      //     Units.degreesToRadians(0));
 
       public static final String BACK_NAME = "limelight-back";
       public static final Translation3d BACK_POSITION = new Translation3d(-0.2859024, 0, 0.1682242); 

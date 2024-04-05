@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 15.741770256725804,
+        "x": 16.05,
         "y": 4.543804579766157
       },
       "prevControl": {
-        "x": 14.195939832682646,
+        "x": 14.504169575956842,
         "y": 4.192479483392713
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Source 4 Piece - Second Shot"
     }
   ],
   "rotationTargets": [

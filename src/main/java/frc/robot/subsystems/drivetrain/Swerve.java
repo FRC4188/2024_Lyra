@@ -101,9 +101,9 @@ public class Swerve extends SubsystemBase {
   public double setOmega = 0.0;
 
 
-  private Notifier notifier = new Notifier(() -> {
-    updateDashboard();
-  });
+  // private Notifier notifier = new Notifier(() -> {
+    
+  // });
 
   private SwerveDrivePoseEstimator odometry =
       new SwerveDrivePoseEstimator(
@@ -128,7 +128,7 @@ public class Swerve extends SubsystemBase {
 
     rotPID.enableContinuousInput(-180.0, 180.0);
 
-    notifier.startPeriodic(0.2);
+    // notifier.startPeriodic(0.2);
 
     // SmartDashboard.putNumber("Angle kP", Constants.drivetrain.ANGLE_PID.getP());
     // SmartDashboard.putNumber("Angle kD", Constants.drivetrain.ANGLE_PID.getD());
@@ -138,6 +138,7 @@ public class Swerve extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     updateOdometry();
+    updateDashboard();
 
   }
 
@@ -224,6 +225,7 @@ public class Swerve extends SubsystemBase {
     if (!backPose.equals(new Pose2d())) {
       odometry.addVisionMeasurement(backPose, sensors.getBackLatency());
     }
+    
     // if (!frontPose.equals(new Pose2d())) {
     //   odometry.addVisionMeasurement(frontPose, sensors.getFrontLatency());
     // }
@@ -268,7 +270,7 @@ public class Swerve extends SubsystemBase {
 
   public void updateDashboard() {
 
-    SmartDashboard.putString("Estimated Pose", getPose2d().toString());
+    //SmartDashboard.putString("Estimated Pose", getPose2d().toString());
 
     for (SwerveModule module : moduleList) {
       SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());

@@ -30,8 +30,6 @@ import frc.robot.commands.feeder.EjectFeeder;
 import frc.robot.commands.feeder.FeedIntoFeeder;
 import frc.robot.commands.groups.BlindReverseSpeakerShoot;
 import frc.robot.commands.groups.ShooterIntake;
-import frc.robot.commands.groups.Amp1;
-import frc.robot.commands.groups.Amp2;
 import frc.robot.commands.groups.BlindAmpShoot;
 import frc.robot.commands.groups.BlindPass;
 import frc.robot.commands.groups.BlindReversePass;
@@ -196,10 +194,7 @@ public class RobotContainer {
   }
 
   public void updateShuffle() {
-    // SmartDashboard.putBoolean("dio0", dio0.get());
-    // SmartDashboard.putBoolean("dio1", dio1.get());
-    // SmartDashboard.putBoolean("dio4", dio4.get());
-    // SmartDashboard.putBoolean("dio5", dio5.get()); 
+
     
   }
 
@@ -213,7 +208,7 @@ public class RobotContainer {
   // VISIONLESS AUTONOMOUS PATHS
     // autoChooser.addOption("Blind Four Mid", new PathPlannerAuto("Red Four Mid"));
     // autoChooser.addOption("IHOT Auto", new PathPlannerAuto("IHOT Auto"));
-    // autoChooser.addOption("Shoot and Leave", new PathPlannerAuto("Shoot and Leave"));
+    autoChooser.addOption("Shoot and Leave", new PathPlannerAuto("Shoot and Leave"));
     // autoChooser.addOption("Red Source One", new RedSourceNoteOne());
     // autoChooser.addOption("Blue Source One", new BlueSourceNoteOne());
     // autoChooser.addOption("Make Them Cry", new PathPlannerAuto("Make Them Cry"));

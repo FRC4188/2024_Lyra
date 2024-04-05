@@ -3,7 +3,9 @@ package frc.robot.subsystems.drivetrain;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
@@ -78,6 +80,9 @@ public class SwerveModule {
     anglePID.setTolerance(0);    
     angle.setEncoderDegrees(getAngleDegrees());
 
+    // speed.optimizeBusUtilization();
+    // angle.optimizeBusUtilization();
+    // encoder.optimizeBusUtilization();
   }
 
   public void setModuleState(SwerveModuleState desired) {

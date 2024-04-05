@@ -27,11 +27,11 @@ public class Sensors extends SubsystemBase {
   //Offset is 180 because the pigeon is oriented backwards
   private Pigeon pigeon = new Pigeon(Constants.ids.PIGEON, Constants.sensors.pigeon.PIGEON_OFFSET_DEGREES);
 
-  private Limelight limelightFront =
-      new Limelight(
-          Constants.sensors.limelight.FRONT_NAME,
-          Constants.sensors.limelight.FRONT_POSITION,
-          Constants.sensors.limelight.FRONT_ROTATION);
+  // private Limelight limelightFront =
+  //     new Limelight(
+  //         Constants.sensors.limelight.FRONT_NAME,
+  //         Constants.sensors.limelight.FRONT_POSITION,
+  //         Constants.sensors.limelight.FRONT_ROTATION);
   private Limelight limelightBack =
       new Limelight(
           Constants.sensors.limelight.BACK_NAME,
@@ -56,21 +56,21 @@ public class Sensors extends SubsystemBase {
     // angleMap.put(8.0, 65.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 8.0)));
 
     velocityMap.put(5.6, 21.0);
-    angleMap.put(5.6, 61.8 - 90.0 + Math.toDegrees(Math.atan(2.04 / 5.6)));
+    angleMap.put(5.6, 62.8 - 90.0 + Math.toDegrees(Math.atan(2.04 / 5.6)));
 
     velocityMap.put(4.7, 19.2);
-    angleMap.put(4.7, 60.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.7)));
+    angleMap.put(4.7, 61.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.7)));
 
-    angleMap.put(4.4, 59.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.4)));
+    angleMap.put(4.4, 61.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.4)));
 
     velocityMap.put(3.95, 19.0);
-    angleMap.put(3.95, 57.7 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.95)));
+    angleMap.put(3.95, 59.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.95)));
 
     velocityMap.put(3.7, 17.5);
-    angleMap.put(3.7, 56.2 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.7)));
+    angleMap.put(3.7, 57.2 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.7)));
 
     velocityMap.put(3.4, 17.0);
-    angleMap.put(3.4, 54.7 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.4)));
+    angleMap.put(3.4, 55.7 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.4)));
 
     velocityMap.put(2.9, 16.5);
     angleMap.put(2.9, 52.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 2.9)));
@@ -93,8 +93,8 @@ public class Sensors extends SubsystemBase {
     // SmartDashboard.putString("back ll pose", getPose2d().toString());
     SmartDashboard.putNumber("Goal XYDistance", getXYDistance());
 
-    SmartDashboard.putNumber("Drive Angle", Swerve.getInstance().getPose2d().getRotation().getDegrees());
-    SmartDashboard.putNumber("Pigeon Angle", getRotation2d().getDegrees());
+    // SmartDashboard.putNumber("Drive Angle", Swerve.getInstance().getPose2d().getRotation().getDegrees());
+    // SmartDashboard.putNumber("Pigeon Angle", getRotation2d().getDegrees());
     // SmartDashboard.putString("back ll pose", getBackPose2d().toString());
     // SmartDashboard.putString("front ll pose", getFrontPose2d().toString());
 
@@ -102,8 +102,8 @@ public class Sensors extends SubsystemBase {
     SmartDashboard.putBoolean("Shoulder Ready?", Shoulder.getInstance().atGoal(getFormulaShoulderAngle()));
     SmartDashboard.putBoolean("Drive Ready?", Swerve.getInstance().atGoalAngle(getFormulaDriveAngle()));
 
-    SmartDashboard.putNumber("Shoulder ITM Goal", Sensors.getInstance().getFormulaShoulderAngle().getDegrees());
-    SmartDashboard.putNumber("Shooter ITM Goal", Sensors.getInstance().getFormulaShooterRPM());
+    // SmartDashboard.putNumber("Shoulder ITM Goal", Sensors.getInstance().getFormulaShoulderAngle().getDegrees());
+    // SmartDashboard.putNumber("Shooter ITM Goal", Sensors.getInstance().getFormulaShooterRPM());
     // SmartDashboard.putBoolean("Is Happy?", isHappy());
 
   }
@@ -113,18 +113,18 @@ public class Sensors extends SubsystemBase {
     return new Pose2d(); 
   }
 
-  public Pose2d getFrontPose2d() {
-    if (limelightFront.getTV()) return limelightFront.getPose2d();
-    return new Pose2d(); 
-  }
+  // public Pose2d getFrontPose2d() {
+  //   if (limelightFront.getTV()) return limelightFront.getPose2d();
+  //   return new Pose2d(); 
+  // }
 
   public double getBackLatency() {
     return limelightBack.getLatency();
   }
 
-  public double getFrontLatency() {
-    return limelightFront.getLatency();
-  }
+  // public double getFrontLatency() {
+  //   return limelightFront.getLatency();
+  // }
 
   public Rotation2d getRotation2d() {
     return Rotation2d.fromDegrees(pigeon.getRotation());
@@ -162,7 +162,7 @@ public class Sensors extends SubsystemBase {
   }
 
   public double getXYDistance() {
-    return speakerLocation.toTranslation2d().getDistance(Swerve.getInstance().getPose2d().getTranslation());
+    return speakerLocation.toTranslation2d().getDistance(Swerve.getInstance().getPose2d().getTranslation()) + 0.25;
   }
 
   /**

@@ -10,7 +10,6 @@ import edu.wpi.first.units.MutableMeasure;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
 import edu.wpi.first.util.datalog.DataLog;
-import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,10 +31,10 @@ public class Shooter extends SubsystemBase{
     }
 
     DataLog log = DataLogManager.getLog();
-    DoubleLogEntry leftVelocityLog = new DoubleLogEntry(log, "leftshooter/velocity");
-    DoubleLogEntry leftVoltageLog = new DoubleLogEntry(log, "leftshooter/voltage");
-  DoubleLogEntry rightVelocityLog = new DoubleLogEntry(log, "rightshooter/velocity");
-    DoubleLogEntry rightVoltageLog = new DoubleLogEntry(log, "rightshooter/voltage");
+  //   DoubleLogEntry leftVelocityLog = new DoubleLogEntry(log, "leftshooter/velocity");
+  //   DoubleLogEntry leftVoltageLog = new DoubleLogEntry(log, "leftshooter/voltage");
+  // DoubleLogEntry rightVelocityLog = new DoubleLogEntry(log, "rightshooter/velocity");
+  //   DoubleLogEntry rightVoltageLog = new DoubleLogEntry(log, "rightshooter/voltage");
 
     
 
@@ -107,15 +106,18 @@ public class Shooter extends SubsystemBase{
 
       left.setRampRate(1.0);
       right.setRampRate(1.0);
+
+      left.setBrake(false);
+      right.setBrake(false);
     }
 
     public void updateDashboard() {
 
-      SmartDashboard.putNumber("Left Shooter MPS", getLeftVelocity());
-      SmartDashboard.putNumber("Left Shooter Setpoint", leftVelocity);
+      // SmartDashboard.putNumber("Left Shooter MPS", getLeftVelocity());
+      // SmartDashboard.putNumber("Left Shooter Setpoint", leftVelocity);
 
-      SmartDashboard.putNumber("Right Shooter MPS", getRightVelocity());
-      SmartDashboard.putNumber("Right Shooter Setpoint", rightVelocity);
+      // SmartDashboard.putNumber("Right Shooter MPS", getRightVelocity());
+      // SmartDashboard.putNumber("Right Shooter Setpoint", rightVelocity);
 
 
       
@@ -126,12 +128,6 @@ public class Shooter extends SubsystemBase{
 
     @Override
     public void periodic() {
-
-        leftVelocityLog.append(getLeftVelocity());
-        leftVoltageLog.append(getLeftVoltage());
-
-        rightVelocityLog.append(getRightVelocity());
-        rightVoltageLog.append(getRightVoltage());
 
         switch (controlMode) {
           case STOP: 
