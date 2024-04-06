@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 15.741770256725804,
-        "y": 4.543804579766157
+        "x": 15.706637747084336,
+        "y": 4.555515416309007
       },
       "prevControl": null,
       "nextControl": {
-        "x": 14.93372253506688,
-        "y": 4.309587848850526
+        "x": 14.266204851953214,
+        "y": 4.0285277717488395
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 13.598687168843668,
-        "y": 3.946551915928368
+        "x": 13.5,
+        "y": 3.95
       },
       "prevControl": {
-        "x": 14.359891544319463,
-        "y": 4.169057810298215
+        "x": 14.261204375475796,
+        "y": 4.172505894369847
       },
       "nextControl": {
-        "x": 12.837482793367872,
-        "y": 3.7240460215585216
+        "x": 12.738795624524204,
+        "y": 3.7274941056301536
       },
       "isLocked": false,
       "linkedName": "Source 4 Piece - First Note"
     },
     {
       "anchor": {
-        "x": 16.175071208915597,
-        "y": 4.66091294522104
+        "x": 13.92659059212555,
+        "y": 3.1502150308152252
       },
       "prevControl": {
-        "x": 14.629240784872438,
-        "y": 4.309587848847596
+        "x": 15.214782612161516,
+        "y": 4.578937089400569
       },
       "nextControl": null,
       "isLocked": false,
@@ -85,13 +85,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -120.52970590015696,
+    "rotation": -131.34777721969377,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "New Folder",
   "previewStartingState": {
-    "rotation": -118.19497906246205,
+    "rotation": -124.15969454566928,
     "velocity": 0
   },
   "useDefaultConstraints": true

@@ -15,9 +15,7 @@ public class TeleDrive extends Command {
   Sensors sensors = Sensors.getInstance();
 
   DoubleSupplier xInput, yInput, thetaInput;
-  boolean noInput;
-  boolean input;
-
+  
   SlewRateLimiter limiterX;
   SlewRateLimiter limiterY;
 
@@ -41,9 +39,11 @@ public class TeleDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double x = xInput.getAsDouble();
+    double y = yInput.getAsDouble();
 
-    double totalSpeed = Math.pow(Math.hypot(xInput.getAsDouble(), yInput.getAsDouble()), 1.0);
-    double angle = Math.atan2(yInput.getAsDouble(), xInput.getAsDouble());
+    double totalSpeed = Math.pow(Math.hypot(x, y), 1.0);
+    double angle = Math.atan2(y, x);
     double xSpeed = totalSpeed * Math.cos(angle) * Constants.drivetrain.MAX_VELOCITY;
     double ySpeed = totalSpeed * Math.sin(angle) * Constants.drivetrain.MAX_VELOCITY;
     double rotSpeed = -thetaInput.getAsDouble() * Constants.drivetrain.MAX_RADIANS;
@@ -51,26 +51,12 @@ public class TeleDrive extends Command {
     xSpeed = limiterX.calculate(xSpeed);
     ySpeed = limiterY.calculate(ySpeed);
 
-    // noInput = xSpeed == 0 && ySpeed == 0 && rotSpeed == 0;
-
-    // if (noInput) {
-    //   drive.setModuleStates(
-    //     new SwerveModuleState[] {
-    //       new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
-    //       new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
-    //       new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
-    //       new SwerveModuleState(0, Rotation2d.fromDegrees(45))});
-    // } else {
       drive.setChassisSpeeds(
         ChassisSpeeds.fromFieldRelativeSpeeds(new ChassisSpeeds(
           xSpeed,
           ySpeed, 
           rotSpeed), 
           drive.getColorNormRotation()));
-          // drive.getPose2d().getRotation()));
-
-    input = xInput.getAsDouble() != 0.0 || yInput.getAsDouble() != 0.0;
-
   }
 
   // Called once the command ends or is interrupted.
