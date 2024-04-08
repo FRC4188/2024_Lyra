@@ -64,8 +64,8 @@ public class Shooter extends SubsystemBase{
     private double leftVelocity = 0.0;
     private double rightVelocity = 0.0;
 
-    private SlewRateLimiter leftLimiter = new SlewRateLimiter(40.0);
-    private SlewRateLimiter rightLimiter = new SlewRateLimiter(40.0);
+    private SlewRateLimiter leftLimiter = new SlewRateLimiter(30.0);
+    private SlewRateLimiter rightLimiter = new SlewRateLimiter(30.0);
 
   // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
   private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));

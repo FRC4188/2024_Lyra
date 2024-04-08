@@ -9,6 +9,7 @@ import frc.robot.commands.feeder.FeedIntoShooter;
 import frc.robot.commands.groups.BlindReverseSpeakerShoot;
 import frc.robot.commands.groups.FeedIntake;
 import frc.robot.commands.groups.ShootOnReady;
+import frc.robot.commands.groups.Stow;
 import frc.robot.commands.shooter.SetShooterMPS;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.feeder.Feeder;
@@ -41,6 +42,7 @@ public class AutoConfigs {
             Map.entry(
                   "Stop Drivetrain",
                   new InstantCommand(
-                      () -> Swerve.getInstance().disable(), Swerve.getInstance()))
+                      () -> Swerve.getInstance().disable(), Swerve.getInstance())),
+            Map.entry("Stow", new Stow().withTimeout(0.25))
       ));
 }

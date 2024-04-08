@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.296758467981984,
-      "y": 5.492382339971527
+      "x": 15.712242595656361,
+      "y": 4.548393961652788
     },
-    "rotation": 180.0
+    "rotation": -121.27055830932343
   },
   "command": {
     "type": "sequential",
@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "5 piece - First Note"
+            "pathName": "Techno"
           }
         },
         {
@@ -38,31 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "5 piece - Second Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot on Ready"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "5 Piece - Third Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot on Ready"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "5 piece - Fourth Note"
+            "pathName": "Techno 2"
           }
         },
         {

@@ -229,6 +229,8 @@ public class RobotContainer {
     autoChooser.addOption("Source 3 Piece", new PathPlannerAuto("Source 3 Piece"));
     autoChooser.addOption("Source 4 Piece", new PathPlannerAuto("Source 4 Piece"));
 
+    autoChooser.addOption("Techno", new PathPlannerAuto("Techno"));
+
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
