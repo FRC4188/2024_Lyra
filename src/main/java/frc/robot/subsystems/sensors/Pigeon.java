@@ -33,6 +33,10 @@ public class Pigeon extends Pigeon2 {
     return Conversions.degreesUnsignedToSigned(super.getYaw().getValueAsDouble() % 360.0);
   }
 
+  public double getRate() {
+    return super.getRate();
+  }
+
   public double getRollAsDouble() {
     return super.getRoll().getValueAsDouble();
   }
@@ -40,4 +44,6 @@ public class Pigeon extends Pigeon2 {
   public double getPitchAsDouble() {
     return super.getPitch().getValueAsDouble();
   }
+
+
 }

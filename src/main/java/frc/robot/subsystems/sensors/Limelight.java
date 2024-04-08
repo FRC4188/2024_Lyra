@@ -6,6 +6,7 @@ package frc.robot.subsystems.sensors;
 
 import CSP_Lib.utils.LimelightHelpers;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
@@ -14,29 +15,25 @@ import edu.wpi.first.wpilibj.Timer;
 /** Add your docs here. */
 public class Limelight {
   private String name;
-  private Translation3d position = new Translation3d();
-  private Rotation3d rotation = new Rotation3d();
-
+  private Pose3d pose = new Pose3d();
   private Pose2d currentPose = new Pose2d();
 
-  // private MedianFilter filter = new MedianFilter(2);
 
-  public Limelight(String name, Translation3d position, Rotation3d rotation) {
+  public Limelight(String name, Pose3d pose) {
     this.name = name;
-    this.position = position;
-    this.rotation = rotation;
+    this.pose = pose;
     init();
   }
 
   private void init() {
     LimelightHelpers.setCameraPose_RobotSpace(
         name,
-        position.getX(),
-        position.getY(),
-        position.getZ(),
-        Units.radiansToDegrees(rotation.getX()),
-        Units.radiansToDegrees(rotation.getY()),
-        Units.radiansToDegrees(rotation.getZ()));
+        pose.getX(),
+        pose.getY(),
+        pose.getZ(),
+        Units.radiansToDegrees(pose.getRotation().getX()),
+        Units.radiansToDegrees(pose.getRotation().getY()),
+        Units.radiansToDegrees(pose.getRotation().getZ()));
   }
 
   public Pose2d getPose2d() {

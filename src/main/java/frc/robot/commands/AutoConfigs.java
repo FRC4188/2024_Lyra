@@ -32,7 +32,7 @@ public class AutoConfigs {
             Map.entry("Blind Intake", new FeedIntake()),
             Map.entry("Auto Speaker Shoot", new BlindReverseSpeakerShoot().withTimeout(1.2)),
             Map.entry("Shooter Prep", new SetShooterMPS(() -> 13.0)),
-            Map.entry("Shoot on Ready", new ShootOnReady().withTimeout(1.5)
+            Map.entry("Shoot on Ready", new ShootOnReady(() -> 0.0, () -> 0.0).withTimeout(1.5)
                                             .andThen(
                                                 new ConditionalCommand(
                                                     new FeedIntoShooter(12.0).withTimeout(0.9),

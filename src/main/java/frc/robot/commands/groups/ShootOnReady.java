@@ -9,6 +9,8 @@ import frc.robot.subsystems.sensors.Sensors;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shoulder.Shoulder;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 
@@ -16,16 +18,16 @@ public class ShootOnReady extends ParallelDeadlineGroup {
     /** Creates a new ShootOnReady. 
      * 
     */
-    public ShootOnReady() {
+    public ShootOnReady(DoubleSupplier xInput, DoubleSupplier yInput) {
         super(
             Commands.waitUntil(() -> 
                 Shooter.getInstance().atMPS() && 
-                Shoulder.getInstance().atGoal(Sensors.getInstance().getFormulaShoulderAngle()) && 
-                Swerve.getInstance().atGoalAngle(Sensors.getInstance().getFormulaDriveAngle())).andThen(
+                Shoulder.getInstance().atGoal(Sensors.getInstance().getMovingShoulderAngle()) && 
+                Swerve.getInstance().atGoalAngle(Sensors.getInstance().getMovingDriveAngle())).andThen(
             new FeedIntoShooter(12.0).withTimeout(0.25)),
 
-            new TrackingDrive(() -> 0.0, () -> 0.0),
-            new SetShooterMPS(() -> Sensors.getInstance().getFormulaShooterRPM()),
+            new TrackingDrive(xInput, yInput),
+            new SetShooterMPS(() -> Sensors.getInstance().getMovingShooterRPM()),
             new SetShoulderAngle(() -> Sensors.getInstance().getFormulaShoulderAngle().getDegrees())
         );
     }

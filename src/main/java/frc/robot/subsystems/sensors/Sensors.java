@@ -27,16 +27,15 @@ public class Sensors extends SubsystemBase {
   //Offset is 180 because the pigeon is oriented backwards
   private Pigeon pigeon = new Pigeon(Constants.ids.PIGEON, Constants.sensors.pigeon.PIGEON_OFFSET_DEGREES);
 
-  // private Limelight limelightFront =
-  //     new Limelight(
-  //         Constants.sensors.limelight.FRONT_NAME,
-  //         Constants.sensors.limelight.FRONT_POSITION,
-  //         Constants.sensors.limelight.FRONT_ROTATION);
+  private Limelight limelightFront =
+      new Limelight(
+          "limelight-front",
+          Constants.sensors.limelight.FRONT_LIMELIGHT_LOCATION);
+
   private Limelight limelightBack =
       new Limelight(
-          Constants.sensors.limelight.BACK_NAME,
-          Constants.sensors.limelight.BACK_POSITION,
-          Constants.sensors.limelight.BACK_ROTATION);
+          "limelight-back",
+          Constants.sensors.limelight.BACK_LIMELIGHT_LOCATION);
 
   private Goal currentGoal = Goal.SPEAKER;
   private Translation3d speakerLocation = Constants.field.BLUE_SPEAKER_LOCATION;
@@ -115,18 +114,18 @@ public class Sensors extends SubsystemBase {
     return new Pose2d(); 
   }
 
-  // public Pose2d getFrontPose2d() {
-  //   if (limelightFront.getTV()) return limelightFront.getPose2d();
-  //   return new Pose2d(); 
-  // }
+  public Pose2d getFrontPose2d() {
+    if (limelightFront.getTV()) return limelightFront.getPose2d();
+    return new Pose2d(); 
+  }
 
   public double getBackLatency() {
     return limelightBack.getLatency();
   }
 
-  // public double getFrontLatency() {
-  //   return limelightFront.getLatency();
-  // }
+  public double getFrontLatency() {
+    return limelightFront.getLatency();
+  }
 
   public Rotation2d getRotation2d() {
     return Rotation2d.fromDegrees(pigeon.getRotation());
@@ -134,6 +133,11 @@ public class Sensors extends SubsystemBase {
 
   public double getPitch() {
     return pigeon.getPitchAsDouble();
+  }
+
+
+  public double getPigeonRate() {
+    return pigeon.getRate();
   }
 
   public void resetPigeon() {
@@ -222,7 +226,7 @@ public class Sensors extends SubsystemBase {
    * @return vector x, y, z in Translation3d needed for aiming while standing still
    */
   public Translation3d getShotVector() {
-    double velocity = getFormulaShooterRPM();
+    double velocity = getFormulaShooterRPM() * 0.75;
     double shoulderAngle = getFormulaShoulderAngle().getRadians();
     double driveAngle = getFormulaDriveAngle().getRadians();
 
@@ -283,7 +287,7 @@ public class Sensors extends SubsystemBase {
    */
   public double getMovingShooterRPM() {
     Translation3d movingShotVector = getMovingShotVector();
-    return movingShotVector.getNorm(); 
+    return movingShotVector.getNorm() * 4.0 / 3.0; 
   }
 
   public void setGoal(Goal goal) {

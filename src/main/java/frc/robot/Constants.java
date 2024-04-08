@@ -8,6 +8,7 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -268,10 +269,10 @@ public final class Constants {
     public static final double SHOOTER_DIAMETER_METERS = (SHOOTER_DIAMETER_INCHES) * 0.0254;
     public static final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER_METERS * Math.PI;
 
-    public static final SimpleMotorFeedforward LEFT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.38505, 0.375 * 1.125, 0.071659); // kS = verge of motion, kV = volts/vel
+    public static final SimpleMotorFeedforward LEFT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.38505, 0.375 * 1.125 * 11.5/11.1, 0.071659); // kS = verge of motion, kV = volts/vel
     public static final PIDController LEFT_SHOOTER_PID = new PIDController(0.28219 * 1.25 * 1.1, 0.0, 0.0);
 
-    public static final SimpleMotorFeedforward RIGHT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.24931, 0.375 * 1.125, 0.058677); // kS = verge of motion, kV = volts/vel
+    public static final SimpleMotorFeedforward RIGHT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.24931, 0.375 * 1.125 * 11.5/11.1, 0.058677); // kS = verge of motion, kV = volts/vel
     public static final PIDController RIGHT_SHOOTER_PID = new PIDController(0.35718 * 1.25 * 1.1, 0.0, 0.0);
 
     public class DataPoints{
@@ -319,22 +320,30 @@ public final class Constants {
       public static final double PIGEON_OFFSET_DEGREES = 0.0;
     }
 
-    public static final class limelight {
-      // public static final String FRONT_NAME = "limelight-front";
-      // public static final Translation3d FRONT_POSITION = new Translation3d(0.4476242, 0, 0.2650236); // translation/rotation in robot space from robot to limelight
-      // public static final Rotation3d FRONT_ROTATION = 
-      //   new Rotation3d(
-      //     Units.degreesToRadians(0),
-      //     Units.degreesToRadians(0),
-      //     Units.degreesToRadians(0));
+  public static class limelight {
+    public static final Pose3d FRONT_LIMELIGHT_LOCATION = new Pose3d(Units.inchesToMeters(12.0), 0.0, Units.inchesToMeters(9.5), new Rotation3d(0, 0, 0));
+    
+    public static final Pose3d BACK_LIMELIGHT_LOCATION = new Pose3d(Units.inchesToMeters(-17.0), 0.0, Units.inchesToMeters(6.5), new Rotation3d(0, 0, Math.PI));
+  }
 
-      public static final String BACK_NAME = "limelight-back";
-      public static final Translation3d BACK_POSITION = new Translation3d(-0.2859024, 0, 0.1682242); 
-      public static final Rotation3d BACK_ROTATION = 
-        new Rotation3d(
-          Units.degreesToRadians(180.0),
-          Units.degreesToRadians(0),
-          Units.degreesToRadians(180.0));
-    }
+      
+
+    // public static final class limelight {
+    //   // public static final String FRONT_NAME = "limelight-front";
+    //   // public static final Translation3d FRONT_POSITION = new Translation3d(0.4476242, 0, 0.2650236); // translation/rotation in robot space from robot to limelight
+    //   // public static final Rotation3d FRONT_ROTATION = 
+    //   //   new Rotation3d(
+    //   //     Units.degreesToRadians(0),
+    //   //     Units.degreesToRadians(0),
+    //   //     Units.degreesToRadians(0));
+
+    //   public static final String BACK_NAME = "limelight-back";
+    //   public static final Translation3d BACK_POSITION = new Translation3d(-0.2859024, 0, 0.1682242); 
+    //   public static final Rotation3d BACK_ROTATION = 
+    //     new Rotation3d(
+    //       Units.degreesToRadians(180.0),
+    //       Units.degreesToRadians(0),
+    //       Units.degreesToRadians(180.0));
+    // }
   }
 }

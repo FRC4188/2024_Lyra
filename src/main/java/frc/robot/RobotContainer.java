@@ -163,7 +163,10 @@ public class RobotContainer {
     
     pilot.getLeftTButton()
         .whileTrue(
-          new ShootOnReady().withInterruptBehavior(InterruptionBehavior.kCancelIncoming)
+          new ShootOnReady(
+        () -> pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+        () -> pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0)
+          ).withInterruptBehavior(InterruptionBehavior.kCancelIncoming)
         ).onFalse(new Stow());
 
     pilot 

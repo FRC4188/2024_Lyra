@@ -7,7 +7,9 @@ import frc.robot.subsystems.sensors.Sensors;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -16,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class TrackingDrive extends Command {
   private Swerve drive = Swerve.getInstance();
 
-  Translation3d goal;
+  Translation3d goal = Constants.field.RED_SPEAKER_LOCATION;
   DoubleSupplier xInput, yInput;
   boolean noInput;
   PIDController rotPID = drive.rotPID;
@@ -37,11 +39,11 @@ public class TrackingDrive extends Command {
   @Override
   public void execute() {
     Rotation2d goalAngle = Sensors.getInstance().getFormulaDriveAngle();
-    // Pose2d pose = drive.getPose2d();
-    // Translation2d currentSpeed = drive.getFOSpeeds();
+    Pose2d pose = drive.getPose2d();
+    Translation2d currentSpeed = drive.getFOSpeeds();
 
-    // double dx = goal.getX() - pose.getX(); //get distance needed to travel in x
-    // double dy = goal.getY() - pose.getY(); //get distance needed to travel in y
+    double dx = goal.getX() - pose.getX(); //get distance needed to travel in x
+    double dy = goal.getY() - pose.getY(); //get distance needed to travel in y
 
     /* Get hypothenuse cube of the slope yInput and xInput
      * cube = scaling 
@@ -60,7 +62,7 @@ public class TrackingDrive extends Command {
     rotSpeed += drive.rotPID.calculate(Swerve.getInstance().getPose2d().getRotation().getDegrees(), goalAngle.getDegrees());
     /**rotSpeed from aiden's math hellscape = predicting wut the drivetrain rotation speed should be
      * to keep aiming while moving */
-    // rotSpeed += currentSpeed.getX() * -dy / (dx * dx + dy * dy) + currentSpeed.getY() * dx / (dx * dx + dy * dy); TODO: Bring back if moving and shooting
+    rotSpeed += Math.toDegrees(currentSpeed.getX() * -dy / (dx * dx + dy * dy) + currentSpeed.getY() * dx / (dx * dx + dy * dy));
 
     noInput = xSpeed == 0 && ySpeed == 0 && rotSpeed == 0;
 

@@ -9,6 +9,8 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import CSP_Lib.utils.LimelightHelpers;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -201,6 +203,8 @@ public class Swerve extends SubsystemBase {
 
   public Pose2d getPose2d() {
     return odometry.getEstimatedPosition();
+
+    
   }
 
   public Rotation2d getColorNormRotation() {
@@ -218,17 +222,23 @@ public class Swerve extends SubsystemBase {
   }
 
   public void updateOdometry() {
-    Pose2d backPose = sensors.getBackPose2d();
-    // Pose2d frontPose = sensors.getBackPose2d();
-
-
-    if (!backPose.equals(new Pose2d())) {
-      odometry.addVisionMeasurement(backPose, sensors.getBackLatency());
-    }
-    
-    // if (!frontPose.equals(new Pose2d())) {
-    //   odometry.addVisionMeasurement(frontPose, sensors.getFrontLatency());
-    // }
+    LimelightHelpers.SetRobotOrientation("limelight-back", odometry.getEstimatedPosition().getRotation().getDegrees(), Sensors.getInstance().getPigeonRate(), 0, 0, 0, 0);
+      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-back");
+      if (Math.abs(Sensors.getInstance().getPigeonRate()) <= 720.0 && mt2.tagCount != 0) {
+        odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+        odometry.addVisionMeasurement(
+            mt2.pose,
+            mt2.timestampSeconds);
+      }
+  
+    LimelightHelpers.SetRobotOrientation("limelight-front", odometry.getEstimatedPosition().getRotation().getDegrees(), Sensors.getInstance().getPigeonRate(), 0, 0, 0, 0);
+      mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front");
+      if (Math.abs(Sensors.getInstance().getPigeonRate()) <= 720.0 && mt2.tagCount != 0) {
+        odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+        odometry.addVisionMeasurement(
+            mt2.pose,
+            mt2.timestampSeconds);
+      }
 
     odometry.update(
         sensors.getRotation2d(),
