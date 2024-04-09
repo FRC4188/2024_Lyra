@@ -43,16 +43,20 @@ public class Sensors extends SubsystemBase {
   private InterpolatingDoubleTreeMap velocityMap = new InterpolatingDoubleTreeMap();
   private InterpolatingDoubleTreeMap angleMap = new InterpolatingDoubleTreeMap();
 
+  private InterpolatingDoubleTreeMap passVelocityMap = new InterpolatingDoubleTreeMap();
+  private InterpolatingDoubleTreeMap passAngleMap = new InterpolatingDoubleTreeMap();
+
 
 
   /** Creates a new Sensors. */
   private Sensors() {  
 
-    // velocityMap.put(3.970525611458612, 15.0);
-    // angleMap.put(3.970525611458612, -58.0);
-
     // velocityMap.put(8.0, 22.0);
     // angleMap.put(8.0, 65.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 8.0)));
+
+    velocityMap.put(10.0, 16.0);
+
+    velocityMap.put(7.0, 12.0);
 
     velocityMap.put(5.6, 21.0);
     angleMap.put(5.6, 62.3 - 90.0 + Math.toDegrees(Math.atan(2.04 / 5.6)));
@@ -84,6 +88,7 @@ public class Sensors extends SubsystemBase {
     velocityMap.put(1.500, 13.0);
     angleMap.put(1.500, 32.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 1.5)));
 
+
   }
 
   @Override
@@ -99,10 +104,17 @@ public class Sensors extends SubsystemBase {
     // SmartDashboard.putString("back ll pose", getBackPose2d().toString());
     // SmartDashboard.putString("front ll pose", getFrontPose2d().toString());
 
-    SmartDashboard.putBoolean("Shooter Ready?", Shooter.getInstance().atMPS());
-    SmartDashboard.putBoolean("Shoulder Ready?", Shoulder.getInstance().atGoal(getFormulaShoulderAngle()));
-    SmartDashboard.putBoolean("Drive Ready?", Swerve.getInstance().atGoalAngle(getFormulaDriveAngle()));
+    // SmartDashboard.putBoolean("Shooter Ready?", Shooter.getInstance().atMPS());
+    // SmartDashboard.putBoolean("Shoulder Ready?", Shoulder.getInstance().atGoal(getFormulaShoulderAngle()));
+    // SmartDashboard.putBoolean("Drive Ready?", Swerve.getInstance().atGoalAngle(getFormulaDriveAngle()));
 
+    SmartDashboard.putBoolean("Shooter Ready?", Shooter.getInstance().atMPS(2.0));
+    SmartDashboard.putBoolean("Shoulder Ready?", Shoulder.getInstance().atGoal(Rotation2d.fromDegrees(-40.0), 3.0));
+    SmartDashboard.putBoolean("Drive Ready?", Swerve.getInstance().atGoalAngle(Sensors.getInstance().getFormulaDriveAngle(
+      DriverStation.getAlliance().get() == DriverStation.Alliance.Blue ? Constants.field.BLUE_CORNER_LOCATION : Constants.field.RED_CORNER_LOCATION
+  )));
+
+  
     // SmartDashboard.putNumber("Shoulder ITM Goal", Sensors.getInstance().getFormulaShoulderAngle().getDegrees());
     SmartDashboard.putNumber("Shooter ITM Goal", Sensors.getInstance().getFormulaShooterRPM());
     // SmartDashboard.putBoolean("Is Happy?", isHappy());

@@ -35,6 +35,7 @@ import frc.robot.commands.groups.BlindAmpShoot;
 import frc.robot.commands.groups.BlindPass;
 import frc.robot.commands.groups.BlindReversePass;
 import frc.robot.commands.groups.FeedIntake;
+import frc.robot.commands.groups.PassOnReady;
 import frc.robot.commands.groups.ShootOnReady;
 import frc.robot.commands.groups.BlindSpeakerShoot;
 import frc.robot.commands.groups.Eject;
@@ -146,13 +147,19 @@ public class RobotContainer {
             () -> (drive.getColorNormRotation().getCos() > 0.0))
         ).onFalse(new Stow());
         
+    // pilot
+    //     .getBButton()
+    //     .whileTrue(
+    //       new ConditionalCommand(
+    //         new BlindPass(), 
+    //         new BlindReversePass(), 
+    //         () -> (drive.getColorNormRotation().getCos() > 0.0))
+    //     ).onFalse(new Stow());
+
     pilot
         .getBButton()
         .whileTrue(
-          new ConditionalCommand(
-            new BlindPass(), 
-            new BlindReversePass(), 
-            () -> (drive.getColorNormRotation().getCos() > 0.0))
+          new PassOnReady(() -> 0.0, () -> 0.0).withInterruptBehavior(InterruptionBehavior.kCancelIncoming)
         ).onFalse(new Stow());
 
     pilot
@@ -163,11 +170,16 @@ public class RobotContainer {
     
     pilot.getLeftTButton()
         .whileTrue(
-          new ShootOnReady(
-        () -> pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-        () -> pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0)
-          ).withInterruptBehavior(InterruptionBehavior.kCancelIncoming)
+          new ShootOnReady(() -> 0.0, () -> 0.0).withInterruptBehavior(InterruptionBehavior.kCancelIncoming)
         ).onFalse(new Stow());
+
+    // pilot.getLeftTButton()
+    //     .whileTrue(
+    //       new ShootOnReady(
+    //     () -> pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+    //     () -> pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0)
+    //       ).withInterruptBehavior(InterruptionBehavior.kCancelIncoming)
+    //     ).onFalse(new Stow());
 
     pilot 
         .getLeftBumperButton()

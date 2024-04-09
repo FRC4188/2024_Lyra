@@ -289,10 +289,10 @@ public class Shooter extends SubsystemBase{
               Math.abs(getRightVelocity() - rightVelocity) < 0.2 * rightVelocity / 10.0);
     }
 
-    public boolean atMPS(double goal) {
+    public boolean atMPS(double tolerance) {
       // return (getLeftVelocity() > MPS && right.getRPM() > RPM);
-      return (Math.abs(getLeftVelocity() - goal) < 0.3 * goal / 10.0 &&
-              Math.abs(getRightVelocity() - goal) < 0.3 * goal / 10.0);
+      return (Math.abs(getLeftVelocity() - leftVelocity) < tolerance * leftVelocity / 10.0 &&
+              Math.abs(getRightVelocity() - rightVelocity) < tolerance * rightVelocity / 10.0);
     }
 
     public boolean atMPS(double goal, double tolerance) {

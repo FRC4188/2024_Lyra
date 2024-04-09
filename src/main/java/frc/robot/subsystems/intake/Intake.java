@@ -1,6 +1,7 @@
 package frc.robot.subsystems.intake;
 
 import CSP_Lib.motors.CSP_TalonFX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -25,6 +26,7 @@ public class Intake extends SubsystemBase{
 
     @Override
     public void periodic() {
+
     }
 
     public void set(double percent) {
@@ -46,9 +48,15 @@ public class Intake extends SubsystemBase{
       return motor.getRPM(); 
     }
 
+    public double getCurrent() {
+      return motor.getCurrent();
+    }
+
     public void disable() {
       motor.stopMotor();
     }
+
+
 
     public boolean isBroken() {
       // return !breakerOne.get();

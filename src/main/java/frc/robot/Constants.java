@@ -42,6 +42,10 @@ public final class Constants {
     public static double FIELD_WIDTH = Units.feetToMeters(26.9375);
     public static double FIELD_LENGTH = Units.feetToMeters(54.2708);
 
+    //This is the safe zone for when we pass shot!
+    public static Translation2d BLUE_CORNER_LOCATION = new Translation2d(0.10, 8.15);
+    public static Translation2d RED_CORNER_LOCATION = new Translation2d(16.44, 8.15);
+
     public static Translation3d BLUE_SPEAKER_LOCATION = new Translation3d(0.10, 5.54, 2.04);
     public static Translation3d BLUE_AMP_LOCATION = new Translation3d(1.82, 8.15, 0.89);
 
@@ -269,11 +273,11 @@ public final class Constants {
     public static final double SHOOTER_DIAMETER_METERS = (SHOOTER_DIAMETER_INCHES) * 0.0254;
     public static final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER_METERS * Math.PI;
 
-    public static final SimpleMotorFeedforward LEFT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.38505, 0.375 * 1.125 * 11.5/11.1, 0.071659); // kS = verge of motion, kV = volts/vel
-    public static final PIDController LEFT_SHOOTER_PID = new PIDController(0.28219 * 1.25 * 1.1, 0.0, 0.0);
+    public static final SimpleMotorFeedforward LEFT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.38505, 0.375 * 1.1, 0.071659); // kS = verge of motion, kV = volts/vel
+    public static final PIDController LEFT_SHOOTER_PID = new PIDController(0.28219 * 1.1, 0.0, 0.0);
 
-    public static final SimpleMotorFeedforward RIGHT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.24931, 0.375 * 1.125 * 11.5/11.1, 0.058677); // kS = verge of motion, kV = volts/vel
-    public static final PIDController RIGHT_SHOOTER_PID = new PIDController(0.35718 * 1.25 * 1.1, 0.0, 0.0);
+    public static final SimpleMotorFeedforward RIGHT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.24931, 0.375 * 1.1, 0.058677); // kS = verge of motion, kV = volts/vel
+    public static final PIDController RIGHT_SHOOTER_PID = new PIDController(0.35718 * 1.1, 0.0, 0.0);
 
     public class DataPoints{
       public final double distance;

@@ -16,6 +16,7 @@ import CSP_Lib.motors.CSP_TalonFX;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -53,8 +54,8 @@ public class Shoulder extends SubsystemBase {
     // voltageLog.append(getVoltage());
 
     // This method will be called once per scheduler run
-    // SmartDashboard.putNumber("Shoulder Angle", getAngle().getDegrees());
-    // SmartDashboard.putNumber("Shoulder Setpoint", pid.getGoal().position); 
+    SmartDashboard.putNumber("Shoulder Angle", getAngle().getDegrees());
+    SmartDashboard.putNumber("Shoulder Setpoint", pid.getGoal().position); 
 
     pid.setGoal(angle);
     setVoltage(pid.calculate(getAngle().getDegrees()) + ff.calculate(Math.toRadians(angle + 90.0), 0.0));

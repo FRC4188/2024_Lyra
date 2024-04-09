@@ -5,8 +5,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.RobotContainer;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -60,7 +63,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-
+    if (Intake.getInstance().getCurrent() > 30.0) {
+      RobotContainer.pilot.setRumble(RumbleType.kBothRumble, 1.0);
+      RobotContainer.copilot.setRumble(RumbleType.kBothRumble, 1.0);
+    } else {
+        RobotContainer.pilot.setRumble(RumbleType.kBothRumble, 0.0);
+      RobotContainer.copilot.setRumble(RumbleType.kBothRumble, 0.0);
+    }
   }
 
   @Override

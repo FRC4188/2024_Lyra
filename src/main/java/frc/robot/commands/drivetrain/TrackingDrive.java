@@ -18,17 +18,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class TrackingDrive extends Command {
   private Swerve drive = Swerve.getInstance();
 
-  Translation3d goal = Constants.field.RED_SPEAKER_LOCATION;
+  Translation2d goal;
   DoubleSupplier xInput, yInput;
   boolean noInput;
   PIDController rotPID = drive.rotPID;
 
   /** Creates a new TrackingDrive. */
-  public TrackingDrive(DoubleSupplier xInput, DoubleSupplier yInput) {
+  public TrackingDrive(DoubleSupplier xInput, DoubleSupplier yInput, Translation2d goal) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
     this.xInput = xInput;
     this.yInput = yInput;
+    this.goal = goal;
   }
 
   // Called when the command is initially scheduled.
