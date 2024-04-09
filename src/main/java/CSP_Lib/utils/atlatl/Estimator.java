@@ -59,11 +59,12 @@ public class Estimator {
 
         // Calculate distance from the robot to the target.
         // d = z / tan(ty)
-        double distance = tagTranslation.getZ() / Math.tan(Math.toRadians(vision.ty));
+        double distance = (tagTranslation.getZ() - camera.cameraMounting.getZ()) / Math.tan(Math.toRadians(vision.ty));
 
         // Calculate the position of the robot relative to the goal.
         Translation2d position = new Translation2d(distance, totalAngle)
-            .plus(tagTranslation.toTranslation2d());
+            .plus(tagTranslation.toTranslation2d())
+            .minus(camera.cameraMounting.getTranslation().toTranslation2d().rotateBy(camera.gyroAngle.times(-1.0)));
 
         // Store the sine of ty to avoid repeated operation.
         double sin = Math.sin(vision.ty);
