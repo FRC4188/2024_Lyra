@@ -54,9 +54,11 @@ public class Sensors extends SubsystemBase {
     // velocityMap.put(8.0, 22.0);
     // angleMap.put(8.0, 65.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 8.0)));
 
-    velocityMap.put(10.0, 16.0);
+    velocityMap.put(11.6, 20.0);
 
-    velocityMap.put(7.0, 12.0);
+    velocityMap.put(9.7, 16.5);
+
+    velocityMap.put(7.0, 11.5);
 
     velocityMap.put(5.6, 21.0);
     angleMap.put(5.6, 62.3 - 90.0 + Math.toDegrees(Math.atan(2.04 / 5.6)));
@@ -203,7 +205,7 @@ public class Sensors extends SubsystemBase {
     return Rotation2d.fromDegrees(-(90.0 - Math.toDegrees(Math.atan(2.04 / getXYDistance())) + angleMap.get(getXYDistance())));
   }
 
-  /**
+  /** 
    * Get angle the robot / drivetrain should be at while standing still during aimmode
    * @param goal
    * @return angle in double

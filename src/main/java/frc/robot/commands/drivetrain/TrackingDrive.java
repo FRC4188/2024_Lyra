@@ -39,12 +39,12 @@ public class TrackingDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Rotation2d goalAngle = Sensors.getInstance().getFormulaDriveAngle();
-    Pose2d pose = drive.getPose2d();
-    Translation2d currentSpeed = drive.getFOSpeeds();
+    Rotation2d goalAngle = Sensors.getInstance().getFormulaDriveAngle(goal);
+    // Pose2d pose = drive.getPose2d();
+    // Translation2d currentSpeed = drive.getFOSpeeds();
 
-    double dx = goal.getX() - pose.getX(); //get distance needed to travel in x
-    double dy = goal.getY() - pose.getY(); //get distance needed to travel in y
+    // double dx = goal.getX() - pose.getX(); //get distance needed to travel in x
+    // double dy = goal.getY() - pose.getY(); //get distance needed to travel in y
 
     /* Get hypothenuse cube of the slope yInput and xInput
      * cube = scaling 
@@ -63,7 +63,7 @@ public class TrackingDrive extends Command {
     rotSpeed += drive.rotPID.calculate(Swerve.getInstance().getPose2d().getRotation().getDegrees(), goalAngle.getDegrees());
     /**rotSpeed from aiden's math hellscape = predicting wut the drivetrain rotation speed should be
      * to keep aiming while moving */
-    rotSpeed += Math.toDegrees(currentSpeed.getX() * -dy / (dx * dx + dy * dy) + currentSpeed.getY() * dx / (dx * dx + dy * dy));
+    // rotSpeed += Math.toDegrees(currentSpeed.getX() * -dy / (dx * dx + dy * dy) + currentSpeed.getY() * dx / (dx * dx + dy * dy));
 
     noInput = xSpeed == 0 && ySpeed == 0 && rotSpeed == 0;
 

@@ -234,7 +234,7 @@ public final class Constants {
 
     // public static final PIDConstants XY_PID = new PIDConstants(3.0, 0.0, 0.0);
 
-    public static final PIDController ROT_PID = new PIDController(0.15, 0.0, 0.006);
+    public static final PIDController ROT_PID = new PIDController(0.12, 0.0, 0.012);
 
     // public static final PIDConstants CORRECTION_PID = new PIDConstants(-0.1, 0.0, -0.006);
 

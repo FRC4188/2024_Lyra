@@ -280,7 +280,7 @@ public class Swerve extends SubsystemBase {
 
   public void updateDashboard() {
 
-    //SmartDashboard.putString("Estimated Pose", getPose2d().toString());
+    SmartDashboard.putString("Estimated Pose", getPose2d().toString());
 
     for (SwerveModule module : moduleList) {
       SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());
