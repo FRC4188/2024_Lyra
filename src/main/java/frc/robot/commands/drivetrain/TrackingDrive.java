@@ -18,18 +18,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class TrackingDrive extends Command {
   private Swerve drive = Swerve.getInstance();
 
-  Translation2d goal;
-  DoubleSupplier xInput, yInput;
+  DoubleSupplier xInput, yInput, goalAngle;
   boolean noInput;
   PIDController rotPID = drive.rotPID;
 
   /** Creates a new TrackingDrive. */
-  public TrackingDrive(DoubleSupplier xInput, DoubleSupplier yInput, Translation2d goal) {
+  public TrackingDrive(DoubleSupplier xInput, DoubleSupplier yInput, DoubleSupplier goalAngle) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
     this.xInput = xInput;
     this.yInput = yInput;
-    this.goal = goal;
+    this.goalAngle = goalAngle;
   }
 
   // Called when the command is initially scheduled.
@@ -39,7 +38,8 @@ public class TrackingDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Rotation2d goalAngle = Sensors.getInstance().getFormulaDriveAngle(goal);
+    double goalAngleDeg = goalAngle.getAsDouble();
+    
     // Pose2d pose = drive.getPose2d();
     // Translation2d currentSpeed = drive.getFOSpeeds();
 
@@ -60,7 +60,7 @@ public class TrackingDrive extends Command {
     double rotSpeed = 0.0;
 
     //rotSpeed calculated from rotPID
-    rotSpeed += drive.rotPID.calculate(Swerve.getInstance().getPose2d().getRotation().getDegrees(), goalAngle.getDegrees());
+    rotSpeed += drive.rotPID.calculate(Swerve.getInstance().getPose2d().getRotation().getDegrees(), goalAngleDeg);
     /**rotSpeed from aiden's math hellscape = predicting wut the drivetrain rotation speed should be
      * to keep aiming while moving */
     // rotSpeed += Math.toDegrees(currentSpeed.getX() * -dy / (dx * dx + dy * dy) + currentSpeed.getY() * dx / (dx * dx + dy * dy));

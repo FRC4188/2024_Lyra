@@ -275,7 +275,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public boolean atGoalAngle(Rotation2d angle) {
-    return (Math.abs(getPose2d().getRotation().getDegrees() - angle.getDegrees()) < Math.toDegrees(Math.atan(1.0 / (2.0 * Sensors.getInstance().getXYDistance()))));
+    return (Math.abs(getPose2d().getRotation().getDegrees() - angle.getDegrees()) < Math.toDegrees(Math.atan(1.0 / (2.0 * Sensors.getInstance().getSpeakerDistance()))));
   }
 
   public void updateDashboard() {

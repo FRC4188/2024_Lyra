@@ -26,13 +26,11 @@ public class PassOnReady extends ParallelDeadlineGroup {
             Commands.waitUntil(() -> 
                 Shooter.getInstance().atMPS(2.0) && 
                 Shoulder.getInstance().atGoal(Rotation2d.fromDegrees(-40.0), 3.0) && 
-                Swerve.getInstance().atGoalAngle(Sensors.getInstance().getFormulaDriveAngle(
-                    Sensors.getInstance().getAllianceColor() == DriverStation.Alliance.Blue ? Constants.field.BLUE_CORNER_LOCATION : Constants.field.RED_CORNER_LOCATION
-                ))).andThen(
+                Swerve.getInstance().atGoalAngle(Sensors.getInstance().getCornerDriveAngle())).andThen(
             new FeedIntoShooter(12.0).withTimeout(0.25)),
 
-            new TrackingDrive(() -> 0.0, () -> 0.0, Constants.field.RED_CORNER_LOCATION),
-            new SetShooterMPS(() -> Sensors.getInstance().getFormulaShooterRPM()),
+            new TrackingDrive(() -> 0.0, () -> 0.0, () -> Sensors.getInstance().getCornerDriveAngle().getDegrees()),
+            new SetShooterMPS(() -> Sensors.getInstance().getCornerShooterRPM()),
             new SetShoulderAngle(() -> -40.0)
         );
     }

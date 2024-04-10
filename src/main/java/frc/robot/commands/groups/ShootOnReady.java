@@ -27,7 +27,7 @@ public class ShootOnReady extends ParallelDeadlineGroup {
                 Swerve.getInstance().atGoalAngle(Sensors.getInstance().getFormulaDriveAngle())).andThen(
             new FeedIntoShooter(12.0).withTimeout(0.25)),
 
-            new TrackingDrive(() -> 0.0, () -> 0.0, Constants.field.RED_SPEAKER_LOCATION.toTranslation2d()),
+            new TrackingDrive(() -> 0.0, () -> 0.0, () -> Sensors.getInstance().getFormulaDriveAngle().getDegrees()),
             new SetShooterMPS(() -> Sensors.getInstance().getFormulaShooterRPM()),
             new SetShoulderAngle(() -> Sensors.getInstance().getFormulaShoulderAngle().getDegrees())
         );
