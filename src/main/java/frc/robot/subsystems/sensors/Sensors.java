@@ -52,11 +52,11 @@ public class Sensors extends SubsystemBase {
     // velocityMap.put(8.0, 22.0);
     // angleMap.put(8.0, 65.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 8.0)));
 
-    velocityMap.put(11.6, 20.0);
+    velocityMap.put(11.6, 15.0);
 
-    velocityMap.put(9.7, 16.5);
+    velocityMap.put(9.7, 12.5);
 
-    velocityMap.put(7.0, 11.5);
+    velocityMap.put(7.0, 9.0);
 
     velocityMap.put(5.6, 21.0);
     angleMap.put(5.6, 62.3 - 90.0 + Math.toDegrees(Math.atan(2.04 / 5.6)));
@@ -106,14 +106,9 @@ public class Sensors extends SubsystemBase {
     // SmartDashboard.putString("back ll pose", getBackPose2d().toString());
     // SmartDashboard.putString("front ll pose", getFrontPose2d().toString());
 
-    // SmartDashboard.putBoolean("Shooter Ready?", Shooter.getInstance().atMPS());
-    // SmartDashboard.putBoolean("Shoulder Ready?", Shoulder.getInstance().atGoal(getFormulaShoulderAngle()));
-    // SmartDashboard.putBoolean("Drive Ready?", Swerve.getInstance().atGoalAngle(getFormulaDriveAngle()));
-
-    SmartDashboard.putBoolean("Shooter Ready?", Shooter.getInstance().atMPS(2.0));
-    SmartDashboard.putBoolean("Shoulder Ready?", Shoulder.getInstance().atGoal(Rotation2d.fromDegrees(-40.0), 3.0));
-    SmartDashboard.putBoolean("Drive Ready?", Swerve.getInstance().atGoalAngle(Sensors.getInstance().getFormulaDriveAngle()));
-
+    SmartDashboard.putBoolean("Shooter Ready?", Shooter.getInstance().atMPS());
+    SmartDashboard.putBoolean("Shoulder Ready?", Shoulder.getInstance().atGoal(getFormulaShoulderAngle()));
+    SmartDashboard.putBoolean("Drive Ready?", Swerve.getInstance().atGoalAngle(getFormulaDriveAngle()));
   
     // SmartDashboard.putNumber("Shoulder ITM Goal", Sensors.getInstance().getFormulaShoulderAngle().getDegrees());
     SmartDashboard.putNumber("Shooter ITM Goal", Sensors.getInstance().getFormulaShooterRPM());
@@ -226,7 +221,7 @@ public class Sensors extends SubsystemBase {
 
     Translation2d difference = Swerve.getInstance().getPose2d().getTranslation().minus(translation);
 
-    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(difference.getY(), difference.getX())).rotateBy(Rotation2d.fromDegrees(-3.5));
+    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(difference.getY(), difference.getX())).rotateBy(Rotation2d.fromDegrees(-3.5)); // ROTATION CORRECTION
     SmartDashboard.putNumber("Drive Setpoint", setpoint.getDegrees());
     return setpoint;
   }
@@ -234,7 +229,7 @@ public class Sensors extends SubsystemBase {
   public Rotation2d getCornerDriveAngle() {
     Translation2d translation = Swerve.getInstance().getPose2d().getTranslation().minus(cornerLocation);
 
-    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX())).rotateBy(Rotation2d.fromDegrees(-3.5));
+    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX())).rotateBy(Rotation2d.fromDegrees(-0.0));
     SmartDashboard.putNumber("Drive Setpoint", setpoint.getDegrees());
     return setpoint;
   }

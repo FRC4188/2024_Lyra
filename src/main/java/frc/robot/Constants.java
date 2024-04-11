@@ -43,8 +43,8 @@ public final class Constants {
     public static double FIELD_LENGTH = Units.feetToMeters(54.2708);
 
     //This is the safe zone for when we pass shot!
-    public static Translation2d BLUE_CORNER_LOCATION = new Translation2d(0.10, 8.15);
-    public static Translation2d RED_CORNER_LOCATION = new Translation2d(16.44, 8.15);
+    public static Translation2d BLUE_CORNER_LOCATION = new Translation2d(0.10, 7.65);
+    public static Translation2d RED_CORNER_LOCATION = new Translation2d(16.44, 7.65);
 
     public static Translation3d BLUE_SPEAKER_LOCATION = new Translation3d(0.10, 5.54, 2.04);
     public static Translation3d BLUE_AMP_LOCATION = new Translation3d(1.82, 8.15, 0.89);
@@ -221,10 +221,10 @@ public final class Constants {
     public static final Translation2d BR_LOCATION =
         new Translation2d(-(Constants.robot.A_LENGTH / 2), -(Constants.robot.A_WIDTH / 2));
 
-    public static final double FL_ZERO = 145.458984375;
-    public static final double BL_ZERO = 116.54296875;
-    public static final double BR_ZERO = -156.884765625;
-    public static final double FR_ZERO = 83.583984375;
+    public static final double FL_ZERO = 147.568359375;
+    public static final double BL_ZERO = 117.400390625;
+    public static final double BR_ZERO = -155.91796875;
+    public static final double FR_ZERO = 85.341796875;
 
   public static final PIDController ANGLE_PID = new PIDController(0.008, 0.0, 0.0);
     public static final SimpleMotorFeedforward ANGLE_FF = new SimpleMotorFeedforward(0.0, 1);
@@ -234,7 +234,7 @@ public final class Constants {
 
     // public static final PIDConstants XY_PID = new PIDConstants(3.0, 0.0, 0.0);
 
-    public static final PIDController ROT_PID = new PIDController(0.12, 0.0, 0.012);
+    public static final PIDController ROT_PID = new PIDController(0.15, 0.0, 0.006);
 
     // public static final PIDConstants CORRECTION_PID = new PIDConstants(-0.1, 0.0, -0.006);
 

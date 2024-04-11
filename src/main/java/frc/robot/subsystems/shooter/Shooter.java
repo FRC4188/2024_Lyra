@@ -184,8 +184,8 @@ public class Shooter extends SubsystemBase{
       }
 
       public void setVelocity(double velocity) {
-        this.leftVelocity = velocity - 2.0;
-        this.rightVelocity = velocity + 2.0;
+        this.leftVelocity = velocity - 0.0;
+        this.rightVelocity = velocity + 0.0;
       }
 
     /**
@@ -297,8 +297,8 @@ public class Shooter extends SubsystemBase{
 
     public boolean atMPS(double goal, double tolerance) {
       // return (getLeftVelocity() > MPS && right.getRPM() > RPM);
-      return (Math.abs(getLeftVelocity() - (goal - 2.0)) < tolerance * (goal - 2.0) / 10.0 &&
-              Math.abs(getRightVelocity() - (goal + 2.0)) < tolerance * (goal + 2.0) / 10.0);
+      return (Math.abs(getLeftVelocity() - (goal)) < tolerance * (goal - 2.0) / 10.0 &&
+              Math.abs(getRightVelocity() - (goal)) < tolerance * (goal + 2.0) / 10.0);
     }
 
     public void setControlMode(ControlMode mode) {

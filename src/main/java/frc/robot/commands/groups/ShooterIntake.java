@@ -24,13 +24,13 @@ public class ShooterIntake extends ParallelCommandGroup {
                 new SetShoulderAngle(() -> 30.0)
                     .until(() -> shoulder.atGoal(Rotation2d.fromDegrees(30.0), 2.0)),
                 new ParallelCommandGroup(
-                    new SetShooterMPS(() -> -6.0),
+                    new SetShooterMPS(() -> -10.0),
                     new SetShoulderAngle(() -> 30.0)
                 ).until(() -> feeder.isBroken())
             ).andThen(
                 new ParallelDeadlineGroup(
                     new WaitCommand(0.5).andThen(new EjectFeeder().until(() -> !feeder.isBroken()).andThen(new FeedIntoFeeder(1.8))),
-                    new SetShooterMPS(() -> -6.0)))
+                    new SetShooterMPS(() -> -10.0)))
             .andThen(new Stow())
         );
     }
