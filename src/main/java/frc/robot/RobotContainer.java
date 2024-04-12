@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -95,6 +96,11 @@ public class RobotContainer {
 
   private void configureBindings() {
 
+    SmartDashboard.putNumber("Angle", 0.0);
+    SmartDashboard.putNumber("Velocity", 0.0);
+    SmartDashboard.putData("Set Shooter MPS", new RunCommand(() -> shooter.setVelocity(SmartDashboard.getNumber("Velocity", 0))));
+    SmartDashboard.putData("Set Shoulder Angle", new RunCommand(() -> shoulder.setAngle(Rotation2d.fromDegrees(SmartDashboard.getNumber("Angle", 0)))));
+
     //Add these in for sysid tests
     // pilot.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
     // pilot.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
@@ -123,7 +129,7 @@ public class RobotContainer {
                   drive.resetOdometry(
                     new Pose2d(drive.getPose2d().getTranslation(), 
                     Rotation2d.fromDegrees(sensors.getAllianceColor() == DriverStation.Alliance.Red ? 180 : 0)));
-                  drive.rotPID.setSetpoint(180.0);
+                  drive.rotPID.setSetpoint(0.0);
                 }, sensors));
 
     pilot
@@ -223,8 +229,7 @@ public class RobotContainer {
   }
 
   public void smartdashboardButtons() {
-    // SmartDashboard.putNumber("Shoulder Point", 0.0);
-    // SmartDashboard.putNumber("MPS Point", 0.0);
+
   }
 
   public void addChooser() {

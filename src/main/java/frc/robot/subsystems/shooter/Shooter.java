@@ -159,11 +159,11 @@ public class Shooter extends SubsystemBase{
             );
             break;
           case DASH_VELOCITY: // get velocity from dashboard
-            double velocity = SmartDashboard.getNumber("Set Velocity", 0.0);
+            double velocity = SmartDashboard.getNumber("Velocity", 0.0);
 
             setVoltage(
-              leftpid.calculate(getLeftVelocity(), velocity + 1.0) + leftff.calculate(velocity + 1.0),
-              rightpid.calculate(getRightVelocity(), velocity - 1.0) + rightff.calculate(velocity - 1.0)
+              leftpid.calculate(getLeftVelocity(), velocity) + leftff.calculate(velocity),
+              rightpid.calculate(getRightVelocity(), velocity) + rightff.calculate(velocity)
             );
             break;
           case TEST: // do nothing while testing
