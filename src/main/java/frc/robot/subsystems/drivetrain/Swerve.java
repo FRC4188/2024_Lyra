@@ -125,7 +125,7 @@ public class Swerve extends SubsystemBase {
   private Swerve() {
     configurePathPlanner();
 
-    correctionPID.enableContinuousInput(-180, 180);
+    correctionPID.enableContinuousInput(0, 180);
     correctionPID.setTolerance(1.0);
 
     rotPID.enableContinuousInput(-180.0, 180.0);

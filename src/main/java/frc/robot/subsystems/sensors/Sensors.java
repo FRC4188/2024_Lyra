@@ -203,7 +203,8 @@ public class Sensors extends SubsystemBase {
    */
   public Rotation2d getFormulaShoulderAngle() {
     // return Rotation2d.fromDegrees(currentGoal.ITM_A.get(getXYDistance()));
-    return Rotation2d.fromDegrees(-(90.0 - Math.toDegrees(Math.atan(2.04 / getSpeakerDistance())) + angleMap.get(getSpeakerDistance())));
+    return Rotation2d.fromDegrees(-(90.0 - Math.toDegrees(Math.atan(2.04 / getSpeakerDistance())) + angleMap.get(getSpeakerDistance())))
+      .times(Math.signum(Math.cos(Swerve.getInstance().getPose2d().getRotation().getDegrees())));
   }
 
   /** 
