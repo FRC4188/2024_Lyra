@@ -42,6 +42,8 @@ import frc.robot.commands.groups.BlindSpeakerShoot;
 import frc.robot.commands.groups.Eject;
 
 import frc.robot.commands.groups.Stow;
+import frc.robot.commands.shooter.SetShooterMPS;
+import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.feeder.Feeder;
 import frc.robot.subsystems.intake.Intake;
@@ -98,8 +100,8 @@ public class RobotContainer {
 
     SmartDashboard.putNumber("Angle", 0.0);
     SmartDashboard.putNumber("Velocity", 0.0);
-    SmartDashboard.putData("Set Shooter MPS", new RunCommand(() -> shooter.setVelocity(SmartDashboard.getNumber("Velocity", 0))));
-    SmartDashboard.putData("Set Shoulder Angle", new RunCommand(() -> shoulder.setAngle(Rotation2d.fromDegrees(SmartDashboard.getNumber("Angle", 0)))));
+    SmartDashboard.putData("Set Shooter MPS", new SetShooterMPS(() -> (SmartDashboard.getNumber("Velocity", 0))));
+    SmartDashboard.putData("Set Shoulder Angle", new SetShoulderAngle(() -> (SmartDashboard.getNumber("Angle", 0))));
 
     //Add these in for sysid tests
     // pilot.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
@@ -129,7 +131,7 @@ public class RobotContainer {
                   drive.resetOdometry(
                     new Pose2d(drive.getPose2d().getTranslation(), 
                     Rotation2d.fromDegrees(sensors.getAllianceColor() == DriverStation.Alliance.Red ? 180 : 0)));
-                  drive.rotPID.setSetpoint(0.0);
+                  drive.rotPID.setSetpoint(180.0);
                 }, sensors));
 
     pilot

@@ -22,6 +22,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -107,6 +108,8 @@ public class Swerve extends SubsystemBase {
     
   // });
 
+  private Field2d field = new Field2d();
+
   private SwerveDrivePoseEstimator odometry =
       new SwerveDrivePoseEstimator(
           kinematics,
@@ -134,6 +137,8 @@ public class Swerve extends SubsystemBase {
 
     // SmartDashboard.putNumber("Angle kP", Constants.drivetrain.ANGLE_PID.getP());
     // SmartDashboard.putNumber("Angle kD", Constants.drivetrain.ANGLE_PID.getD());
+
+    SmartDashboard.putData("Field", field);
   }
 
   @Override
@@ -281,6 +286,7 @@ public class Swerve extends SubsystemBase {
   public void updateDashboard() {
 
     SmartDashboard.putString("Estimated Pose", getPose2d().toString());
+    field.setRobotPose(getPose2d());
 
     for (SwerveModule module : moduleList) {
       SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());

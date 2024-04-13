@@ -4,6 +4,7 @@ import CSP_Lib.motors.CSP_TalonFX;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.MutableMeasure;
@@ -57,6 +58,8 @@ public class Shooter extends SubsystemBase{
 
     private PIDController leftpid = Constants.shooter.LEFT_SHOOTER_PID;
     private PIDController rightpid = Constants.shooter.RIGHT_SHOOTER_PID;
+
+
 
     // public
 
@@ -178,15 +181,10 @@ public class Shooter extends SubsystemBase{
         right.set(rightPercentage);
     }
 
-    public void setVelocity(double leftVelocity, double rightVelocity) {
-        this.leftVelocity = leftVelocity;
-        this.rightVelocity = rightVelocity;
-      }
-
-      public void setVelocity(double velocity) {
-        this.leftVelocity = velocity - 0.0;
-        this.rightVelocity = velocity + 0.0;
-      }
+    public void setVelocity(double velocity) {
+      this.leftVelocity = Math.min(velocity, Constants.shooter.MAX_VELOCITY);
+      this.rightVelocity = Math.min(velocity, Constants.shooter.MAX_VELOCITY);
+    }
 
     /**
      * 

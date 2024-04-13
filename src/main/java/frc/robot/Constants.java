@@ -279,6 +279,8 @@ public final class Constants {
     public static final SimpleMotorFeedforward RIGHT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.24931, 0.375 * 1.1, 0.058677); // kS = verge of motion, kV = volts/vel
     public static final PIDController RIGHT_SHOOTER_PID = new PIDController(0.35718 * 1.1, 0.0, 0.0);
 
+    public static final double MAX_VELOCITY = 20.0;
+    
     public class DataPoints{
       public final double distance;
       public final double value;

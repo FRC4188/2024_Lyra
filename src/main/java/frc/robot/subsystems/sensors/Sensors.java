@@ -48,47 +48,40 @@ public class Sensors extends SubsystemBase {
 
   /** Creates a new Sensors. */
   private Sensors() {  
+    // velocityMap.put(5.6, 21.0);
+    // angleMap.put(5.6, 62.3 - 90.0 + Math.toDegrees(Math.atan(2.04 / 5.6)));
 
-    // velocityMap.put(8.0, 22.0);
-    // angleMap.put(8.0, 65.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 8.0)));
+    // velocityMap.put(4.4, 21.2);
+
+    // angleMap.put(4.4, 59.8 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.4)));
+
+    // velocityMap.put(3.95, 20.0);
+    // angleMap.put(3.95, 57.6 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.95)));
+
+    // velocityMap.put(3.7, 17.5);
+    // angleMap.put(3.7, 56.35 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.7)));
+
+    // velocityMap.put(3.4, 17.0);
+    // angleMap.put(3.4, 55.7 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.4)));
+
+    // velocityMap.put(2.9, 16.5);
+    // angleMap.put(2.9, 52.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 2.9)));
+
+    // velocityMap.put(2.07, 12.5);
+    // angleMap.put(2.07, 43.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 2.07)));
+
+    // angleMap.put(1.7, 37.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 1.7)));
+
+    // velocityMap.put(1.500, 13.0);
+    // angleMap.put(1.500, 32.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 1.5)));
 
     velocityMap.put(11.6, 15.0);
 
     velocityMap.put(9.7, 12.5);
 
     velocityMap.put(7.0, 9.0);
-
-    velocityMap.put(5.6, 21.0);
-    angleMap.put(5.6, 62.3 - 90.0 + Math.toDegrees(Math.atan(2.04 / 5.6)));
-
-    velocityMap.put(4.7, 19.2);
-    angleMap.put(4.7, 61.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.7)));
-
-    velocityMap.put(4.4, 21.2);
-
-    angleMap.put(4.4, 59.8 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.4)));
-
-    velocityMap.put(3.95, 20.0);
-    angleMap.put(3.95, 57.6 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.95)));
-
-    velocityMap.put(3.7, 17.5);
-    angleMap.put(3.7, 56.35 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.7)));
-
-    velocityMap.put(3.4, 17.0);
-    angleMap.put(3.4, 55.7 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.4)));
-
-    velocityMap.put(2.9, 16.5);
-    angleMap.put(2.9, 52.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 2.9)));
-
-    velocityMap.put(2.07, 12.5);
-    angleMap.put(2.07, 43.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 2.07)));
-
-    angleMap.put(1.7, 37.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 1.7)));
-
-    velocityMap.put(1.500, 13.0);
-    angleMap.put(1.500, 32.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 1.5)));
-
-
+    velocityMap.put(4.9, 16.0);
+    angleMap.put(4.9, 59.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.9)));
   }
 
   @Override
@@ -99,7 +92,6 @@ public class Sensors extends SubsystemBase {
     // SmartDashboard.putString("back ll pose", getPose2d().toString());
     SmartDashboard.putNumber("Speaker Distance", getSpeakerDistance());
     SmartDashboard.putNumber("Corner Distance", getCornerDistance());
-
 
     // SmartDashboard.putNumber("Drive Angle", Swerve.getInstance().getPose2d().getRotation().getDegrees());
     // SmartDashboard.putNumber("Pigeon Angle", getRotation2d().getDegrees());
@@ -203,8 +195,8 @@ public class Sensors extends SubsystemBase {
    */
   public Rotation2d getFormulaShoulderAngle() {
     // return Rotation2d.fromDegrees(currentGoal.ITM_A.get(getXYDistance()));
-    return Rotation2d.fromDegrees(-(90.0 - Math.toDegrees(Math.atan(2.04 / getSpeakerDistance())) + angleMap.get(getSpeakerDistance())))
-      .times(Math.signum(Math.cos(Swerve.getInstance().getPose2d().getRotation().getDegrees())));
+    return Rotation2d.fromDegrees(-(90.0 - Math.toDegrees(Math.atan(2.04 / getSpeakerDistance())) + angleMap.get(getSpeakerDistance())));
+      //.times(Math.signum(Math.cos(Swerve.getInstance().getPose2d().getRotation().getDegrees())));
   }
 
   /** 
