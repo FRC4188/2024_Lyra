@@ -3,51 +3,35 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 15.706637747084336,
-        "y": 4.555515416309007
+        "x": 14.315106634963863,
+        "y": 4.221645307898693
       },
       "prevControl": null,
       "nextControl": {
-        "x": 14.266204851953214,
-        "y": 4.0285277717488395
+        "x": 15.9725655318294,
+        "y": 5.567111941824834
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Wing 4 piece - First Note"
     },
     {
       "anchor": {
-        "x": 13.5,
-        "y": 3.95
+        "x": 13.320631296844542,
+        "y": 5.547612425391122
       },
       "prevControl": {
-        "x": 14.261204375475796,
-        "y": 4.172505894369847
-      },
-      "nextControl": {
-        "x": 12.738795624524204,
-        "y": 3.7274941056301536
-      },
-      "isLocked": false,
-      "linkedName": "Source 4 Piece - First Note"
-    },
-    {
-      "anchor": {
-        "x": 13.92659059212555,
-        "y": 3.1502150308152252
-      },
-      "prevControl": {
-        "x": 15.214782612161516,
-        "y": 4.578937089400569
+        "x": 14.578350106818982,
+        "y": 5.567111941824835
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Source 4 Piece - Second Shot"
+      "linkedName": "Wing 4 piece - Second Note"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1,
-      "rotationDegrees": -179.31793960682734,
+      "waypointRelativePos": 0.15,
+      "rotationDegrees": 180.0,
       "rotateFast": false
     }
   ],
@@ -85,13 +69,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -131.34777721969377,
+    "rotation": 177.58049078334375,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "New Folder",
+  "folder": "Wing",
   "previewStartingState": {
-    "rotation": -124.15969454566928,
+    "rotation": -149.26451229807972,
     "velocity": 0
   },
   "useDefaultConstraints": true

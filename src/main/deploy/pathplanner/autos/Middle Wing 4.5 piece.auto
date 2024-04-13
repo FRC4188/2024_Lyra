@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.296758467981984,
-      "y": 5.492382339971527
+      "x": 15.24991512179886,
+      "y": 5.550936522700434
     },
     "rotation": 180.0
   },
@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "5 piece - First Note"
+            "pathName": "Middle 5 piece - First Note"
           }
         },
         {

@@ -202,7 +202,7 @@ public final class Constants {
 
     public static final double MAX_VOLTS = 12.0;
     public static final double MAX_VELOCITY = 5.0; // ?
-    public static final double MAX_ACCEL = 11.6;
+    public static final double MAX_ACCEL = 12.6;
     public static final double MAX_CACCEL = 8.0;
     public static final double MAX_RADIANS = 5 * Math.PI;
     public static final double RAMP_RATE = 0.5;

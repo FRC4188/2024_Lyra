@@ -247,7 +247,10 @@ public class RobotContainer {
     // autoChooser.addOption("Blue Walton Auto", new PathPlannerAuto("Walton Auto").andThen(new BlueSourceNoteOne()));
 
     autoChooser.addOption("5 piece", new PathPlannerAuto("5 piece")); 
-    autoChooser.addOption("4.5 piece", new PathPlannerAuto("4.5 piece")); 
+    autoChooser.addOption("Middle Wing 4.5 piece", new PathPlannerAuto("Middle Wing 4.5 piece")); 
+    autoChooser.addOption("Amp Wing 4.5 piece", new PathPlannerAuto("Amp Wing 4.5 piece")); 
+    autoChooser.addOption("Source Wing 4 piece", new PathPlannerAuto("Source Wing 4 piece")); 
+
     autoChooser.addOption("Source 3 Piece", new PathPlannerAuto("Source 3 Piece"));
     autoChooser.addOption("Source 4 Piece", new PathPlannerAuto("Source 4 Piece"));
 

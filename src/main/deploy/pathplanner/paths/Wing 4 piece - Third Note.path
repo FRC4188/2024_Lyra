@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 15.24991512179886,
-        "y": 5.550936522700434
+        "x": 13.320631296844542,
+        "y": 5.547612425391122
       },
       "prevControl": null,
       "nextControl": {
-        "x": 14.359891544319463,
-        "y": 6.394116753996703
+        "x": 15.563075686721447,
+        "y": 6.1520974348362
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Wing 4 piece - Second Note"
     },
     {
       "anchor": {
-        "x": 13.153675380103971,
-        "y": 7.190453639109847
+        "x": 13.320631296844542,
+        "y": 7.136823014738666
       },
       "prevControl": {
-        "x": 14.266204851953216,
-        "y": 6.551943777839055
+        "x": 15.02683898479436,
+        "y": 6.82483075179927
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "First Note"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -63,13 +63,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 145.00797980144128,
+    "rotation": 157.61986494804037,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "5 Piece",
+  "folder": "Wing",
   "previewStartingState": {
-    "rotation": -178.26429541107183,
+    "rotation": -149.26451229807972,
     "velocity": 0
   },
   "useDefaultConstraints": true

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.296758467981984,
-      "y": 5.492382339971527
+      "x": 15.709322059974287,
+      "y": 4.5531370872718
     },
-    "rotation": 180.0
+    "rotation": 124.11447294534125
   },
   "command": {
     "type": "sequential",
@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Middle 5 piece - First Note"
+            "pathName": "Amp 4.5 piece - First Note"
           }
         },
         {
@@ -50,7 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "5 piece - Third Note"
+            "pathName": "4.5 piece - Third Note"
           }
         },
         {
@@ -62,13 +62,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "5 piece - Fourth Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot on Ready"
+            "pathName": "4.5 piece - Fourth Note"
           }
         }
       ]
