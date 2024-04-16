@@ -47,7 +47,7 @@ public class Shooter extends SubsystemBase{
     }
 
     // private ControlMode controlMode = ControlMode.STOP;
-        private ControlMode controlMode = ControlMode.VELOCITY;
+        private ControlMode controlMode = ControlMode.TEST;
 
 
     private CSP_TalonFX left = new CSP_TalonFX(Constants.ids.LEFT_SHOOTER, "canivore");
@@ -85,20 +85,20 @@ public class Shooter extends SubsystemBase{
           new SysIdRoutine.Mechanism(
               // Tell SysId how to plumb the driving voltage to the motors.
               (Measure<Voltage> volts) -> {
-                left.setVoltage(volts.in(Volts));
+                right.setVoltage(volts.in(Volts));
               },
               // Tell SysId how to record a frame of data for each motor on the mechanism being
               // characterized.
               log -> {
                 // Record a frame for the left motors.  Since these share an encoder, we consider
                 // the entire group to be one motor.
-                log.motor("flywheel-left")
+                log.motor("flywheel-right")
                     .voltage(
                         m_appliedVoltage.mut_replace(
-                            left.get() * RobotController.getBatteryVoltage(), Volts))
-                    .linearPosition(m_distance.mut_replace(getLeftPosition(), Meters))
+                            right.get() * RobotController.getBatteryVoltage(), Volts))
+                    .linearPosition(m_distance.mut_replace(getRightPosition(), Meters))
                     .linearVelocity(
-                        m_velocity.mut_replace(getLeftVelocity(), MetersPerSecond));
+                        m_velocity.mut_replace(getRightVelocity(), MetersPerSecond));
                
               },
               // Tell SysId to make generated commands require this subsystem, suffix test state in

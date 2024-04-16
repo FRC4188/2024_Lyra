@@ -56,6 +56,10 @@ public class Intake extends SubsystemBase{
       motor.stopMotor();
     }
 
+    public double getTemperature() {
+      return motor.getTemperature();
+    }
+
 
 
     public boolean isBroken() {

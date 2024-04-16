@@ -2,6 +2,7 @@ package frc.robot.subsystems.feeder;
 
 import CSP_Lib.motors.CSP_TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -19,7 +20,7 @@ public class Feeder extends SubsystemBase {
   }
 
   private CSP_TalonFX motor = new CSP_TalonFX(Constants.ids.FEEDER, "canivore");
-  private DigitalInput breaker = new DigitalInput(Constants.ids.FEEDER_BEAM_BREAKER);
+  private DigitalInput breaker = new DigitalInput(5);
 
   public Feeder() {
     motor.setBrake(true);
@@ -28,6 +29,7 @@ public class Feeder extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("Feeder Broken", isBroken());
   }
 
   /**
@@ -66,4 +68,8 @@ public class Feeder extends SubsystemBase {
   public boolean isBroken() {
     return !breaker.get();
   }
+
+public double getTemperature() {
+    return motor.getTemperature();
+}
 }

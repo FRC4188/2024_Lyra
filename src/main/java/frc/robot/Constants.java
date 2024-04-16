@@ -208,7 +208,7 @@ public final class Constants {
     public static final double RAMP_RATE = 0.5;
 
     public static final Matrix<N3, N1> STATE_STD_DEVS =
-        VecBuilder.fill(0.01, 0.01, 0.001); // [x, y, theta]
+        VecBuilder.fill(0.05, 0.05, 0.001); // [x, y, theta]
     public static final Matrix<N3, N1> VISION_STD_DEVS =
         VecBuilder.fill(0.020, 0.020, 0.264); // [x, y, theta]
 
@@ -256,7 +256,7 @@ public final class Constants {
 
     public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0.325, 0.0, 0.02, CONSTRAINTS);
     
-    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.155, 0.3  , 0); // kS = verge of motion, kg = fixes setpoint after weak p
+    public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.155, 0.3 * 34.5/33.0  , 0); // kS = verge of motion, kg = fixes setpoint after weak p
 
     public static final double ZERO = -141.2109375;
     public static final double ALLOWED_ERROR = 0.5;
@@ -273,11 +273,11 @@ public final class Constants {
     public static final double SHOOTER_DIAMETER_METERS = (SHOOTER_DIAMETER_INCHES) * 0.0254;
     public static final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER_METERS * Math.PI;
 
-    public static final SimpleMotorFeedforward LEFT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.38505, 0.375 * 1.1, 0.071659); // kS = verge of motion, kV = volts/vel
-    public static final PIDController LEFT_SHOOTER_PID = new PIDController(0.28219 * 1.1, 0.0, 0.0);
+    public static final SimpleMotorFeedforward LEFT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.3877, 0.40499 * 12.0/11.6 * 12.0/12.3, 0.065673); // kS = verge of motion, kV = volts/vel
+    public static final PIDController LEFT_SHOOTER_PID = new PIDController(0.0072945, 0.0, 0.0); // 0.28219 * 1.1
 
-    public static final SimpleMotorFeedforward RIGHT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.24931, 0.375 * 1.1, 0.058677); // kS = verge of motion, kV = volts/vel
-    public static final PIDController RIGHT_SHOOTER_PID = new PIDController(0.35718 * 1.1, 0.0, 0.0);
+    public static final SimpleMotorFeedforward RIGHT_SHOOTER_FEEDFORWARD = new SimpleMotorFeedforward(0.16979, 0.41132 * 12.0/11.5 * 12.0/12.2, 0.10509); // kS = verge of motion, kV = volts/vel
+    public static final PIDController RIGHT_SHOOTER_PID = new PIDController(0.019097, 0.0, 0.0); // 0.35718 * 1.1
 
     public static final double MAX_VELOCITY = 20.0;
     

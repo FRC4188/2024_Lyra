@@ -45,6 +45,8 @@ public class Shoulder extends SubsystemBase {
 
   /** Creates a new Shoulder. */
   public Shoulder() {
+    // setAngle(Rotation2d.fromDegrees(-32.6));
+    disable();
     init();
   }
 

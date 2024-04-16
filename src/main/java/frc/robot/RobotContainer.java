@@ -40,6 +40,8 @@ import frc.robot.commands.groups.PassOnReady;
 import frc.robot.commands.groups.ShootOnReady;
 import frc.robot.commands.groups.BlindSpeakerShoot;
 import frc.robot.commands.groups.Eject;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+
 
 import frc.robot.commands.groups.Stow;
 import frc.robot.commands.shooter.SetShooterMPS;
@@ -56,6 +58,8 @@ public class RobotContainer {
 
   public static CSP_Controller pilot = new CSP_Controller(Constants.controller.PILOT_PORT);
   public static CSP_Controller copilot = new CSP_Controller(Constants.controller.COPILOT_PORT);
+  public static CSP_Controller test = new CSP_Controller(2);
+
 
   Swerve drive = Swerve.getInstance();
   Intake intake = Intake.getInstance();
@@ -104,10 +108,10 @@ public class RobotContainer {
     SmartDashboard.putData("Set Shoulder Angle", new SetShoulderAngle(() -> (SmartDashboard.getNumber("Angle", 0))));
 
     //Add these in for sysid tests
-    // pilot.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    // pilot.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-    // pilot.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
-    // pilot.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    // test.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    // test.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    // test.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    // test.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     // Trigger isShooting = pilot.leftTrigger();
     Trigger drivingInput = new Trigger(() -> (pilot.getCorrectedLeft().getNorm() != 0.0 || pilot.getCorrectedRight().getX() != 0.0));

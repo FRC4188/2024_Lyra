@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.field.Goal;
 import frc.robot.subsystems.drivetrain.Swerve;
+import frc.robot.subsystems.feeder.Feeder;
+import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shoulder.Shoulder;
 
@@ -75,13 +78,42 @@ public class Sensors extends SubsystemBase {
     // velocityMap.put(1.500, 13.0);
     // angleMap.put(1.500, 32.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 1.5)));
 
+    //Pass ITM
     velocityMap.put(11.6, 15.0);
-
     velocityMap.put(9.7, 12.5);
+    velocityMap.put(7.0, 10.0);
+    velocityMap.put(6.9, 20.0);
+    angleMap.put(6.9, 59.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 6.9)));
 
-    velocityMap.put(7.0, 9.0);
+
+    velocityMap.put(5.4, 18.0);
+    angleMap.put(5.4, 61.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 5.4)));
+
+
     velocityMap.put(4.9, 16.0);
-    angleMap.put(4.9, 59.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.9)));
+    angleMap.put(4.9, 59.3 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.9)));
+
+    velocityMap.put(4.486, 16.0);
+    angleMap.put(4.486, 58.3 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.486)));
+
+    velocityMap.put(4.0, 15.0);
+    angleMap.put(4.0, 57.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.0)));
+
+    velocityMap.put(3.6, 15.0);
+    angleMap.put(3.6, 54.25 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.6)));
+
+    velocityMap.put(3.2, 13.0);
+    angleMap.put(3.2, 50.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.2)));
+
+    velocityMap.put(2.8, 12.0);
+    angleMap.put(2.8, 45.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 2.8)));
+
+    velocityMap.put(2.24, 10.0);
+    angleMap.put(2.24, 38.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 2.24)));
+
+    velocityMap.put(1.66, 8.0);
+    angleMap.put(1.66, 25.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 1.66)));
+
   }
 
   @Override
@@ -106,6 +138,10 @@ public class Sensors extends SubsystemBase {
     SmartDashboard.putNumber("Shooter ITM Goal", Sensors.getInstance().getFormulaShooterRPM());
     // SmartDashboard.putBoolean("Is Happy?", isHappy());
 
+    SmartDashboard.putNumber("Intake Temp", Intake.getInstance().getTemperature());
+    SmartDashboard.putNumber("Feeder Temp", Feeder.getInstance().getTemperature());
+    SmartDashboard.putNumber("Left Shooter Temp", Shooter.getInstance().getLeftTemperature());
+    SmartDashboard.putNumber("Right Shooter Temp", Shooter.getInstance().getRightTemperature());
   }
 
   public Pose2d getBackPose2d() {
@@ -167,7 +203,8 @@ public class Sensors extends SubsystemBase {
   }
 
   public double getSpeakerDistance() {
-    return speakerLocation.toTranslation2d().getDistance(Swerve.getInstance().getPose2d().getTranslation()) + 0.25;
+    return speakerLocation.toTranslation2d().getDistance(Swerve.getInstance().getPose2d().getTranslation()) + 0.25
+      ;//+  (Math.signum(Swerve.getInstance().getPose2d().getRotation().getCos()) > 0.0 ? Units.inchesToMeters(5.5) : 0.0);
   }
 
   public double getCornerDistance() {
@@ -195,14 +232,15 @@ public class Sensors extends SubsystemBase {
    */
   public Rotation2d getFormulaShoulderAngle() {
     // return Rotation2d.fromDegrees(currentGoal.ITM_A.get(getXYDistance()));
-    return Rotation2d.fromDegrees(-(90.0 - Math.toDegrees(Math.atan(2.04 / getSpeakerDistance())) + angleMap.get(getSpeakerDistance())));
-      //.times(Math.signum(Math.cos(Swerve.getInstance().getPose2d().getRotation().getDegrees())));
+    return Rotation2d.fromDegrees(-(90.0 - Math.toDegrees(Math.atan(2.04 / getSpeakerDistance())) + angleMap.get(getSpeakerDistance())))
+      .times(-Math.signum(Swerve.getInstance().getPose2d().getRotation().getCos()))
+      .plus( Math.signum(Swerve.getInstance().getPose2d().getRotation().getCos()) > 0.0 ? Rotation2d.fromDegrees(4.0) : new Rotation2d());
   }
 
   /** 
    * Get angle the robot / drivetrain should be at while standing still during aimmode
    * @param goal
-   * @return angle in double
+   * @return angle in  
    */
   public Rotation2d getFormulaDriveAngle() {
     Translation2d translation;
@@ -214,17 +252,15 @@ public class Sensors extends SubsystemBase {
 
     Translation2d difference = Swerve.getInstance().getPose2d().getTranslation().minus(translation);
 
-    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(difference.getY(), difference.getX())).rotateBy(Rotation2d.fromDegrees(-3.5)); // ROTATION CORRECTION
-    SmartDashboard.putNumber("Drive Setpoint", setpoint.getDegrees());
-    return setpoint;
+    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(difference.getY(), difference.getX())).rotateBy(Rotation2d.fromDegrees(-3.5).times(-Math.signum(Swerve.getInstance().getPose2d().getRotation().getCos()))); // ROTATION CORRECTION
+    return Swerve.getInstance().getPose2d().getRotation().getCos() < 0.0 ? setpoint : setpoint.rotateBy(Rotation2d.fromDegrees(180.0));
   }
 
   public Rotation2d getCornerDriveAngle() {
     Translation2d translation = Swerve.getInstance().getPose2d().getTranslation().minus(cornerLocation);
 
-    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX())).rotateBy(Rotation2d.fromDegrees(-0.0));
-    SmartDashboard.putNumber("Drive Setpoint", setpoint.getDegrees());
-    return setpoint;
+    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX())).rotateBy(Rotation2d.fromDegrees(-3.5).times(-Math.signum(Swerve.getInstance().getPose2d().getRotation().getCos()))); // ROTATION CORRECTION
+    return Swerve.getInstance().getPose2d().getRotation().getCos() < 0.0 ? setpoint : setpoint.rotateBy(Rotation2d.fromDegrees(180.0));
   }
   /**
    * Get the vector (angle and speed) for shooting into goal when standing still

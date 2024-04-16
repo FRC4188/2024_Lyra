@@ -17,8 +17,6 @@ public class BlindSpeakerShoot extends SequentialCommandGroup {
     /* */
     public BlindSpeakerShoot() {
         addCommands(
-            Commands.waitUntil(() -> Feeder.getInstance().isBroken()),
-
             new ParallelDeadlineGroup(
                 Commands.waitUntil(() -> 
                     Shooter.getInstance().atMPS(1.5) && 
