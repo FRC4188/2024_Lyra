@@ -89,7 +89,6 @@ public class Sensors extends SubsystemBase {
     velocityMap.put(5.4, 18.0);
     angleMap.put(5.4, 61.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 5.4)));
 
-
     velocityMap.put(4.9, 16.0);
     angleMap.put(4.9, 59.3 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.9)));
 
@@ -233,8 +232,8 @@ public class Sensors extends SubsystemBase {
   public Rotation2d getFormulaShoulderAngle() {
     // return Rotation2d.fromDegrees(currentGoal.ITM_A.get(getXYDistance()));
     return Rotation2d.fromDegrees(-(90.0 - Math.toDegrees(Math.atan(2.04 / getSpeakerDistance())) + angleMap.get(getSpeakerDistance())))
-      .times(-Math.signum(Swerve.getInstance().getPose2d().getRotation().getCos()))
-      .plus( Math.signum(Swerve.getInstance().getPose2d().getRotation().getCos()) > 0.0 ? Rotation2d.fromDegrees(4.0) : new Rotation2d());
+      .times(-Math.signum(Swerve.getInstance().getColorNormRotation().getCos()))
+      .plus(Math.signum(Swerve.getInstance().getColorNormRotation().getCos()) > 0.0 ? Rotation2d.fromDegrees(4.0) : new Rotation2d());
   }
 
   /** 
@@ -252,15 +251,15 @@ public class Sensors extends SubsystemBase {
 
     Translation2d difference = Swerve.getInstance().getPose2d().getTranslation().minus(translation);
 
-    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(difference.getY(), difference.getX())).rotateBy(Rotation2d.fromDegrees(-3.5).times(-Math.signum(Swerve.getInstance().getPose2d().getRotation().getCos()))); // ROTATION CORRECTION
-    return Swerve.getInstance().getPose2d().getRotation().getCos() < 0.0 ? setpoint : setpoint.rotateBy(Rotation2d.fromDegrees(180.0));
+    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(difference.getY(), difference.getX())).rotateBy(Rotation2d.fromDegrees(-3.5).times(-Math.signum(Swerve.getInstance().getColorNormRotation().getCos()))); // ROTATION CORRECTION
+    return Swerve.getInstance().getColorNormRotation().getCos() < 0.0 ? setpoint : setpoint.rotateBy(Rotation2d.fromDegrees(180.0));
   }
 
   public Rotation2d getCornerDriveAngle() {
     Translation2d translation = Swerve.getInstance().getPose2d().getTranslation().minus(cornerLocation);
 
-    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX())).rotateBy(Rotation2d.fromDegrees(-3.5).times(-Math.signum(Swerve.getInstance().getPose2d().getRotation().getCos()))); // ROTATION CORRECTION
-    return Swerve.getInstance().getPose2d().getRotation().getCos() < 0.0 ? setpoint : setpoint.rotateBy(Rotation2d.fromDegrees(180.0));
+    Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(translation.getY(), translation.getX())).rotateBy(Rotation2d.fromDegrees(-3.5).times(-Math.signum(Swerve.getInstance().getColorNormRotation().getCos()))); // ROTATION CORRECTION
+    return Swerve.getInstance().getColorNormRotation().getCos() < 0.0 ? setpoint : setpoint.rotateBy(Rotation2d.fromDegrees(180.0));
   }
   /**
    * Get the vector (angle and speed) for shooting into goal when standing still

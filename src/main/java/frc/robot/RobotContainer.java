@@ -102,10 +102,11 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    SmartDashboard.putNumber("Angle", 0.0);
-    SmartDashboard.putNumber("Velocity", 0.0);
-    SmartDashboard.putData("Set Shooter MPS", new SetShooterMPS(() -> (SmartDashboard.getNumber("Velocity", 0))));
-    SmartDashboard.putData("Set Shoulder Angle", new SetShoulderAngle(() -> (SmartDashboard.getNumber("Angle", 0))));
+    //ITM tuning
+    // SmartDashboard.putNumber("Angle", 0.0);
+    // SmartDashboard.putNumber("Velocity", 0.0);
+    // SmartDashboard.putData("Set Shooter MPS", new SetShooterMPS(() -> (SmartDashboard.getNumber("Velocity", 0))));
+    // SmartDashboard.putData("Set Shoulder Angle", new SetShoulderAngle(() -> (SmartDashboard.getNumber("Angle", 0))));
 
     //Add these in for sysid tests
     // test.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));

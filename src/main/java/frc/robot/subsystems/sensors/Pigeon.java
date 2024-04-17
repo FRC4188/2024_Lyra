@@ -10,7 +10,7 @@ public class Pigeon extends Pigeon2 {
   double offsetDegrees;
 
   public Pigeon(int canID, double offsetDegrees) {
-    super(canID, "canivore2");
+    super(canID, "rio");
     super.getConfigurator().apply(new Pigeon2Configuration());
     super.clearStickyFaults();
     this.offsetDegrees = offsetDegrees;
