@@ -202,7 +202,7 @@ public class Sensors extends SubsystemBase {
   }
 
   public double getSpeakerDistance() {
-    return speakerLocation.toTranslation2d().getDistance(Swerve.getInstance().getPose2d().getTranslation()) + 0.5;
+    return speakerLocation.toTranslation2d().getDistance(Swerve.getInstance().getPose2d().getTranslation()) * 1.05;
 
       //+  (Math.signum(Swerve.getInstance().getPose2d().getRotation().getCos()) > 0.0 ? Units.inchesToMeters(5.5) : 0.0);
   }
@@ -234,13 +234,8 @@ public class Sensors extends SubsystemBase {
     // return Rotation2d.fromDegrees(currentGoal.ITM_A.get(getXYDistance()));
     return Rotation2d.fromDegrees(-(90.0 - Math.toDegrees(Math.atan(2.04 / getSpeakerDistance())) + angleMap.get(getSpeakerDistance())))
       .times(-Math.signum(Swerve.getInstance().getColorNormRotation().getCos()))
-      // 4.0 is adjusting shooting normally, 2.0 is adjusting shooting out the back
-      /*
-       * using the values we have now, it was making all of its shots normally
-       * it was missing (shooting too high) for the shots when shooting out the back. However, it was only doing this when we were too far away, because the adjustment of 2 degrees isn't constant
-       * 
-       */
-      .plus(Math.signum(Swerve.getInstance().getColorNormRotation().getCos()) < 0.0 ? Rotation2d.fromDegrees(4.0) : Rotation2d.fromDegrees(2.0));
+
+      .plus(Math.signum(Swerve.getInstance().getColorNormRotation().getCos()) > 0.0 ? Rotation2d.fromDegrees(4.0) : Rotation2d.fromDegrees(0.0));
   }
 
   /** 
