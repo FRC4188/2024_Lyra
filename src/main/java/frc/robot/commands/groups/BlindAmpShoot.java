@@ -91,7 +91,7 @@ public class BlindAmpShoot extends SequentialCommandGroup {
                 Commands.waitUntil(() -> 
                     Shooter.getInstance().atMPS(2.0) && 
                     Shoulder.getInstance().atGoal(Rotation2d.fromDegrees(35.0), 1.0)).andThen(
-                new FeedIntoShooter(12.0).andThen(Commands.waitSeconds(0.5))),
+                new FeedIntoShooter(8.0).andThen(Commands.waitSeconds(0.5))),
                 new SetShooterMPS(() -> 3.2),
                 new SetShoulderAngle(() -> 35.0)
             )
