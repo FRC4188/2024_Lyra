@@ -96,7 +96,7 @@ public class Sensors extends SubsystemBase {
     angleMap.put(4.486, 58.3 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.486)));
 
     velocityMap.put(4.0, 15.0);
-    angleMap.put(4.0, 57.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.0)));
+    angleMap.put(4.0, 56.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.0)));
 
     velocityMap.put(3.6, 15.0);
     angleMap.put(3.6, 54.25 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.6)));
@@ -202,7 +202,7 @@ public class Sensors extends SubsystemBase {
   }
 
   public double getSpeakerDistance() {
-    return speakerLocation.toTranslation2d().getDistance(Swerve.getInstance().getPose2d().getTranslation()) * 1.0;
+    return (speakerLocation.toTranslation2d().getDistance(Swerve.getInstance().getPose2d().getTranslation()) + 0.25) * 0.95;
 
       //+  (Math.signum(Swerve.getInstance().getPose2d().getRotation().getCos()) > 0.0 ? Units.inchesToMeters(5.5) : 0.0);
   }
@@ -254,6 +254,8 @@ public class Sensors extends SubsystemBase {
     Translation2d difference = Swerve.getInstance().getPose2d().getTranslation().minus(translation);
 
     Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(difference.getY(), difference.getX())).rotateBy(Rotation2d.fromDegrees(-3.5).times(-Math.signum(Swerve.getInstance().getColorNormRotation().getCos()))); // ROTATION CORRECTION
+    //Rotation2d setpoint = Rotation2d.fromRadians(Math.atan2(difference.getY(), difference.getX())).rotateBy(Rotation2d.fromDegrees(-3.5)); // ROTATION CORRECTION
+
     return Swerve.getInstance().getColorNormRotation().getCos() < 0.0 ? setpoint : setpoint.rotateBy(Rotation2d.fromDegrees(180.0));
   }
 
