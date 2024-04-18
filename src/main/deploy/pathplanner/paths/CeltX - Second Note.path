@@ -1,0 +1,92 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 13.24,
+        "y": 5.55
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 16.214552482628505,
+        "y": 5.7500207439787205
+      },
+      "isLocked": false,
+      "linkedName": "CeltX - First Note"
+    },
+    {
+      "anchor": {
+        "x": 13.341048764836474,
+        "y": 3.8
+      },
+      "prevControl": {
+        "x": 13.973433938308673,
+        "y": 4.010795057824067
+      },
+      "nextControl": {
+        "x": 13.307719139724927,
+        "y": 3.7888901249628173
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 14.34829331197124,
+        "y": 4.440124264863915
+      },
+      "prevControl": {
+        "x": 13.773082919807889,
+        "y": 4.001615368533053
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Blind Intake"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Shooter Prep"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 5.0,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -142.59464336859116,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "5 Piece",
+  "previewStartingState": {
+    "rotation": -178.26429541107183,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

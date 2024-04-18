@@ -63,13 +63,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    if (Intake.getInstance().getCurrent() > 30.0) {
-      RobotContainer.pilot.setRumble(RumbleType.kBothRumble, 1.0);
-      RobotContainer.copilot.setRumble(RumbleType.kBothRumble, 1.0);
-    } else {
-        RobotContainer.pilot.setRumble(RumbleType.kBothRumble, 0.0);
-      RobotContainer.copilot.setRumble(RumbleType.kBothRumble, 0.0);
-    }
+
   }
 
   @Override

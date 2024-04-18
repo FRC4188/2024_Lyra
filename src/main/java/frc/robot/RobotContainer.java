@@ -88,6 +88,7 @@ public class RobotContainer {
 
     // Add auto chooser to SmartDashboard
     addChooser();
+
   }
 
   private void setDefaultCommands() {
@@ -250,6 +251,7 @@ public class RobotContainer {
     // autoChooser.addOption("Make Them Cry", new PathPlannerAuto("Make Them Cry"));
     // autoChooser.addOption("Red Walton Auto", new PathPlannerAuto("Walton Auto").andThen(new RedSourceNoteOne()));
     // autoChooser.addOption("Blue Walton Auto", new PathPlannerAuto("Walton Auto").andThen(new BlueSourceNoteOne()));
+    autoChooser.addOption("CeltX", new PathPlannerAuto("CeltX"));
 
     autoChooser.addOption("5 piece", new PathPlannerAuto("5 piece")); 
     autoChooser.addOption("Middle Wing 4.5 piece", new PathPlannerAuto("Middle Wing 4.5 piece")); 

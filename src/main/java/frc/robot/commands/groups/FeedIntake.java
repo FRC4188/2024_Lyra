@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.Rumble;
 import frc.robot.commands.feeder.FeedIntoFeeder;
 import frc.robot.commands.feeder.Heimlich;
 import frc.robot.commands.intake.Inhale;
@@ -30,10 +31,13 @@ public class FeedIntake extends ParallelCommandGroup {
                     new FeedIntoFeeder(3.0).andThen(new Heimlich()),
                     new SetShoulderAngle(() -> Constants.shoulder.HANDOFF_ANGLE),
                     new Inhale()
+                    
                 ),
-                new Heimlich()
-
-
+                new Rumble().withTimeout(1.0)
+                // new ParallelDeadlineGroup(
+                //     new Heimlich(),
+                //     new Rumble()
+                // )
 
             )
         );
