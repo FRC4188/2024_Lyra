@@ -202,7 +202,7 @@ public class Sensors extends SubsystemBase {
   }
 
   public double getSpeakerDistance() {
-    return speakerLocation.toTranslation2d().getDistance(Swerve.getInstance().getPose2d().getTranslation()) * 1.05;
+    return speakerLocation.toTranslation2d().getDistance(Swerve.getInstance().getPose2d().getTranslation()) * 1.0;
 
       //+  (Math.signum(Swerve.getInstance().getPose2d().getRotation().getCos()) > 0.0 ? Units.inchesToMeters(5.5) : 0.0);
   }
@@ -235,7 +235,7 @@ public class Sensors extends SubsystemBase {
     return Rotation2d.fromDegrees(-(90.0 - Math.toDegrees(Math.atan(2.04 / getSpeakerDistance())) + angleMap.get(getSpeakerDistance())))
       .times(-Math.signum(Swerve.getInstance().getColorNormRotation().getCos()))
 
-      .plus(Math.signum(Swerve.getInstance().getColorNormRotation().getCos()) > 0.0 ? Rotation2d.fromDegrees(4.0) : Rotation2d.fromDegrees(0.0));
+      .plus(Math.signum(Swerve.getInstance().getColorNormRotation().getCos()) > 0.0 ? Rotation2d.fromDegrees(7.0) : Rotation2d.fromDegrees(0.0));
   }
 
   /** 
