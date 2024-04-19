@@ -78,7 +78,7 @@ public class SwerveModule {
     encoder.getConfigurator().apply(sensorConfigs);
 
     anglePID.enableContinuousInput(-180, 180);
-    anglePID.setTolerance(1.0);    
+    anglePID.setTolerance(0);    
     angle.setEncoderDegrees(getAngleDegrees());
 
 
@@ -89,7 +89,7 @@ public class SwerveModule {
     angle.getVelocity().setUpdateFrequency(50.0);
     angle.getRotorPosition().setUpdateFrequency(50.0);
     angle.getDeviceTemp().setUpdateFrequency(4.0);
-    angle.clearStickyFaults();
+
 
     encoder.getAbsolutePosition().setUpdateFrequency(100.0);
 
@@ -118,13 +118,11 @@ public class SwerveModule {
 
     double velocity = optimized.speedMetersPerSecond / Constants.drivetrain.DRIVE_METERS_PER_TICK;
     // pseudocode : setVolts(PID + FF)
-    double voltage = speedPID.calculate(getVelocity(), velocity) + speedFF.calculate(velocity);
-    speed.setVoltage(voltage);
-    // angle.setVoltage(angleFF.calculate(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees())));
 
-    double angleVoltage = anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees());
-    if (anglePID.atSetpoint()) angleVoltage = 0.0;
-      angle.set(angleVoltage);
+
+      speed.setVoltage(speedPID.calculate(getVelocity(), velocity) + speedFF.calculate(velocity));
+    // angle.setVoltage(angleFF.calculate(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees())));
+      angle.setVoltage(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees()));
   }
 
   /** Sets the speed and angle motors to zero power */
@@ -205,10 +203,4 @@ public class SwerveModule {
     return angle.getMotorVoltage().getValueAsDouble();
   }
 
-  public void setAngleSupplyCurrent() {
-    angle.getConfigurator().apply(new CurrentLimitsConfigs()
-    .withStatorCurrentLimitEnable(true)
-    .withSupplyCurrentLimitEnable(true)
-    .withStatorCurrentLimit(70.0)
-    .withSupplyCurrentLimit(20.0));  }
 }

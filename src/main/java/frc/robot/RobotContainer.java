@@ -94,14 +94,14 @@ public class RobotContainer {
   }
 
   private void setDefaultCommands() {
-    // drive.setDefaultCommand(
-    // //   new TeleDrive(
-    // //     () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-    // //     () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-    // //     () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0))
-    // // );
-    // new XPattern()
+    drive.setDefaultCommand(
+    //   new TeleDrive(
+    //     () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+    //     () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+    //     () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0))
     // );
+    new XPattern()
+    );
   }
 
   private void configureBindings() {

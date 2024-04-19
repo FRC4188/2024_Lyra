@@ -226,7 +226,7 @@ public final class Constants {
     public static final double BR_ZERO = -155.21484375;
     public static final double FR_ZERO = 85.95703125;
 
-  public static final PIDController ANGLE_PID = new PIDController(0.008, 0.0, 0.0);
+  public static final PIDController ANGLE_PID = new PIDController(0.008 * 12.0, 0.0, 0.0);
     public static final SimpleMotorFeedforward ANGLE_FF = new SimpleMotorFeedforward(0.0, 1);
 
     public static final PIDController SPEED_PID = new PIDController(0.1, 0.0, 0.0);
