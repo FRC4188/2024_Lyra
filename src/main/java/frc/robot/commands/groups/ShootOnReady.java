@@ -23,7 +23,7 @@ public class ShootOnReady extends ParallelDeadlineGroup {
     public ShootOnReady(DoubleSupplier xInput, DoubleSupplier yInput) {
         super(
             Commands.waitUntil(() -> 
-                // Math.abs(Sensors.getInstance().getPigeonRate()) < 90.0 &&
+                Math.abs(Sensors.getInstance().getPigeonRate()) < 90.0 &&
                 Shooter.getInstance().atMPS() && 
                 Shoulder.getInstance().atGoal(Sensors.getInstance().getFormulaShoulderAngle()) && 
                 Swerve.getInstance().atGoalAngle(Sensors.getInstance().getFormulaDriveAngle())).andThen(
