@@ -93,19 +93,19 @@ public class Sensors extends SubsystemBase {
     angleMap.put(4.9, 59.3 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.9)));
 
     velocityMap.put(4.486, 16.0);
-    angleMap.put(4.486, 58.3 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.486)));
+    angleMap.put(4.486, 59.3 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.486)));
 
     velocityMap.put(4.0, 15.0);
     angleMap.put(4.0, 56.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 4.0)));
 
     velocityMap.put(3.6, 15.0);
-    angleMap.put(3.6, 54.25 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.6)));
+    angleMap.put(3.6, 55.25 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.6)));
 
     velocityMap.put(3.2, 13.0);
     angleMap.put(3.2, 50.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 3.2)));
 
     velocityMap.put(2.8, 12.0);
-    angleMap.put(2.8, 45.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 2.8)));
+    angleMap.put(2.8, 46.5 - 90.0 + Math.toDegrees(Math.atan(2.04 / 2.8)));
 
     velocityMap.put(2.24, 10.0);
     angleMap.put(2.24, 38.0 - 90.0 + Math.toDegrees(Math.atan(2.04 / 2.24)));
@@ -235,7 +235,7 @@ public class Sensors extends SubsystemBase {
     return Rotation2d.fromDegrees(-(90.0 - Math.toDegrees(Math.atan(2.04 / getSpeakerDistance())) + angleMap.get(getSpeakerDistance())))
       .times(-Math.signum(Swerve.getInstance().getColorNormRotation().getCos()))
 
-      .plus(Math.signum(Swerve.getInstance().getColorNormRotation().getCos()) > 0.0 ? Rotation2d.fromDegrees(7.0) : Rotation2d.fromDegrees(0.0));
+      .plus(Math.signum(Swerve.getInstance().getColorNormRotation().getCos()) > 0.0 ? Rotation2d.fromDegrees(6.0) : Rotation2d.fromDegrees(0.0));
   }
 
   /** 

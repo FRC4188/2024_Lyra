@@ -187,4 +187,8 @@ public class SwerveModule {
   public void setSpeedPIDConstants(double kP, double kI,double kD) {
     speedPID.setPID(kP, kI, kD);
   }
+
+  public double getPositionDegrees() {
+    return speed.getPositionDegrees();
+  }
 }

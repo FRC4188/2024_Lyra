@@ -44,6 +44,8 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 
 import frc.robot.commands.groups.Stow;
+import frc.robot.commands.intake.Exhale;
+import frc.robot.commands.intake.Inhale;
 import frc.robot.commands.shooter.SetShooterMPS;
 import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.drivetrain.Swerve;
@@ -204,7 +206,7 @@ public class RobotContainer {
     copilot
         .getUpButton()
         .onTrue(
-          new FeedIntoFeeder(1.8)
+          new FeedIntoFeeder(12.0)
         );
 
     copilot
@@ -224,6 +226,14 @@ public class RobotContainer {
         .onTrue(
           new Stow()
         );
+
+    copilot
+        .getRightBumperButton()
+        .whileTrue(new Inhale());
+
+    copilot
+        .getLeftBumperButton()
+        .whileTrue(new Exhale());
 
     
 
@@ -252,6 +262,7 @@ public class RobotContainer {
     // autoChooser.addOption("Red Walton Auto", new PathPlannerAuto("Walton Auto").andThen(new RedSourceNoteOne()));
     // autoChooser.addOption("Blue Walton Auto", new PathPlannerAuto("Walton Auto").andThen(new BlueSourceNoteOne()));
     autoChooser.addOption("CeltX", new PathPlannerAuto("CeltX"));
+    autoChooser.addOption("Shoot and Stay", new PathPlannerAuto("Shoot and Stay"));
 
     autoChooser.addOption("5 piece", new PathPlannerAuto("5 piece")); 
     autoChooser.addOption("Middle Wing 4.5 piece", new PathPlannerAuto("Middle Wing 4.5 piece")); 

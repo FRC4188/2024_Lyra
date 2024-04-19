@@ -53,8 +53,8 @@ public class TeleDrive extends Command {
 
       drive.setChassisSpeeds(
         ChassisSpeeds.fromFieldRelativeSpeeds(new ChassisSpeeds(
-          xSpeed,
-          ySpeed, 
+          xSpeed * Constants.drivetrain.DRIVE_GEARING / 4.6,
+          ySpeed * Constants.drivetrain.DRIVE_GEARING / 4.6, 
           rotSpeed), 
           drive.getColorNormRotation()));
   }

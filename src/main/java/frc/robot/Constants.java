@@ -43,8 +43,8 @@ public final class Constants {
     public static double FIELD_LENGTH = Units.feetToMeters(54.2708);
 
     //This is the safe zone for when we pass shot!
-    public static Translation2d BLUE_CORNER_LOCATION = new Translation2d(0.10, 7.1);
-    public static Translation2d RED_CORNER_LOCATION = new Translation2d(16.44, 7.1);
+    public static Translation2d BLUE_CORNER_LOCATION = new Translation2d(0.10, 7.3);
+    public static Translation2d RED_CORNER_LOCATION = new Translation2d(16.44, 7.3);
 
     public static Translation3d BLUE_SPEAKER_LOCATION = new Translation3d(0.10, 5.54, 2.04);
     public static Translation3d BLUE_AMP_LOCATION = new Translation3d(1.82, 8.15, 0.89);
@@ -221,10 +221,10 @@ public final class Constants {
     public static final Translation2d BR_LOCATION =
         new Translation2d(-(Constants.robot.A_LENGTH / 2), -(Constants.robot.A_WIDTH / 2));
 
-    public static final double FL_ZERO = 147.568359375;
-    public static final double BL_ZERO = 117.400390625;
-    public static final double BR_ZERO = -155.91796875;
-    public static final double FR_ZERO = 85.341796875;
+    public static final double FL_ZERO = 145.634765625;
+    public static final double BL_ZERO = 118.4765625;
+    public static final double BR_ZERO = -158.5546875;
+    public static final double FR_ZERO = 83.3203125;
 
   public static final PIDController ANGLE_PID = new PIDController(0.008, 0.0, 0.0);
     public static final SimpleMotorFeedforward ANGLE_FF = new SimpleMotorFeedforward(0.0, 1);
@@ -254,7 +254,7 @@ public final class Constants {
     public static final double MAX_ACCEL = 720.0;
     public static final Constraints CONSTRAINTS = new Constraints(MAX_VEL, MAX_ACCEL);
 
-    public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0.37, 0.0, 0.04, CONSTRAINTS);
+    public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0.325, 0.0, 0.02, CONSTRAINTS);
     
     public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.155, 0.3 * 34.5/33.0  , 0); // kS = verge of motion, kg = fixes setpoint after weak p
 

@@ -287,6 +287,11 @@ public class Swerve extends SubsystemBase {
 
     SmartDashboard.putString("Estimated Pose", getPose2d().toString());
     field.setRobotPose(getPose2d());
+    // SmartDashboard.putNumber("BackRight Rotations", moduleList[3].getPositionDegrees());
+    // SmartDashboard.putNumber("BackLeft Rotations", moduleList[2].getPositionDegrees());
+    // SmartDashboard.putNumber("FrontRight Rotations", moduleList[1].getPositionDegrees());
+    // SmartDashboard.putNumber("FrontLeft Rotations", moduleList[0].getPositionDegrees());
+
 
     for (SwerveModule module : moduleList) {
       SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());
