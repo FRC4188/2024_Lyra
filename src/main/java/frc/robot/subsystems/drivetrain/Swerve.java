@@ -126,6 +126,9 @@ public class Swerve extends SubsystemBase {
 
   /** Creates a new Swerve. */
   private Swerve() {
+
+   // moduleList[1].setAngleSupplyCurrent();
+
     configurePathPlanner();
 
     correctionPID.enableContinuousInput(0, 180);
@@ -292,6 +295,13 @@ public class Swerve extends SubsystemBase {
     // SmartDashboard.putNumber("FrontRight Rotations", moduleList[1].getPositionDegrees());
     // SmartDashboard.putNumber("FrontLeft Rotations", moduleList[0].getPositionDegrees());
 
+
+    SmartDashboard.putNumber("Front Right Angle Temp", moduleList[1].getAngleTemp());
+        SmartDashboard.putNumber("Front Left Angle Temp", moduleList[0].getAngleTemp());
+    SmartDashboard.putNumber("Back Right Angle Temp", moduleList[3].getAngleTemp());
+    SmartDashboard.putNumber("Back Left Angle Temp", moduleList[2].getAngleTemp());
+
+        //SmartDashboard.putNumber("Front Right Angle Volts", moduleList[1].getAngleVolts());
 
     for (SwerveModule module : moduleList) {
       SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());
