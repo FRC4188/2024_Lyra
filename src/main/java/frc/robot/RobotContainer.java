@@ -44,6 +44,8 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 
 import frc.robot.commands.groups.Stow;
+import frc.robot.commands.groups.raymond.RaymondPass;
+import frc.robot.commands.groups.raymond.RaymondShoot;
 import frc.robot.commands.intake.Exhale;
 import frc.robot.commands.intake.Inhale;
 import frc.robot.commands.shooter.SetShooterMPS;
@@ -236,6 +238,17 @@ public class RobotContainer {
         .getLeftBumperButton()
         .whileTrue(new Exhale());
 
+    copilot
+        .getLeftTButton()
+        .whileTrue(
+          new RaymondShoot(() -> 0.0, () -> 0.0).withInterruptBehavior(InterruptionBehavior.kCancelIncoming)
+        ).onFalse(new Stow());
+ 
+    copilot
+        .getBButton()
+        .whileTrue(
+          new RaymondPass(() -> 0.0, () -> 0.0).withInterruptBehavior(InterruptionBehavior.kCancelIncoming)
+        ).onFalse(new Stow());
     
 
     // Seriously why is it "Inhale" and "Exhale" lmao. I like it though -Aiden

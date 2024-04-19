@@ -1,4 +1,4 @@
-package frc.robot.commands.groups;
+package frc.robot.commands.groups.raymond;
 
 import frc.robot.Constants;
 import frc.robot.commands.drivetrain.TrackingDrive;
@@ -17,14 +17,13 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 
-public class PassOnReady extends ParallelDeadlineGroup {
+public class RaymondPass extends ParallelDeadlineGroup {
     /** Creates a new ShootOnReady. 
      * 
     */
-    public PassOnReady(DoubleSupplier xInput, DoubleSupplier yInput) {
+    public RaymondPass(DoubleSupplier xInput, DoubleSupplier yInput) {
         super(
             Commands.waitUntil(() -> 
-                Math.abs(Sensors.getInstance().getPigeonRate()) < 90.0 &&
                 Shooter.getInstance().atMPS(2.0) && 
                 Shoulder.getInstance().atGoal(Rotation2d.fromDegrees(-40.0).times(-Math.signum(Swerve.getInstance().getColorNormRotation().getCos())), 3.0) && 
                 Swerve.getInstance().atGoalAngle(Sensors.getInstance().getCornerDriveAngle())).andThen(

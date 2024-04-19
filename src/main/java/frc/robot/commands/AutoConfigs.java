@@ -41,7 +41,7 @@ public class AutoConfigs {
                                                     new SequentialCommandGroup(),
                                                     () -> Feeder.getInstance().isBroken())
                                             ),
-                new FeedIntake().withTimeout(1.5).andThen(
+                new FeedIntake().until(() -> Feeder.getInstance().isBroken()).withTimeout(1.0).andThen(
                 new ShootOnReady(() -> 0.0, () -> 0.0).withTimeout(1.5)
                                             .andThen(
                                                 new ConditionalCommand(

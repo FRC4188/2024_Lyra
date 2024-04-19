@@ -43,8 +43,8 @@ public final class Constants {
     public static double FIELD_LENGTH = Units.feetToMeters(54.2708);
 
     //This is the safe zone for when we pass shot!
-    public static Translation2d BLUE_CORNER_LOCATION = new Translation2d(0.10, 7.3);
-    public static Translation2d RED_CORNER_LOCATION = new Translation2d(16.44, 7.3);
+    public static Translation2d BLUE_CORNER_LOCATION = new Translation2d(0.10, 7.4);
+    public static Translation2d RED_CORNER_LOCATION = new Translation2d(16.44, 7.4);
 
     public static Translation3d BLUE_SPEAKER_LOCATION = new Translation3d(0.10, 5.54, 2.04);
     public static Translation3d BLUE_AMP_LOCATION = new Translation3d(1.82, 8.15, 0.89);

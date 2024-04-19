@@ -1,4 +1,4 @@
-package frc.robot.commands.groups;
+package frc.robot.commands.groups.raymond;
 
 import frc.robot.Constants;
 import frc.robot.commands.drivetrain.TrackingDrive;
@@ -16,14 +16,13 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 
-public class ShootOnReady extends ParallelDeadlineGroup {
+public class RaymondShoot extends ParallelDeadlineGroup {
     /** Creates a new ShootOnReady. 
      * 
     */
-    public ShootOnReady(DoubleSupplier xInput, DoubleSupplier yInput) {
+    public RaymondShoot(DoubleSupplier xInput, DoubleSupplier yInput) {
         super(
             Commands.waitUntil(() -> 
-                // Math.abs(Sensors.getInstance().getPigeonRate()) < 90.0 &&
                 Shooter.getInstance().atMPS() && 
                 Shoulder.getInstance().atGoal(Sensors.getInstance().getFormulaShoulderAngle()) && 
                 Swerve.getInstance().atGoalAngle(Sensors.getInstance().getFormulaDriveAngle())).andThen(

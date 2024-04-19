@@ -141,6 +141,9 @@ public class Sensors extends SubsystemBase {
     SmartDashboard.putNumber("Feeder Temp", Feeder.getInstance().getTemperature());
     SmartDashboard.putNumber("Left Shooter Temp", Shooter.getInstance().getLeftTemperature());
     SmartDashboard.putNumber("Right Shooter Temp", Shooter.getInstance().getRightTemperature());
+
+    SmartDashboard.putNumber("Pigeon Rate", getPigeonRate());
+    
   }
 
   public Pose2d getBackPose2d() {
