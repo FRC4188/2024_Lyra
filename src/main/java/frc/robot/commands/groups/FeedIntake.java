@@ -34,11 +34,6 @@ public class FeedIntake extends ParallelCommandGroup {
                     
                 ),
                 new Rumble().withTimeout(1.0)
-                // new ParallelDeadlineGroup(
-                //     new Heimlich(),
-                //     new Rumble()
-                // )
-
             )
         );
     }

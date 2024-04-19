@@ -269,7 +269,9 @@ public class RobotContainer {
     autoChooser.addOption("Amp Wing 4.5 piece", new PathPlannerAuto("Amp Wing 4.5 piece")); 
     autoChooser.addOption("Source Wing 4 piece", new PathPlannerAuto("Source Wing 4 piece")); 
 
-    autoChooser.addOption("Source 3 Piece", new PathPlannerAuto("Source 3 Piece"));
+    autoChooser.addOption("New Source 3 Piece", new PathPlannerAuto("New Source 3 Piece"));
+
+    //autoChooser.addOption("Source 3 Piece", new PathPlannerAuto("Source 3 Piece"));
     autoChooser.addOption("Source 4 Piece", new PathPlannerAuto("Source 4 Piece"));
 
     autoChooser.addOption("Techno", new PathPlannerAuto("Techno"));

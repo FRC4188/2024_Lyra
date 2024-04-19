@@ -26,7 +26,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Source 3 Piece - First Note"
+            "pathName": "New Source 3 Piece - First Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "New Source 3 Piece - First Shot"
           }
         },
         {
@@ -38,7 +44,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Source 3 Piece - Second Note"
+            "pathName": "New Source 3 Piece - Second Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "New Source 3 Piece - Second Shot"
           }
         },
         {
