@@ -1,18 +1,18 @@
-package lib.io.values;
+package lib.logging.values;
 
 import java.util.function.BiConsumer;
 
-public class LoggedIOValue<E> extends IOValue<E> {
+public class LoggedValue<E> extends Value<E> {
     private final BiConsumer<String, E> loggingFunction;
 
-    public LoggedIOValue(String name, BiConsumer<String, E> loggingFunction) {
+    public LoggedValue(String name, BiConsumer<String, E> loggingFunction) {
         super(name);
 
         this.loggingFunction = loggingFunction;
     }
 
 
-    public LoggedIOValue(String path, String name, BiConsumer<String, E> loggingFunction) {
+    public LoggedValue(String path, String name, BiConsumer<String, E> loggingFunction) {
         super(path, name);
 
         this.loggingFunction = loggingFunction;

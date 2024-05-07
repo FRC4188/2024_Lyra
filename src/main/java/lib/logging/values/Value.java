@@ -1,19 +1,19 @@
-package lib.io.values;
+package lib.logging.values;
 
 import java.io.File;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class IOValue<E> {
+public class Value<E> {
     protected AtomicReference<E> value;
 
     protected final String name;
 
-    public IOValue(String name) {
+    public Value(String name) {
         this.name = name;
     }
 
-    public IOValue(String path, String name) {
-        this.name = String.format("%s%s%s", path, File.separator, name);
+    public Value(String path, String name) {
+        this(String.format("%s%s%s", path, File.separator, name));
     }
 
     public E get() {

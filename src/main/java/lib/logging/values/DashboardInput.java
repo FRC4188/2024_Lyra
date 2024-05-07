@@ -1,0 +1,50 @@
+package lib.logging.values;
+
+import java.util.EnumSet;
+
+import edu.wpi.first.networktables.NetworkTableEvent;
+import edu.wpi.first.networktables.NetworkTableListener;
+import edu.wpi.first.networktables.NetworkTableEvent.Kind;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+public class DashboardInput extends Value<Double> {
+
+    public DashboardInput(String name, double initialValue) {
+        super(name);
+
+        SmartDashboard.putNumber(super.name, initialValue);
+        set(initialValue);
+
+        NetworkTableListener.createListener(
+            SmartDashboard.getEntry(super.name),
+            EnumSet.of(Kind.kValueRemote),
+            (NetworkTableEvent event) -> {
+                set(event.valueData.value.getDouble());
+            }
+        );
+    }
+
+    public DashboardInput(String path, String name, double initialValue) {
+        super(path, name);
+
+        SmartDashboard.putNumber(super.name, initialValue);
+        set(initialValue);
+
+        NetworkTableListener.createListener(
+            SmartDashboard.getEntry(super.name),
+            EnumSet.of(Kind.kValueRemote),
+            (NetworkTableEvent event) -> {
+                set(event.valueData.value.getDouble());
+            }
+        );
+    }
+    
+    public DashboardInput(String name) {
+        this(name, 0.0);
+    }
+
+    public DashboardInput(String path, String name) {
+        this(path, name, 0.0);
+    }
+    
+}
