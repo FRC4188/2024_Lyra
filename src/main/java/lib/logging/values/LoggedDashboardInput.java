@@ -10,6 +10,8 @@ import lib.logging.LoggingFunctions;
 
 public class LoggedDashboardInput extends LoggedValue<Double> {
 
+    private final NetworkTableListener listener;
+
     public LoggedDashboardInput(String name, double initialValue) {
         super(name, LoggingFunctions.numberLogger());
     
@@ -17,9 +19,9 @@ public class LoggedDashboardInput extends LoggedValue<Double> {
         SmartDashboard.putNumber(super.name, initialValue);
         set(initialValue);
 
-        NetworkTableListener.createListener(
+        this.listener = NetworkTableListener.createListener(
             SmartDashboard.getEntry(super.name),
-            EnumSet.of(Kind.kValueRemote),
+            EnumSet.of(Kind.kValueAll),
             (NetworkTableEvent event) -> {
                 set(event.valueData.value.getDouble());
             }
@@ -32,9 +34,9 @@ public class LoggedDashboardInput extends LoggedValue<Double> {
         SmartDashboard.putNumber(super.name, initialValue);
         set(initialValue);
 
-        NetworkTableListener.createListener(
+        this.listener = NetworkTableListener.createListener(
             SmartDashboard.getEntry(super.name),
-            EnumSet.of(Kind.kValueRemote),
+            EnumSet.of(Kind.kValueAll),
             (NetworkTableEvent event) -> {
                 set(event.valueData.value.getDouble());
             }

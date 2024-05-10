@@ -11,8 +11,16 @@ public class LoggedDashboardValue<E> extends LoggedValue<E> {
     private final Notifier dashboardNotifier = new Notifier(() -> {
         E value = this.value.get();
 
-        if (!value.equals(lastSent))
-            SmartDashboard.putString(name, value.toString());
+        try {
+            if (!lastSent.equals(value))
+                SmartDashboard.putString(name, value.toString());
+        } catch(NullPointerException e) {
+            try {
+                SmartDashboard.putString(name, value.toString());
+            } catch(NullPointerException ee) {
+                SmartDashboard.putString(name, "null");
+            }
+        }
         
         lastSent = value;
     });

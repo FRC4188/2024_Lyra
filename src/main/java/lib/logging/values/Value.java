@@ -10,17 +10,19 @@ public class Value<E> {
 
     public Value(String name) {
         this.name = name;
+
+        value = new AtomicReference<E>();
     }
 
     public Value(String path, String name) {
         this(String.format("%s%s%s", path, File.separator, name));
     }
 
-    public E get() {
+    public synchronized E get() {
         return value.get();
     }
 
-    public void set(E value) {
+    public synchronized void set(E value) {
         this.value.set(value);
     }
 }

@@ -9,7 +9,7 @@ public class ShooterHardwareIO extends ShooterIO {
     }
 
     @Override
-    public void setVelocity() {
+    public void setVelocity(double velocity) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setVelocity'");
     }
@@ -21,7 +21,7 @@ public class ShooterHardwareIO extends ShooterIO {
     }
 
     @Override
-    public void setVoltage() {
+    public void setVoltage(double volts) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setVoltage'");
     }
@@ -42,6 +42,12 @@ public class ShooterHardwareIO extends ShooterIO {
     public double getTemp() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getTemp'");
+    }
+
+    @Override
+    public void setBrake(boolean braking) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setBrake'");
     }
     
 }

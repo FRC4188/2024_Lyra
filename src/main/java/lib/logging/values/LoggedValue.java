@@ -19,8 +19,8 @@ public class LoggedValue<E> extends Value<E> {
     }
     
     @Override
-    public void set(E value) {
-        if (!this.value.get().equals(value))
+    public synchronized void set(E value) {
+        if (!value.equals(this.value.get()))
             loggingFunction.accept(super.name, value);
         
         super.set(value);
