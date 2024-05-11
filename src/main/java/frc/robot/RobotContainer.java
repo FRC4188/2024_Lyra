@@ -40,14 +40,8 @@ import frc.robot.commands.groups.PassOnReady;
 import frc.robot.commands.groups.ShootOnReady;
 import frc.robot.commands.groups.BlindSpeakerShoot;
 import frc.robot.commands.groups.Eject;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-
 
 import frc.robot.commands.groups.Stow;
-import frc.robot.commands.groups.raymond.RaymondPass;
-import frc.robot.commands.groups.raymond.RaymondShoot;
-import frc.robot.commands.intake.Exhale;
-import frc.robot.commands.intake.Inhale;
 import frc.robot.commands.shooter.SetShooterMPS;
 import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.drivetrain.Swerve;
@@ -62,8 +56,6 @@ public class RobotContainer {
 
   public static CSP_Controller pilot = new CSP_Controller(Constants.controller.PILOT_PORT);
   public static CSP_Controller copilot = new CSP_Controller(Constants.controller.COPILOT_PORT);
-  public static CSP_Controller test = new CSP_Controller(2);
-
 
   Swerve drive = Swerve.getInstance();
   Intake intake = Intake.getInstance();
@@ -71,7 +63,6 @@ public class RobotContainer {
   Shoulder shoulder = Shoulder.getInstance();
   Shooter shooter = Shooter.getInstance();
   Feeder feeder = Feeder.getInstance();
-
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
   private Notifier shuffleUpdater = new Notifier(() -> updateShuffle());
@@ -92,7 +83,6 @@ public class RobotContainer {
 
     // Add auto chooser to SmartDashboard
     addChooser();
-
   }
 
   private void setDefaultCommands() {
@@ -102,23 +92,21 @@ public class RobotContainer {
     //     () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
     //     () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0))
     // );
-    new XPattern()
-    );
+    new XPattern());
   }
 
   private void configureBindings() {
 
-    //ITM tuning
-    // SmartDashboard.putNumber("Angle", 0.0);
-    // SmartDashboard.putNumber("Velocity", 0.0);
-    // SmartDashboard.putData("Set Shooter MPS", new SetShooterMPS(() -> (SmartDashboard.getNumber("Velocity", 0))));
-    // SmartDashboard.putData("Set Shoulder Angle", new SetShoulderAngle(() -> (SmartDashboard.getNumber("Angle", 0))));
+    SmartDashboard.putNumber("Angle", 0.0);
+    SmartDashboard.putNumber("Velocity", 0.0);
+    SmartDashboard.putData("Set Shooter MPS", new SetShooterMPS(() -> (SmartDashboard.getNumber("Velocity", 0))));
+    SmartDashboard.putData("Set Shoulder Angle", new SetShoulderAngle(() -> (SmartDashboard.getNumber("Angle", 0))));
 
     //Add these in for sysid tests
-    // test.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    // test.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-    // test.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
-    // test.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    // pilot.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    // pilot.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    // pilot.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    // pilot.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     // Trigger isShooting = pilot.leftTrigger();
     Trigger drivingInput = new Trigger(() -> (pilot.getCorrectedLeft().getNorm() != 0.0 || pilot.getCorrectedRight().getX() != 0.0));
@@ -209,13 +197,13 @@ public class RobotContainer {
     copilot
         .getUpButton()
         .onTrue(
-          new FeedIntoFeeder(12.0)
+          new FeedIntoFeeder(1.8)
         );
 
     copilot
         .getRightTButton()
         .whileTrue(
-          new FeedIntoShooter(8.0)
+          new FeedIntoShooter(12.0)
         );
         
     copilot
@@ -230,25 +218,6 @@ public class RobotContainer {
           new Stow()
         );
 
-    copilot
-        .getRightBumperButton()
-        .whileTrue(new Inhale());
-
-    copilot
-        .getLeftBumperButton()
-        .whileTrue(new Exhale());
-
-    copilot
-        .getLeftTButton()
-        .whileTrue(
-          new RaymondShoot(() -> 0.0, () -> 0.0).withInterruptBehavior(InterruptionBehavior.kCancelIncoming)
-        ).onFalse(new Stow());
- 
-    copilot
-        .getBButton()
-        .whileTrue(
-          new RaymondPass(() -> 0.0, () -> 0.0).withInterruptBehavior(InterruptionBehavior.kCancelIncoming)
-        ).onFalse(new Stow());
     
 
     // Seriously why is it "Inhale" and "Exhale" lmao. I like it though -Aiden
@@ -275,17 +244,13 @@ public class RobotContainer {
     // autoChooser.addOption("Make Them Cry", new PathPlannerAuto("Make Them Cry"));
     // autoChooser.addOption("Red Walton Auto", new PathPlannerAuto("Walton Auto").andThen(new RedSourceNoteOne()));
     // autoChooser.addOption("Blue Walton Auto", new PathPlannerAuto("Walton Auto").andThen(new BlueSourceNoteOne()));
-    autoChooser.addOption("CeltX", new PathPlannerAuto("CeltX"));
-    autoChooser.addOption("Shoot and Stay", new PathPlannerAuto("Shoot and Stay"));
 
     autoChooser.addOption("5 piece", new PathPlannerAuto("5 piece")); 
     autoChooser.addOption("Middle Wing 4.5 piece", new PathPlannerAuto("Middle Wing 4.5 piece")); 
     autoChooser.addOption("Amp Wing 4.5 piece", new PathPlannerAuto("Amp Wing 4.5 piece")); 
     autoChooser.addOption("Source Wing 4 piece", new PathPlannerAuto("Source Wing 4 piece")); 
 
-    autoChooser.addOption("New Source 3 Piece", new PathPlannerAuto("New Source 3 Piece"));
-
-    //autoChooser.addOption("Source 3 Piece", new PathPlannerAuto("Source 3 Piece"));
+    autoChooser.addOption("Source 3 Piece", new PathPlannerAuto("Source 3 Piece"));
     autoChooser.addOption("Source 4 Piece", new PathPlannerAuto("Source 4 Piece"));
 
     autoChooser.addOption("Techno", new PathPlannerAuto("Techno"));
