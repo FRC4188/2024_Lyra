@@ -53,6 +53,8 @@ import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.feeder.Feeder;
 import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.sensors.LED;
+import frc.robot.subsystems.sensors.LEDState;
 import frc.robot.subsystems.sensors.Sensors;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shoulder.Shoulder;
@@ -71,9 +73,8 @@ public class RobotContainer {
   Shoulder shoulder = Shoulder.getInstance();
   Shooter shooter = Shooter.getInstance();
   Feeder feeder = Feeder.getInstance();
-
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
-
+  LED led = LED.getInstance();
   private Notifier shuffleUpdater = new Notifier(() -> updateShuffle());
 
   public RobotContainer() {
@@ -104,6 +105,16 @@ public class RobotContainer {
     // );
     new XPattern()
     );
+
+    led.setDefaultCommand(
+      new ConditionalCommand(
+      new InstantCommand(() -> led.turnOn(LEDState.Orange), led),
+      new InstantCommand(() -> led.turnOn(LEDState.BlueGreen), led),
+      () -> feeder.isBroken())
+    );
+
+    //led.setDefaultCommand(new InstantCommand(() -> led.turnOn(LEDState.Dashboard), led));
+
   }
 
   private void configureBindings() {
@@ -119,6 +130,10 @@ public class RobotContainer {
     // test.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
     // test.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
     // test.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    SmartDashboard.putNumber("R", 0);
+        SmartDashboard.putNumber("B", 0);
+    SmartDashboard.putNumber("G", 0);
 
     // Trigger isShooting = pilot.leftTrigger();
     Trigger drivingInput = new Trigger(() -> (pilot.getCorrectedLeft().getNorm() != 0.0 || pilot.getCorrectedRight().getX() != 0.0));

@@ -3,8 +3,10 @@ package frc.robot.commands.groups;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
@@ -14,6 +16,8 @@ import frc.robot.commands.feeder.FeedIntoFeeder;
 import frc.robot.commands.feeder.Heimlich;
 import frc.robot.commands.intake.Inhale;
 import frc.robot.commands.shoulder.SetShoulderAngle;
+import frc.robot.subsystems.sensors.LED;
+import frc.robot.subsystems.sensors.LEDState;
 import frc.robot.subsystems.shoulder.Shoulder;
 
 
@@ -23,6 +27,7 @@ public class FeedIntake extends ParallelCommandGroup {
 
     /** Creates a new ShootOnReady. */
     public FeedIntake() {
+
         addCommands(
             new SequentialCommandGroup(
                 new SetShoulderAngle(() -> Constants.shoulder.HANDOFF_ANGLE)
