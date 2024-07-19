@@ -18,6 +18,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import frc.robot.subsystems.drivetrain.SwerveModule;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -138,25 +139,13 @@ public final class Constants {
       new Translation3d(A_LENGTH / 2, A_WIDTH / 2, 0.324);
 
     public static final double SHOULDER_PIVOT_HEIGHT = SHOULDER_PIVOT_POINT.getZ();
+    
+    public enum MODE{
+      REAL,SIM
+    }
   }
 
   public static final class ids {
-    
-    public static final int FR_SPEED = 1;
-    public static final int FR_ANGLE = 2;
-    public static final int FR_ENCODER = 11;
-
-    public static final int FL_SPEED = 3;
-    public static final int FL_ANGLE = 4;
-    public static final int FL_ENCODER = 12;
-
-    public static final int BL_SPEED = 5;
-    public static final int BL_ANGLE = 6;
-    public static final int BL_ENCODER = 13;
-
-    public static final int BR_SPEED = 7;
-    public static final int BR_ANGLE = 8;
-    public static final int BR_ENCODER = 14;
 
     public static final int PIGEON = 15;
 
@@ -185,6 +174,43 @@ public final class Constants {
   }
 
   public static class drivetrain {
+    
+    public static final SwerveModuleConfig FrontLeft = new SwerveModuleConfig(
+      "Front Left", 
+      3,
+      4, 
+      12, 
+      new Translation2d((Constants.robot.A_LENGTH / 2), (Constants.robot.A_WIDTH / 2)),
+      Constants.drivetrain.DRIVE_GEARING,
+      148.623046875);
+
+    public static final SwerveModuleConfig FrontRight = new SwerveModuleConfig(
+      "Front Right", 
+      1,
+      2, 
+      11, 
+      new Translation2d((Constants.robot.A_LENGTH / 2), -(Constants.robot.A_WIDTH / 2)),
+      Constants.drivetrain.DRIVE_GEARING,
+      85.95703125);
+
+    public static final SwerveModuleConfig BackLeft = new SwerveModuleConfig(
+      "Back Left", 
+      5,
+      6, 
+      13, 
+      new Translation2d(-(Constants.robot.A_LENGTH / 2), (Constants.robot.A_WIDTH / 2)),
+      Constants.drivetrain.DRIVE_GEARING,
+      115.751953125);
+
+    public static final SwerveModuleConfig BackRight = new SwerveModuleConfig(
+      "Back Right", 
+      7,
+      8, 
+      14, 
+      new Translation2d(-(Constants.robot.A_LENGTH / 2), -(Constants.robot.A_WIDTH / 2)),
+      Constants.drivetrain.DRIVE_GEARING,
+      -155.21484375);
+
     public static final double DRIVE_GEARING = 5.14; // 5.14 : 1
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
     public static final double DRIVE_TICKS_PER_ROTATION =
@@ -212,20 +238,6 @@ public final class Constants {
     public static final Matrix<N3, N1> VISION_STD_DEVS =
         VecBuilder.fill(0.020, 0.020, 0.264); // [x, y, theta]
 
-    public static final Translation2d FL_LOCATION =
-        new Translation2d((Constants.robot.A_LENGTH / 2), (Constants.robot.A_WIDTH / 2));
-    public static final Translation2d FR_LOCATION =
-        new Translation2d((Constants.robot.A_LENGTH / 2), -(Constants.robot.A_WIDTH / 2));
-    public static final Translation2d BL_LOCATION =
-        new Translation2d(-(Constants.robot.A_LENGTH / 2), (Constants.robot.A_WIDTH / 2));
-    public static final Translation2d BR_LOCATION =
-        new Translation2d(-(Constants.robot.A_LENGTH / 2), -(Constants.robot.A_WIDTH / 2));
-
-    public static final double FL_ZERO = 148.623046875;
-    public static final double BL_ZERO = 115.751953125;
-    public static final double BR_ZERO = -155.21484375;
-    public static final double FR_ZERO = 85.95703125;
-
   public static final PIDController ANGLE_PID = new PIDController(0.008 * 12.0, 0.0, 0.0);
     public static final SimpleMotorFeedforward ANGLE_FF = new SimpleMotorFeedforward(0.0, 1);
 
@@ -239,6 +251,23 @@ public final class Constants {
     // public static final PIDConstants CORRECTION_PID = new PIDConstants(-0.1, 0.0, -0.006);
 
     public static final PIDController CORRECTION_PID = new PIDController(0.1, 0.0, 0.006);
+
+    
+    public record SwerveModuleConfig(
+      String name,
+      int speedId,
+      int angleId,
+      int encoderId,
+      Translation2d location,
+      double gearRatio,
+      double zero
+    ){
+      public static SwerveModule create(
+        final SwerveModuleConfig config,
+        final robot.MODE mode){
+          return new SwerveModule(config,mode);
+        }
+    }
   }
 
   public static final class shoulder {
