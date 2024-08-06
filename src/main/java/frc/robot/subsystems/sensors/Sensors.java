@@ -361,4 +361,12 @@ public class Sensors extends SubsystemBase {
           Constants.field.RED_CORNER_LOCATION;
       }
   }
+
+  public Translation2d getSpeakerLocation(){
+    return speakerLocation.toTranslation2d();
+  }
+
+  public Translation2d getCornerLocation(){
+    return cornerLocation;
+  }
 }
