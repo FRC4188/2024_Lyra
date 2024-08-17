@@ -61,4 +61,9 @@ public class Limelight {
   public double getAvgTagDistance() {
     return getTV() ? LimelightHelpers.getBotPose(name)[9] : 0;
   }
+
+public double getTX(Limelight detectingLimelight) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getTX'");
+}
 }

@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.drivetrain.NoteDetect;
 import frc.robot.subsystems.sensors.Sensors;
 
 public class Swerve extends SubsystemBase {
@@ -123,7 +124,7 @@ public class Swerve extends SubsystemBase {
   public PIDController rotPID = Constants.drivetrain.ROT_PID;
   public PIDController correctionPID = Constants.drivetrain.CORRECTION_PID;
 
-
+  public NoteDetect detector = new NoteDetect();
   /** Creates a new Swerve. */
   private Swerve() {
 
@@ -285,7 +286,7 @@ public class Swerve extends SubsystemBase {
   public boolean atGoalAngle(Rotation2d angle) {
     return (Math.abs(getPose2d().getRotation().getDegrees() - angle.getDegrees()) < Math.toDegrees(Math.atan(1.0 / (2.0 * Sensors.getInstance().getSpeakerDistance()))));
   }
-
+  
   public void updateDashboard() {
 
     SmartDashboard.putString("Estimated Pose", getPose2d().toString());
