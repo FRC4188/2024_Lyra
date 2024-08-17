@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoConfigs;
 import frc.robot.commands.drivetrain.HockeyStop;
+import frc.robot.commands.drivetrain.NoteDetect;
 import frc.robot.commands.drivetrain.TeleDrive;
 import frc.robot.commands.drivetrain.XPattern;
 import frc.robot.commands.feeder.EjectFeeder;
@@ -170,7 +171,6 @@ public class RobotContainer {
             new BlindReverseSpeakerShoot(), 
             () -> (drive.getColorNormRotation().getCos() > 0.0))
         ).onFalse(new Stow());
-        
     // pilot
     //     .getBButton()
     //     .whileTrue(
@@ -234,7 +234,11 @@ public class RobotContainer {
         .onTrue(
           new Stow()
         );
-
+    copilot
+        .getXButton()
+        .onTrue(
+          new NoteDetect()
+        );
     
 
     // Seriously why is it "Inhale" and "Exhale" lmao. I like it though -Aiden
