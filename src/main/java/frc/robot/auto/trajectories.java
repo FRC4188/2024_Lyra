@@ -1,6 +1,10 @@
 package frc.robot.auto;
 
-public class choreo {
+import com.choreo.lib.Choreo;
+import com.choreo.lib.ChoreoTrajectory;
+import com.pathplanner.lib.path.PathPlannerPath;
+
+public class trajectories {
     /*Mech Advantage auto structure:
      * -> full reliance on wpilib not pathplaner or choreo
      * -> make trajs from code with Pose2d and helpers from their own lib
@@ -23,6 +27,12 @@ public class choreo {
       //TODO: add more  "stops" in front of notes if have note detection (for seeing if there's a note + change traj if theres none)
       //TODO: make minimal amount of autos for max adjustable paths for customization in code 
     
-    public static 
+    public static final ChoreoTrajectory Pcs5 = Choreo.getTrajectory("5 piece");
+    public static final ChoreoTrajectory Src3pcs = Choreo.getTrajectory("Source 3 mid");
+    public static final ChoreoTrajectory Spike4pcs = Choreo.getTrajectory("3rd spike");
+
+    //Choreo can split trajectories into segments from where stop points at, code exemplar:
+    public static final PathPlannerPath x = PathPlannerPath.fromChoreoTrajectory("choreoName.segmentNumber");
+
 }
 

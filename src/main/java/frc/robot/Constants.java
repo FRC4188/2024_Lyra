@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import org.ejml.equation.IntegerSequence.Range;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -18,7 +20,11 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import frc.robot.auto.lyAuto.utils.AllianceFlip;
+import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.drivetrain.SwerveModule;
+import frc.robot.subsystems.feeder.Feeder;
+import frc.robot.subsystems.sensors.Sensors;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -129,6 +135,7 @@ public final class Constants {
     public static final double A_WIDTH = Units.inchesToMeters(24.0); // Axel width (Meters).
     public static final double A_CROSSLENGTH = Math.hypot(A_LENGTH, A_WIDTH);
 
+
     public static final double FALCON_ENCODER_TICKS =
         2048.0; // Counts per revolution of the Falcon 500 motor.
     public static final double FALCON_MAX_VEL = 6380.0;
@@ -143,6 +150,17 @@ public final class Constants {
     public enum MODE{
       REAL,SIM
     }
+    public enum STATE{
+      DRIVE,SHOOTING,LOADED, UNLOADED
+    }
+    public static STATE robotState = (Feeder.getInstance().isBroken())? STATE.LOADED: STATE.UNLOADED;
+
+
+    public static void setRobotState(STATE state){
+      robotState = state;
+    }
+    public static STATE getRobotState(){return robotState;}
+
   }
 
   public static final class ids {

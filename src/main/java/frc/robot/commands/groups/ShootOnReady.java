@@ -1,6 +1,7 @@
 package frc.robot.commands.groups;
 
 import frc.robot.Constants;
+import frc.robot.Constants.robot.STATE;
 import frc.robot.commands.drivetrain.TrackingDrive;
 import frc.robot.commands.feeder.FeedIntoShooter;
 import frc.robot.commands.shooter.SetShooterMPS;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class ShootOnReady extends SequentialCommandGroup {
     public ShootOnReady(DoubleSupplier xInput, DoubleSupplier yInput) {
+        Constants.robot.setRobotState(STATE.SHOOTING);
         addCommands(
             new ParallelDeadlineGroup(
                 Commands.waitUntil(() -> 
@@ -36,5 +38,6 @@ public class ShootOnReady extends SequentialCommandGroup {
                 new SetShoulderAngle(() -> Sensors.getInstance().getFormulaShoulderAngle().getDegrees())
             ).andThen(new RunCommand(() -> LED.getInstance().turnOn(LEDState.Green)).withTimeout(0.5))
         );
+        Constants.robot.setRobotState(STATE.UNLOADED);
     }
 }

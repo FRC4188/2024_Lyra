@@ -17,7 +17,6 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
 
     private final DCMotorSim speedSim;
     private final DCMotorSim angleSim;
-    private final EncoderSim  encoderSim;
 
     private final double ZERO;
 
@@ -60,6 +59,9 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
         this.angleTemp = angle.getDeviceTemp();
         this.angleVoltage = angle.getMotorVoltage();
         this.angleVelocity = angle.getVelocity();
+
+        //lwk dunno wut else to do here
+
     }
 
     
