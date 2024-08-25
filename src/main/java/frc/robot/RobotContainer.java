@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.robot.STATE;
+import frc.robot.auto.lyAuto.AutoFactory;
 import frc.robot.commands.AutoConfigs;
 import frc.robot.commands.drivetrain.HockeyStop;
 import frc.robot.commands.drivetrain.TeleDrive;
@@ -278,6 +279,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+    // return autoChooser.getSelected();
+    return AutoFactory.getInstance().getAuto();
   }
 }
