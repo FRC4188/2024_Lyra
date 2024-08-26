@@ -33,20 +33,25 @@ public class FieldGrid {
 
         this.fobjs = fobjs;
 
+        pivots = new ArrayList<FieldNode>();
+
         createGrid(gridWidth, gridHeight);
     }
 
     void createGrid(short w, short h) {
+        gridWidth = w;
+        gridHeight = h;
         nodes = new FieldNode[w  * h];
 
         for (short x = 0; x < w; x++) {
             for (short y = 0; y < h; y++) {
-                nodes[y * h + x].x =x;
-                nodes[y * h + x].y =y;
-                nodes[y * h + x].obstacle = (fobjs == null)?false:fobjs.pointIsTouchingAny(x * gridxScale + 0.5 * gridxScale, y * gridyScale + 0.5 * gridyScale);
-                nodes[y * h + x].parent = null;
-                nodes[y * h + x].visited = false;
-                nodes[y * h + x].neighbours = new ArrayList<FieldNode>();
+                nodes[y * w + x] = new FieldNode();
+                nodes[y * w + x].x =x;
+                nodes[y * w + x].y =y;
+                nodes[y * w + x].obstacle = (fobjs == null)?false:fobjs.pointIsTouchingAny(x * gridxScale + 0.5 * gridxScale, y * gridyScale + 0.5 * gridyScale);
+                nodes[y * w + x].parent = null;
+                nodes[y * w + x].visited = false;
+                nodes[y * w + x].neighbours = new ArrayList<FieldNode>();
             }
         }
 
@@ -126,7 +131,7 @@ public class FieldGrid {
             curNode.visited = true;
 
             for (FieldNode nodeNeighbour : curNode.neighbours) {
-                if (!nodeNeighbour.visited && nodeNeighbour.obstacle) listNotTestedNodes.add(nodeNeighbour);
+                if (!nodeNeighbour.visited && !nodeNeighbour.obstacle) listNotTestedNodes.add(nodeNeighbour);
 
                 double fPossiblyLowerGoal = curNode.fLocalGoal + heuristic(curNode, nodeNeighbour);
 
@@ -140,7 +145,7 @@ public class FieldGrid {
             }
         }
 
-        return endNode.parent == null;
+        return endNode.parent != null;
     }
 
     boolean createPivots() {

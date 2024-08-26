@@ -1,5 +1,7 @@
 package frc.robot.autoworkspace;
 
+import org.opencv.core.Point;
+
 public class mathutils {
     static int clamp(int min, int val, int max) {
         if (val < min) return min;
@@ -23,9 +25,10 @@ public class mathutils {
     }
 
     static double distancePoints(double x0, double y0, double x1, double y1) {
-        return Math.sqrt((x0 - x1) * (x0 - x1) + (y0 - y1) + (y0 - y1));
+        return Math.hypot(x0 - x1, y0 - y1);
     }
 
+    //point = connection point for obstacle
     static double pointFromLine(double x0, double y0, double x1, double y1, double xp, double yp) {
         return Math.abs((x1 - x0) * yp - (y1 - y0) * xp - x1 * y0 + x0 * y1) / distancePoints(x0, y0, x1, y1);
     }

@@ -10,7 +10,11 @@ public class AutoPath {
     FieldObjects fobjs = null;
     FieldGrid fg = null;
 
-    AutoPath(FieldGrid fg) {this.fg = fg; this.fobjs = fg.fobjs;}
+    AutoPath(FieldGrid fg) {
+        this.fg = fg;
+        this.fobjs = fg.fobjs;
+        pathPoints = new ArrayList<PathPoint>();
+    }
 
     double distancePoints(PathPoint a, PathPoint b) {
         return mathutils.distancePoints(a.translation.getX(), a.translation.getY(), a.translation.getX(), a.translation.getY());
@@ -47,19 +51,42 @@ public class AutoPath {
     boolean createAutoPath() {
         pathPoints.clear();
         if (fg.pivots.size() == 0) return false;
-        pathPoints.add(new PathPoint(nodeToT2d(fg.pivots.get(0)), 0, null));
 
         for (int i = 0; i < fg.pivots.size() - 1; i++) {
             double dis = distanceNode(fg.pivots.get(i), fg.pivots.get(i + 1));
             int divisor = Math.max(1, (int) (0.1 * dis));
 
             for (double t = 0; t < 1; t += ((double)1/divisor)) {
-                Translation2d cur = interpolate(fg.pivots, i , mathutils.clamp(0, t + ((double)1/divisor), 1));
-                PathPoint next = pathPoints.get(pathPoints.size() - 1);
-                double distance = cur.getDistance(next.translation) + next.disFromEnd;
-
-                pathPoints.add(new PathPoint(cur, distance, next));
+                Translation2d cur = interpolate(fg.pivots, i , mathutils.clamp(0, t, 1));
+                PathPoint next = null;
+                double distance = 0;
+                if (pathPoints.size() != 0) {
+                    next = pathPoints.get(pathPoints.size() - 1);
+                    distance = cur.getDistance(next.translation) + next.disFromEnd;
+                }
+                
+                PathPoint add = new PathPoint(cur, distance, next);
+                
+                
+                if (!add.isInRange(5, next)) {
+                    pathPoints.add(add);
+                }
             }
+        }
+        
+        
+        Translation2d cur = nodeToT2d(fg.pivots.get(fg.pivots.size() - 1));
+        PathPoint next = null;
+        double distance = 0;
+        if (pathPoints.size() != 0) {
+            next = pathPoints.get(pathPoints.size() - 1);
+            distance = cur.getDistance(next.translation) + next.disFromEnd;
+        }
+                
+        PathPoint add = new PathPoint(cur, distance, next);
+                
+        if (!add.isInRange(5, next)) {
+            pathPoints.add(add);
         }
 
         Collections.reverse(pathPoints);

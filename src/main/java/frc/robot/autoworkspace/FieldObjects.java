@@ -4,7 +4,9 @@ import java.util.ArrayList;
 public class FieldObjects {
     ArrayList<FieldObject> fieldobjs;
     
-    FieldObjects() {}
+    FieldObjects() {
+        fieldobjs = new ArrayList<FieldObject>();
+    }
 
     void add(FieldObject fobj) {
         if (fieldobjs.contains(fobj)) {return;}

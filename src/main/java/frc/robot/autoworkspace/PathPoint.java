@@ -12,7 +12,13 @@ public class PathPoint {
         nextPoint = next;
     }
     
-    boolean isSamePoint(PathPoint a) {
-        return a.translation == this.translation;
+    boolean isInRange(double range, PathPoint a) {
+        
+        return a != null && (
+            mathutils.distancePoints(translation.getX(), 
+                                    translation.getY(), 
+                                    a.translation.getX(), 
+                                    a.translation.getY()) <= range
+                                    );
     }
 }
