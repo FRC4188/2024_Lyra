@@ -1,20 +1,24 @@
 package frc.robot.autoworkspace;
 
+//field object class, goals for path or be obstacles
 public class FieldObject {
     double x, y, w = -1, h = -1, r = -1;
     boolean obstacle = true;
 
+    //point constructor
     FieldObject(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
+    //circle constructor
     FieldObject(double x, double y, double r) {
         this.x = x;
         this.y = y;
         this.r = r;
     }
 
+    //rect constructor
     FieldObject(double x, double y, double w, double h) {
         this.x = x;
         this.y = y;
@@ -22,6 +26,7 @@ public class FieldObject {
         this.h = h;
     }
 
+    //point is touching inside shape or point
     boolean isTouching(double x, double y) {
         if (!obstacle) return false;
 
@@ -36,6 +41,7 @@ public class FieldObject {
         }
     }
 
+    //lines is touching through shape or point
     boolean lineIsTouching(double x0, double y0, double x1, double y1) {
         if (!obstacle) return false;
 

@@ -1,7 +1,9 @@
 package frc.robot.autoworkspace;
 import edu.wpi.first.math.geometry.Translation2d;
 
+//path point
 public class PathPoint {
+    //self explanatory
     Translation2d translation;
     double disFromEnd;
     PathPoint nextPoint;
@@ -11,7 +13,8 @@ public class PathPoint {
         this.disFromEnd = disFromEnd;
         nextPoint = next;
     }
-    
+
+    //needed for autopath constructor, if PathPoint a is null, assumed to be in range
     boolean isInRange(double range, PathPoint a) {
         
         return a != null && (
