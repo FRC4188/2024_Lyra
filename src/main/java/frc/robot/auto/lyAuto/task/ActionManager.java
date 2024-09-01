@@ -80,8 +80,8 @@ public class ActionManager {
 
     }
 
-    public Pose2d getBestPoint(){
-        return execute.poll().getLocation();
+    public Node getBestPoint(){
+        return execute.poll();
     }
     
 }

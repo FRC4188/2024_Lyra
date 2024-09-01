@@ -47,12 +47,14 @@ public class SwerveModule {
     // TempManager.addMotor(this.speed);
     // TempManager.addMotor(this.angle);
 
-    init();
+    configIO();
   }
 
-  public void init() {
+  public void configIO() {
     io.config();
   }
+
+  public void updateInputs(){}
 
   //TODO: check if works
   public void setModuleState(SwerveModuleState desired) {

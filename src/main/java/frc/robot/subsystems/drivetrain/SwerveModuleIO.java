@@ -2,10 +2,13 @@ package frc.robot.subsystems.drivetrain;
 
 import java.util.function.DoubleSupplier;
 
+import org.littletonrobotics.junction.AutoLog;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 
 public interface SwerveModuleIO {
     //TODO: check if need more addition
+    @AutoLog
      class SwerveModuleIOInputs{
         public double speedVelocity = 0.0; //rps
         public double angleVelocity = 0.0; 
@@ -22,5 +25,6 @@ public interface SwerveModuleIO {
     default void config(){}
     default void updateInputs(final SwerveModuleIOInputs inputs){}
     default void setInputs(final double speedVoltage, final double angleVoltage){};
+    default void periodic(){}
     
 }

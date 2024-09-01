@@ -25,10 +25,12 @@ public class Action {
 
     // public Map<String, DoubleSupplier> getSetpoint();
     public Task task;
+    private Node no;
 
 
     public Action(Task task) {
         this.task = task;
+        this.no = no;
     }
 
 
@@ -41,42 +43,6 @@ public class Action {
 
     public enum Task{
         TRAVEL, INTAKE, SHOOT;
-    }
-
-    /**
-     * @return
-     */
-    public Command getCommand() {
-        switch (task) {
-            case TRAVEL:
-                return new FollowPath(null, null); //TODO: add trajectory and figure out how to calculate headings for note
-            
-            case INTAKE:
-                return new FeedIntake();
-
-            case SHOOT:
-                return new ConditionalCommand(
-                    new ShootOnReady(() -> 0.0, () -> 0.0).withTimeout(1.5)
-                                                .andThen(
-                                                    new ConditionalCommand(
-                                                        new FeedIntoShooter(12.0).withTimeout(0.9),
-                                                        new SequentialCommandGroup(),
-                                                        () -> Feeder.getInstance().isBroken())
-                                                ),
-                    new FeedIntake().until(() -> Feeder.getInstance().isBroken()).withTimeout(1.0).andThen(
-                    new ShootOnReady(() -> 0.0, () -> 0.0).withTimeout(1.5)
-                                                .andThen(
-                                                    new ConditionalCommand(
-                                                        new FeedIntoShooter(12.0).withTimeout(0.9),
-                                                        new SequentialCommandGroup(),
-                                                        () -> Feeder.getInstance().isBroken())
-                                                )),
-                    () -> Feeder.getInstance().isBroken()
-                ).withTimeout(4.0);
-
-            default:
-                return new InstantCommand();
-        }
     }
 
     public STATE getPrecondState(){

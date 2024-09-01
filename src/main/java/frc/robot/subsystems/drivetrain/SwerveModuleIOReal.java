@@ -118,7 +118,6 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
             angleTemp,
             angleVoltage
         );
-
         inputs.speedPos = speedPos.getValueAsDouble();
         inputs.speedVelocity = speedVelocity.getValueAsDouble();
         inputs.speedTemp = speedTemp.getValueAsDouble();
@@ -137,6 +136,10 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         angle.setVoltage(angleVoltage);
     }
 
+    @Override
+    public void periodic(){
+        
+    }
 
 
 

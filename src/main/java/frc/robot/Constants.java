@@ -20,6 +20,8 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.auto.lyAuto.utils.AllianceFlip;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.drivetrain.SwerveModule;
@@ -154,7 +156,10 @@ public final class Constants {
       DRIVE,SHOOTING,LOADED, UNLOADED
     }
     public static STATE robotState = (Feeder.getInstance().isBroken())? STATE.LOADED: STATE.UNLOADED;
+    public static MODE robotMode = RobotBase.isReal()? MODE.REAL: MODE.SIM;
 
+
+    public static MODE getRobotMode(){return robotMode;}
 
     public static void setRobotState(STATE state){
       robotState = state;

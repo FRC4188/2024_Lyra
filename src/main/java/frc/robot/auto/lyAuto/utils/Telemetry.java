@@ -11,7 +11,7 @@ public class Telemetry {
 
     public static final class Constants{
         public static final String SMART_DASHBOARD = "SmartDashboard";
-        public static final String TITAN_DASHBOARD = "TitanDashb";
+        public static final String TITAN_DASHBOARD = "TitanDash";
     }
 
     public static Telemetry getInstance() {

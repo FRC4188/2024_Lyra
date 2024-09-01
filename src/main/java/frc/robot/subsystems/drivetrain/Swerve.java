@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.drivetrain;
 
+import static frc.robot.Constants.robot.getRobotMode;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -30,7 +32,6 @@ import frc.robot.Constants.drivetrain.SwerveModuleConfig;
 import frc.robot.subsystems.sensors.Sensors;
 
 public class Swerve extends SubsystemBase {
-  private Constants.robot.MODE mode;
   private static Swerve instance;
 
   /**
@@ -40,10 +41,6 @@ public class Swerve extends SubsystemBase {
   public static Swerve getInstance() {
     if (instance == null) instance = new Swerve();
     return instance;
-  }
-
-  private Swerve(Constants.robot.MODE mode){
-    this.mode = mode;
   }
 
   private static Translation2d[] getLocations(SwerveModule... modules) {
@@ -57,10 +54,10 @@ public class Swerve extends SubsystemBase {
   
 
   private SwerveModule[] moduleList = {
-    SwerveModuleConfig.create(Constants.drivetrain.FrontLeft, mode),
-    SwerveModuleConfig.create(Constants.drivetrain.FrontRight, mode),
-    SwerveModuleConfig.create(Constants.drivetrain.BackLeft, mode),
-    SwerveModuleConfig.create(Constants.drivetrain.BackRight, mode)
+    SwerveModuleConfig.create(Constants.drivetrain.FrontLeft, getRobotMode()),
+    SwerveModuleConfig.create(Constants.drivetrain.FrontRight, getRobotMode()),
+    SwerveModuleConfig.create(Constants.drivetrain.BackLeft, getRobotMode()),
+    SwerveModuleConfig.create(Constants.drivetrain.BackRight, getRobotMode())
   };
 
   private SwerveModulePosition[] getSwerveModulePositions(SwerveModule... modules) {
@@ -321,9 +318,5 @@ public class Swerve extends SubsystemBase {
             },
             this // Reference to this subsystem to set requirements
     );
-  }
-
-  public void setRobotMode(Constants.robot.MODE mode){
-    this.mode = mode;
   }
 }

@@ -11,6 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import CSP_Lib.utils.TempManager;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 
 public class CSP_TalonFX extends TalonFX implements CSP_Motor {
 
@@ -131,6 +132,7 @@ public class CSP_TalonFX extends TalonFX implements CSP_Motor {
     return super.getStatorCurrent().getValueAsDouble();
   }
 
+  
   /**
    * Returns the temperature of the motor
    *
@@ -148,6 +150,7 @@ public class CSP_TalonFX extends TalonFX implements CSP_Motor {
   public int getID() {
     return super.getDeviceID();
   } 
+
 
   
 }
