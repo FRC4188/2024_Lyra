@@ -286,9 +286,8 @@ public final class Constants {
       double zero
     ){
       public static SwerveModule create(
-        final SwerveModuleConfig config,
-        final robot.MODE mode){
-          return new SwerveModule(config,mode);
+        final SwerveModuleConfig config){
+          return new SwerveModule(config);
         }
     }
   }

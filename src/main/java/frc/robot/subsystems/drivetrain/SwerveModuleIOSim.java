@@ -49,12 +49,12 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
         this.angleDCSim = new DCMotorSim(
             DCMotor.getKrakenX60Foc(1),
             Constants.drivetrain.ANGLE_GEARING,
-            0.0); //TODO: gotta change the values :P
+            0.0001); //TODO: gotta change the values :P
 
         this.speedDCSim = new DCMotorSim(
             DCMotor.getKrakenX60Foc(1),
             Constants.drivetrain.DRIVE_GEARING,
-            0.0); //TODO: gotta change the values :P
+            0.0001); //TODO: gotta change the values :P
 
         //TODO: figure out how to add encoder sim (change csp lib??)
         this.ZERO = config.zero();
@@ -71,7 +71,7 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
         this.angleTemp = angle.getDeviceTemp();
         this.angleVoltage = angle.getMotorVoltage();
         this.angleVelocity = angle.getVelocity();
-
+        
         //lwk dunno wut else to do here
 
     }
@@ -91,7 +91,7 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
         sensorConfigs.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
         encoder.getConfigurator().apply(sensorConfigs);
 
-        BaseStatusSignal.setUpdateFrequencyForAll(50.0,
+        BaseStatusSignal.setUpdateFrequencyForAll(5.0,
             speedVelocity,
             angleVelocity,
             speedPos,
@@ -105,7 +105,9 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
          angleTemp
         );
 
-        encoder.getAbsolutePosition().setUpdateFrequency(100.0);
+        
+
+        encoder.getAbsolutePosition().setUpdateFrequency(75.0);
         ParentDevice.optimizeBusUtilizationForAll(speed,angle,encoder);
 
         speed.getConfigurator().apply(new CurrentLimitsConfigs()
@@ -151,8 +153,9 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
     }
 
     @Override
-    public void setInputs(final double speedVoltage, final double angleVoltage){
-
+    public void setVoltage(final double speedVoltage, final double angleVoltage){
+        speed.setVoltage(speedVoltage);
+        angle.setVoltage(angleVoltage);
     };
 
     @Override
@@ -165,7 +168,6 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
 
         speed.getSimState().setRotorVelocity(Constants.drivetrain.DRIVE_GEARING * Units.radiansToRotations(speedDCSim.getAngularVelocityRadPerSec()));
         angle.getSimState().setRotorVelocity(Constants.drivetrain.ANGLE_GEARING * Units.radiansToRotations(angleDCSim.getAngularVelocityRadPerSec()));
-
     }
 
     

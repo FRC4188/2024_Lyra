@@ -24,7 +24,7 @@ public interface SwerveModuleIO {
 
     default void config(){}
     default void updateInputs(final SwerveModuleIOInputs inputs){}
-    default void setInputs(final double speedVoltage, final double angleVoltage){};
+    default void setVoltage(final double speedVoltage, final double angleVoltage){};
     default void periodic(){}
     
 }

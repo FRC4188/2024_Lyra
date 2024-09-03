@@ -54,10 +54,10 @@ public class Swerve extends SubsystemBase {
   
 
   private SwerveModule[] moduleList = {
-    SwerveModuleConfig.create(Constants.drivetrain.FrontLeft, getRobotMode()),
-    SwerveModuleConfig.create(Constants.drivetrain.FrontRight, getRobotMode()),
-    SwerveModuleConfig.create(Constants.drivetrain.BackLeft, getRobotMode()),
-    SwerveModuleConfig.create(Constants.drivetrain.BackRight, getRobotMode())
+    SwerveModuleConfig.create(Constants.drivetrain.FrontLeft),
+    SwerveModuleConfig.create(Constants.drivetrain.FrontRight),
+    SwerveModuleConfig.create(Constants.drivetrain.BackLeft),
+    SwerveModuleConfig.create(Constants.drivetrain.BackRight)
   };
 
   private SwerveModulePosition[] getSwerveModulePositions(SwerveModule... modules) {

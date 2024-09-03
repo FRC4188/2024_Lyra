@@ -74,7 +74,7 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         sensorConfigs.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
         encoder.getConfigurator().apply(sensorConfigs);
 
-        BaseStatusSignal.setUpdateFrequencyForAll(50.0,
+        BaseStatusSignal.setUpdateFrequencyForAll(5.0,
             speedVelocity,
             angleVelocity,
             speedPos,
@@ -88,7 +88,7 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
          angleTemp
         );
 
-        encoder.getAbsolutePosition().setUpdateFrequency(100.0);
+        encoder.getAbsolutePosition().setUpdateFrequency(75.0);
         ParentDevice.optimizeBusUtilizationForAll(speed,angle,encoder);
 
         speed.getConfigurator().apply(new CurrentLimitsConfigs()
@@ -131,7 +131,7 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
 
     //TODO: check if need more calculations
     @Override
-    public void setInputs(final double speedVoltage, final double angleVoltage){
+    public void setVoltage(final double speedVoltage, final double angleVoltage){
         speed.setVoltage(speedVoltage);
         angle.setVoltage(angleVoltage);
     }

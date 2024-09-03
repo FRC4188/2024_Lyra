@@ -30,9 +30,9 @@ public class SwerveModule {
   private final PIDController speedPID;
   private final SimpleMotorFeedforward speedFF;
 
-  public SwerveModule(Constants.drivetrain.SwerveModuleConfig config, Constants.robot.MODE mode) {
+  public SwerveModule(Constants.drivetrain.SwerveModuleConfig config) {
     this.config = config;
-    this.io = switch(mode){
+    this.io = switch(Constants.robot.getRobotMode()){
       case REAL -> new SwerveModuleIOReal(config);
       case SIM -> new SwerveModuleIOSim(config);
     };
@@ -47,10 +47,6 @@ public class SwerveModule {
     // TempManager.addMotor(this.speed);
     // TempManager.addMotor(this.angle);
 
-    configIO();
-  }
-
-  public void configIO() {
     io.config();
   }
 
@@ -68,12 +64,12 @@ public class SwerveModule {
     // angle.setVoltage(angleFF.calculate(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees())));
     double angleVolt = (anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees()));
 
-    io.setInputs(speedVolt, angleVolt);
+    io.setVoltage(speedVolt, angleVolt);
   }
 
   /** Sets the speed and angle motors to zero power */
   public void zeroPower() {
-    io.setInputs(0.0, 0.0);
+    io.setVoltage(0.0, 0.0);
   }
 
   /**

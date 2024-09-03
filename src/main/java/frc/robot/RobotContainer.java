@@ -5,6 +5,8 @@
 package frc.robot;
 
 
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -67,7 +69,7 @@ public class RobotContainer {
   Shoulder shoulder = Shoulder.getInstance();
   Shooter shooter = Shooter.getInstance();
   Feeder feeder = Feeder.getInstance();
-  private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+  private LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Options");
   LED led = LED.getInstance();
   private Notifier shuffleUpdater = new Notifier(() -> updateShuffle());
 
@@ -253,7 +255,7 @@ public class RobotContainer {
   }
 
   public void addChooser() {
-    autoChooser.setDefaultOption("Do Nothing", new SequentialCommandGroup());
+    autoChooser.addDefaultOption("Do Nothing", new SequentialCommandGroup());
   // VISIONLESS AUTONOMOUS PATHS
     // autoChooser.addOption("Blind Four Mid", new PathPlannerAuto("Red Four Mid"));
     // autoChooser.addOption("IHOT Auto", new PathPlannerAuto("IHOT Auto"));
@@ -275,7 +277,7 @@ public class RobotContainer {
     autoChooser.addOption("Techno", new PathPlannerAuto("Techno"));
 
 
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    // SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   public Command getAutonomousCommand() {
