@@ -156,6 +156,8 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
     public void setVoltage(final double speedVoltage, final double angleVoltage){
         speed.setVoltage(speedVoltage);
         angle.setVoltage(angleVoltage);
+
+        
     };
 
     @Override
