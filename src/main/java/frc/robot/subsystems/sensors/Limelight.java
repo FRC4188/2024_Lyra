@@ -62,8 +62,10 @@ public class Limelight {
     return getTV() ? LimelightHelpers.getBotPose(name)[9] : 0;
   }
 
-public double getTX(Limelight detectingLimelight) {
+public double getTX() {
     // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getTX'");
+    // throw new UnsupportedOperationException("Unimplemented method 'getTX'");
+    return LimelightHelpers.getTX(name);
+    // Leo whyyyyyy
 }
 }

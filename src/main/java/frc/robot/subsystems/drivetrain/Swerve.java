@@ -124,7 +124,6 @@ public class Swerve extends SubsystemBase {
   public PIDController rotPID = Constants.drivetrain.ROT_PID;
   public PIDController correctionPID = Constants.drivetrain.CORRECTION_PID;
 
-  public NoteDetect detector = new NoteDetect();
   /** Creates a new Swerve. */
   private Swerve() {
 

@@ -2,6 +2,7 @@ package frc.robot.commands.drivetrain;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.drivetrain.Swerve;
+import frc.robot.subsystems.sensors.Limelight;
 import frc.robot.subsystems.sensors.Sensors;
 
 import java.util.function.DoubleSupplier;
@@ -21,7 +22,11 @@ public class TrackingDrive extends Command {
   DoubleSupplier xInput, yInput, goalAngle;
   boolean noInput;
   PIDController rotPID = drive.rotPID;
-
+  Limelight detectingLimelight =
+      new Limelight(
+          "limelight-front",
+          Constants.sensors.limelight.FRONT_LIMELIGHT_LOCATION);
+  
   /** Creates a new TrackingDrive. */
   public TrackingDrive(DoubleSupplier xInput, DoubleSupplier yInput, DoubleSupplier goalAngle) {
     // Use addRequirements() here to declare subsystem dependencies.
