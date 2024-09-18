@@ -58,6 +58,10 @@ public class Shoulder extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shoulder Angle", getAngle().getDegrees());
     SmartDashboard.putNumber("Shoulder Setpoint", pid.getGoal().position); 
+    SmartDashboard.putNumber("Shoulder Kp", Constants.shoulder.Kp); 
+    SmartDashboard.putNumber("Shoulder Ki", Constants.shoulder.Ki); 
+    SmartDashboard.putNumber("Shoulder Kd", Constants.shoulder.Kd); 
+    
 
     pid.setGoal(angle);
     setVoltage(pid.calculate(getAngle().getDegrees()) + ff.calculate(Math.toRadians(angle + 90.0), 0.0));

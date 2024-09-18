@@ -253,8 +253,11 @@ public final class Constants {
     public static final double MAX_VEL = 960.0;
     public static final double MAX_ACCEL = 720.0;
     public static final Constraints CONSTRAINTS = new Constraints(MAX_VEL, MAX_ACCEL);
+    public static double Kp = 0.325;
+    public static double Ki = 0.0;
+    public static double Kd = 0.02;
 
-    public static final ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(0.325, 0.0, 0.02, CONSTRAINTS);
+    public static ProfiledPIDController SHOULDER_PID = new ProfiledPIDController(Kp, Ki, Kd, CONSTRAINTS);
     
     public static final ArmFeedforward ARM_FEEDFORWARD = new ArmFeedforward(0.155, 0.3 * 34.5/33.0  , 0); // kS = verge of motion, kg = fixes setpoint after weak p
 
