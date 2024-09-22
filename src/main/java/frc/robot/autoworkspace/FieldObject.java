@@ -1,4 +1,5 @@
 package frc.robot.autoworkspace;
+import edu.wpi.first.math.geometry.Pose2d;
 
 //field object class, goals for path or be obstacles
 public class FieldObject {
@@ -6,28 +7,40 @@ public class FieldObject {
     boolean obstacle = true;
 
     //point constructor
-    FieldObject(double x, double y) {
+    public FieldObject(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
+    public FieldObject(Pose2d pose) {
+        this(pose.getX(), pose.getY());
+    }
+
     //circle constructor
-    FieldObject(double x, double y, double r) {
+    public FieldObject(double x, double y, double r) {
         this.x = x;
         this.y = y;
         this.r = r;
     }
 
+    public FieldObject(Pose2d pose, double r) {
+        this(pose.getX(), pose.getY(), r);
+    }
+
     //rect constructor
-    FieldObject(double x, double y, double w, double h) {
+    public FieldObject(double x, double y, double w, double h) {
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
     }
 
+    public FieldObject(Pose2d pose, double w,double h) {
+        this(pose.getX(), pose.getY(), w, h);
+    }
+
     //point is touching inside shape or point
-    boolean isTouching(double x, double y) {
+    public boolean isTouching(double x, double y) {
         if (!obstacle) return false;
 
         if (r != -1) {
@@ -42,7 +55,7 @@ public class FieldObject {
     }
 
     //lines is touching through shape or point
-    boolean lineIsTouching(double x0, double y0, double x1, double y1) {
+    public boolean lineIsTouching(double x0, double y0, double x1, double y1) {
         if (!obstacle) return false;
 
         if (r != -1) {

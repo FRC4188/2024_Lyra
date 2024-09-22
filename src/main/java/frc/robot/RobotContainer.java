@@ -85,6 +85,7 @@ public class RobotContainer {
 
     // Add auto chooser to SmartDashboard
     addChooser();
+
   }
 
   private void setDefaultCommands() {

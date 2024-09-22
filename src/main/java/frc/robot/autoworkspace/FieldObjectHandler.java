@@ -1,13 +1,39 @@
 package frc.robot.autoworkspace;
 import java.util.ArrayList;
+import java.util.List;
+
+import edu.wpi.first.math.geometry.Pose2d;
 
 //list of field objects
-public class FieldObjects {
-    ArrayList<FieldObject> fieldobjs;
+public class FieldObjectHandler {
+    public static FieldObjectHandler instance = null;
+    public static synchronized FieldObjectHandler getInstance() {
+        if (instance == null) instance = new FieldObjectHandler();
+        return instance;
+    }
+
+    List<FieldObject> fieldobjs;
     
     //constructor
-    FieldObjects() {
+    public FieldObjectHandler() {
         fieldobjs = new ArrayList<FieldObject>();
+    }
+
+    //constructor
+
+    public FieldObjectHandler(FieldObject... fobj) {
+        this();
+        for (FieldObject f : fobj) {
+            add(f);
+        }
+    }
+
+    void addPose2d(Pose2d pose, double r) {
+        add(new FieldObject(pose, r));   
+    }
+
+    void addPose2d(Pose2d pose, double w, double h) {
+        add(new FieldObject(pose, w, h));
     }
 
     //add field object unless its already exists within
