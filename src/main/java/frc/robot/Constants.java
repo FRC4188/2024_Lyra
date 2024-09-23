@@ -185,7 +185,11 @@ public final class Constants {
   }
 
   public static class drivetrain {
-    public static final double DRIVE_GEARING = 5.14; // 5.14 : 1
+    public static final double DRIVE_GEARING = 4.75; // 5.14 : 1
+    // 4.58056640625
+    // 4.57177734375
+    // 4.640625
+    // 4.57470703125
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
     public static final double DRIVE_TICKS_PER_ROTATION =
         robot.FALCON_ENCODER_TICKS * DRIVE_GEARING;

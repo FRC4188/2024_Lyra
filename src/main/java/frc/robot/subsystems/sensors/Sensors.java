@@ -126,8 +126,8 @@ public class Sensors extends SubsystemBase {
 
     // SmartDashboard.putNumber("Drive Angle", Swerve.getInstance().getPose2d().getRotation().getDegrees());
     // SmartDashboard.putNumber("Pigeon Angle", getRotation2d().getDegrees());
-    // SmartDashboard.putString("back ll pose", getBackPose2d().toString());
-    // SmartDashboard.putString("front ll pose", getFrontPose2d().toString());
+    SmartDashboard.putString("back ll pose", getBackPose2d().toString());
+    SmartDashboard.putString("front ll pose", getFrontPose2d().toString());
 
     SmartDashboard.putBoolean("Shooter Ready?", Shooter.getInstance().atMPS());
     SmartDashboard.putBoolean("Shoulder Ready?", Shoulder.getInstance().atGoal(getFormulaShoulderAngle()));

@@ -5,6 +5,7 @@
 package frc.robot;
 
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -115,7 +116,6 @@ public class RobotContainer {
     SmartDashboard.putNumber("Velocity", 0.0);
     SmartDashboard.putData("Set Shooter MPS", new SetShooterMPS(() -> (SmartDashboard.getNumber("Velocity", 0))));
     SmartDashboard.putData("Set Shoulder Angle", new SetShoulderAngle(() -> (SmartDashboard.getNumber("Angle", 0))));
-
     //Add these in for sysid tests
     // pilot.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
     // pilot.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
@@ -135,7 +135,7 @@ public class RobotContainer {
       new TeleDrive(
         () -> pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
         () -> pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-        () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0)))
+        () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 0.7))) //0.7 new gr
     .onFalse(new HockeyStop().withTimeout(0.5));
 
     
