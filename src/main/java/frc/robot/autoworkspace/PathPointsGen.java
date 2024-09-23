@@ -78,44 +78,44 @@ public class PathPointsGen {
         return pivots.size() > 1;
     }
 
-    public Trajectory generateTrajectory(Translation2d start, Translation2d end) {
+    public Trajectory generateTrajectory(Translation2d start, Translation2d end, TrajectoryConfig config) {
         if (!generatePivots(start, end)) return new Trajectory();
 
         return TrajectoryGenerator.generateTrajectory(
             new Pose2d(start, pivots.get(0).minus(start).getAngle()), 
             pivots, 
             new Pose2d(end, end.minus(pivots.get(pivots.size() - 1)).getAngle()), 
-            new TrajectoryConfig(Constants.drivetrain.MAX_VELOCITY / 2, Constants.drivetrain.MAX_ACCEL / 2));
+            config);
     }
 
-    public Trajectory generateTrajectory(Pose2d start, Translation2d end) {
+    public Trajectory generateTrajectory(Pose2d start, Translation2d end, TrajectoryConfig config) {
         if (!generatePivots(start.getTranslation(), end)) return new Trajectory();
-
+        
         return TrajectoryGenerator.generateTrajectory(
             start, 
             pivots, 
             new Pose2d(end, end.minus(pivots.get(pivots.size() - 1)).getAngle()), 
-            new TrajectoryConfig(Constants.drivetrain.MAX_VELOCITY / 2, Constants.drivetrain.MAX_ACCEL / 2));
+            config);
     }
 
-    public Trajectory generateTrajectory(Translation2d start, Pose2d end) {
+    public Trajectory generateTrajectory(Translation2d start, Pose2d end, TrajectoryConfig config) {
         if (!generatePivots(start, end.getTranslation())) return new Trajectory();
 
         return TrajectoryGenerator.generateTrajectory(
             new Pose2d(start, pivots.get(0).minus(start).getAngle()), 
             pivots, 
             end,
-            new TrajectoryConfig(Constants.drivetrain.MAX_VELOCITY / 2, Constants.drivetrain.MAX_ACCEL / 2));
+            config);
     }
 
-    public Trajectory generateTrajectory(Pose2d start, Pose2d end) {
+    public Trajectory generateTrajectory(Pose2d start, Pose2d end, TrajectoryConfig config) {
         if (!generatePivots(start.getTranslation(), end.getTranslation())) return new Trajectory();
 
         return TrajectoryGenerator.generateTrajectory(
             start, 
             pivots, 
             end, 
-            new TrajectoryConfig(Constants.drivetrain.MAX_VELOCITY / 2, Constants.drivetrain.MAX_ACCEL / 2));
+            config);
     }
 
     //utility methods
