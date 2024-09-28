@@ -74,7 +74,6 @@ public class Swerve extends SubsystemBase {
 
   public double setOmega = 0.0;
 
-
   // private Notifier notifier = new Notifier(() -> {
     
   // });
@@ -113,6 +112,7 @@ public class Swerve extends SubsystemBase {
     // SmartDashboard.putNumber("Angle kD", Constants.drivetrain.ANGLE_PID.getD());
 
     SmartDashboard.putData("Field", field);
+
   }
 
   @Override
@@ -120,7 +120,7 @@ public class Swerve extends SubsystemBase {
     // This method will be called once per scheduler run
     updateOdometry();
     updateDashboard();
-
+    field.setRobotPose(odometry.getEstimatedPosition());
   }
 
   public void setChassisSpeeds(ChassisSpeeds speeds) {
@@ -222,6 +222,8 @@ public class Swerve extends SubsystemBase {
     odometry.update(
         sensors.getRotation2d(),
         getSwerveModulePositions(moduleList));
+
+      
   }
 
   public void resetOdometry(Pose2d initPose) {
@@ -261,21 +263,22 @@ public class Swerve extends SubsystemBase {
 
     SmartDashboard.putString("Estimated Pose", getPose2d().toString());
     field.setRobotPose(getPose2d());
-    // SmartDashboard.putNumber("BackRight Rotations", moduleList[3].getPositionDegrees());
-    // SmartDashboard.putNumber("BackLeft Rotations", moduleList[2].getPositionDegrees());
-    // SmartDashboard.putNumber("FrontRight Rotations", moduleList[1].getPositionDegrees());
-    // SmartDashboard.putNumber("FrontLeft Rotations", moduleList[0].getPositionDegrees());
+    SmartDashboard.putNumber("BackRight Rotations", moduleList[3].getPositionDegrees());
+    SmartDashboard.putNumber("BackLeft Rotations", moduleList[2].getPositionDegrees());
+    SmartDashboard.putNumber("FrontRight Rotations", moduleList[1].getPositionDegrees());
+    SmartDashboard.putNumber("FrontLeft Rotations", moduleList[0].getPositionDegrees());
 
 
-    SmartDashboard.putNumber("Front Right Angle Temp", moduleList[1].getAngleTemp());
-        SmartDashboard.putNumber("Front Left Angle Temp", moduleList[0].getAngleTemp());
-    SmartDashboard.putNumber("Back Right Angle Temp", moduleList[3].getAngleTemp());
-    SmartDashboard.putNumber("Back Left Angle Temp", moduleList[2].getAngleTemp());
+    // SmartDashboard.putNumber("Front Right Angle Temp", moduleList[1].getAngleTemp());
+    //     SmartDashboard.putNumber("Front Left Angle Temp", moduleList[0].getAngleTemp());
+    // SmartDashboard.putNumber("Back Right Angle Temp", moduleList[3].getAngleTemp());
+    // SmartDashboard.putNumber("Back Left Angle Temp", moduleList[2].getAngleTemp());
 
         //SmartDashboard.putNumber("Front Right Angle Volts", moduleList[1].getAngleVolts());
 
     for (SwerveModule module : moduleList) {
       SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());
+      module.periodic();
       // SmartDashboard.putNumber(module.getName() + " Angle Setpoint", module.getAnglePIDSetpoint());
 
       // module.setAnglePIDConstants(

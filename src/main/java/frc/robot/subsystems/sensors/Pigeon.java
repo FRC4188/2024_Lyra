@@ -2,9 +2,11 @@ package frc.robot.subsystems.sensors;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.sim.Pigeon2SimState;
 
 import CSP_Lib.utils.Conversions;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.RobotController;
 
 public class Pigeon extends Pigeon2 {
   double offsetDegrees;
@@ -14,6 +16,10 @@ public class Pigeon extends Pigeon2 {
     super.getConfigurator().apply(new Pigeon2Configuration());
     super.clearStickyFaults();
     this.offsetDegrees = offsetDegrees;
+
+    super.getSimState().setSupplyVoltage(RobotController.getBatteryVoltage());
+    super.getSimState().setPitch(getPitchAsDouble());
+    super.getSimState().setRoll(getRollAsDouble());
     reset();
   }
 

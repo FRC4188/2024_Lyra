@@ -3,6 +3,8 @@ package frc.robot.subsystems.drivetrain;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
@@ -23,7 +25,7 @@ public class SwerveModule {
 
   private final Constants.drivetrain.SwerveModuleConfig config;
   private final SwerveModuleIO io;
-  private final SwerveModuleIOInputs inputs;
+  private final SwerveModuleIOInputsAutoLogged inputs;
 
   private final PIDController anglePID;
   private final SimpleMotorFeedforward angleFF;
@@ -36,7 +38,7 @@ public class SwerveModule {
       case REAL -> new SwerveModuleIOReal(config);
       case SIM -> new SwerveModuleIOSim(config);
     };
-    this.inputs = new SwerveModuleIOInputs();
+    this.inputs = new SwerveModuleIOInputsAutoLogged();
 
     this.anglePID = Constants.drivetrain.ANGLE_PID;
     this.angleFF = Constants.drivetrain.ANGLE_FF;
@@ -50,7 +52,10 @@ public class SwerveModule {
     io.config();
   }
 
-  public void updateInputs(){}
+  public void periodic(){
+    io.updateInputs(inputs);
+    Logger.processInputs(config.name(), inputs);
+  }
 
   //TODO: check if works
   public void setModuleState(SwerveModuleState desired) {

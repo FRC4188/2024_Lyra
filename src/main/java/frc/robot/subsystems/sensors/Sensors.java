@@ -15,6 +15,7 @@ import frc.robot.Constants.field.Goal;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.feeder.Feeder;
 import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.sensors.Pigeon;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shoulder.Shoulder;
 
@@ -143,6 +144,7 @@ public class Sensors extends SubsystemBase {
     SmartDashboard.putNumber("Right Shooter Temp", Shooter.getInstance().getRightTemperature());
 
     SmartDashboard.putNumber("Pigeon Rate", getPigeonRate());
+    
     
   }
 

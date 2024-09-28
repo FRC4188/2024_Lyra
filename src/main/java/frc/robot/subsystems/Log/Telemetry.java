@@ -1,4 +1,4 @@
-package frc.robot.auto.lyAuto.utils;
+package frc.robot.subsystems.Log;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -23,6 +23,7 @@ public class Telemetry {
         this.insNT = NetworkTableInstance.getDefault();
         this.SmartDtable = insNT.getTable(Constants.SMART_DASHBOARD); //TODO: CHECK IF RIGHT FOR SMART DASHBOARD
         this.TitanDtable = insNT.getTable(Constants.TITAN_DASHBOARD);
+
     }
 
     

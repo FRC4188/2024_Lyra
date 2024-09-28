@@ -70,8 +70,8 @@ public class ActionManager {
     }
 
     public void updateDashboard(){
-        Field2d field = new Field2d();
-        SmartDashboard.putData(field);
+        // Field2d field = new Field2d();
+        // SmartDashboard.putData(field);
     }
 
     private void updateNote(){

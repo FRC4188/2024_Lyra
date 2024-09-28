@@ -7,6 +7,7 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
@@ -122,18 +123,20 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         inputs.speedVelocity = speedVelocity.getValueAsDouble();
         inputs.speedTemp = speedTemp.getValueAsDouble();
         inputs.speedVoltage = speedVoltage.getValueAsDouble();
+
         inputs.anglePos = anglePos.getValueAsDouble();
         inputs.angleVelocity = angleVelocity.getValueAsDouble();
         inputs.angleTemp = angleTemp.getValueAsDouble();
         inputs.angleVoltage = angleVoltage.getValueAsDouble();
-        
+
+        inputs.CANPosDegree = encoder.getPositionDegrees();
     }
 
     //TODO: check if need more calculations
     @Override
     public void setVoltage(final double speedVoltage, final double angleVoltage){
-        speed.setVoltage(speedVoltage);
-        angle.setVoltage(angleVoltage);
+        speed.setControl(new VoltageOut(speedVoltage));
+        angle.setControl(new VoltageOut(angleVoltage));
     }
 
     @Override

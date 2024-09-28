@@ -9,8 +9,8 @@ import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.drivetrain.Swerve;
 import frc.robot.subsystems.sensors.LED;
 import frc.robot.subsystems.sensors.LEDState;
-import frc.robot.subsystems.sensors.Pigeon;
 import frc.robot.subsystems.sensors.Sensors;
+import frc.robot.subsystems.sensors.Pigeon;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shoulder.Shoulder;
 
