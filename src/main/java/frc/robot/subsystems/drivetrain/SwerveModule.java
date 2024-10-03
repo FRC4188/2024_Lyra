@@ -17,34 +17,26 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants;
+import frc.robot.subsystems.drivetrain.SwerveModuleIO.SwerveModuleIOInputs;
 
 public class SwerveModule {
 
-  private final String MODULE_NAME;
-  private final Translation2d LOCATION;
-  private final double GEAR_RATIO;
-  private final int SPEED_ID;
-  private final int ANGLE_ID;
-  private final int ENCODER_ID;
-  private final double ZERO;
-
-  private final CSP_TalonFX speed;
-  private final CSP_TalonFX angle;
-  private final CSP_CANcoder encoder;
+  private final Constants.drivetrain.SwerveModuleConfig config;
+  private final SwerveModuleIO io;
+  private final SwerveModuleIOInputs inputs;
 
   private final PIDController anglePID;
   private final SimpleMotorFeedforward angleFF;
   private final PIDController speedPID;
   private final SimpleMotorFeedforward speedFF;
 
-  public SwerveModule(String moduleName, Translation2d location, double gearRatio, int speedID, int angleID, int encoderID, double zero) {
-    this.MODULE_NAME = moduleName;
-    this.LOCATION = location;
-    this.GEAR_RATIO = gearRatio;
-    this.SPEED_ID = speedID;
-    this.ANGLE_ID = angleID;
-    this.ENCODER_ID = encoderID;
-    this.ZERO = zero;
+  public SwerveModule(Constants.drivetrain.SwerveModuleConfig config) {
+    this.config = config;
+    this.io = switch(Constants.robot.getRobotMode()){
+      case REAL -> new SwerveModuleIOReal(config);
+      case SIM -> new SwerveModuleIOSim(config);
+    };
+    this.inputs = new SwerveModuleIOInputs();
 
     this.anglePID = Constants.drivetrain.ANGLE_PID;
     this.angleFF = Constants.drivetrain.ANGLE_FF;
@@ -52,66 +44,15 @@ public class SwerveModule {
     
     this.speedFF = new SimpleMotorFeedforward(Constants.drivetrain.SPEED_FF.ks, Constants.drivetrain.SPEED_FF.kv);
 
-    this.speed = new CSP_TalonFX(SPEED_ID, "rio");
-    this.angle = new CSP_TalonFX(ANGLE_ID, "rio");
-    this.encoder = new CSP_CANcoder(ENCODER_ID, "rio");
-
     // TempManager.addMotor(this.speed);
     // TempManager.addMotor(this.angle);
 
-    init();
+    io.config();
   }
 
-  public void init() {
+  public void updateInputs(){}
 
-    speed.setBrake(false);
-    speed.setRampRate(Constants.drivetrain.RAMP_RATE);
-
-    angle.setBrake(false);
-    angle.setInverted(true);
-
-    encoder.clearStickyFaults();
-    MagnetSensorConfigs sensorConfigs = new MagnetSensorConfigs();
-    sensorConfigs.MagnetOffset = -(ZERO / 360.0);
-    sensorConfigs.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
-    sensorConfigs.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
-    encoder.getConfigurator().apply(sensorConfigs);
-
-    anglePID.enableContinuousInput(-180, 180);
-    anglePID.setTolerance(0);    
-    angle.setEncoderDegrees(getAngleDegrees());
-
-
-    speed.getVelocity().setUpdateFrequency(50.0);
-    speed.getRotorPosition().setUpdateFrequency(50.0);
-    speed.getDeviceTemp().setUpdateFrequency(4.0);
-
-    angle.getVelocity().setUpdateFrequency(50.0);
-    angle.getRotorPosition().setUpdateFrequency(50.0);
-    angle.getDeviceTemp().setUpdateFrequency(4.0);
-
-
-    encoder.getAbsolutePosition().setUpdateFrequency(100.0);
-
-    speed.optimizeBusUtilization();
-    angle.optimizeBusUtilization();
-    encoder.optimizeBusUtilization();
-
-    speed.getConfigurator().apply(new CurrentLimitsConfigs()
-    .withStatorCurrentLimitEnable(true)
-    .withSupplyCurrentLimitEnable(true)
-    .withStatorCurrentLimit(250.0)
-    .withSupplyCurrentLimit(50.0));
-    speed.clearStickyFaults();
-    
-        angle.getConfigurator().apply(new CurrentLimitsConfigs()
-    .withStatorCurrentLimitEnable(true)
-    .withSupplyCurrentLimitEnable(true)
-    .withStatorCurrentLimit(100.0)
-    .withSupplyCurrentLimit(50.0));
-    angle.clearStickyFaults();
-  }
-
+  //TODO: check if works
   public void setModuleState(SwerveModuleState desired) {
     SwerveModuleState optimized =
         SwerveModuleState.optimize(desired, Rotation2d.fromDegrees(getAngleDegrees()));
@@ -119,16 +60,16 @@ public class SwerveModule {
     double velocity = optimized.speedMetersPerSecond / Constants.drivetrain.DRIVE_METERS_PER_TICK;
     // pseudocode : setVolts(PID + FF)
 
-
-      speed.setVoltage(speedPID.calculate(getVelocity(), velocity) + speedFF.calculate(velocity));
+    double speedVolt = speedPID.calculate(getVelocity(), velocity) + speedFF.calculate(velocity);
     // angle.setVoltage(angleFF.calculate(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees())));
-      angle.setVoltage(anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees()));
+    double angleVolt = (anglePID.calculate(getAngleDegrees(), optimized.angle.getDegrees()));
+
+    io.setVoltage(speedVolt, angleVolt);
   }
 
   /** Sets the speed and angle motors to zero power */
   public void zeroPower() {
-    angle.setVoltage(0.0);
-    speed.setVoltage(0.0);
+    io.setVoltage(0.0, 0.0);
   }
 
   /**
@@ -155,7 +96,7 @@ public class SwerveModule {
    * @return double with velocity in Meters Per Second
    */
   private double getVelocity() { // RPM to MPS
-    return ((speed.getRPM() / 60.0) * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / GEAR_RATIO;
+    return (inputs.speedVelocity * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / config.gearRatio();
   }
 
   /**
@@ -164,7 +105,7 @@ public class SwerveModule {
    * @return the angle with range [-180 to 180]
    */
   public double getAngleDegrees() {
-    return encoder.getPositionDegrees();
+    return inputs.CANPosDegree; 
   }
 
   public double getAnglePIDSetpoint() {
@@ -172,15 +113,15 @@ public class SwerveModule {
   }
 
   private double getPositionMeters() {
-    return (speed.getPositionDegrees() * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / (360.0 * GEAR_RATIO);
+    return ((inputs.speedPos * 360.0) * Constants.drivetrain.WHEEL_CIRCUMFRENCE) / (360.0 * config.gearRatio());
   }
 
   public String getName() {
-    return this.MODULE_NAME;
+    return config.name();
   }
 
   public Translation2d getLocation() {
-    return this.LOCATION;
+    return config.location();
   }
 
   public void setAnglePIDConstants(double kP, double kI, double kD) {
@@ -192,15 +133,15 @@ public class SwerveModule {
   }
 
   public double getPositionDegrees() {
-    return speed.getPositionDegrees();
+    return inputs.speedPos * 360.0;
   }
 
   public double getAngleTemp() {
-    return angle.getTemperature();
+    return inputs.angleTemp;
   }
 
   public double getAngleVolts() {
-    return angle.getMotorVoltage().getValueAsDouble();
+    return inputs.angleVoltage;
   }
 
 }

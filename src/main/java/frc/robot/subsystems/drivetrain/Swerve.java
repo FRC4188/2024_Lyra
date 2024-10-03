@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.drivetrain;
 
+import static frc.robot.Constants.robot.getRobotMode;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -26,16 +28,17 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.drivetrain.SwerveModuleConfig;
 import frc.robot.subsystems.sensors.Sensors;
 
 public class Swerve extends SubsystemBase {
-  private static Swerve instance = null;
+  private static Swerve instance;
 
   /**
    * Singleton Constructor for {@link Swerve}
    * @return Single instance of {@link Swerve} common to all contexts.
    */
-  public static synchronized Swerve getInstance() {
+  public static Swerve getInstance() {
     if (instance == null) instance = new Swerve();
     return instance;
   }
@@ -51,42 +54,10 @@ public class Swerve extends SubsystemBase {
   
 
   private SwerveModule[] moduleList = {
-    new SwerveModule(
-      "Front Left",
-      Constants.drivetrain.FL_LOCATION,
-      Constants.drivetrain.DRIVE_GEARING,
-      Constants.ids.FL_SPEED,
-      Constants.ids.FL_ANGLE,
-      Constants.ids.FL_ENCODER,
-      Constants.drivetrain.FL_ZERO
-    ),
-    new SwerveModule(
-      "Front Right",
-      Constants.drivetrain.FR_LOCATION,
-      Constants.drivetrain.DRIVE_GEARING,
-      Constants.ids.FR_SPEED,
-      Constants.ids.FR_ANGLE,
-      Constants.ids.FR_ENCODER,
-      Constants.drivetrain.FR_ZERO
-    ),
-    new SwerveModule(
-      "Back Left",
-      Constants.drivetrain.BL_LOCATION,
-      Constants.drivetrain.DRIVE_GEARING,
-      Constants.ids.BL_SPEED,
-      Constants.ids.BL_ANGLE,
-      Constants.ids.BL_ENCODER,
-      Constants.drivetrain.BL_ZERO
-    ),
-    new SwerveModule(
-      "Back Right",
-      Constants.drivetrain.BR_LOCATION,
-      Constants.drivetrain.DRIVE_GEARING,
-      Constants.ids.BR_SPEED,
-      Constants.ids.BR_ANGLE,
-      Constants.ids.BR_ENCODER,
-      Constants.drivetrain.BR_ZERO
-    )
+    SwerveModuleConfig.create(Constants.drivetrain.FrontLeft),
+    SwerveModuleConfig.create(Constants.drivetrain.FrontRight),
+    SwerveModuleConfig.create(Constants.drivetrain.BackLeft),
+    SwerveModuleConfig.create(Constants.drivetrain.BackRight)
   };
 
   private SwerveModulePosition[] getSwerveModulePositions(SwerveModule... modules) {

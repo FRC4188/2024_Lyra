@@ -13,13 +13,19 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import frc.robot.Constants;
 
 public class PathPointsGen {
+    public static PathPointsGen instance;
+    public static synchronized PathPointsGen getInstance() {
+        if (instance == null) instance = new PathPointsGen(Constants.field.FIELD_LENGTH, Constants.field.FIELD_WIDTH, 0.1);
+        return instance;
+    }
+
     public List<Translation2d> pivots;
     private Grid grid = null;
     public FieldObjectHandler fobjs = null;
 
-    public PathPointsGen(double length, double width, double sampleSize, FieldObjectHandler fobjs) {
+    public PathPointsGen(double length, double width, double sampleSize) {
         grid = new Grid(length, width, sampleSize, fobjs);
-        this.fobjs = (fobjs == null)?new FieldObjectHandler():fobjs;
+        fobjs = FieldObjectHandler.getInstance();
         pivots = new ArrayList<Translation2d>();
     }
 

@@ -28,23 +28,23 @@ public class FieldObjectHandler {
         }
     }
 
-    void addPose2d(Pose2d pose, double r) {
+    public void addPose2d(Pose2d pose, double r) {
         add(new FieldObject(pose, r));   
     }
 
-    void addPose2d(Pose2d pose, double w, double h) {
+    public void addPose2d(Pose2d pose, double w, double h) {
         add(new FieldObject(pose, w, h));
     }
 
     //add field object unless its already exists within
-    void add(FieldObject fobj) {
+    public void add(FieldObject fobj) {
         if (fieldobjs.contains(fobj)) {return;}
 
         fieldobjs.add(fobj);
     }
 
     //removes field object unless it doesnt exist within
-    void remove(FieldObject fobj) {
+    public void remove(FieldObject fobj) {
         if (!fieldobjs.contains(fobj)) {return;}
 
         fieldobjs.remove(fieldobjs.indexOf(fobj));

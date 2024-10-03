@@ -68,28 +68,4 @@ public class mathutils {
         return ((0 <= val1 && val1 <= 1) || (0 <= val2 && val2 <= 1));
     }
 
-    //cubic interpolation, 4 points and a t value needed
-    static double cubicInterpolation(double val0, double val1, double val2, double val3, double t) {
-        //t modulated to 0 and <1
-        t -= (int) t;
-
-        val0 = clamp(val1 - 100, val0, val1 + 100);
-        val3 = clamp(val2 - 100, val3, val2 + 100);
-
-        double tt = t * t;
-        double ttt = tt * t;
-
-        double q1 = -ttt + 2.f * tt - t;
-        double q2 = 3.f * ttt - 5.f * tt + 2.f;
-        double q3 = -3.f * ttt + 4.f * tt + t;
-        double q4 = ttt - tt;
-
-        return (0.5 * (val0 * q1 + val1 * q2 + val2 * q3 + val3 * q4));
-    }
-    
-
-
-
-
-
 }

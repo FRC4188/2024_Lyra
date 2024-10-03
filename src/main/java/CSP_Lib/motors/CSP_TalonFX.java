@@ -1,14 +1,17 @@
 package CSP_Lib.motors;
 
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import CSP_Lib.utils.TempManager;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 
 public class CSP_TalonFX extends TalonFX implements CSP_Motor {
 
@@ -129,6 +132,7 @@ public class CSP_TalonFX extends TalonFX implements CSP_Motor {
     return super.getStatorCurrent().getValueAsDouble();
   }
 
+  
   /**
    * Returns the temperature of the motor
    *
@@ -146,4 +150,7 @@ public class CSP_TalonFX extends TalonFX implements CSP_Motor {
   public int getID() {
     return super.getDeviceID();
   } 
+
+
+  
 }
