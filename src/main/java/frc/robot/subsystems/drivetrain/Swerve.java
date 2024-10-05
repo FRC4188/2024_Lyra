@@ -300,7 +300,6 @@ public class Swerve extends SubsystemBase {
         SmartDashboard.putNumber("Front Left Angle Temp", moduleList[0].getAngleTemp());
     SmartDashboard.putNumber("Back Right Angle Temp", moduleList[3].getAngleTemp());
     SmartDashboard.putNumber("Back Left Angle Temp", moduleList[2].getAngleTemp());
-
         //SmartDashboard.putNumber("Front Right Angle Volts", moduleList[1].getAngleVolts());
 
     for (SwerveModule module : moduleList) {
@@ -317,7 +316,11 @@ public class Swerve extends SubsystemBase {
       //   SmartDashboard.getNumber("Speed kD", 0.0));
       
     }
+    for (SwerveModule module : moduleList) {
+      SmartDashboard.putNumber(module.getName() + " speed degrees", module.getPositionDegrees());
 
+      
+      }
   }
 
   public void configurePathPlanner() {
