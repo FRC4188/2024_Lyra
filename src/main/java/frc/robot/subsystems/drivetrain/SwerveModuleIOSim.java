@@ -126,8 +126,8 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
         .withSupplyCurrentLimit(50.0));
         angle.clearStickyFaults();
 
-        speed.getSimState().Orientation = ChassisReference.Clockwise_Positive;
-        angle.getSimState().Orientation = ChassisReference.Clockwise_Positive;
+        speed.getSimState().Orientation = ChassisReference.CounterClockwise_Positive;
+        angle.getSimState().Orientation = ChassisReference.CounterClockwise_Positive;
     }
 
     @Override
@@ -152,21 +152,9 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
 
         inputs.anglePos = angleDCSim.getAngularPositionRotations();
         inputs.angleVelocity = angleDCSim.getAngularVelocityRPM();
-        inputs.angleTemp = angleTemp.getValueAsDouble();
-        inputs.angleVoltage = angleDCSim.getCurrentDrawAmps();
+        inputs.angleTemp = angleTemp.getValueAsDouble();             
+        inputs.angleVoltage = Math.abs(angleDCSim.getCurrentDrawAmps());
         
-    }
-
-    @Override
-    public void setVoltage(final double speedVoltage, final double angleVoltage){
-        speed.setVoltage(speedVoltage);
-        angle.setVoltage(angleVoltage);
-        speedDCSim.setInputVoltage(speedVoltage);
-        angleDCSim.setInputVoltage(angleVoltage);
-    };
-
-    @Override
-    public void periodic(){
         speed.getSimState().setSupplyVoltage(RobotController.getBatteryVoltage());
         angle.getSimState().setSupplyVoltage(RobotController.getBatteryVoltage());
 
@@ -183,5 +171,10 @@ public class SwerveModuleIOSim implements SwerveModuleIO{
         angle.getSimState().setRotorVelocity(Constants.drivetrain.ANGLE_GEARING * Units.radiansToRotations(angleDCSim.getAngularVelocityRadPerSec()));
     }
 
+    @Override
+    public void setVoltage(final double speedVoltage, final double angleVoltage){
+        speedDCSim.setInputVoltage(speedVoltage);
+        angleDCSim.setInputVoltage(angleVoltage);
+    };
     
 }

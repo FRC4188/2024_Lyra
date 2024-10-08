@@ -6,6 +6,9 @@ package frc.robot.subsystems.drivetrain;
 
 import static frc.robot.Constants.robot.getRobotMode;
 
+import org.littletonrobotics.junction.AutoLogOutput;
+import org.littletonrobotics.junction.Logger;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -22,6 +25,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -33,6 +38,7 @@ import frc.robot.subsystems.sensors.Sensors;
 
 public class Swerve extends SubsystemBase {
   private static Swerve instance;
+  private SwerveModuleState[] desiredModuleState = new SwerveModuleState[4];
 
   /**
    * Singleton Constructor for {@link Swerve}
@@ -98,7 +104,7 @@ public class Swerve extends SubsystemBase {
   private Swerve() {
 
    // moduleList[1].setAngleSupplyCurrent();
-
+    
     configurePathPlanner();
 
     correctionPID.enableContinuousInput(0, 180);
@@ -148,7 +154,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public void setModuleStates(SwerveModuleState... moduleStates) {
-
+    desiredModuleState = moduleStates;
     SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, Constants.drivetrain.MAX_VELOCITY);
 
     if (moduleStates.length == moduleList.length) {
@@ -156,6 +162,8 @@ public class Swerve extends SubsystemBase {
           moduleList[i].setModuleState(moduleStates[i]);
       }
     }
+
+    Logger.recordOutput("SwerveModule/Desired States", moduleStates);
   }
 
   public ChassisSpeeds getChassisSpeeds() {
@@ -167,6 +175,7 @@ public class Swerve extends SubsystemBase {
     return new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond).rotateBy(getPose2d().getRotation());
   }
 
+  @AutoLogOutput(key="SwerveModule/States")
   public SwerveModuleState[] getSwerveModuleStates() {
     SwerveModuleState[] moduleStates = new SwerveModuleState[4];
     for (int i = 0; i < 4; i++) {
@@ -262,12 +271,10 @@ public class Swerve extends SubsystemBase {
   public void updateDashboard() {
 
     SmartDashboard.putString("Estimated Pose", getPose2d().toString());
+    SmartDashboard.putNumber("Estimated rot", getPose2d().getRotation().getDegrees());
+    
     field.setRobotPose(getPose2d());
-    SmartDashboard.putNumber("BackRight Rotations", moduleList[3].getPositionDegrees());
-    SmartDashboard.putNumber("BackLeft Rotations", moduleList[2].getPositionDegrees());
-    SmartDashboard.putNumber("FrontRight Rotations", moduleList[1].getPositionDegrees());
-    SmartDashboard.putNumber("FrontLeft Rotations", moduleList[0].getPositionDegrees());
-
+    
 
     // SmartDashboard.putNumber("Front Right Angle Temp", moduleList[1].getAngleTemp());
     //     SmartDashboard.putNumber("Front Left Angle Temp", moduleList[0].getAngleTemp());
@@ -278,6 +285,7 @@ public class Swerve extends SubsystemBase {
 
     for (SwerveModule module : moduleList) {
       SmartDashboard.putNumber(module.getName() + " Angle", module.getAngleDegrees());
+      SmartDashboard.putNumber(module.getName() + " Velocity", module.getPositionDegrees());
       module.periodic();
       // SmartDashboard.putNumber(module.getName() + " Angle Setpoint", module.getAnglePIDSetpoint());
 

@@ -139,11 +139,6 @@ public class SwerveModuleIOReal implements SwerveModuleIO{
         angle.setControl(new VoltageOut(angleVoltage));
     }
 
-    @Override
-    public void periodic(){
-        
-    }
-
 
 
 }

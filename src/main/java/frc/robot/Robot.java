@@ -5,6 +5,9 @@
 package frc.robot;
 
 import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.commands.FollowPathHolonomic;
@@ -24,6 +27,17 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void robotInit() {
+    switch(Constants.robot.robotMode){
+      case REAL -> {
+        Logger.addDataReceiver(new WPILOGWriter("/U/logs"));
+        Logger.addDataReceiver(new NT4Publisher());
+      }
+      case SIM -> {
+        Logger.addDataReceiver(new WPILOGWriter(""));
+        Logger.addDataReceiver(new NT4Publisher());
+      }
+    }
+
     m_robotContainer = new RobotContainer();
     //addPeriodic(() -> TempManager.monitor(), 2.0);
 
