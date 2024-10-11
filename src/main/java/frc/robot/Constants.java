@@ -124,8 +124,8 @@ public final class Constants {
   }
 
   public static final class robot {
-    public static final double A_LENGTH = Units.inchesToMeters(24.0); // Axel length (Meters).
-    public static final double A_WIDTH = Units.inchesToMeters(24.0); // Axel width (Meters).
+    public static final double A_LENGTH = Units.inchesToMeters(20.0); // Axel length (Meters).
+    public static final double A_WIDTH = Units.inchesToMeters(20.0); // Axel width (Meters).
     public static final double A_CROSSLENGTH = Math.hypot(A_LENGTH, A_WIDTH);
 
     public static final double FALCON_ENCODER_TICKS =

@@ -5,6 +5,7 @@
 package frc.robot;
 
 
+import com.choreo.lib.ChoreoTrajectory;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -43,6 +44,7 @@ import frc.robot.commands.groups.BlindSpeakerShoot;
 import frc.robot.commands.groups.Eject;
 
 import frc.robot.commands.groups.Stow;
+import frc.robot.commands.groups.autos.RobotTest;
 import frc.robot.commands.shooter.SetShooterMPS;
 import frc.robot.commands.shoulder.SetShoulderAngle;
 import frc.robot.subsystems.drivetrain.Swerve;
@@ -271,6 +273,9 @@ public class RobotContainer {
     autoChooser.addOption("Source 4 Piece", new PathPlannerAuto("Source 4 Piece"));
 
     autoChooser.addOption("Techno", new PathPlannerAuto("Techno"));
+
+    autoChooser.addOption("test follow", new RobotTest());
+    autoChooser.addOption("Testing plase", new PathPlannerAuto("TestAuto"));
 
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
