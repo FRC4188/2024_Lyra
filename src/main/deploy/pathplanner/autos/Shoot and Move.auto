@@ -2,21 +2,15 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.75535488128662,
-      "y": 4.436619281768799
+      "x": 15.99,
+      "y": 4.37
     },
-    "rotation": -119.7449388035121
+    "rotation": -125.09811125465492
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
-        {
-          "type": "named",
-          "data": {
-            "name": "Stow"
-          }
-        },
         {
           "type": "named",
           "data": {
@@ -32,12 +26,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LeaveChoreo.1"
+            "pathName": "Leave"
           }
         }
       ]
     }
   },
   "folder": null,
-  "choreoAuto": true
+  "choreoAuto": false
 }

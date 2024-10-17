@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.75535488128662,
-      "y": 4.436619281768799
+      "x": 16.04625200691798,
+      "y": 6.69859850418817
     },
-    "rotation": -119.7449388035121
+    "rotation": 122.19573393558288
   },
   "command": {
     "type": "sequential",
@@ -32,12 +32,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LeaveChoreo.1"
+            "pathName": "Leave Right"
           }
         }
       ]
     }
   },
-  "folder": null,
-  "choreoAuto": true
+  "folder": "No Vision",
+  "choreoAuto": false
 }

@@ -257,25 +257,28 @@ public class RobotContainer {
   // VISIONLESS AUTONOMOUS PATHS
     // autoChooser.addOption("Blind Four Mid", new PathPlannerAuto("Red Four Mid"));
     // autoChooser.addOption("IHOT Auto", new PathPlannerAuto("IHOT Auto"));
-    autoChooser.addOption("Shoot and Leave", new PathPlannerAuto("Shoot and Leave"));
+    autoChooser.addOption("Shoot and Leave RLBR", new PathPlannerAuto("Shoot and Leave"));
+    autoChooser.addOption("Shoot and Leave RMBM", new PathPlannerAuto("Shoot and Leave Mid"));
+    autoChooser.addOption("Shoot and Leave RRBL", new PathPlannerAuto("Shoot and Leave Right"));
+    
     // autoChooser.addOption("Red Source One", new RedSourceNoteOne());
     // autoChooser.addOption("Blue Source One", new BlueSourceNoteOne());
     // autoChooser.addOption("Make Them Cry", new PathPlannerAuto("Make Them Cry"));
     // autoChooser.addOption("Red Walton Auto", new PathPlannerAuto("Walton Auto").andThen(new RedSourceNoteOne()));
     // autoChooser.addOption("Blue Walton Auto", new PathPlannerAuto("Walton Auto").andThen(new BlueSourceNoteOne()));
 
-    autoChooser.addOption("5 piece", new PathPlannerAuto("5 piece")); 
-    autoChooser.addOption("Middle Wing 4.5 piece", new PathPlannerAuto("Middle Wing 4.5 piece")); 
-    autoChooser.addOption("Amp Wing 4.5 piece", new PathPlannerAuto("Amp Wing 4.5 piece")); 
-    autoChooser.addOption("Source Wing 4 piece", new PathPlannerAuto("Source Wing 4 piece")); 
+    // autoChooser.addOption("5 piece", new PathPlannerAuto("5 piece")); 
+    // autoChooser.addOption("Middle Wing 4.5 piece", new PathPlannerAuto("Middle Wing 4.5 piece")); 
+    // autoChooser.addOption("Amp Wing 4.5 piece", new PathPlannerAuto("Amp Wing 4.5 piece")); 
+    // autoChooser.addOption("Source Wing 4 piece", new PathPlannerAuto("Source Wing 4 piece")); 
 
-    autoChooser.addOption("Source 3 Piece", new PathPlannerAuto("Source 3 Piece"));
-    autoChooser.addOption("Source 4 Piece", new PathPlannerAuto("Source 4 Piece"));
+    // autoChooser.addOption("Source 3 Piece", new PathPlannerAuto("Source 3 Piece"));
+    // autoChooser.addOption("Source 4 Piece", new PathPlannerAuto("Source 4 Piece"));
 
-    autoChooser.addOption("Techno", new PathPlannerAuto("Techno"));
+    // autoChooser.addOption("Techno", new PathPlannerAuto("Techno"));
 
-    autoChooser.addOption("test follow", new RobotTest());
-    autoChooser.addOption("Testing plase", new PathPlannerAuto("TestAuto"));
+    // autoChooser.addOption("test follow", new RobotTest());
+    // autoChooser.addOption("Testing plase", new PathPlannerAuto("TestAuto"));
 
 
     SmartDashboard.putData("Auto Chooser", autoChooser);

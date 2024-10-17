@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.commands.drivetrain.HockeyStop;
 import frc.robot.commands.feeder.FeedIntoShooter;
 import frc.robot.commands.groups.BlindReverseSpeakerShoot;
 import frc.robot.commands.groups.FeedIntake;
@@ -58,6 +59,7 @@ public class AutoConfigs {
                   new InstantCommand(
                       () -> Swerve.getInstance().disable(), Swerve.getInstance())),
             Map.entry("Stow", new Stow().withTimeout(0.25)),
+            Map.entry("Hockey Stop", new HockeyStop()),
             Map.entry("Delay", new WaitCommand(2.0))
       ));
 }

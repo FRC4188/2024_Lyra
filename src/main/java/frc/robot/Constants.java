@@ -124,8 +124,8 @@ public final class Constants {
   }
 
   public static final class robot {
-    public static final double A_LENGTH = Units.inchesToMeters(20.0); // Axel length (Meters).
-    public static final double A_WIDTH = Units.inchesToMeters(20.0); // Axel width (Meters).
+    public static final double A_LENGTH = Units.inchesToMeters(24.0); // Axel length (Meters).
+    public static final double A_WIDTH = Units.inchesToMeters(24.0); // Axel width (Meters).
     public static final double A_CROSSLENGTH = Math.hypot(A_LENGTH, A_WIDTH);
 
     public static final double FALCON_ENCODER_TICKS =
@@ -331,7 +331,7 @@ public final class Constants {
     }
 
   public static class limelight {
-    public static final Pose3d FRONT_LIMELIGHT_LOCATION = new Pose3d(Units.inchesToMeters(12.0), 0.0, Units.inchesToMeters(9.5), new Rotation3d(0, 0, 0));
+    public static final Pose3d FRONT_LIMELIGHT_LOCATION = new Pose3d(Units.inchesToMeters(12.0), 0.0, Units.inchesToMeters(9.95), new Rotation3d(0, 0, 0));
     
     public static final Pose3d BACK_LIMELIGHT_LOCATION = new Pose3d(Units.inchesToMeters(-17.0), 0.0, Units.inchesToMeters(6.5), new Rotation3d(0, 0, Math.PI));
   }
@@ -339,7 +339,7 @@ public final class Constants {
       
 
     // public static final class limelight {
-    //   // public static final String FRONT_NAME = "limelight-front";
+    //   // public static final String FRONT_NAME = "-front";
     //   // public static final Translation3d FRONT_POSITION = new Translation3d(0.4476242, 0, 0.2650236); // translation/rotation in robot space from robot to limelight
     //   // public static final Rotation3d FRONT_ROTATION = 
     //   //   new Rotation3d(

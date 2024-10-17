@@ -18,7 +18,19 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "Stow"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "Auto Speaker Shoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Stow"
                 }
               }
             ]

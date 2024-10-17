@@ -22,7 +22,7 @@ public class BlindSpeakerShoot extends SequentialCommandGroup {
                     Shooter.getInstance().atMPS(1.5) && 
                     Shoulder.getInstance().atGoal(Rotation2d.fromDegrees(32.5), 3.0)).andThen(
                 new FeedIntoShooter(12.0).andThen(Commands.waitSeconds(0.25))),
-                new SetShooterMPS(() -> 12.0),
+                new SetShooterMPS(() -> 10.5),
                 new SetShoulderAngle(() -> 32.5))
         );
     }
