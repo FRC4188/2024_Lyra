@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.355312650711737,
-      "y": 5.562647359239611
+      "x": 16.11,
+      "y": 2.32
     },
-    "rotation": 178.78112476418335
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -18,27 +18,15 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Auto Speaker Shoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Stow"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.0
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "Leave Mid"
+            "pathName": "Leave Wall"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot on Ready"
           }
         }
       ]

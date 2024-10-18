@@ -24,11 +24,6 @@ public class Intake extends SubsystemBase{
       motor.setInverted(false);
     }
 
-    @Override
-    public void periodic() {
-
-    }
-
     public void set(double percent) {
         motor.set(percent);
     }

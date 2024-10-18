@@ -7,6 +7,7 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.TorqueCurrentConfigs;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
@@ -102,6 +103,11 @@ public class SwerveModule {
     .withSupplyCurrentLimitEnable(true)
     .withStatorCurrentLimit(250.0)
     .withSupplyCurrentLimit(50.0));
+
+    speed.getConfigurator().apply(new TorqueCurrentConfigs()
+      .withPeakForwardTorqueCurrent(60)
+      .withPeakReverseTorqueCurrent(-60.0));
+      
     speed.clearStickyFaults();
     
         angle.getConfigurator().apply(new CurrentLimitsConfigs()
@@ -109,6 +115,11 @@ public class SwerveModule {
     .withSupplyCurrentLimitEnable(true)
     .withStatorCurrentLimit(100.0)
     .withSupplyCurrentLimit(50.0));
+
+    angle.getConfigurator().apply(new TorqueCurrentConfigs()
+      .withPeakForwardTorqueCurrent(60)
+      .withPeakReverseTorqueCurrent(-60.0));
+
     angle.clearStickyFaults();
   }
 

@@ -34,25 +34,28 @@ public class AutoConfigs {
             Map.entry("Blind Intake", new FeedIntake()),
             Map.entry("Auto Speaker Shoot", new BlindReverseSpeakerShoot().withTimeout(1.2)),
             Map.entry("Shooter Prep", new SetShooterMPS(() -> 13.0)),
-            Map.entry("Shoot on Ready", new ConditionalCommand(
-                new ShootOnReady(() -> 0.0, () -> 0.0).withTimeout(1.5)
-                                            .andThen(
-                                                new ConditionalCommand(
-                                                    new FeedIntoShooter(12.0).withTimeout(0.9),
-                                                    new SequentialCommandGroup(),
-                                                    () -> Feeder.getInstance().isBroken())
-                                            ),
-                new FeedIntake().until(() -> Feeder.getInstance().isBroken()).withTimeout(1.0).andThen(
-                new ShootOnReady(() -> 0.0, () -> 0.0).withTimeout(1.5)
-                                            .andThen(
-                                                new ConditionalCommand(
-                                                    new FeedIntoShooter(12.0).withTimeout(0.9),
-                                                    new SequentialCommandGroup(),
-                                                    () -> Feeder.getInstance().isBroken())
-                                            )),
-                () -> Feeder.getInstance().isBroken()
-            ).withTimeout(4.0))
-            
+
+            // Map.entry("Shoot on Ready", new ConditionalCommand(
+            //     new ShootOnReady(() -> 0.0, () -> 0.0).withTimeout(1.5)
+            //                                 .andThen(
+            //                                     new ConditionalCommand(
+            //                                         new FeedIntoShooter(12.0).withTimeout(0.9),
+            //                                         new SequentialCommandGroup(),
+            //                                         () -> Feeder.getInstance().isBroken())
+            //                                 ),
+            //     new FeedIntake().until(() -> Feeder.getInstance().isBroken()).withTimeout(1.0).andThen(
+            //     new ShootOnReady(() -> 0.0, () -> 0.0).withTimeout(1.5)
+            //                                 .andThen(
+            //                                     new ConditionalCommand(
+            //                                         new FeedIntoShooter(12.0).withTimeout(0.9),
+            //                                         new SequentialCommandGroup(),
+            //                                         () -> Feeder.getInstance().isBroken())
+            //                                 )),
+            //     () -> Feeder.getInstance().isBroken()
+            // ).withTimeout(4.0))
+            Map.entry("Shoot on Ready", new ShootOnReady(()-> 0.0, ()-> 0.0).withTimeout(2.5))
+            , 
+            Map.entry("Shoot on Ready Blind", new ShootOnReady(()-> 0.0, ()-> 0.0).withTimeout(2.5))
             ,
             Map.entry(
                   "Stop Drivetrain",

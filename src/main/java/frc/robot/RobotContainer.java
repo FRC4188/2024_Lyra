@@ -260,6 +260,9 @@ public class RobotContainer {
     autoChooser.addOption("Shoot and Leave RLBR", new PathPlannerAuto("Shoot and Leave"));
     autoChooser.addOption("Shoot and Leave RMBM", new PathPlannerAuto("Shoot and Leave Mid"));
     autoChooser.addOption("Shoot and Leave RRBL", new PathPlannerAuto("Shoot and Leave Right"));
+    autoChooser.addOption("Fall wall S&L", new PathPlannerAuto("wall leave"));
+    autoChooser.addOption("Blind and Stay", new SequentialCommandGroup(new BlindReverseSpeakerShoot().withTimeout(3.5), new Stow()));
+    //autoChooser.addOption("Leave then Shoot Wall", new PathPlannerAuto("wall leave"));
     
     // autoChooser.addOption("Red Source One", new RedSourceNoteOne());
     // autoChooser.addOption("Blue Source One", new BlueSourceNoteOne());

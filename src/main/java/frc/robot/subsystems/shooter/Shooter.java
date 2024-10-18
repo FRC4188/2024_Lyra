@@ -26,6 +26,7 @@ import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.TorqueCurrentConfigs;
 
 public class Shooter extends SubsystemBase{
     private static Shooter instance = null;
@@ -110,21 +111,37 @@ public class Shooter extends SubsystemBase{
       left.setInverted(true);
       right.setInverted(false);
 
-      left.setRampRate(1.0);
-      right.setRampRate(1.0);
+      left.setRampRate(1.25);
+      right.setRampRate(1.25);
 
       left.setBrake(false);
       right.setBrake(false);
 
         left.getConfigurator().apply(new CurrentLimitsConfigs()
-    .withStatorCurrentLimitEnable(false)
-    .withSupplyCurrentLimitEnable(false));
+          .withStatorCurrentLimitEnable(true)
+          .withSupplyCurrentLimitEnable(true)
+          .withStatorCurrentLimit(60)
+          .withSupplyCurrentLimit(40)
+          .withSupplyTimeThreshold(0.35)
+          .withSupplyCurrentThreshold(50));
+    
+        left.getConfigurator().apply(new TorqueCurrentConfigs()
+      .withPeakForwardTorqueCurrent(60)
+      .withPeakReverseTorqueCurrent(-60.0));
 
     left.clearStickyFaults();
 
         right.getConfigurator().apply(new CurrentLimitsConfigs()
-    .withStatorCurrentLimitEnable(false)
-    .withSupplyCurrentLimitEnable(false));
+    .withStatorCurrentLimitEnable(true)
+    .withSupplyCurrentLimitEnable(true)
+    .withStatorCurrentLimit(60)
+    .withSupplyCurrentLimit(40)
+    .withSupplyTimeThreshold(0.35)
+    .withSupplyCurrentThreshold(50));
+
+    right.getConfigurator().apply(new TorqueCurrentConfigs()
+    .withPeakForwardTorqueCurrent(60)
+    .withPeakReverseTorqueCurrent(-60.0));
 
     right.clearStickyFaults();
     }
