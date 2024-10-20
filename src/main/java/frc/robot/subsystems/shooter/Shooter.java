@@ -118,30 +118,30 @@ public class Shooter extends SubsystemBase{
       right.setBrake(false);
 
         left.getConfigurator().apply(new CurrentLimitsConfigs()
-          .withStatorCurrentLimitEnable(true)
-          .withSupplyCurrentLimitEnable(true)
+          .withStatorCurrentLimitEnable(false)
+          .withSupplyCurrentLimitEnable(false)
           .withStatorCurrentLimit(60)
           .withSupplyCurrentLimit(40)
           .withSupplyTimeThreshold(0.35)
           .withSupplyCurrentThreshold(50));
     
         left.getConfigurator().apply(new TorqueCurrentConfigs()
-      .withPeakForwardTorqueCurrent(60)
-      .withPeakReverseTorqueCurrent(-60.0));
+      .withPeakForwardTorqueCurrent(100)
+      .withPeakReverseTorqueCurrent(-100.0));
 
     left.clearStickyFaults();
 
         right.getConfigurator().apply(new CurrentLimitsConfigs()
-    .withStatorCurrentLimitEnable(true)
-    .withSupplyCurrentLimitEnable(true)
+    .withStatorCurrentLimitEnable(false)
+    .withSupplyCurrentLimitEnable(false)
     .withStatorCurrentLimit(60)
     .withSupplyCurrentLimit(40)
     .withSupplyTimeThreshold(0.35)
     .withSupplyCurrentThreshold(50));
 
     right.getConfigurator().apply(new TorqueCurrentConfigs()
-    .withPeakForwardTorqueCurrent(60)
-    .withPeakReverseTorqueCurrent(-60.0));
+    .withPeakForwardTorqueCurrent(100)
+    .withPeakReverseTorqueCurrent(-100.0));
 
     right.clearStickyFaults();
     }

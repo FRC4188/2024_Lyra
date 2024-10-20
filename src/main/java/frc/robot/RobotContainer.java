@@ -134,8 +134,8 @@ public class RobotContainer {
     drivingInput
     .onTrue(    
       new TeleDrive(
-        () -> pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-        () -> pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+        () -> pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.25 : 1.0), 
+        () -> pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.25 : 1.0), //og: 0.125
         () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 0.7))) //0.7 new gr
     .onFalse(new HockeyStop().withTimeout(0.5));
 
@@ -173,14 +173,14 @@ public class RobotContainer {
             () -> (drive.getColorNormRotation().getCos() > 0.0))
         ).onFalse(new Stow());
         
-    // pilot
-    //     .getBButton()
-    //     .whileTrue(
-    //       new ConditionalCommand(
-    //         new BlindPass(), 
-    //         new BlindReversePass(), 
-    //         () -> (drive.getColorNormRotation().getCos() > 0.0))
-    //     ).onFalse(new Stow());
+    pilot
+        .getUpButton()
+        .whileTrue(
+          new ConditionalCommand(
+            new BlindPass(), 
+            new BlindReversePass(), 
+            () -> (drive.getColorNormRotation().getCos() > 0.0))
+        ).onFalse(new Stow());
 
     pilot
         .getBButton()

@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.Rumble;
 import frc.robot.commands.feeder.EjectFeeder;
 import frc.robot.commands.feeder.FeedIntoFeeder;
 import frc.robot.commands.shooter.SetShooterMPS;
@@ -29,7 +30,9 @@ public class ShooterIntake extends ParallelCommandGroup {
                 ).until(() -> feeder.isBroken())
             ).andThen(
                 new ParallelDeadlineGroup(
-                    new WaitCommand(0.5).andThen(new EjectFeeder().until(() -> !feeder.isBroken()).andThen(new FeedIntoFeeder(1.8))),
+                    new WaitCommand(0.5)
+                        .andThen(new EjectFeeder().alongWith(new Rumble()).until(() -> !feeder.isBroken())
+                        .andThen(new FeedIntoFeeder(1.8))),
                     new SetShooterMPS(() -> -10.0)))
             .andThen(new Stow())
         );

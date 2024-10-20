@@ -225,7 +225,7 @@ public class Sensors extends SubsystemBase {
   }
 
   public double getCornerShooterRPM() {
-    return velocityMap.get(getCornerDistance());
+    return velocityMap.get(getCornerDistance()) * 0.85;
   }
 
   /**

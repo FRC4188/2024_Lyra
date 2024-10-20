@@ -101,24 +101,24 @@ public class SwerveModule {
     speed.getConfigurator().apply(new CurrentLimitsConfigs()
     .withStatorCurrentLimitEnable(true)
     .withSupplyCurrentLimitEnable(true)
-    .withStatorCurrentLimit(250.0)
-    .withSupplyCurrentLimit(50.0));
+    .withStatorCurrentLimit(70.0)
+    .withSupplyCurrentLimit(45.0));
 
     speed.getConfigurator().apply(new TorqueCurrentConfigs()
-      .withPeakForwardTorqueCurrent(60)
-      .withPeakReverseTorqueCurrent(-60.0));
+      .withPeakForwardTorqueCurrent(55)
+      .withPeakReverseTorqueCurrent(-55.0));
       
     speed.clearStickyFaults();
     
         angle.getConfigurator().apply(new CurrentLimitsConfigs()
     .withStatorCurrentLimitEnable(true)
     .withSupplyCurrentLimitEnable(true)
-    .withStatorCurrentLimit(100.0)
-    .withSupplyCurrentLimit(50.0));
+    .withStatorCurrentLimit(60.0)
+    .withSupplyCurrentLimit(45.0));
 
     angle.getConfigurator().apply(new TorqueCurrentConfigs()
-      .withPeakForwardTorqueCurrent(60)
-      .withPeakReverseTorqueCurrent(-60.0));
+      .withPeakForwardTorqueCurrent(55)
+      .withPeakReverseTorqueCurrent(-55.0));
 
     angle.clearStickyFaults();
   }
