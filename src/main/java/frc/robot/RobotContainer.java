@@ -276,7 +276,6 @@ public class RobotContainer {
 
     autoChooser.addOption("Techno", new PathPlannerAuto("Techno"));
 
-
     // SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
