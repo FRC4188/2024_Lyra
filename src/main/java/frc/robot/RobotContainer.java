@@ -6,7 +6,10 @@ package frc.robot;
 
 
 import com.choreo.lib.ChoreoTrajectory;
+import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -14,6 +17,7 @@ import CSP_Lib.inputs.CSP_Controller;
 import CSP_Lib.inputs.CSP_Controller.Scale;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -24,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoConfigs;
 import frc.robot.commands.drivetrain.HockeyStop;
@@ -47,7 +52,9 @@ import frc.robot.commands.groups.Stow;
 import frc.robot.commands.groups.autos.RobotTest;
 import frc.robot.commands.shooter.SetShooterMPS;
 import frc.robot.commands.shoulder.SetShoulderAngle;
+import frc.robot.subsystems.drivetrain.CommandSwerveDrivetrain;
 import frc.robot.subsystems.drivetrain.Swerve;
+import frc.robot.subsystems.drivetrain.generated.TunerConstants;
 import frc.robot.subsystems.feeder.Feeder;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.sensors.LED;
@@ -62,7 +69,7 @@ public class RobotContainer {
   public static CSP_Controller pilot = new CSP_Controller(Constants.controller.PILOT_PORT);
   public static CSP_Controller copilot = new CSP_Controller(Constants.controller.COPILOT_PORT);
 
-  Swerve drive = Swerve.getInstance();
+  // Swerve drive = Swerve.getInstance();
   Intake intake = Intake.getInstance();
   Sensors sensors = Sensors.getInstance();
   Shoulder shoulder = Shoulder.getInstance();
@@ -71,6 +78,18 @@ public class RobotContainer {
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   LED led = LED.getInstance();
   private Notifier shuffleUpdater = new Notifier(() -> updateShuffle());
+  private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
+  private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
+
+  /* Setting up bindings for necessary control of the swerve drive platform */
+  private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
+
+  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
+                                                               // driving in open loop
+  private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+  private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
   public RobotContainer() {
     // Set the default commands
@@ -91,13 +110,17 @@ public class RobotContainer {
   }
 
   private void setDefaultCommands() {
-    drive.setDefaultCommand(
-    //   new TeleDrive(
-    //     () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-    //     () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
-    //     () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0))
+    // drive.setDefaultCommand(
+    // // //   new TeleDrive(
+    // // //     () -> pilot.getLeftY(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+    // // //     () -> pilot.getLeftX(Scale.LINEAR) * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0), 
+    // // //     () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 1.0))
+    // // // );
+
     // );
-    new XPattern()
+
+    drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
+    drivetrain.applyRequest(() -> brake)
     );
 
     led.setDefaultCommand(
@@ -127,30 +150,49 @@ public class RobotContainer {
         SmartDashboard.putNumber("B", 0);
     SmartDashboard.putNumber("G", 0);
 
+
+
     // Trigger isShooting = pilot.leftTrigger();
     Trigger drivingInput = new Trigger(() -> (pilot.getCorrectedLeft().getNorm() != 0.0 || pilot.getCorrectedRight().getX() != 0.0));
 
+    pilot.b().whileTrue(drivetrain
+        .applyRequest(() -> point.withModuleDirection(new Rotation2d(-pilot.getLeftY(), -pilot.getLeftX()))));
 
-    drivingInput
-    .onTrue(    
-      new TeleDrive(
-        () -> pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.25 : 1.0), 
-        () -> pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.25 : 1.0), //og: 0.125
-        () -> pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 0.7))) //0.7 new gr
-    .onFalse(new HockeyStop().withTimeout(0.5));
+    // reset the field-centric heading on left bumper press
+    
+
+    if (Utils.isSimulation()) {
+      drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
+    }
+    
+    // drivingInput
+    // .onTrue(   drivetrain.applyRequest(() -> drive.withVelocityX(pilot.getCorrectedLeft().getX() * (pilot.getRightBumperButton().getAsBoolean() ? 0.25 : 1.0)) // Drive forward with
+    //                                                                                        // negative Y (forward)
+    //         .withVelocityY(pilot.getCorrectedLeft().getY() * (pilot.getRightBumperButton().getAsBoolean() ? 0.125 : 1.0)) // Drive left with negative X (left) 
+    //         .withRotationalRate(pilot.getRightX(Scale.SQUARED) * (pilot.getRightBumperButton().getAsBoolean() ? 0.1 : 0.7))) // Drive counterclockwise with negative X (left)
+    //     )  
+    // .onFalse(new HockeyStop().withTimeout(0.5));
+
+    drivingInput.onTrue(drivetrain.applyRequest(() -> drive.withVelocityX(-pilot.getCorrectedLeft().getX() * 1.0) // Drive forward with
+                                                                                           // negative Y (forward)
+            .withVelocityY(-pilot.getCorrectedLeft().getY() * 1.0) // Drive left with negative X (left)
+            .withRotationalRate(pilot.getRightX(Scale.SQUARED) * 0.7) // Drive counterclockwise with negative X (left)
+        ));
 
     
     // reset pigeon
-    pilot
-        .getStartButton()
-        .onTrue(
-            new InstantCommand(
-                () -> {
-                  drive.resetOdometry(
-                    new Pose2d(drive.getPose2d().getTranslation(), 
-                    Rotation2d.fromDegrees(sensors.getAllianceColor() == DriverStation.Alliance.Red ? 180 : 0)));
-                  drive.rotPID.setSetpoint(180.0);
-                }, sensors));
+    // pilot
+    //     .getStartButton()
+    //     .onTrue(
+    //         new InstantCommand(
+    //             () -> {
+    //               drive.resetOdometry(
+    //                 new Pose2d(drive.getPose2d().getTranslation(), 
+    //                 Rotation2d.fromDegrees(sensors.getAllianceColor() == DriverStation.Alliance.Red ? 180 : 0)));
+    //               drive.rotPID.setSetpoint(180.0);
+    //             }, sensors));
+
+    pilot.getStartButton().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
     pilot
         .getAButton()
@@ -164,23 +206,23 @@ public class RobotContainer {
           new ShooterIntake()
         );
 
-    pilot
-        .getXButton()
-        .whileTrue(
-          new ConditionalCommand(
-            new BlindSpeakerShoot(), 
-            new BlindReverseSpeakerShoot(), 
-            () -> (drive.getColorNormRotation().getCos() > 0.0))
-        ).onFalse(new Stow());
+    // pilot
+    //     .getXButton()
+    //     .whileTrue(
+    //       new ConditionalCommand(
+    //         new BlindSpeakerShoot(), 
+    //         new BlindReverseSpeakerShoot(), 
+    //         () -> (drive.getColorNormRotation().getCos() > 0.0))
+    //     ).onFalse(new Stow());
         
-    pilot
-        .getUpButton()
-        .whileTrue(
-          new ConditionalCommand(
-            new BlindPass(), 
-            new BlindReversePass(), 
-            () -> (drive.getColorNormRotation().getCos() > 0.0))
-        ).onFalse(new Stow());
+    // pilot
+    //     .getUpButton()
+    //     .whileTrue(
+    //       new ConditionalCommand(
+    //         new BlindPass(), 
+    //         new BlindReversePass(), 
+    //         () -> (drive.getColorNormRotation().getCos() > 0.0))
+    //     ).onFalse(new Stow());
 
     pilot
         .getBButton()

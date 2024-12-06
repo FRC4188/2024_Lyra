@@ -53,9 +53,9 @@ public class SwerveModule {
     
     this.speedFF = new SimpleMotorFeedforward(Constants.drivetrain.SPEED_FF.ks, Constants.drivetrain.SPEED_FF.kv);
 
-    this.speed = new CSP_TalonFX(SPEED_ID, "rio");
-    this.angle = new CSP_TalonFX(ANGLE_ID, "rio");
-    this.encoder = new CSP_CANcoder(ENCODER_ID, "rio");
+    this.speed = new CSP_TalonFX(SPEED_ID, "canivore");
+    this.angle = new CSP_TalonFX(ANGLE_ID, "canivore");
+    this.encoder = new CSP_CANcoder(ENCODER_ID, "canivore");
 
     // TempManager.addMotor(this.speed);
     // TempManager.addMotor(this.angle);
@@ -98,27 +98,27 @@ public class SwerveModule {
     angle.optimizeBusUtilization();
     encoder.optimizeBusUtilization();
 
-    speed.getConfigurator().apply(new CurrentLimitsConfigs()
-    .withStatorCurrentLimitEnable(true)
-    .withSupplyCurrentLimitEnable(true)
-    .withStatorCurrentLimit(70.0)
-    .withSupplyCurrentLimit(45.0));
+    // speed.getConfigurator().apply(new CurrentLimitsConfigs()
+    // .withStatorCurrentLimitEnable(true)
+    // .withSupplyCurrentLimitEnable(true)
+    // .withStatorCurrentLimit(70.0)
+    // .withSupplyCurrentLimit(45.0));
 
-    speed.getConfigurator().apply(new TorqueCurrentConfigs()
-      .withPeakForwardTorqueCurrent(55)
-      .withPeakReverseTorqueCurrent(-55.0));
+    // speed.getConfigurator().apply(new TorqueCurrentConfigs()
+    //   .withPeakForwardTorqueCurrent(55)
+    //   .withPeakReverseTorqueCurrent(-55.0));
       
     speed.clearStickyFaults();
     
-        angle.getConfigurator().apply(new CurrentLimitsConfigs()
-    .withStatorCurrentLimitEnable(true)
-    .withSupplyCurrentLimitEnable(true)
-    .withStatorCurrentLimit(60.0)
-    .withSupplyCurrentLimit(45.0));
+    //     angle.getConfigurator().apply(new CurrentLimitsConfigs()
+    // .withStatorCurrentLimitEnable(true)
+    // .withSupplyCurrentLimitEnable(true)
+    // .withStatorCurrentLimit(60.0)
+    // .withSupplyCurrentLimit(45.0));
 
-    angle.getConfigurator().apply(new TorqueCurrentConfigs()
-      .withPeakForwardTorqueCurrent(55)
-      .withPeakReverseTorqueCurrent(-55.0));
+    // angle.getConfigurator().apply(new TorqueCurrentConfigs()
+    //   .withPeakForwardTorqueCurrent(55)
+    //   .withPeakReverseTorqueCurrent(-55.0));
 
     angle.clearStickyFaults();
   }
