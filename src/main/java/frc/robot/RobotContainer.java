@@ -78,18 +78,9 @@ public class RobotContainer {
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   LED led = LED.getInstance();
   private Notifier shuffleUpdater = new Notifier(() -> updateShuffle());
-  private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
-  private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
   /* Setting up bindings for necessary control of the swerve drive platform */
   private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
-
-  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
-                                                               // driving in open loop
-  private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
   public RobotContainer() {
     // Set the default commands
@@ -120,7 +111,7 @@ public class RobotContainer {
     // );
 
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-    drivetrain.applyRequest(() -> brake)
+      drivetrain.brake()
     );
 
     led.setDefaultCommand(
@@ -155,8 +146,8 @@ public class RobotContainer {
     // Trigger isShooting = pilot.leftTrigger();
     Trigger drivingInput = new Trigger(() -> (pilot.getCorrectedLeft().getNorm() != 0.0 || pilot.getCorrectedRight().getX() != 0.0));
 
-    pilot.b().whileTrue(drivetrain
-        .applyRequest(() -> point.withModuleDirection(new Rotation2d(-pilot.getLeftY(), -pilot.getLeftX()))));
+    // pilot.b().whileTrue(drivetrain
+    //     .applyRequest(() -> point.withModuleDirection(new Rotation2d(-pilot.getLeftY(), -pilot.getLeftX()))));
 
     // reset the field-centric heading on left bumper press
     
@@ -173,10 +164,10 @@ public class RobotContainer {
     //     )  
     // .onFalse(new HockeyStop().withTimeout(0.5));
 
-    drivingInput.onTrue(drivetrain.applyRequest(() -> drive.withVelocityX(-pilot.getCorrectedLeft().getX() * 1.0) // Drive forward with
+    drivingInput.onTrue(drivetrain.drive(-pilot.getCorrectedLeft().getX() * 1.0, // Drive forward with
                                                                                            // negative Y (forward)
-            .withVelocityY(-pilot.getCorrectedLeft().getY() * 1.0) // Drive left with negative X (left)
-            .withRotationalRate(pilot.getRightX(Scale.SQUARED) * 0.7) // Drive counterclockwise with negative X (left)
+            -pilot.getCorrectedLeft().getY() * 1.0, // Drive left with negative X (left)
+            pilot.getRightX(Scale.SQUARED) * 0.7 // Drive counterclockwise with negative X (left)
         ));
 
     
